@@ -77,6 +77,11 @@ struct Patch{
     bool operator==(const Patch&) const = default;
 };
 
+struct RoutingRegion
+{
+    std::vector<SingleCellOccupiedByPatch> cells;
+};
+
 
 PatchId make_new_patch_id();
 

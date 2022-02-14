@@ -39,4 +39,7 @@ std::vector<PatchId> LogicalLatticeOperation::get_operating_patches() const
     return ret;
 }
 
+
+
+
 }

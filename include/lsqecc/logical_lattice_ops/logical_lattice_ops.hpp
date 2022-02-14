@@ -3,7 +3,7 @@
 
 #include <variant>
 #include <stdexcept>
-
+#include <unordered_set>
 #include <lsqecc/patches/patches.hpp>
 
 #include <tsl/ordered_map.h>
@@ -55,9 +55,9 @@ struct LogicalLatticeOperation {
     bool operator==(const LogicalLatticeOperation&) const = default;
 };
 
-struct LogicalLatticeAssembly
+struct LogicalLatticeComputation
 {
-    std::vector<PatchId> core_qubits;
+    std::unordered_set<PatchId> core_qubits;
     std::vector<LogicalLatticeOperation> instructions;
 };
 

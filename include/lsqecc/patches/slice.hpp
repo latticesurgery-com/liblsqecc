@@ -8,10 +8,16 @@ namespace lsqecc {
 struct Slice {
     int32_t distance_dependant_timesteps = 1;
     std::vector<Patch> patches;
+    std::vector<RoutingRegion> routing_regions;
 
-    Slice get_copy_with_cleared_activity() const;
+    Slice make_copy_with_cleared_activity() const;
+
+
+    Patch& get_patch_by_id(PatchId id);
 
     bool operator==(const Slice&) const = default;
+
+
 };
 
 

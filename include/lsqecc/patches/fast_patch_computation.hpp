@@ -27,11 +27,11 @@ public:
     const Slice& slice(size_t idx) const;
     const Slice& last_slice() const;
 
-    static PatchComputation make(const LogicalLatticeAssembly& assembly);
+    static PatchComputation make(const LogicalLatticeComputation& logical_computation);
 
 private:
 
-    void new_slice();
+    Slice& new_slice();
 
     std::unique_ptr<Layout> layout = nullptr;
     std::vector<Slice> slices;

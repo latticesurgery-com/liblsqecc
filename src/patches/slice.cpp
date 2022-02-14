@@ -3,7 +3,7 @@
 
 namespace lsqecc{
 
-Slice Slice::get_copy_with_cleared_activity() const {
+Slice Slice::make_copy_with_cleared_activity() const {
     Slice new_slice;
 
     // Remove patches that were measured in the previous timestep
@@ -17,6 +17,16 @@ Slice Slice::get_copy_with_cleared_activity() const {
     }
 
     return new_slice;
+}
+
+Patch& Slice::get_patch_by_id(PatchId id) {
+    for(auto& p: patches)
+    {
+        if(p.id == id)
+        {
+            return p;
+        }
+    }
 }
 
 }

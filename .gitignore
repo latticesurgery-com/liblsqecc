@@ -1,0 +1,6 @@
+CMake*
+*.cmake
+Makefile
+cmake-build-debug
+.idea
+*.a

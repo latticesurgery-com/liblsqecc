@@ -2,7 +2,7 @@
 #include <lsqecc/patches/fast_patch_computation.hpp>
 
 
-#include <iostream>
+#include <stdexcept>
 #include <iterator>
 #include <ranges>
 
@@ -79,22 +79,33 @@ Slice first_slice_from_layout(const Layout& layout)
 }
 
 
-PatchComputation PatchComputation::make(const LogicalLatticeAssembly& assembly) {
+PatchComputation PatchComputation::make(const LogicalLatticeComputation& logical_computation) {
     PatchComputation patch_computation;
-    patch_computation.layout = std::make_unique<SimpleLayout>(assembly.core_qubits.size());
+    patch_computation.layout = std::make_unique<SimpleLayout>(logical_computation.core_qubits.size());
     patch_computation.slices.push_back(first_slice_from_layout(*patch_computation.layout));
+    auto& patches = patch_computation.slices[0].patches;
+    auto& ids = logical_computation.core_qubits;
+    if(patches.size() < ids.size()){
+        throw std::logic_error("Not enough patches for all ids");
+    }
 
-    for(const LogicalLatticeOperation& instruction : assembly.instructions)
+    auto patch_itr = patches.begin();
+    for (auto id : ids)
     {
-        patch_computation.new_slice();
+        (patch_itr++)->id = id;
+    }
+
+    for(const LogicalLatticeOperation& instruction : logical_computation.instructions)
+    {
+        Slice& slice = patch_computation.new_slice();
 
         if (const auto* s = std::get_if<SinglePatchMeasurement>(&instruction.operation))
         {
-
+            slice.get_patch_by_id(s->target).activity = PatchActivity::Measurement;
         }
-        if (const auto* p = std::get_if<LogicalPauli>(&instruction.operation))
+        else if (const auto* p = std::get_if<LogicalPauli>(&instruction.operation))
         {
-
+            slice.get_patch_by_id(p->target).activity = PatchActivity::Unitary;
         }
         else if (const auto* m = std::get_if<MultiPatchMeasurement>(&instruction.operation))
         {
@@ -126,8 +137,9 @@ const Slice& PatchComputation::last_slice() const {
     return slice(num_slices()-1);
 }
 
-void PatchComputation::new_slice() {
-    slices.emplace_back(last_slice().get_copy_with_cleared_activity());
+Slice& PatchComputation::new_slice() {
+    slices.emplace_back(last_slice().make_copy_with_cleared_activity());
+    return slices.back();
 }
 
 
