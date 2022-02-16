@@ -1,5 +1,6 @@
 #include <lsqecc/patches/slice.hpp>
 #include <iterator>
+#include <algorithm>
 
 namespace lsqecc{
 
@@ -27,6 +28,20 @@ Patch& Slice::get_patch_by_id(PatchId id) {
             return p;
         }
     }
+}
+
+Cell Slice::get_furthest_cell() const
+{
+    Cell ret{0,0};
+    for(const Patch& p: patches)
+    {
+        for (const Cell& c: p.get_cells())
+        {
+            ret.col = std::max(ret.col, c.col);
+            ret.row = std::max(ret.row, c.row);
+        }
+    }
+    return ret;
 }
 
 }

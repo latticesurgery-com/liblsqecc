@@ -12,6 +12,7 @@ struct Slice {
 
     Slice make_copy_with_cleared_activity() const;
 
+    Cell get_furthest_cell() const;
 
     Patch& get_patch_by_id(PatchId id);
 

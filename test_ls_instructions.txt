@@ -1,0 +1,5 @@
+DeclareLogicalQubitPatches 10234,11,1001,1002,1009,1010,1
+LogicalPauli Z 10234
+RequestMagicState 11
+MultiBodyMeasure 1001:Z,1002:Z,1009:X,1010:X
+MeasureSinglePatch Z 1

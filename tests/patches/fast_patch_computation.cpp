@@ -29,7 +29,7 @@ TEST(PatchComputation, make)
                                     .cell=Cell{0, 0}
                             },
                             .type=PatchType::Qubit,
-                            .id=std::nullopt,
+                            .id=0,
                     }
             }
     };

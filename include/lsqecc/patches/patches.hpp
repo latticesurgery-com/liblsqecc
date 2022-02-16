@@ -74,12 +74,14 @@ struct Patch{
 
     std::optional<PatchId> id;
 
+    std::vector<Cell> get_cells() const;
     bool operator==(const Patch&) const = default;
 };
 
 struct RoutingRegion
 {
     std::vector<SingleCellOccupiedByPatch> cells;
+    bool operator==(const RoutingRegion&) const = default;
 };
 
 

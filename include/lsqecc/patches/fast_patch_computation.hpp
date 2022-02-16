@@ -27,6 +27,7 @@ public:
     const Slice& slice(size_t idx) const;
     const Slice& last_slice() const;
 
+    // TODO turn to constructor
     static PatchComputation make(const LogicalLatticeComputation& logical_computation);
 
 private:
@@ -41,6 +42,7 @@ public:
     using ConstIer = decltype(slices)::const_iterator;
     ConstIer begin() const {return slices.begin();};
     ConstIer end() const {return slices.end();};
+    const std::vector<Slice>& get_slices()const {return slices;}
 
 };
 

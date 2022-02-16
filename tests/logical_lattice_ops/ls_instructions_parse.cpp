@@ -6,11 +6,12 @@ using namespace lsqecc;
 
 TEST(parse_ls_instructions, parse_declare_qubit_ids)
 {
-    auto llops = parse_ls_instructions("DeclareLogicalQubitPatches 10234,11,1001,1002,1009,1010,1\\n\" X 1");
-    ASSERT_EQ(llops.instructions.size(),1);
-    LogicalLatticeOperation op{SinglePatchMeasurement{1, PauliOperator::X, false}};
-    ASSERT_EQ(llops.instructions[0],op);
-    ASSERT_EQ(llops.core_qubits,std::unordered_set<PatchId>{1});
+    auto llops = parse_ls_instructions("DeclareLogicalQubitPatches 10234,11,1001,1002,1009,1010,1");
+    ASSERT_EQ(llops.instructions.size(), 0);
+    ASSERT_EQ(llops.core_qubits.size(), 7);
+
+    for(auto p : std::vector<PatchId>{10234, 11, 1001, 1002, 1009, 1010, 1})
+        ASSERT_TRUE(llops.core_qubits.contains(p));
 }
 
 TEST(parse_ls_instructions, one_single_patch_measurement_x)

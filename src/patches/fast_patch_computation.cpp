@@ -99,6 +99,9 @@ PatchComputation PatchComputation::make(const LogicalLatticeComputation& logical
     {
         Slice& slice = patch_computation.new_slice();
 
+        // Resume here by finishing the end to end pipeline with these two operations:
+        // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+
         if (const auto* s = std::get_if<SinglePatchMeasurement>(&instruction.operation))
         {
             slice.get_patch_by_id(s->target).activity = PatchActivity::Measurement;
