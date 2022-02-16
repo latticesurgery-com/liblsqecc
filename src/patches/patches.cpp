@@ -17,7 +17,12 @@ std::vector<Cell> Patch::get_cells() const
     else
     {
         const auto& multi_cell_patch = std::get<MultipleCellsOccupiedByPatch>(cells);
-        return std::vector<Cell>{multi_cell_patch.sub_cells.begin(), multi_cell_patch.sub_cells.end()};
+        std::vector<Cell> out_cells{multi_cell_patch.sub_cells.size()};
+        for (const auto& cell: multi_cell_patch.sub_cells)
+        {
+            out_cells.push_back(cell.cell);
+        }
+        return out_cells;
     }
 }
 

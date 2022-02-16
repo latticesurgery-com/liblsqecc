@@ -47,7 +47,7 @@ struct Boundary {
     bool operator==(const Boundary&) const = default;
 };
 
-struct SingleCellOccupiedByPatch : public Cell {
+struct SingleCellOccupiedByPatch{
     Boundary top;
     Boundary bottom;
     Boundary left;

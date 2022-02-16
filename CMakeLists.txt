@@ -9,7 +9,7 @@ project(lsqecc)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g -Wfatal-errors -Wall -pedantic")
 set(CMAKE_CXX_STANDARD 20)
-
+SET(CMAKE_BUILD_TYPE Debug)
 
 find_package(Boost REQUIRED COMPONENTS filesystem)
 
@@ -21,7 +21,12 @@ include_directories(/usr/include/python3.10)
 
 include_directories(external/ordered-map/include)
 add_subdirectory(external/pybind11)
+
+set(ABSL_PROPAGATE_CXX_STD ON)
 add_subdirectory(external/abseil-cpp)
+include_directories(external/abseil-cpp/include)
+
+include_directories(external/json/single_include)
 
 ###################################################
 # Library setup
@@ -33,7 +38,8 @@ add_library(
         src/logical_lattice_ops/ls_instructions_parse.cpp
         src/logical_lattice_ops/parse_utils.cpp
         src/patches/patches.cpp
-        src/patches/slice.cpp)
+        src/patches/slice.cpp
+        src/layout/parse_layout_spec.cpp src/patches/slices_to_json.cpp)
 
 set(INCLUDE_DIRS
         "${PROJECT_SOURCE_DIR}/include"
@@ -51,7 +57,18 @@ target_link_libraries(lsqecclib
     ${Boost_FILESYSTEM_LIBRARY}
 )
 
-target_link_libraries(lsqecclib ${PYTHON_LIBRARIES})
+target_link_libraries(lsqecclib absl::strings absl::str_format)
+
+###################################################
+# Command line executable
+add_executable(
+        lsqecc
+        src/main.cpp
+)
+
+target_link_libraries(
+        lsqecc PUBLIC lsqecclib
+)
 
 ###################################################
 # Python Interface
@@ -90,9 +107,9 @@ add_test(
         NAME unit
         COMMAND ${PROJECT_BINARY_DIR}/lsqecc_tests
 )
-add_custom_command(
-        TARGET lsqecc_tests
-        COMMENT "Run lsqecc_tests"
-        POST_BUILD
-        COMMAND valgrind ${PROJECT_BINARY_DIR}/lsqecc_tests
-)
+#add_custom_command(
+#        TARGET lsqecc_tests
+#        COMMENT "Run lsqecc_tests"
+#        POST_BUILD
+#        COMMAND valgrind ${PROJECT_BINARY_DIR}/lsqecc_tests
+#)
