@@ -5,6 +5,9 @@
 #include <lsqecc/patches/slice.hpp>
 #include <lsqecc/patches/patches.hpp>
 
+namespace lsqecc {
+
+
 RoutingRegion graph_search_route_ancilla(
         const Slice& slice,
         PatchId source,
@@ -13,4 +16,5 @@ RoutingRegion graph_search_route_ancilla(
         PauliOperator target_op
 );
 
+}
 #endif //LSQECC_ROUTING_HPP

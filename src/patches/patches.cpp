@@ -60,6 +60,17 @@ std::vector<Cell> Cell::get_neigbours() const
             Cell{row, col+1}};
 }
 
+
+std::vector<Cell> Cell::get_neigbours_within_bounding_box_inclusive(const Cell& origin, const Cell& furthest_cell) const
+{
+    std::vector<Cell> neighbours;
+    if (row>origin.row)        neighbours.emplace_back(Cell{row-1, col});
+    if (row<furthest_cell.row) neighbours.emplace_back(Cell{row+1, col});
+    if (col>origin.col)        neighbours.emplace_back(Cell{row, col-1});
+    if (col<furthest_cell.col) neighbours.emplace_back(Cell{row, col+1});
+    return neighbours;
+}
+
 std::optional<Boundary> SingleCellOccupiedByPatch::get_boundary_with(const Cell& neighbour) const
 {
     if(neighbour == Cell{cell.row-1, cell.col})   return top;

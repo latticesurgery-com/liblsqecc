@@ -8,6 +8,8 @@
 
 #include <iostream>
 
+namespace lsqecc {
+
 RoutingRegion graph_search_route_ancilla(
         const Slice& slice,
         PatchId source,
@@ -20,8 +22,12 @@ RoutingRegion graph_search_route_ancilla(
     using namespace boost;
 
 
-    using Vertex = adjacency_list_traits <vecS, vecS, directedS >::vertex_descriptor;
-    using Graph = adjacency_list<vecS, vecS, directedS, property< vertex_predecessor_t, Vertex >, property< edge_weight_t, int >>;
+    using Vertex = adjacency_list_traits<listS, vecS, directedS>::vertex_descriptor;
+    using Graph = adjacency_list<listS,
+                                 vecS,
+                                 directedS,
+                                 property<vertex_predecessor_t, Vertex>,
+                                 property<edge_weight_t, int >>;
     using Edge = std::pair<Vertex, Vertex>;
 
     std::vector<Vertex> vertices;
@@ -29,13 +35,15 @@ RoutingRegion graph_search_route_ancilla(
 
     Cell furthest_cell = slice.get_furthest_cell();
 
-    auto make_vertex = [&furthest_cell](const Cell& cell) -> Vertex{
-        return cell.row*(furthest_cell.col+1) + cell.col;
+    auto make_vertex = [&furthest_cell](const Cell& cell) -> Vertex
+    {
+        return cell.row*(furthest_cell.col+1)+cell.col;
     };
 
-    auto cell_from_vertex = [&furthest_cell](Vertex vertex) -> Cell {
+    auto cell_from_vertex = [&furthest_cell](Vertex vertex) -> Cell
+    {
         auto v = static_cast<Cell::CoordinateType>(vertex);
-        auto col = v % (furthest_cell.col+1);
+        auto col = v%(furthest_cell.col+1);
         return Cell{(v-col)/(furthest_cell.col+1), col};
     };
 
@@ -53,14 +61,9 @@ RoutingRegion graph_search_route_ancilla(
             if (node_is_free)
             {
                 // Always fill edges going in for empty
-                for (const Cell& neighbour: current.get_neigbours())
+                for (const Cell& neighbour: current.get_neigbours_within_bounding_box_inclusive({0,0},furthest_cell))
                 {
-                    if (neighbour.row>=0 &&
-                            neighbour.row<=furthest_cell.row &&
-                            neighbour.col>=0 &&
-                            neighbour.col<=furthest_cell.col &&
-                            !slice.get_patch_on_cell(neighbour)
-                            )
+                    if (!slice.get_patch_on_cell(neighbour))
                     {
                         edges.emplace_back(make_vertex(neighbour), make_vertex(current));
                     }
@@ -70,32 +73,38 @@ RoutingRegion graph_search_route_ancilla(
     }
 
     // Add source
-    decltype(auto) source_patch = std::get_if<SingleCellOccupiedByPatch>(&slice.get_patch_by_id(source).cells);
-    if (source_patch == nullptr) throw std::logic_error("Cannot route multi cell patches");
-    for(const Cell& neighbour: source_patch->cell.get_neigbours())
+    const auto& source_patch = std::get_if<SingleCellOccupiedByPatch>(&slice.get_patch_by_id(source).cells);
+    if (source_patch==nullptr) throw std::logic_error("Cannot route multi cell patches");
+    for (Cell neighbour: source_patch->cell.get_neigbours_within_bounding_box_inclusive({0,0},furthest_cell))
     {
         auto boundary = source_patch->get_boundary_with(neighbour);
-        if(boundary && boundary->boundary_type == boundary_for_operator(source_op)){
+        if (boundary && boundary->boundary_type==boundary_for_operator(source_op))
+        {
             edges.emplace_back(make_vertex(source_patch->cell), make_vertex(neighbour));
         }
     }
 
     // Add target
-    decltype(auto) target_patch = std::get_if<SingleCellOccupiedByPatch>(&slice.get_patch_by_id(target).cells);
-    if (target_patch == nullptr) throw std::logic_error("Cannot route multi cell patches");
-    for(const Cell& neighbour: target_patch->cell.get_neigbours())
+    const auto& target_patch = std::get_if<SingleCellOccupiedByPatch>(&slice.get_patch_by_id(target).cells);
+    if (target_patch==nullptr) throw std::logic_error("Cannot route multi cell patches");
+    for (Cell neighbour: target_patch->cell.get_neigbours_within_bounding_box_inclusive({0,0},furthest_cell))
     {
         auto boundary = target_patch->get_boundary_with(neighbour);
-        if(boundary && boundary->boundary_type == boundary_for_operator(target_op)){
+        if (boundary && boundary->boundary_type==boundary_for_operator(target_op))
+        {
             edges.emplace_back(make_vertex(neighbour), make_vertex(target_patch->cell));
         }
     }
 
+
+
+
     Graph g{edges.begin(), edges.end(), vertices.size()};
 
-
-    property_map< Graph, vertex_predecessor_t >::type p
+    property_map<Graph, vertex_predecessor_t>::type p
             = get(vertex_predecessor, g);
+
+
 
     Vertex s = vertex(make_vertex(slice.get_patch_by_id(source).get_a_cell()), g);
     dijkstra_shortest_paths(g, s, predecessor_map(p));
@@ -106,11 +115,16 @@ RoutingRegion graph_search_route_ancilla(
     std::cout<<"S:"<<make_vertex(slice.get_patch_by_id(source).get_cells()[0])<<" "
              <<"T:"<<make_vertex(slice.get_patch_by_id(target).get_cells()[0])<<std::endl;
     for(int i = 0; i<vertices.size(); i++){
-        std::cout << i << "->" << p[i] <<std::endl;
+        std::cout << i << " prec " << p[i] <<std::endl;
         std::cout << cell_from_vertex(i).row << ", " << cell_from_vertex(i).col
                   << "->"
                   << cell_from_vertex(p[i]).row << ", " << cell_from_vertex(p[i]).col <<std::endl;
     }
+    std::cout<<std::endl;
+    for(auto e : edges){
+        std::cout << e.first << "-->" << e.second <<std::endl;
+    }
+    std::cout<< "Done" <<std::endl;
 #endif
 
     RoutingRegion ret;
@@ -118,7 +132,7 @@ RoutingRegion graph_search_route_ancilla(
     Vertex prec = make_vertex(slice.get_patch_by_id(target).get_a_cell());
     Vertex curr = p[prec];
     Vertex next = p[curr];
-    while(curr!=next)
+    while (curr!=next)
     {
         Cell prec_cell = cell_from_vertex(prec);
         Cell curr_cell = cell_from_vertex(curr);
@@ -132,12 +146,12 @@ RoutingRegion graph_search_route_ancilla(
                 .cell=curr_cell
         });
 
-        for(const Cell& neighbour : curr_cell.get_neigbours())
+        for (const Cell& neighbour: curr_cell.get_neigbours_within_bounding_box_inclusive({0,0},furthest_cell))
         {
-            if(prec_cell==neighbour || next_cell==neighbour)
+            if (prec_cell==neighbour || next_cell==neighbour)
             {
                 auto boundary = ret.cells.back().get_mut_boundary_with(neighbour);
-                if(boundary) boundary->get() = {.boundary_type=BoundaryType::Connected, .is_active=true};
+                if (boundary) boundary->get() = {.boundary_type=BoundaryType::Connected, .is_active=true};
             }
         }
 
@@ -149,3 +163,4 @@ RoutingRegion graph_search_route_ancilla(
     return ret;
 }
 
+}

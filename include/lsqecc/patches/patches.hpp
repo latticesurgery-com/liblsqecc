@@ -30,6 +30,7 @@ struct Cell {
     CoordinateType col;
 
     std::vector<Cell> get_neigbours() const;
+    std::vector<Cell> get_neigbours_within_bounding_box_inclusive(const Cell& origin, const Cell& furthest_cell) const;
     bool operator==(const Cell&) const = default;
 };
 
