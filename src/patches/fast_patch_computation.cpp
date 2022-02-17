@@ -5,7 +5,12 @@
 #include <stdexcept>
 #include <iterator>
 #include <ranges>
+#include <iostream>
 
+#include <boost/graph/graph_traits.hpp>
+#include <boost/graph/adjacency_list.hpp>
+#include <boost/graph/dijkstra_shortest_paths.hpp>
+#include <boost/property_map/property_map.hpp>
 
 
 namespace lsqecc {
@@ -19,7 +24,7 @@ public:
     {
         std::vector<Patch> core;
         core.reserve(num_qubits_);
-        for(size_t i: std::views::iota(static_cast<size_t>(0),num_qubits_))
+        for(size_t i = 0; i<num_qubits_; i++)
         {
             core.push_back(basic_square_patch({
                     .row=0,
@@ -32,7 +37,7 @@ public:
     std::vector<Cell> magic_state_queue_locations() const override {
         std::vector<Cell> magic_state_queue;
         magic_state_queue.reserve(num_qubits_);
-        for(size_t i: std::views::iota(static_cast<size_t>(0),num_qubits_))
+        for(size_t i = 0; i<num_qubits_; i++)
         {
             magic_state_queue.push_back({
                     .row=0,
@@ -79,6 +84,104 @@ Slice first_slice_from_layout(const Layout& layout)
 }
 
 
+
+RoutingRegion graph_search_route_ancilla(
+        const Slice& slice,
+        PatchId source,
+        PauliOperator source_op,
+        PatchId target,
+        PauliOperator target_op
+        )
+{
+
+    using namespace boost;
+
+
+    using Vertex = adjacency_list_traits <vecS, vecS, directedS >::vertex_descriptor;
+    using Graph = adjacency_list<vecS, vecS, directedS, property< vertex_predecessor_t, Vertex >, property< edge_weight_t, int >>;
+    using Edge = std::pair<Vertex, Vertex>;
+
+    std::vector<Vertex> vertices;
+    std::vector<Edge> edges;
+
+    Cell furthest_cell = slice.get_furthest_cell();
+
+    auto make_vertex = [&furthest_cell](const Cell& cell) -> Vertex{
+        return cell.row*(furthest_cell.col+1) + cell.col;
+    };
+
+
+
+    // Add free node
+    for (Cell::CoordinateType row_idx = 0; row_idx<=furthest_cell.row; ++row_idx)
+    {
+        for (Cell::CoordinateType col_idx = 0; col_idx<=furthest_cell.col; ++col_idx)
+        {
+            Cell current{row_idx, col_idx};
+            vertices.push_back(make_vertex(current));
+            std::optional<std::reference_wrapper<const Patch>> patch_of_node{slice.get_patch_on_cell(current)};
+
+            bool node_is_free = !patch_of_node;
+            if (node_is_free)
+            {
+                // Always fill edges going in for empty
+                for (const Cell& neighbour: current.get_neigbours())
+                {
+                    if (neighbour.row>0 &&
+                            neighbour.row<furthest_cell.row &&
+                            neighbour.col>0 &&
+                            neighbour.col<furthest_cell.col &&
+                            !slice.get_patch_on_cell(neighbour)
+                            )
+                    {
+                        edges.emplace_back(make_vertex(neighbour), make_vertex(current));
+                    }
+                }
+            }
+        }
+    }
+
+    // Add source
+    decltype(auto) source_patch = std::get_if<SingleCellOccupiedByPatch>(&slice.get_patch_by_id(source).cells);
+    if (source_patch == nullptr) throw std::logic_error("Cannot route multi cell patches");
+    for(const Cell& neighbour: source_patch->cell.get_neigbours())
+    {
+        if(source_patch->get_boundary(neighbour)->boundary_type == boundary_for_operator(source_op)){
+            edges.emplace_back(make_vertex(neighbour), make_vertex(source_patch->cell));
+        }
+    }
+
+    // Add target
+    decltype(auto) target_patch = std::get_if<SingleCellOccupiedByPatch>(&slice.get_patch_by_id(source).cells);
+    if (target_patch == nullptr) throw std::logic_error("Cannot route multi cell patches");
+    for(const Cell& neighbour: target_patch->cell.get_neigbours())
+    {
+        if(target_patch->get_boundary(neighbour)->boundary_type == boundary_for_operator(target_op)){
+            edges.emplace_back(make_vertex(target_patch->cell), make_vertex(neighbour));
+        }
+    }
+
+    Graph g{edges.begin(), edges.end(), vertices.size()};
+    std::vector<Vertex> cell_predecessor_map(vertices.size());
+    typedef boost::property_map < Graph, boost::vertex_index_t >::type IndexMap;
+    typedef boost::iterator_property_map < Vertex*, IndexMap, Vertex, Vertex& > PredecessorMap;
+
+    property_map< Graph, vertex_predecessor_t >::type p
+            = get(vertex_predecessor, g);
+
+    Vertex s = vertex(source, g);
+    dijkstra_shortest_paths(g, s, predecessor_map(p));
+
+
+    RoutingRegion ret;
+
+
+    return ret;
+}
+
+
+
+
 PatchComputation PatchComputation::make(const LogicalLatticeComputation& logical_computation) {
     PatchComputation patch_computation;
     patch_computation.layout = std::make_unique<SimpleLayout>(logical_computation.core_qubits.size());
@@ -99,20 +202,22 @@ PatchComputation PatchComputation::make(const LogicalLatticeComputation& logical
     {
         Slice& slice = patch_computation.new_slice();
 
-        // Resume here by finishing the end to end pipeline with these two operations:
-        // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-
         if (const auto* s = std::get_if<SinglePatchMeasurement>(&instruction.operation))
         {
-            slice.get_patch_by_id(s->target).activity = PatchActivity::Measurement;
+            slice.get_patch_by_id_mut(s->target).activity = PatchActivity::Measurement;
         }
         else if (const auto* p = std::get_if<LogicalPauli>(&instruction.operation))
         {
-            slice.get_patch_by_id(p->target).activity = PatchActivity::Unitary;
+            slice.get_patch_by_id_mut(p->target).activity = PatchActivity::Unitary;
         }
         else if (const auto* m = std::get_if<MultiPatchMeasurement>(&instruction.operation))
         {
-
+            if(m->observable.size()!=2)
+                throw std::logic_error("Multi patch measurement only supports 2 patches currently");
+            auto pairs = m->observable.begin();
+            const auto& [source_id, source_op] = *pairs++;
+            const auto& [target_id, target_op] = *pairs;
+            graph_search_route_ancilla(slice, source_id, source_op, target_id, target_op);
         }
         else
         {
