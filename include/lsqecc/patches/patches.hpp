@@ -62,6 +62,7 @@ struct SingleCellOccupiedByPatch{
     Boundary right;
 
     std::optional<Boundary> get_boundary_with(const Cell& neighbour) const;
+    std::optional<std::reference_wrapper<Boundary>> get_mut_boundary_with(const Cell& neighbour);
 
     Cell cell;
     bool operator==(const SingleCellOccupiedByPatch&) const = default;

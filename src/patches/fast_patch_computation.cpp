@@ -199,13 +199,26 @@ RoutingRegion graph_search_route_ancilla(
     Vertex next = p[curr];
     while(curr!=next)
     {
+        Cell prec_cell = cell_from_vertex(prec);
+        Cell curr_cell = cell_from_vertex(curr);
+        Cell next_cell = cell_from_vertex(next);
+
         ret.cells.push_back(SingleCellOccupiedByPatch{
             .top=   {BoundaryType::None, false},
             .bottom={BoundaryType::None, false},
             .left=  {BoundaryType::None, false},
             .right= {BoundaryType::None, false},
-            .cell=cell_from_vertex(curr)
+            .cell=curr_cell
         });
+
+        for(const Cell& neighbour : curr_cell.get_neigbours())
+        {
+            if(prec_cell==neighbour || next_cell==neighbour)
+            {
+                auto boundary = ret.cells.back().get_mut_boundary_with(neighbour);
+                if(boundary) boundary->get() = {.boundary_type=BoundaryType::Connected, .is_active=true};
+            }
+        }
 
         prec = curr;
         curr = next;

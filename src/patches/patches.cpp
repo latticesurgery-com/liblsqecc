@@ -70,5 +70,15 @@ std::optional<Boundary> SingleCellOccupiedByPatch::get_boundary_with(const Cell&
     return std::nullopt;
 }
 
+std::optional<std::reference_wrapper<Boundary>> SingleCellOccupiedByPatch::get_mut_boundary_with(const Cell& neighbour)
+{
+    if(neighbour == Cell{cell.row-1, cell.col})   return top;
+    if(neighbour == Cell{cell.row+1, cell.col})   return bottom;
+    if(neighbour == Cell{cell.row,   cell.col-1}) return left;
+    if(neighbour == Cell{cell.row,   cell.col+1}) return right;
+
+    return std::nullopt;
+}
+
 
 }
