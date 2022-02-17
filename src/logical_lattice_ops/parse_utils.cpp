@@ -4,20 +4,14 @@
 #include <vector>
 #include <ranges>
 #include <charconv>
+#include <absl/strings/str_split.h>
 
 namespace lsqecc
 {
 
 std::vector<std::string_view> sv_split_on_char(std::string_view source, char c)
 {
-    auto view = source
-            | std::ranges::views::split(c)
-            | std::ranges::views::transform([](auto&& rng)
-            {
-                return std::string_view(&*rng.begin(), std::ranges::distance(rng));
-            });
-
-    return std::vector<std::string_view>{view.begin(), view.end()};
+    return absl::StrSplit(source, c);
 }
 
 PatchId parse_patch_id(const std::string_view & input)

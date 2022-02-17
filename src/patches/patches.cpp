@@ -2,6 +2,18 @@
 
 namespace lsqecc {
 
+
+
+BoundaryType boundary_for_operator(PauliOperator op){
+    switch (op)
+    {
+    case PauliOperator::X: return BoundaryType::Rough;
+    case PauliOperator::Z: return BoundaryType::Smooth;
+    case PauliOperator::I: throw std::logic_error("No boundary for I operator");
+    case PauliOperator::Y: throw std::logic_error("No boundary for Y operator");
+    }
+}
+
 PatchId global_patch_id_counter = 0;
 
 PatchId make_new_patch_id(){
@@ -25,5 +37,24 @@ std::vector<Cell> Patch::get_cells() const
         return out_cells;
     }
 }
+
+std::vector<Cell> Cell::get_neigbours() const
+{
+    return {Cell{row-1, col},
+            Cell{row+1, col},
+            Cell{row, col-1},
+            Cell{row, col+1}};
+}
+
+std::optional<Boundary> SingleCellOccupiedByPatch::get_boundary(const Cell& neighbour) const
+{
+    if(cell == Cell{cell.row-1, cell.col})   return top;
+    if(cell == Cell{cell.row+1, cell.col})   return bottom;
+    if(cell == Cell{cell.row,   cell.col-1}) return left;
+    if(cell == Cell{cell.row,   cell.col+1}) return right;
+
+    return std::nullopt;
+}
+
 
 }

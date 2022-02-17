@@ -14,7 +14,9 @@ struct Slice {
 
     Cell get_furthest_cell() const;
 
-    Patch& get_patch_by_id(PatchId id);
+    Patch& get_patch_by_id_mut(PatchId id);
+    const Patch& get_patch_by_id(PatchId id) const;
+    std::optional<std::reference_wrapper<const Patch>> get_patch_on_cell(const Cell& cell) const;
 
     bool operator==(const Slice&) const = default;
 

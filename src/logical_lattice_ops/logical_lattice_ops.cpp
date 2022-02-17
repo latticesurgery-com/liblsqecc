@@ -6,16 +6,6 @@
 namespace lsqecc {
 
 
-PauliOperator PauliOperator_from_string(std::string_view s)
-{
-    if (s=="I") return PauliOperator::I;
-    if (s=="X") return PauliOperator::X;
-    if (s=="Y") return PauliOperator::Y;
-    if (s=="Z") return PauliOperator::Z;
-    throw std::logic_error(std::string{"Not a PauliOperator:"}+std::string{s});
-}
-
-
 std::vector<PatchId> LogicalLatticeOperation::get_operating_patches() const
 {
     std::vector<PatchId> ret;
@@ -29,8 +19,10 @@ std::vector<PatchId> LogicalLatticeOperation::get_operating_patches() const
     }
     else if (const auto* m = std::get_if<MultiPatchMeasurement>(&operation))
     {
-        auto keys = std::views::transform(m->targetted_observable, [](const auto& pair){return pair.first;});
-        std::ranges::copy(keys, std::back_inserter(ret));
+        for(auto pair : m->observable)
+        {
+            ret.push_back(pair.first);
+        }
     }
     else {
         const auto& mr = std::get<MagicStateRequest>(operation);

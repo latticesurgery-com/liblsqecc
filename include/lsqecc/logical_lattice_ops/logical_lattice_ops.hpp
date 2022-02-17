@@ -11,14 +11,6 @@
 
 namespace lsqecc {
 
-enum class PauliOperator {
-    I,
-    X,
-    Y,
-    Z,
-};
-
-PauliOperator PauliOperator_from_string(std::string_view s);
 
 struct SinglePatchMeasurement {
     PatchId target;
@@ -29,7 +21,7 @@ struct SinglePatchMeasurement {
 };
 
 struct MultiPatchMeasurement {
-    tsl::ordered_map<PatchId, PauliOperator> targetted_observable;
+    tsl::ordered_map<PatchId, PauliOperator> observable;
     bool is_negative;
 
     bool operator==(const MultiPatchMeasurement&) const = default;

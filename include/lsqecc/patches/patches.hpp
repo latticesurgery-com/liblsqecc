@@ -1,10 +1,14 @@
 #ifndef LSQECC_PATCHES_HPP
 #define LSQECC_PATCHES_HPP
 
+
+#include <lsqecc/pauli_rotations/pauli_operator.hpp>
+
 #include <cstdint>
 #include <optional>
 #include <vector>
 #include <variant>
+#include <stdexcept>
 
 #include <eigen3/Eigen/Dense>
 
@@ -17,11 +21,15 @@ enum class BoundaryType {
     Smooth,
 };
 
+
+BoundaryType boundary_for_operator(PauliOperator op);
+
 struct Cell {
     using CoordinateType = int32_t;
     CoordinateType row;
     CoordinateType col;
 
+    std::vector<Cell> get_neigbours() const;
     bool operator==(const Cell&) const = default;
 };
 
@@ -53,8 +61,9 @@ struct SingleCellOccupiedByPatch{
     Boundary left;
     Boundary right;
 
-    Cell cell;
+    std::optional<Boundary> get_boundary(const Cell& neighbour) const;
 
+    Cell cell;
     bool operator==(const SingleCellOccupiedByPatch&) const = default;
 };
 

@@ -7,20 +7,34 @@ namespace lsqecc{
 Slice Slice::make_copy_with_cleared_activity() const {
     Slice new_slice;
 
-    // Remove patches that were measured in the previous timestep
-    std::ranges::copy_if(patches,
-            std::back_inserter(new_slice.patches),
-            [](const Patch& p){return p.activity!=PatchActivity::Measurement;});
-    for (auto& e : new_slice.patches) {
-        // Clear Unitary Operator activity
-        if(e.activity == PatchActivity::Unitary)
-            e.activity = PatchActivity::None;
+
+    for (auto& old_patch : patches) {
+        // Skip patches that were measured in the previous timestep
+        if(old_patch.activity!=PatchActivity::Measurement)
+        {
+            new_slice.patches.push_back(old_patch);
+            auto& new_patch = new_slice.patches.back();
+
+            // Clear Unitary Operator activity
+            if (new_patch.activity==PatchActivity::Unitary)
+                new_patch.activity = PatchActivity::None;
+        }
     }
 
     return new_slice;
 }
 
-Patch& Slice::get_patch_by_id(PatchId id) {
+Patch& Slice::get_patch_by_id_mut(PatchId id) {
+    for(auto& p: patches)
+    {
+        if(p.id == id)
+        {
+            return p;
+        }
+    }
+}
+
+const Patch& Slice::get_patch_by_id(PatchId id) const {
     for(auto& p: patches)
     {
         if(p.id == id)
@@ -43,5 +57,21 @@ Cell Slice::get_furthest_cell() const
     }
     return ret;
 }
+
+
+std::optional<std::reference_wrapper<const Patch>> Slice::get_patch_on_cell(const Cell& cell) const
+{
+    for(const Patch& p: patches)
+    {
+        for (const Cell& c: p.get_cells())
+        {
+            if(c==cell){
+                return p;
+            }
+        }
+    }
+    return std::nullopt;
+}
+
 
 }
