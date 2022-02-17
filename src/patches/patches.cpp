@@ -38,6 +38,20 @@ std::vector<Cell> Patch::get_cells() const
     }
 }
 
+
+const Cell& Patch::get_a_cell() const
+{
+    if(auto single_cell_patch = std::get_if<SingleCellOccupiedByPatch>(&cells))
+    {
+        return single_cell_patch->cell;
+    }
+    else
+    {
+        const auto& multi_cell_patch = std::get<MultipleCellsOccupiedByPatch>(cells);
+        return multi_cell_patch.sub_cells.front().cell;
+    }
+}
+
 std::vector<Cell> Cell::get_neigbours() const
 {
     return {Cell{row-1, col},
@@ -46,12 +60,12 @@ std::vector<Cell> Cell::get_neigbours() const
             Cell{row, col+1}};
 }
 
-std::optional<Boundary> SingleCellOccupiedByPatch::get_boundary(const Cell& neighbour) const
+std::optional<Boundary> SingleCellOccupiedByPatch::get_boundary_with(const Cell& neighbour) const
 {
-    if(cell == Cell{cell.row-1, cell.col})   return top;
-    if(cell == Cell{cell.row+1, cell.col})   return bottom;
-    if(cell == Cell{cell.row,   cell.col-1}) return left;
-    if(cell == Cell{cell.row,   cell.col+1}) return right;
+    if(neighbour == Cell{cell.row-1, cell.col})   return top;
+    if(neighbour == Cell{cell.row+1, cell.col})   return bottom;
+    if(neighbour == Cell{cell.row,   cell.col-1}) return left;
+    if(neighbour == Cell{cell.row,   cell.col+1}) return right;
 
     return std::nullopt;
 }

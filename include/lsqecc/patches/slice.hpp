@@ -9,6 +9,7 @@ struct Slice {
     int32_t distance_dependant_timesteps = 1;
     std::vector<Patch> patches;
     std::vector<RoutingRegion> routing_regions;
+    Cell min_furthest_cell = {1,1};
 
     Slice make_copy_with_cleared_activity() const;
 

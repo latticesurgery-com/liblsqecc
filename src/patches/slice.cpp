@@ -46,7 +46,7 @@ const Patch& Slice::get_patch_by_id(PatchId id) const {
 
 Cell Slice::get_furthest_cell() const
 {
-    Cell ret{0,0};
+    Cell ret{min_furthest_cell};
     for(const Patch& p: patches)
     {
         for (const Cell& c: p.get_cells())

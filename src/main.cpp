@@ -21,6 +21,6 @@ int main()
     auto computation {lsqecc::parse_ls_instructions(s)};
     auto patch_computation {lsqecc::PatchComputation::make(computation)};
     auto slices_json = lsqecc::slices_to_json(patch_computation.get_slices());
-    std::cout << slices_json.dump(3) << std::endl;
+    //std::cout << slices_json.dump(3) << std::endl;
     std::ofstream("f1.json") << slices_json.dump(3) << std::endl;
 }

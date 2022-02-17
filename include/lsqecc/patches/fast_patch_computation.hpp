@@ -15,6 +15,7 @@ struct Layout
     virtual const std::vector<Patch> core_patches() const = 0;
     virtual std::vector<Cell> magic_state_queue_locations() const = 0;
     virtual std::vector<Cell> distillery_locations()  const = 0;
+
 };
 
 

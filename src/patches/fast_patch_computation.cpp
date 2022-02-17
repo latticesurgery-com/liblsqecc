@@ -10,6 +10,7 @@
 #include <boost/graph/graph_traits.hpp>
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/dijkstra_shortest_paths.hpp>
+#include <boost/graph/graphviz.hpp>
 #include <boost/property_map/property_map.hpp>
 
 
@@ -50,6 +51,7 @@ public:
     {
         return {};
     };
+
 
 private:
     static Patch basic_square_patch(Cell placement){
@@ -110,6 +112,11 @@ RoutingRegion graph_search_route_ancilla(
         return cell.row*(furthest_cell.col+1) + cell.col;
     };
 
+    auto cell_from_vertex = [&furthest_cell](Vertex vertex) -> Cell {
+        auto v = static_cast<Cell::CoordinateType>(vertex);
+        auto col = v % (furthest_cell.col+1);
+        return Cell{(v-col)/(furthest_cell.col+1), col};
+    };
 
 
     // Add free node
@@ -127,10 +134,10 @@ RoutingRegion graph_search_route_ancilla(
                 // Always fill edges going in for empty
                 for (const Cell& neighbour: current.get_neigbours())
                 {
-                    if (neighbour.row>0 &&
-                            neighbour.row<furthest_cell.row &&
-                            neighbour.col>0 &&
-                            neighbour.col<furthest_cell.col &&
+                    if (neighbour.row>=0 &&
+                            neighbour.row<=furthest_cell.row &&
+                            neighbour.col>=0 &&
+                            neighbour.col<=furthest_cell.col &&
                             !slice.get_patch_on_cell(neighbour)
                             )
                     {
@@ -146,35 +153,64 @@ RoutingRegion graph_search_route_ancilla(
     if (source_patch == nullptr) throw std::logic_error("Cannot route multi cell patches");
     for(const Cell& neighbour: source_patch->cell.get_neigbours())
     {
-        if(source_patch->get_boundary(neighbour)->boundary_type == boundary_for_operator(source_op)){
-            edges.emplace_back(make_vertex(neighbour), make_vertex(source_patch->cell));
+        auto boundary = source_patch->get_boundary_with(neighbour);
+        if(boundary && boundary->boundary_type == boundary_for_operator(source_op)){
+            edges.emplace_back(make_vertex(source_patch->cell), make_vertex(neighbour));
         }
     }
 
     // Add target
-    decltype(auto) target_patch = std::get_if<SingleCellOccupiedByPatch>(&slice.get_patch_by_id(source).cells);
+    decltype(auto) target_patch = std::get_if<SingleCellOccupiedByPatch>(&slice.get_patch_by_id(target).cells);
     if (target_patch == nullptr) throw std::logic_error("Cannot route multi cell patches");
     for(const Cell& neighbour: target_patch->cell.get_neigbours())
     {
-        if(target_patch->get_boundary(neighbour)->boundary_type == boundary_for_operator(target_op)){
-            edges.emplace_back(make_vertex(target_patch->cell), make_vertex(neighbour));
+        auto boundary = target_patch->get_boundary_with(neighbour);
+        if(boundary && boundary->boundary_type == boundary_for_operator(target_op)){
+            edges.emplace_back(make_vertex(neighbour), make_vertex(target_patch->cell));
         }
     }
 
     Graph g{edges.begin(), edges.end(), vertices.size()};
-    std::vector<Vertex> cell_predecessor_map(vertices.size());
-    typedef boost::property_map < Graph, boost::vertex_index_t >::type IndexMap;
-    typedef boost::iterator_property_map < Vertex*, IndexMap, Vertex, Vertex& > PredecessorMap;
+
 
     property_map< Graph, vertex_predecessor_t >::type p
             = get(vertex_predecessor, g);
 
-    Vertex s = vertex(source, g);
+    Vertex s = vertex(make_vertex(slice.get_patch_by_id(source).get_a_cell()), g);
     dijkstra_shortest_paths(g, s, predecessor_map(p));
 
+#if false
+    std::ofstream dotfile ("graph");
+    write_graphviz(dotfile, g);
+    std::cout<<"S:"<<make_vertex(slice.get_patch_by_id(source).get_cells()[0])<<" "
+             <<"T:"<<make_vertex(slice.get_patch_by_id(target).get_cells()[0])<<std::endl;
+    for(int i = 0; i<vertices.size(); i++){
+        std::cout << i << "->" << p[i] <<std::endl;
+        std::cout << cell_from_vertex(i).row << ", " << cell_from_vertex(i).col
+                  << "->"
+                  << cell_from_vertex(p[i]).row << ", " << cell_from_vertex(p[i]).col <<std::endl;
+    }
+#endif
 
     RoutingRegion ret;
 
+    Vertex prec = make_vertex(slice.get_patch_by_id(target).get_a_cell());
+    Vertex curr = p[prec];
+    Vertex next = p[curr];
+    while(curr!=next)
+    {
+        ret.cells.push_back(SingleCellOccupiedByPatch{
+            .top=   {BoundaryType::None, false},
+            .bottom={BoundaryType::None, false},
+            .left=  {BoundaryType::None, false},
+            .right= {BoundaryType::None, false},
+            .cell=cell_from_vertex(curr)
+        });
+
+        prec = curr;
+        curr = next;
+        next = p[next];
+    }
 
     return ret;
 }
@@ -217,7 +253,9 @@ PatchComputation PatchComputation::make(const LogicalLatticeComputation& logical
             auto pairs = m->observable.begin();
             const auto& [source_id, source_op] = *pairs++;
             const auto& [target_id, target_op] = *pairs;
-            graph_search_route_ancilla(slice, source_id, source_op, target_id, target_op);
+            slice.routing_regions.push_back(
+                    graph_search_route_ancilla(slice, source_id, source_op, target_id, target_op)
+            );
         }
         else
         {

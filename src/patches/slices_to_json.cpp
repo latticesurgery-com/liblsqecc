@@ -92,6 +92,17 @@ json slices_to_json(const std::vector<Slice>& slices)
                 // TODO
             }
         }
+
+        for(const RoutingRegion& routing_region: slice.routing_regions)
+        {
+            for(const SingleCellOccupiedByPatch& routing_cell: routing_region.cells)
+            {
+                json visual_array_cell = cell_patch_to_visual_array_edges_json(routing_cell);
+                visual_array_cell["patch_type"] = "Ancilla";
+                visual_array_cell["activity"] = json({});
+                out_slice[routing_cell.cell.row][routing_cell.cell.col] = visual_array_cell;
+            }
+        }
         out_slices.push_back(out_slice);
     }
     return out_slices;

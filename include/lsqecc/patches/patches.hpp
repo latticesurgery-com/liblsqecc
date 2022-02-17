@@ -61,7 +61,7 @@ struct SingleCellOccupiedByPatch{
     Boundary left;
     Boundary right;
 
-    std::optional<Boundary> get_boundary(const Cell& neighbour) const;
+    std::optional<Boundary> get_boundary_with(const Cell& neighbour) const;
 
     Cell cell;
     bool operator==(const SingleCellOccupiedByPatch&) const = default;
@@ -84,6 +84,7 @@ struct Patch{
     std::optional<PatchId> id;
 
     std::vector<Cell> get_cells() const;
+    const Cell& get_a_cell() const;
     bool operator==(const Patch&) const = default;
 };
 
