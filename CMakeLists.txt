@@ -7,17 +7,21 @@ project(lsqecc)
 ####################################################
 # General configuration
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g -Wfatal-errors -Wall -pedantic")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g -Wfatal-errors -Wall -pedantic -D_LIBCPP_DEBUG=1")
 set(CMAKE_CXX_STANDARD 20)
-SET(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Debug)
 
-find_package(Boost REQUIRED COMPONENTS filesystem)
+
+####################################################
+# Dependencies
+
+find_package(Boost REQUIRED COMPONENTS filesystem graph)
 
 # set(PYTHON_VERSION 3.9)
 # set(Python_ROOT_DIR /usr/lib/python3.9)
 # set(PYTHON_LIBRARIES /usr/lib/libpython3.10.so)
-find_package(PythonLibs)
-include_directories(/usr/include/python3.10)
+#find_package(PythonLibs)
+#include_directories(/usr/include/python3.10)
 
 include_directories(external/ordered-map/include)
 add_subdirectory(external/pybind11)
