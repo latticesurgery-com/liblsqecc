@@ -43,7 +43,7 @@ add_library(
         src/logical_lattice_ops/parse_utils.cpp
         src/patches/patches.cpp
         src/patches/slice.cpp
-        src/layout/parse_layout_spec.cpp src/patches/slices_to_json.cpp)
+        src/layout/parse_layout_spec.cpp src/patches/slices_to_json.cpp src/patches/routing.cpp src/layout/layout.cpp)
 
 set(INCLUDE_DIRS
         "${PROJECT_SOURCE_DIR}/include"

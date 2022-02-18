@@ -5,10 +5,10 @@
 namespace lsqecc{
 
 Slice Slice::make_copy_with_cleared_activity() const {
-    Slice new_slice;
+    Slice new_slice{.layout=layout};
 
-
-    for (auto& old_patch : patches) {
+    // Copy patches over
+    for (const auto& old_patch : patches) {
         // Skip patches that were measured in the previous timestep
         if(old_patch.activity!=PatchActivity::Measurement)
         {
@@ -18,6 +18,19 @@ Slice Slice::make_copy_with_cleared_activity() const {
             // Clear Unitary Operator activity
             if (new_patch.activity==PatchActivity::Unitary)
                 new_patch.activity = PatchActivity::None;
+        }
+    }
+
+    // Make magic states appear:
+    for (int i = 0; i<time_to_next_magic_state_by_distillation_region.size(); ++i)
+    {
+        new_slice.time_to_next_magic_state_by_distillation_region.push_back(
+                time_to_next_magic_state_by_distillation_region[i]-1);
+        if(new_slice.time_to_next_magic_state_by_distillation_region.back() == 0){
+            // TODO make magic state appear
+
+
+            new_slice.time_to_next_magic_state_by_distillation_region.back() = layout.distillation_times()[i];
         }
     }
 
@@ -46,7 +59,7 @@ const Patch& Slice::get_patch_by_id(PatchId id) const {
 
 Cell Slice::get_furthest_cell() const
 {
-    Cell ret{min_furthest_cell};
+    Cell ret{layout.min_furthest_cell()};
     for(const Patch& p: patches)
     {
         for (const Cell& c: p.get_cells())

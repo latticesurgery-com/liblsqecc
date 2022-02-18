@@ -1,7 +1,7 @@
 #ifndef LSQECC_SLICES_TO_JSON_HPP
 #define LSQECC_SLICES_TO_JSON_HPP
 
-#include <lsqecc/patches/slice.hpp>
+#include <lsqecc/patches/fast_patch_computation.hpp>
 #include <nlohmann/json.hpp>
 
 namespace lsqecc {
@@ -9,7 +9,7 @@ namespace lsqecc {
 
 nlohmann::json cell_patch_to_visual_array_edges_json(const SingleCellOccupiedByPatch& boundary);
 
-nlohmann::json slices_to_json(const std::vector<Slice>& slices);
+nlohmann::json computation_to_json(const PatchComputation& computation);
 
 }
 

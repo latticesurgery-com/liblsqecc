@@ -46,64 +46,95 @@ json cell_patch_to_visual_array_edges_json(const SingleCellOccupiedByPatch& cell
     }}};
 }
 
-json slices_to_json(const std::vector<Slice>& slices)
+
+json core_to_json(const Slice& slice)
+{
+    json out_slice = init_blank_json_slice(slice);
+
+    for(const Patch& p : slice.patches)
+    {
+        if(auto single_cell_patch = std::get_if<SingleCellOccupiedByPatch>(&p.cells))
+        {
+            json visual_array_cell = cell_patch_to_visual_array_edges_json(*single_cell_patch);
+            visual_array_cell["patch_type"] = [&](){
+                switch (p.type)
+                {
+                case PatchType::Distillation:
+                case PatchType::PreparedState:return "DistillationQubit";
+                case PatchType::Qubit: return "Qubit";
+                case PatchType::Routing: return "Ancilla";
+                }
+            }();
+
+            visual_array_cell["activity"] = {
+                    {
+                            "activity_type",
+                            [&](){
+                                switch (p.activity)
+                                {
+                                case PatchActivity::None: return json();
+                                case PatchActivity::Measurement: return json("Measurement");
+                                case PatchActivity::Unitary: return json("Unitary");
+                                }}()
+                    }
+            };
+
+            constexpr absl::string_view  cell_text_format = "Id: %d";
+            visual_array_cell["text"] = std::string{absl::StrFormat(cell_text_format, p.id.value_or(-1))};
+            out_slice[single_cell_patch->cell.row][single_cell_patch->cell.col] = visual_array_cell;
+        }
+        else
+        {
+            const auto& multi_cell_patch = std::get<MultipleCellsOccupiedByPatch>(p.cells);
+            // TODO
+        }
+    }
+
+    for(const RoutingRegion& routing_region: slice.routing_regions)
+    {
+        for(const SingleCellOccupiedByPatch& routing_cell: routing_region.cells)
+        {
+            json visual_array_cell = cell_patch_to_visual_array_edges_json(routing_cell);
+            visual_array_cell["patch_type"] = "Ancilla";
+            visual_array_cell["activity"] = json({});
+            // TODO could add sanity check on indices
+            out_slice[routing_cell.cell.row][routing_cell.cell.col] = visual_array_cell;
+        }
+    }
+
+    size_t distillation_region_counter = 0;
+    for(const MultipleCellsOccupiedByPatch& distillation_region: slice.layout.distillation_regions())
+    {
+        bool placed_ttd = false;
+        for(const SingleCellOccupiedByPatch& distillation_cell: distillation_region.sub_cells)
+        {
+            json visual_array_cell = cell_patch_to_visual_array_edges_json(distillation_cell);
+            visual_array_cell["patch_type"] = "DistillationQubit";
+            visual_array_cell["activity"] = json({});
+            if(!placed_ttd)
+            {
+                visual_array_cell["text"] = std::to_string(
+                        slice.time_to_next_magic_state_by_distillation_region[distillation_region_counter]);
+            }
+            // TODO could add sanity check on indices
+            out_slice[distillation_cell.cell.row][distillation_cell.cell.col] = visual_array_cell;
+        }
+
+        distillation_region_counter++;
+    }
+
+    return out_slice;
+}
+
+json computation_to_json(const PatchComputation& computation)
 {
     json out_slices = json::array();
 
-    for(const Slice& slice : slices)
+    for(const Slice& slice : computation.get_slices())
     {
-        json out_slice = init_blank_json_slice(slice);
+        json core = core_to_json(slice);
 
-        for(const Patch& p : slice.patches)
-        {
-            if(auto single_cell_patch = std::get_if<SingleCellOccupiedByPatch>(&p.cells))
-            {
-                json visual_array_cell = cell_patch_to_visual_array_edges_json(*single_cell_patch);
-                visual_array_cell["patch_type"] = [&](){
-                    switch (p.type)
-                    {
-                    case PatchType::Distillation:
-                    case PatchType::PreparedState:return "DistillationQubit";
-                    case PatchType::Qubit: return "Qubit";
-                    case PatchType::Routing: return "Ancilla";
-                    }
-                }();
-
-                visual_array_cell["activity"] = {
-                        {
-                            "activity_type",
-                            [&](){
-                            switch (p.activity)
-                            {
-                            case PatchActivity::None: return json();
-                            case PatchActivity::Measurement: return json("Measurement");
-                            case PatchActivity::Unitary: return json("Unitary");
-                            }}()
-                        }
-                };
-
-                constexpr absl::string_view  cell_text_format = "Id: %d";
-                visual_array_cell["text"] = std::string{absl::StrFormat(cell_text_format, p.id.value_or(-1))};
-                out_slice[single_cell_patch->cell.row][single_cell_patch->cell.col] = visual_array_cell;
-            }
-            else
-            {
-                const auto& multi_cell_patch = std::get<MultipleCellsOccupiedByPatch>(p.cells);
-                // TODO
-            }
-        }
-
-        for(const RoutingRegion& routing_region: slice.routing_regions)
-        {
-            for(const SingleCellOccupiedByPatch& routing_cell: routing_region.cells)
-            {
-                json visual_array_cell = cell_patch_to_visual_array_edges_json(routing_cell);
-                visual_array_cell["patch_type"] = "Ancilla";
-                visual_array_cell["activity"] = json({});
-                out_slice[routing_cell.cell.row][routing_cell.cell.col] = visual_array_cell;
-            }
-        }
-        out_slices.push_back(out_slice);
+        out_slices.push_back(core);
     }
     return out_slices;
 }

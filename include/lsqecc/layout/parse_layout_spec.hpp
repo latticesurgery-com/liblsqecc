@@ -50,7 +50,7 @@ public:
     }
 
 
-    std::vector<std::vector<LayoutSpec::CellType>> from_string_view(std::string_view);
+    std::vector<std::vector<LayoutSpec::CellType>> parse(std::string_view);
 
 };
 

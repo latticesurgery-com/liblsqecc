@@ -10,7 +10,7 @@ static_assert(std::is_same_v<absl::string_view,std::string_view>);
 namespace lsqecc{
 
 
-    std::vector<std::vector<LayoutSpec::CellType>> LayoutSpec::from_string_view(std::string_view input)
+    std::vector<std::vector<LayoutSpec::CellType>> LayoutSpec::parse(std::string_view input)
     {
         std::vector<std::vector<LayoutSpec::CellType>> rows;
         for(const std::string_view& row: absl::StrSplit(input,'\n'))
