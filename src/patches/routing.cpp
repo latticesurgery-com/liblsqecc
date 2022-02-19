@@ -59,16 +59,10 @@ RoutingRegion graph_search_route_ancilla(
 
             bool node_is_free = !patch_of_node;
             if (node_is_free)
-            {
-                // Always fill edges going in for empty
                 for (const Cell& neighbour: current.get_neigbours_within_bounding_box_inclusive({0,0},furthest_cell))
-                {
-                    if (!slice.get_patch_on_cell(neighbour))
-                    {
+                    if (slice.is_cell_free(neighbour))
                         edges.emplace_back(make_vertex(neighbour), make_vertex(current));
-                    }
-                }
-            }
+
         }
     }
 
@@ -79,9 +73,8 @@ RoutingRegion graph_search_route_ancilla(
     {
         auto boundary = source_patch->get_boundary_with(neighbour);
         if (boundary && boundary->boundary_type==boundary_for_operator(source_op))
-        {
             edges.emplace_back(make_vertex(source_patch->cell), make_vertex(neighbour));
-        }
+
     }
 
     // Add target
@@ -91,11 +84,8 @@ RoutingRegion graph_search_route_ancilla(
     {
         auto boundary = target_patch->get_boundary_with(neighbour);
         if (boundary && boundary->boundary_type==boundary_for_operator(target_op))
-        {
             edges.emplace_back(make_vertex(neighbour), make_vertex(target_patch->cell));
-        }
     }
-
 
 
 

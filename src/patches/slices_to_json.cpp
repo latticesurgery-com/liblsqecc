@@ -51,7 +51,9 @@ json core_to_json(const Slice& slice)
 {
     json out_slice = init_blank_json_slice(slice);
 
-    for(const Patch& p : slice.patches)
+    std::vector<Patch> all_patches{slice.patches};
+    all_patches.insert(all_patches.end(),slice.unbound_magic_states.begin(), slice.unbound_magic_states.end());
+    for(const Patch& p : all_patches)
     {
         if(auto single_cell_patch = std::get_if<SingleCellOccupiedByPatch>(&p.cells))
         {
@@ -80,7 +82,7 @@ json core_to_json(const Slice& slice)
             };
 
             constexpr absl::string_view  cell_text_format = "Id: %d";
-            visual_array_cell["text"] = std::string{absl::StrFormat(cell_text_format, p.id.value_or(-1))};
+            visual_array_cell["text"] = p.id ? absl::StrFormat(cell_text_format, *p.id) : "Unbound";
             out_slice[single_cell_patch->cell.row][single_cell_patch->cell.col] = visual_array_cell;
         }
         else

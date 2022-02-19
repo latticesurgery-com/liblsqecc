@@ -3,19 +3,18 @@
 
 namespace lsqecc {
 
-const std::vector<Patch> SimpleLayout::core_patches() const
+Patch Layout::basic_square_patch(Cell placement)
 {
-    std::vector<Patch> core;
-    core.reserve(num_qubits_);
-    for(size_t i = 0; i<num_qubits_; i++) {
-        core.push_back(basic_square_patch({
-                        .row=0,
-                        .col=2*static_cast<Cell::CoordinateType>(i)
-        }));
-    }
-    return core;
+    return Patch{
+            .cells=SingleCellOccupiedByPatch{
+                    .top={BoundaryType::Rough,false},
+                    .bottom={BoundaryType::Rough,false},
+                    .left={BoundaryType::Smooth,false},
+                    .right={BoundaryType::Smooth,false},
+                    .cell=placement
+            },
+            .type=PatchType::Qubit,
+            .id=std::nullopt,
+    };
 }
-
-
-
 }

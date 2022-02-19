@@ -79,7 +79,7 @@ PatchComputation PatchComputation::make(const LogicalLatticeComputation& logical
 
 
 Slice& PatchComputation::new_slice() {
-    slices.emplace_back(slices.back().make_copy_with_cleared_activity());
+    slices.emplace_back(slices.back().advance_slice());
     return slices.back();
 }
 
