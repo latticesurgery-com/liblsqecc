@@ -8,7 +8,7 @@
 namespace lsqecc {
 
 
-RoutingRegion graph_search_route_ancilla(
+std::optional<RoutingRegion> graph_search_route_ancilla(
         const Slice& slice,
         PatchId source,
         PauliOperator source_op,

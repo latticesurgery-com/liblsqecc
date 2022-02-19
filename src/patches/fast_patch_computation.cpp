@@ -2,6 +2,7 @@
 #include <lsqecc/patches/fast_patch_computation.hpp>
 #include <lsqecc/patches/routing.hpp>
 
+#include <absl/strings/str_format.h>
 
 #include <stdexcept>
 #include <iterator>
@@ -63,9 +64,13 @@ PatchComputation PatchComputation::make(const LogicalLatticeComputation& logical
             auto pairs = m->observable.begin();
             const auto& [source_id, source_op] = *pairs++;
             const auto& [target_id, target_op] = *pairs;
-            slice.routing_regions.push_back(
-                    graph_search_route_ancilla(slice, source_id, source_op, target_id, target_op)
-            );
+
+            auto path = graph_search_route_ancilla(slice, source_id, source_op, target_id, target_op);
+
+            if(path)
+                slice.routing_regions.push_back(*path);
+            else
+                throw std::logic_error(absl::StrFormat("Couldn't find a path from %d to %d", source_id, target_id));
         }
         else
         {

@@ -10,7 +10,7 @@
 
 namespace lsqecc {
 
-RoutingRegion graph_search_route_ancilla(
+std::optional<RoutingRegion> graph_search_route_ancilla(
         const Slice& slice,
         PatchId source,
         PauliOperator source_op,
@@ -150,7 +150,8 @@ RoutingRegion graph_search_route_ancilla(
         next = p[next];
     }
 
-    return ret;
+    // Check if out path reached the source
+    return curr==s ? std::make_optional(ret): std::nullopt;
 }
 
 }
