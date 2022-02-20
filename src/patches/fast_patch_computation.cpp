@@ -7,7 +7,7 @@
 #include <stdexcept>
 #include <iterator>
 #include <ranges>
-
+#include <iostream>
 
 
 
@@ -47,18 +47,21 @@ PatchComputation PatchComputation::make(const LogicalLatticeComputation& logical
 
     for(const LogicalLatticeOperation& instruction : logical_computation.instructions)
     {
-        Slice& slice = patch_computation.new_slice();
 
         if (const auto* s = std::get_if<SinglePatchMeasurement>(&instruction.operation))
         {
+            Slice& slice = patch_computation.new_slice();
             slice.get_patch_by_id_mut(s->target).activity = PatchActivity::Measurement;
         }
         else if (const auto* p = std::get_if<LogicalPauli>(&instruction.operation))
         {
+            Slice& slice = patch_computation.new_slice();
             slice.get_patch_by_id_mut(p->target).activity = PatchActivity::Unitary;
         }
         else if (const auto* m = std::get_if<MultiPatchMeasurement>(&instruction.operation))
         {
+            Slice& slice = patch_computation.new_slice();
+
             if(m->observable.size()!=2)
                 throw std::logic_error("Multi patch measurement only supports 2 patches currently");
             auto pairs = m->observable.begin();
@@ -75,7 +78,45 @@ PatchComputation PatchComputation::make(const LogicalLatticeComputation& logical
         else
         {
             const auto& mr = std::get<MagicStateRequest>(instruction.operation);
+
+            const auto& d_times = patch_computation.layout->distillation_times();
+            if(!d_times.size()) throw std::logic_error("No distillation times");
+            size_t max_wait_for_magic_state = *std::max_element(d_times.begin(), d_times.end());
+
+            std::optional<Patch> newly_bound_magic_state;
+            for (int i = 0; i<max_wait_for_magic_state; i++)
+            {
+                auto& slice_with_magic_state = patch_computation.new_slice();
+                if(slice_with_magic_state.unbound_magic_states.size()>1)
+                {
+                    newly_bound_magic_state = slice_with_magic_state.unbound_magic_states.front();
+                    slice_with_magic_state.unbound_magic_states.pop_front();
+                    break;
+                }
+            }
+
+            if(newly_bound_magic_state)
+            {
+                newly_bound_magic_state->id = mr.target;
+                newly_bound_magic_state->type = PatchType::Qubit;
+                patch_computation.last_slice().patches.push_back(*newly_bound_magic_state);
+            }
+            else
+            {
+                throw std::logic_error(
+                        absl::StrFormat("Could not get magic state after waiting %d steps", max_wait_for_magic_state));
+            }
+
         }
+
+#if false
+        for(const auto p: patch_computation.last_slice().patches)
+        {
+            auto cell = std::get<SingleCellOccupiedByPatch>(p.cells);
+            std::cout << absl::StrFormat("{%d, %d, id=%d} ",cell.cell.row, cell.cell.col, p.id.value_or(99999));
+        }
+        std::cout<<std::endl;
+#endif
     }
 
 
@@ -84,7 +125,11 @@ PatchComputation PatchComputation::make(const LogicalLatticeComputation& logical
 
 
 Slice& PatchComputation::new_slice() {
-    slices.emplace_back(slices.back().advance_slice());
+    slices.push_back(slices.back().advance_slice());
+    return slices.back();
+}
+
+Slice& PatchComputation::last_slice() {
     return slices.back();
 }
 

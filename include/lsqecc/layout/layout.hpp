@@ -16,6 +16,7 @@ struct Layout {
     virtual const std::vector<MultipleCellsOccupiedByPatch>& distillation_regions() const = 0;
     virtual const std::vector<SurfaceCodeTimestep>& distillation_times() const = 0;
 
+    virtual ~Layout(){};
 
     static Patch basic_square_patch(Cell placement);
 
@@ -24,8 +25,10 @@ struct Layout {
 
 
 class SimpleLayout : public Layout {
+
 public:
-    explicit SimpleLayout(size_t num_qubits) : num_qubits_(num_qubits) {
+    explicit SimpleLayout(size_t num_qubits)
+    : num_qubits_(num_qubits), distillation_times_(), core_patches_(), distillation_regions_(2) {
         core_patches_.reserve(num_qubits_);
         for(size_t i = 0; i<num_qubits_; i++) {
             core_patches_.push_back(basic_square_patch({
@@ -36,16 +39,19 @@ public:
 
         distillation_regions_ = {
                 MultipleCellsOccupiedByPatch{.sub_cells={
-                        distillation_region_cell(Cell{2,0}),distillation_region_cell(Cell{2,1}),distillation_region_cell(Cell{2,2}),
                         distillation_region_cell(Cell{3,0}),distillation_region_cell(Cell{3,1}),distillation_region_cell(Cell{3,2}),
                         distillation_region_cell(Cell{4,0}),distillation_region_cell(Cell{4,1}),distillation_region_cell(Cell{4,2}),
+                        distillation_region_cell(Cell{5,0}),distillation_region_cell(Cell{5,1}),distillation_region_cell(Cell{5,2}),
                 }},
                 MultipleCellsOccupiedByPatch{.sub_cells={
-                        distillation_region_cell(Cell{2,4}),distillation_region_cell(Cell{2,5}),distillation_region_cell(Cell{2,6}),
                         distillation_region_cell(Cell{3,4}),distillation_region_cell(Cell{3,5}),distillation_region_cell(Cell{3,6}),
                         distillation_region_cell(Cell{4,4}),distillation_region_cell(Cell{4,5}),distillation_region_cell(Cell{4,6}),
+                        distillation_region_cell(Cell{5,4}),distillation_region_cell(Cell{5,5}),distillation_region_cell(Cell{5,6}),
                 }},
         };
+
+        for(const auto& r: distillation_regions_)
+            distillation_times_.push_back(5);
     }
 
     const std::vector<Patch>& core_patches() const override
@@ -80,9 +86,9 @@ public:
 
 private:
     size_t num_qubits_;
-    std::vector<SurfaceCodeTimestep> distillation_times_{10,10};
-    std::vector<Patch> core_patches_{};
-    std::vector<MultipleCellsOccupiedByPatch> distillation_regions_{};
+    std::vector<SurfaceCodeTimestep> distillation_times_;
+    std::vector<Patch> core_patches_;
+    std::vector<MultipleCellsOccupiedByPatch> distillation_regions_;
 
 };
 

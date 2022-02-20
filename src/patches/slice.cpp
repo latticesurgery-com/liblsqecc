@@ -1,6 +1,7 @@
 #include <lsqecc/patches/slice.hpp>
 #include <iterator>
 #include <algorithm>
+#include <iostream>
 
 namespace lsqecc{
 
@@ -20,7 +21,7 @@ std::optional<Cell> find_place_for_magic_state(const Slice& slice, const Multipl
 
 
 Slice Slice::advance_slice() const {
-    Slice new_slice{.unbound_magic_states = unbound_magic_states, .layout=layout};
+    Slice new_slice{ .patches = {}, .unbound_magic_states = unbound_magic_states, .layout=layout, .time_to_next_magic_state_by_distillation_region={}};
 
     // Copy patches over
     for (const auto& old_patch : patches) {
@@ -45,14 +46,19 @@ Slice Slice::advance_slice() const {
         if(new_slice.time_to_next_magic_state_by_distillation_region.back() == 0){
 
             auto magic_state_cell = find_place_for_magic_state(new_slice, layout.distillation_regions()[i]);
-            if(!magic_state_cell)
-                throw std::logic_error(std::string{
-                    "Could not find place for magic state produced by distillation region"} + std::to_string(i));
-
-            Patch magic_state_patch = Layout::basic_square_patch(*magic_state_cell);
-            magic_state_patch.type = PatchType::PreparedState;
-            new_slice.unbound_magic_states.push_back(magic_state_patch);
-            new_slice.time_to_next_magic_state_by_distillation_region.back() = layout.distillation_times()[i];
+            if(magic_state_cell)
+            {
+                Patch magic_state_patch = Layout::basic_square_patch(*magic_state_cell);
+                magic_state_patch.type = PatchType::PreparedState;
+                new_slice.unbound_magic_states.push_back(magic_state_patch);
+                new_slice.time_to_next_magic_state_by_distillation_region.back() = layout.distillation_times()[i];
+            }
+#if false
+            else
+            {
+                std::cout<< "Could not find place for magic state produced by distillation region " << i <<std::endl;
+            }
+#endif
         }
     }
 

@@ -21,6 +21,7 @@ public:
 private:
 
     Slice& new_slice();
+    Slice& last_slice();
 
     std::unique_ptr<Layout> layout = nullptr;
     std::vector<Slice> slices;
