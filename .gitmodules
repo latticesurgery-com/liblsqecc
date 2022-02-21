@@ -4,3 +4,6 @@
 [submodule "external/include/cppitertools"]
 	path = external/include/cppitertools
 	url = git@github.com:ryanhaining/cppitertools.git
+[submodule "external/include/argparse"]
+	path = external/include/argparse
+	url = git@github.com:jamolnng/argparse.git
