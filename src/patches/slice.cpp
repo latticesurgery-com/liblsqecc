@@ -48,7 +48,7 @@ Slice Slice::advance_slice() const {
             auto magic_state_cell = find_place_for_magic_state(new_slice, layout.distillation_regions()[i]);
             if(magic_state_cell)
             {
-                Patch magic_state_patch = Layout::basic_square_patch(*magic_state_cell);
+                Patch magic_state_patch = LayoutHelpers::basic_square_patch(*magic_state_cell);
                 magic_state_patch.type = PatchType::PreparedState;
                 new_slice.unbound_magic_states.push_back(magic_state_patch);
                 new_slice.time_to_next_magic_state_by_distillation_region.back() = layout.distillation_times()[i];

@@ -31,6 +31,13 @@ struct Cell {
 
     std::vector<Cell> get_neigbours() const;
     std::vector<Cell> get_neigbours_within_bounding_box_inclusive(const Cell& origin, const Cell& furthest_cell) const;
+
+    template<class IntType>
+    static Cell from_ints(IntType _row, IntType _col)
+    {
+        return Cell{static_cast<Cell::CoordinateType>(_row),Cell::CoordinateType(_col)};
+    };
+
     bool operator==(const Cell&) const = default;
 };
 
@@ -56,6 +63,7 @@ struct Boundary {
     bool operator==(const Boundary&) const = default;
 };
 
+
 struct SingleCellOccupiedByPatch{
     Boundary top;
     Boundary bottom;
@@ -79,6 +87,7 @@ struct MultipleCellsOccupiedByPatch {
 using PatchId = uint32_t;
 
 struct Patch{
+    // TODO perhaps this should be region?
     std::variant<SingleCellOccupiedByPatch, MultipleCellsOccupiedByPatch> cells;
     PatchType type;
     PatchActivity activity;

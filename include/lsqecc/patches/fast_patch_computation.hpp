@@ -15,21 +15,20 @@ class PatchComputation
 {
 public:
 
-    // TODO turn to constructor
-    static PatchComputation make(const LogicalLatticeComputation& logical_computation);
+    PatchComputation (const LogicalLatticeComputation& logical_computation, std::unique_ptr<Layout>&& layout);
 
 private:
 
     Slice& new_slice();
     Slice& last_slice();
 
-    std::unique_ptr<Layout> layout = nullptr;
-    std::vector<Slice> slices;
+    std::unique_ptr<Layout> layout_ = nullptr;
+    std::vector<Slice> slices_;
 
 
 public:
-    const std::vector<Slice>& get_slices()const {return slices;}
-    const Layout& get_layout() const {return *layout;}
+    const std::vector<Slice>& get_slices()const {return slices_;}
+    const Layout& get_layout() const {return *layout_;}
 
 };
 

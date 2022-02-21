@@ -20,7 +20,7 @@ PatchId parse_patch_id(const std::string_view & input)
     const std::from_chars_result result = std::from_chars(input.data(), input.data() + input.size(), out);
     if(result.ec == std::errc::invalid_argument || result.ec == std::errc::result_out_of_range)
     {
-        throw std::runtime_error(std::string{"Cannot parse patch id "}+std::string{input});
+        throw std::runtime_error(std::string{"Cannot parse_grid patch id "}+std::string{input});
     }
     return out;
 }

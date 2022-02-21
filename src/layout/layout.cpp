@@ -3,7 +3,7 @@
 
 namespace lsqecc {
 
-Patch Layout::basic_square_patch(Cell placement)
+Patch LayoutHelpers::basic_square_patch(Cell placement)
 {
     return Patch{
             .cells=SingleCellOccupiedByPatch{
@@ -16,5 +16,15 @@ Patch Layout::basic_square_patch(Cell placement)
             .type=PatchType::Qubit,
             .id=std::nullopt,
     };
+}
+SingleCellOccupiedByPatch LayoutHelpers::make_distillation_region_cell(Cell placement)
+{
+        return SingleCellOccupiedByPatch{
+                .top={BoundaryType::Connected,false},
+                .bottom={BoundaryType::Connected,false},
+                .left={BoundaryType::Connected,false},
+                .right={BoundaryType::Connected,false},
+                .cell=placement
+        };
 }
 }
