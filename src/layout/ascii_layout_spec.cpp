@@ -19,7 +19,7 @@ std::vector<std::vector<AsciiLayoutSpec::CellType>> AsciiLayoutSpec::parse_grid(
     std::vector<std::vector<AsciiLayoutSpec::CellType>> rows;
     for(const std::string_view& row: absl::StrSplit(input,'\n'))
     {
-        rows.emplace_back(row.size());
+        rows.emplace_back();
         for(char c: row)
         {
             rows.back().push_back(cell_type_from_char(c));
@@ -42,7 +42,7 @@ std::vector<Cell> AsciiLayoutSpec::connected_component(Cell start) const
         auto neighbours = curr.get_neigbours_within_bounding_box_inclusive({0,0}, furthest_cell());
         for (const auto &item : neighbours)
         {
-            if(grid_spec_[start.row][start.col] == target_type
+            if(grid_spec_[item.row][item.col] == target_type
             && std::find(fronteer.begin(), fronteer.end(), item) == fronteer.end()
             && std::find(connected_cells.begin(), connected_cells.end(), item) == connected_cells.end())
             {
@@ -57,15 +57,14 @@ std::vector<Cell> AsciiLayoutSpec::connected_component(Cell start) const
 Cell AsciiLayoutSpec::furthest_cell() const
 {
     if(grid_spec_.size()==0) throw std::logic_error("Grid spec with no rows");
-    // Ranges crash CLion
-    //    const auto& sizes = std::ranges::transform_view(grid_spec_,[](const auto& row){return row.size();});
-    //    size_t max_col_size = *std::max(sizes.begin(), sizes.end());
-    size_t max_col_size = 0;
-    for (const auto &row : grid_spec_)
-        max_col_size = std::max(row.size(), max_col_size);
 
-    if(max_col_size==0) throw std::logic_error("Grid spec with no cols");
-    return Cell::from_ints(max_col_size-1, grid_spec_.size()-1);
+    size_t n_cols = grid_spec_.front().size();
+    for (const auto &row : grid_spec_)
+        if(n_cols != row.size())
+            throw std::logic_error("All rows must have the same number of cols");
+
+    if(n_cols==0) throw std::logic_error("Grid spec with no cols");
+    return Cell::from_ints(grid_spec_.size()-1, n_cols-1);
 }
 
 
@@ -99,7 +98,6 @@ std::ostream& AsciiLayoutSpec::operator<<(std::ostream& os) {
 
 void LayoutFromSpec::init_cache(const AsciiLayoutSpec& spec)
 {
-
     for(const AsciiLayoutSpec::CellType distillation_region_char : AsciiLayoutSpec::k_distillation_region_types)
     {
         auto a_cell_for_this_region = spec.find_a_cell_of_type(distillation_region_char);
@@ -116,7 +114,7 @@ void LayoutFromSpec::init_cache(const AsciiLayoutSpec& spec)
             if(cell == AsciiLayoutSpec::LogicalComputationQubit_StandardBorderOrientation)
                 cached_core_patches_.push_back(LayoutHelpers::basic_square_patch(Cell::from_ints(row,col)));
 
-    cached_min_furthest_cell_ = Cell::from_ints(spec.get_grid_spec().front().size(), spec.get_grid_spec().size());
+    cached_min_furthest_cell_ = spec.furthest_cell();
 }
 
 

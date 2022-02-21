@@ -22,8 +22,10 @@ Slice first_slice_from_layout(const Layout& layout)
     for (const Patch& p : layout.core_patches())
         slice.patches.push_back(p);
 
+
+    size_t distillation_time_offset = 0;
     for(auto t : layout.distillation_times())
-        slice.time_to_next_magic_state_by_distillation_region.push_back(t);
+        slice.time_to_next_magic_state_by_distillation_region.push_back(t+distillation_time_offset++);
 
     return slice;
 }
