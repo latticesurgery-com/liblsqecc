@@ -12,6 +12,7 @@
 namespace lsqecc {
 
 
+
 struct SinglePatchMeasurement {
     PatchId target;
     PauliOperator observable;
@@ -33,15 +34,23 @@ struct MagicStateRequest {
     bool operator==(const MagicStateRequest&) const = default;
 };
 
-struct LogicalPauli {
+struct SingleQubitOp {
     PatchId target;
-    PauliOperator op;
 
-    bool operator==(const LogicalPauli&) const = default;
+    enum class Operator {
+        X = static_cast<int>(PauliOperator::X),
+        Y = static_cast<int >(PauliOperator::Y),
+        H,
+        S,
+    };
+
+    Operator op;
+
+    bool operator==(const SingleQubitOp&) const = default;
 };
 
 struct LogicalLatticeOperation {
-    std::variant<SinglePatchMeasurement, MultiPatchMeasurement, MagicStateRequest, LogicalPauli> operation;
+    std::variant<SinglePatchMeasurement, MultiPatchMeasurement, MagicStateRequest, SingleQubitOp> operation;
 
     std::vector<PatchId> get_operating_patches() const;
     bool operator==(const LogicalLatticeOperation&) const = default;

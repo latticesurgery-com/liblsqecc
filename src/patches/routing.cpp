@@ -7,6 +7,7 @@
 #include <boost/property_map/property_map.hpp>
 
 #include <iostream>
+#include <limits>
 
 namespace lsqecc {
 
@@ -48,7 +49,7 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
     };
 
 
-    // Add free node
+    // Add free nodes
     for (Cell::CoordinateType row_idx = 0; row_idx<=furthest_cell.row; ++row_idx)
     {
         for (Cell::CoordinateType col_idx = 0; col_idx<=furthest_cell.col; ++col_idx)
@@ -80,11 +81,16 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
     // Add target
     const auto& target_patch = std::get_if<SingleCellOccupiedByPatch>(&slice.get_patch_by_id(target).cells);
     if (target_patch==nullptr) throw std::logic_error("Cannot route multi cell patches");
+
+    // This means we are trying to do an S-gate/twist measurement so we artificially add a new source coinciding
+    // with the existing one
+    Vertex target_vertex = target == source ? (*std::max_element(vertices.begin(), vertices.end()))+1 : make_vertex(target_patch->cell);
+
     for (Cell neighbour: target_patch->cell.get_neigbours_within_bounding_box_inclusive({0,0},furthest_cell))
     {
         auto boundary = target_patch->get_boundary_with(neighbour);
         if (boundary && boundary->boundary_type==boundary_for_operator(target_op))
-            edges.emplace_back(make_vertex(neighbour), make_vertex(target_patch->cell));
+            edges.emplace_back(make_vertex(neighbour), target_vertex);
     }
 
 
@@ -120,7 +126,7 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
     RoutingRegion ret;
 
     Vertex prec = make_vertex(slice.get_patch_by_id(target).get_a_cell());
-    Vertex curr = p[prec];
+    Vertex curr = p[target_vertex];
     Vertex next = p[curr];
     while (curr!=next)
     {
@@ -152,6 +158,18 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
 
     // Check if out path reached the source
     return curr==s ? std::make_optional(ret): std::nullopt;
+}
+
+
+std::optional<RoutingRegion> do_s_gate_routing(Slice& slice, PatchId target)
+{
+    return graph_search_route_ancilla(
+            slice,
+            target,
+            PauliOperator::X,
+            target,
+            PauliOperator::Z
+    );
 }
 
 }

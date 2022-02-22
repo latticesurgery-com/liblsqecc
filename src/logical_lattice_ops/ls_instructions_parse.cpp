@@ -73,7 +73,17 @@ std::variant<LogicalLatticeOperation, std::unordered_set<PatchId>> parse_ls_inst
     {
         auto op = PauliOperator_from_string(get_next_arg());
         auto patch_id = parse_patch_id(get_next_arg());
-        return LogicalLatticeOperation{LogicalPauli{patch_id,op}};
+        return LogicalLatticeOperation{SingleQubitOp{patch_id, static_cast<SingleQubitOp::Operator>(op)}};
+    }
+    else if (instruction == "HGate")
+    {
+        auto patch_id = parse_patch_id(get_next_arg());
+        return LogicalLatticeOperation{SingleQubitOp{patch_id, SingleQubitOp::Operator::H}};
+    }
+    else if (instruction == "SGate")
+    {
+        auto patch_id = parse_patch_id(get_next_arg());
+        return LogicalLatticeOperation{SingleQubitOp{patch_id, SingleQubitOp::Operator::S}};
     }
     else
     {

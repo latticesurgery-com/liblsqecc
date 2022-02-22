@@ -13,7 +13,7 @@ std::vector<PatchId> LogicalLatticeOperation::get_operating_patches() const
     {
         ret.push_back(s->target);
     }
-    else if (const auto* p = std::get_if<LogicalPauli>(&operation))
+    else if (const auto* p = std::get_if<SingleQubitOp>(&operation))
     {
         ret.push_back(p->target);
     }

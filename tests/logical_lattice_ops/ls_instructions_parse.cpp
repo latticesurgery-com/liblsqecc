@@ -72,7 +72,7 @@ TEST(parse_ls_instructions, one_logical_pauli)
 {
     auto llops = parse_ls_instructions("LogicalPauli Z 10234");
     ASSERT_EQ(llops.instructions.size(),1);
-    LogicalLatticeOperation op{LogicalPauli{10234, PauliOperator::Z}};
+    LogicalLatticeOperation op{SingleQubitOp{10234, PauliOperator::Z}};
     ASSERT_EQ(llops.instructions[0],op);
     ASSERT_EQ(llops.core_qubits,std::unordered_set<PatchId>{});
 }
@@ -90,7 +90,7 @@ TEST(parse_ls_instructions, one_of_each)
             );
     ASSERT_EQ(llops.instructions.size(),4);
     std::vector<LogicalLatticeOperation> ops = {
-            LogicalLatticeOperation{LogicalPauli{10234, PauliOperator::Z}},
+            LogicalLatticeOperation{SingleQubitOp{10234, PauliOperator::Z}},
             LogicalLatticeOperation{MagicStateRequest{11}},
             LogicalLatticeOperation{MultiPatchMeasurement{
                         tsl::ordered_map<PatchId, PauliOperator>{

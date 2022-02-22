@@ -22,7 +22,6 @@ Slice first_slice_from_layout(const Layout& layout)
     for (const Patch& p : layout.core_patches())
         slice.patches.push_back(p);
 
-
     size_t distillation_time_offset = 0;
     for(auto t : layout.distillation_times())
         slice.time_to_next_magic_state_by_distillation_region.push_back(t+distillation_time_offset++);
@@ -58,8 +57,16 @@ PatchComputation::PatchComputation(const LogicalLatticeComputation& logical_comp
             Slice& slice = new_slice();
             slice.get_patch_by_id_mut(s->target).activity = PatchActivity::Measurement;
         }
-        else if (const auto* p = std::get_if<LogicalPauli>(&instruction.operation))
+        else if (const auto* p = std::get_if<SingleQubitOp>(&instruction.operation))
         {
+            if(p->op == SingleQubitOp::Operator::S)
+            {
+                Slice& pre_slice = new_slice();
+                auto path = do_s_gate_routing(pre_slice, p->target);
+                if(!path)
+                    throw std::logic_error(absl::StrFormat("Couldn't find room to do an S gate measurement on patch %d", p->target));
+                pre_slice.routing_regions.push_back(*path);
+            }
             Slice& slice = new_slice();
             slice.get_patch_by_id_mut(p->target).activity = PatchActivity::Unitary;
         }
