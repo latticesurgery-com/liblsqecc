@@ -73,6 +73,7 @@ public:
     {}
 
     std::optional<Cell> find_a_cell_of_type(AsciiLayoutSpec::CellType target) const;
+    std::vector<Cell> find_all_cells_of_type(AsciiLayoutSpec::CellType target) const;
     std::vector<Cell> connected_component(Cell start) const;
     Cell furthest_cell() const;
 

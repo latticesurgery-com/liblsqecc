@@ -115,8 +115,9 @@ json core_to_json(const Slice& slice)
             visual_array_cell["activity"] = json({});
             if(!placed_ttd)
             {
-                visual_array_cell["text"] = std::to_string(
+                visual_array_cell["text"] = std::string{"Time to next magic state:"} + std::to_string(
                         slice.time_to_next_magic_state_by_distillation_region[distillation_region_counter]);
+                placed_ttd = true;
             }
             // TODO could add sanity check on indices
             out_slice[distillation_cell.cell.row][distillation_cell.cell.col] = visual_array_cell;

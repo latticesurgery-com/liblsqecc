@@ -81,9 +81,21 @@ std::optional<Cell> AsciiLayoutSpec::find_a_cell_of_type(AsciiLayoutSpec::CellTy
     for(const auto&[row, row_data]: iter::enumerate(grid_spec_))
         for(const auto&[col, cell]: iter::enumerate(row_data))
             if(cell == target)
-                return Cell{static_cast<Cell::CoordinateType>(row), static_cast<Cell::CoordinateType>(col)};
+                return Cell::from_ints(row,col);
 
     return std::nullopt;
+}
+
+std::vector<Cell> AsciiLayoutSpec::find_all_cells_of_type(AsciiLayoutSpec::CellType target) const
+{
+    std::vector<Cell> cells;
+
+    for(const auto&[row, row_data]: iter::enumerate(grid_spec_))
+        for(const auto&[col, cell]: iter::enumerate(row_data))
+            if(cell == target)
+                cells.push_back(Cell::from_ints(row,col));
+
+    return cells;
 }
 
 std::ostream& AsciiLayoutSpec::operator<<(std::ostream& os) {
@@ -96,17 +108,52 @@ std::ostream& AsciiLayoutSpec::operator<<(std::ostream& os) {
     return os;
 }
 
+
+
+bool is_already_in_this_distillation_region(const MultipleCellsOccupiedByPatch&  distillation_region, Cell cell)
+{
+    for(const auto& existing_distillation_cell : distillation_region.sub_cells)
+        if(cell == existing_distillation_cell.cell)
+            return true;
+    return false;
+}
+
+bool is_already_in_some_distillation_region(const std::vector<MultipleCellsOccupiedByPatch>&  cached_distillation_regions, Cell cell)
+{
+    for(const auto& existing_distillation_region: cached_distillation_regions)
+        if (is_already_in_this_distillation_region(existing_distillation_region,cell))
+            return true;
+
+    return false;
+}
+
+
 void LayoutFromSpec::init_cache(const AsciiLayoutSpec& spec)
 {
     for(const AsciiLayoutSpec::CellType distillation_region_char : AsciiLayoutSpec::k_distillation_region_types)
     {
-        auto a_cell_for_this_region = spec.find_a_cell_of_type(distillation_region_char);
-        if (a_cell_for_this_region)
+
+        auto cells_of_type = spec.find_all_cells_of_type(distillation_region_char);
+
+        for (const auto& starting_cell: cells_of_type)
         {
-            cached_distillation_regions_.push_back(
-                    make_distillation_region_starting_from(*a_cell_for_this_region, spec));
-            cached_distillation_times_.push_back(5);
+
+            if(is_already_in_some_distillation_region(cached_distillation_regions_, starting_cell))
+                continue;
+
+            auto new_distillation_region = make_distillation_region_starting_from(starting_cell, spec);
+
+            for(auto& cell_occupied_by_patch : new_distillation_region.sub_cells)
+                for(const auto& neighbour : cell_occupied_by_patch.cell.get_neigbours())
+                    cell_occupied_by_patch.get_mut_boundary_with(neighbour)->get().boundary_type =
+                            is_already_in_this_distillation_region(new_distillation_region, neighbour)
+                            ? BoundaryType::None : BoundaryType::Smooth;
+
+            cached_distillation_regions_.push_back(new_distillation_region);
+            cached_distillation_times_.push_back(10);
+
         }
+
     }
 
     for(const auto&[row, row_data]: iter::enumerate(spec.get_grid_spec()))
