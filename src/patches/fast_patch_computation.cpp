@@ -147,14 +147,14 @@ PatchComputation::PatchComputation(const LogicalLatticeComputation& logical_comp
             else
                 throw std::logic_error(absl::StrFormat("Couldn't find a path from %d to %d", source_id, target_id));
         }
-        else if (const auto* i = std::get_if<PatchInit>(&instruction.operation))
+        else if (const auto* init = std::get_if<PatchInit>(&instruction.operation))
         {
             Slice& slice = new_slice();
             auto location = find_free_ancilla_location(*layout_, slice);
             if(!location) throw std::logic_error(absl::StrFormat("Could not allocate ancilla"));
 
             slice.patches.push_back(LayoutHelpers::basic_square_patch(*location));
-            slice.patches.back().id = i->target;
+            slice.patches.back().id = init->target;
         }
         else
         {
@@ -168,7 +168,7 @@ PatchComputation::PatchComputation(const LogicalLatticeComputation& logical_comp
             for (int i = 0; i<max_wait_for_magic_state; i++)
             {
                 auto& slice_with_magic_state = new_slice();
-                if(slice_with_magic_state.unbound_magic_states.size()>1)
+                if(slice_with_magic_state.unbound_magic_states.size()>0)
                 {
                     newly_bound_magic_state = slice_with_magic_state.unbound_magic_states.front();
                     slice_with_magic_state.unbound_magic_states.pop_front();
