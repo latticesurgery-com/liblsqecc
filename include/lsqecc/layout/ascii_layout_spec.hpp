@@ -99,14 +99,16 @@ public:
     Cell min_furthest_cell() const override {return cached_min_furthest_cell_;};
     const std::vector<MultipleCellsOccupiedByPatch>& distillation_regions() const override {return cached_distillation_regions_;};
     const std::vector<SurfaceCodeTimestep>& distillation_times() const override {return cached_distillation_times_;};
-
+    const std::vector<Cell>& ancilla_location() const override {return cached_ancilla_locations_;}
 
 private:
     std::vector<Patch> cached_core_patches_;
     Cell cached_min_furthest_cell_;
     std::vector<MultipleCellsOccupiedByPatch> cached_distillation_regions_;
     std::vector<SurfaceCodeTimestep> cached_distillation_times_;
+    std::vector<Cell> cached_ancilla_locations_;
     void init_cache(const AsciiLayoutSpec& spec);
+
 
 };
 

@@ -12,11 +12,17 @@
 #include <fstream>
 #include <iostream>
 #include <string_view>
+#include <stdexcept>
+#include <filesystem>
 
 
 
-std::string file_to_string(std::string_view fname)
+std::string file_to_string(std::string fname)
 {
+    if(!std::filesystem::exists(fname))
+        throw std::logic_error{std::string{"File not found:"}+fname};
+
+
     std::ifstream file(fname);
     std::stringstream buffer;
     buffer << file.rdbuf();

@@ -28,6 +28,17 @@ struct MultiPatchMeasurement {
     bool operator==(const MultiPatchMeasurement&) const = default;
 };
 
+struct PatchInit {
+    PatchId target;
+
+    enum class InitializeableStates {
+        Zero,
+        Plus
+    };
+
+    InitializeableStates state;
+};
+
 struct MagicStateRequest {
     PatchId target;
 
@@ -50,7 +61,7 @@ struct SingleQubitOp {
 };
 
 struct LogicalLatticeOperation {
-    std::variant<SinglePatchMeasurement, MultiPatchMeasurement, MagicStateRequest, SingleQubitOp> operation;
+    std::variant<SinglePatchMeasurement, MultiPatchMeasurement, PatchInit, MagicStateRequest, SingleQubitOp> operation;
 
     std::vector<PatchId> get_operating_patches() const;
     bool operator==(const LogicalLatticeOperation&) const = default;

@@ -15,6 +15,7 @@ struct Layout {
     virtual Cell min_furthest_cell() const = 0;
     virtual const std::vector<MultipleCellsOccupiedByPatch>& distillation_regions() const = 0;
     virtual const std::vector<SurfaceCodeTimestep>& distillation_times() const = 0;
+    virtual const std::vector<Cell>& ancilla_location() const = 0;
 
     virtual ~Layout(){};
 };
@@ -60,6 +61,8 @@ public:
                 }},
         };
 
+        ancilla_locations_ = {Cell{1,7}};
+
         for(const auto& r: distillation_regions_)
             distillation_times_.push_back(5);
     }
@@ -70,7 +73,7 @@ public:
     }
 
     Cell min_furthest_cell() const override {
-        return Cell{4,6}; // Could extract from distillation region;
+        return Cell{1,7};
     }
 
     const std::vector<SurfaceCodeTimestep>& distillation_times() const override {
@@ -82,11 +85,18 @@ public:
         return distillation_regions_;
     }
 
+    const std::vector<Cell>& ancilla_location() const override
+    {
+        return ancilla_locations_;
+    }
+
+
 private:
     size_t num_qubits_;
     std::vector<SurfaceCodeTimestep> distillation_times_;
     std::vector<Patch> core_patches_;
     std::vector<MultipleCellsOccupiedByPatch> distillation_regions_;
+    std::vector<Cell> ancilla_locations_;
 
 };
 

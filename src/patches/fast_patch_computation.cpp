@@ -30,6 +30,16 @@ Slice first_slice_from_layout(const Layout& layout)
 }
 
 
+
+std::optional<Cell> find_free_ancilla_location(const Layout& layout, const Slice& slice)
+{
+    for(const Cell& possible_ancilla_location : layout.ancilla_location())
+        if(slice.is_cell_free(possible_ancilla_location))
+            return possible_ancilla_location;
+    return std::nullopt;
+}
+
+
 PatchComputation::PatchComputation(const LogicalLatticeComputation& logical_computation, std::unique_ptr<Layout>&& layout) {
     layout_ = std::move(layout);
     slices_.push_back(first_slice_from_layout(*layout_));
@@ -86,6 +96,15 @@ PatchComputation::PatchComputation(const LogicalLatticeComputation& logical_comp
                 slice.routing_regions.push_back(*path);
             else
                 throw std::logic_error(absl::StrFormat("Couldn't find a path from %d to %d", source_id, target_id));
+        }
+        else if (const auto* i = std::get_if<PatchInit>(&instruction.operation))
+        {
+            Slice& slice = new_slice();
+            auto location = find_free_ancilla_location(*layout_, slice);
+            if(!location) throw std::logic_error(absl::StrFormat("Could not allocate ancilla"));
+
+            slice.patches.push_back(LayoutHelpers::basic_square_patch(*location));
+            slice.patches.back().id = i->target;
         }
         else
         {

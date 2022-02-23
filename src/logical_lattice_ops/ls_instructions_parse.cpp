@@ -53,10 +53,16 @@ std::variant<LogicalLatticeOperation, std::unordered_set<PatchId>> parse_ls_inst
     {
         return parse_patch_id_list(get_next_arg());
     }
+    if(instruction == "Init")
+    {
+        auto patch_id = parse_patch_id(get_next_arg());
+        auto state = parse_init_state(get_next_arg());
+        return LogicalLatticeOperation{PatchInit{patch_id, state}};
+    }
     else if(instruction == "MeasureSinglePatch")
     {
-        auto op = PauliOperator_from_string(get_next_arg());
         auto patch_id = parse_patch_id(get_next_arg());
+        auto op = PauliOperator_from_string(get_next_arg());
         return LogicalLatticeOperation{SinglePatchMeasurement{patch_id,op,false}};
     }
     else if (instruction == "MultiBodyMeasure")
@@ -71,8 +77,8 @@ std::variant<LogicalLatticeOperation, std::unordered_set<PatchId>> parse_ls_inst
     }
     else if (instruction == "LogicalPauli")
     {
-        auto op = PauliOperator_from_string(get_next_arg());
         auto patch_id = parse_patch_id(get_next_arg());
+        auto op = PauliOperator_from_string(get_next_arg());
         return LogicalLatticeOperation{SingleQubitOp{patch_id, static_cast<SingleQubitOp::Operator>(op)}};
     }
     else if (instruction == "HGate")
