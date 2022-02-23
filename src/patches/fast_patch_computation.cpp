@@ -30,6 +30,56 @@ Slice first_slice_from_layout(const Layout& layout)
 }
 
 
+Slice advance_slice(const Slice& old_slice, const Layout& layout) {
+    Slice new_slice{
+        .patches = {},
+        .unbound_magic_states = old_slice.unbound_magic_states,
+        .layout=old_slice.layout, // TODO should be able to take out
+        .time_to_next_magic_state_by_distillation_region={}};
+
+    // Copy patches over
+    for (const auto& old_patch : old_slice.patches) {
+        // Skip patches that were measured in the previous timestep
+        if(old_patch.activity!=PatchActivity::Measurement)
+        {
+            new_slice.patches.push_back(old_patch);
+            auto& new_patch = new_slice.patches.back();
+
+            // Clear Unitary Operator activity
+            if (new_patch.activity==PatchActivity::Unitary)
+                new_patch.activity = PatchActivity::None;
+        }
+    }
+
+
+    // Make magic states appear:
+    for (int i = 0; i<old_slice.time_to_next_magic_state_by_distillation_region.size(); ++i)
+    {
+        new_slice.time_to_next_magic_state_by_distillation_region.push_back(
+                old_slice.time_to_next_magic_state_by_distillation_region[i]-1);
+        if(new_slice.time_to_next_magic_state_by_distillation_region.back() == 0){
+
+            auto magic_state_cell = new_slice.find_place_for_magic_state(layout.distillation_regions()[i]);
+            if(magic_state_cell)
+            {
+                Patch magic_state_patch = LayoutHelpers::basic_square_patch(*magic_state_cell);
+                magic_state_patch.type = PatchType::PreparedState;
+                new_slice.unbound_magic_states.push_back(magic_state_patch);
+                new_slice.time_to_next_magic_state_by_distillation_region.back() = layout.distillation_times()[i];
+            }
+#if false
+            else
+            {
+                std::cout<< "Could not find place for magic state produced by distillation region " << i <<std::endl;
+            }
+#endif
+        }
+    }
+
+    return new_slice;
+}
+
+
 
 std::optional<Cell> find_free_ancilla_location(const Layout& layout, const Slice& slice)
 {
@@ -153,7 +203,7 @@ PatchComputation::PatchComputation(const LogicalLatticeComputation& logical_comp
 
 
 Slice& PatchComputation::new_slice() {
-    slices_.push_back(slices_.back().advance_slice());
+    slices_.push_back(advance_slice(slices_.back(), *layout_));
     return slices_.back();
 }
 

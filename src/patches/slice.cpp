@@ -6,64 +6,18 @@
 namespace lsqecc{
 
 
-std::optional<Cell> find_place_for_magic_state(const Slice& slice, const MultipleCellsOccupiedByPatch& distillation_region)
+std::optional<Cell> Slice::find_place_for_magic_state(const MultipleCellsOccupiedByPatch& distillation_region) const
 {
     const auto& cells = distillation_region.sub_cells;
     for(const auto& cell: cells)
-        for(const auto& neighbour: slice.get_neigbours_within_slice(cell.cell))
-            if(slice.is_cell_free(neighbour))
+        for(const auto& neighbour: get_neigbours_within_slice(cell.cell))
+            if(is_cell_free(neighbour))
                 return neighbour;
 
     return std::nullopt;
 }
 
 
-
-
-Slice Slice::advance_slice() const {
-    Slice new_slice{ .patches = {}, .unbound_magic_states = unbound_magic_states, .layout=layout, .time_to_next_magic_state_by_distillation_region={}};
-
-    // Copy patches over
-    for (const auto& old_patch : patches) {
-        // Skip patches that were measured in the previous timestep
-        if(old_patch.activity!=PatchActivity::Measurement)
-        {
-            new_slice.patches.push_back(old_patch);
-            auto& new_patch = new_slice.patches.back();
-
-            // Clear Unitary Operator activity
-            if (new_patch.activity==PatchActivity::Unitary)
-                new_patch.activity = PatchActivity::None;
-        }
-    }
-
-
-    // Make magic states appear:
-    for (int i = 0; i<time_to_next_magic_state_by_distillation_region.size(); ++i)
-    {
-        new_slice.time_to_next_magic_state_by_distillation_region.push_back(
-                time_to_next_magic_state_by_distillation_region[i]-1);
-        if(new_slice.time_to_next_magic_state_by_distillation_region.back() == 0){
-
-            auto magic_state_cell = find_place_for_magic_state(new_slice, layout.distillation_regions()[i]);
-            if(magic_state_cell)
-            {
-                Patch magic_state_patch = LayoutHelpers::basic_square_patch(*magic_state_cell);
-                magic_state_patch.type = PatchType::PreparedState;
-                new_slice.unbound_magic_states.push_back(magic_state_patch);
-                new_slice.time_to_next_magic_state_by_distillation_region.back() = layout.distillation_times()[i];
-            }
-#if false
-            else
-            {
-                std::cout<< "Could not find place for magic state produced by distillation region " << i <<std::endl;
-            }
-#endif
-        }
-    }
-
-    return new_slice;
-}
 
 Patch& Slice::get_patch_by_id_mut(PatchId id) {
     for(auto& p: patches)

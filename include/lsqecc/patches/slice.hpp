@@ -16,10 +16,9 @@ struct Slice {
     const Layout& layout;
     std::vector<SurfaceCodeTimestep> time_to_next_magic_state_by_distillation_region;
 
-    Slice advance_slice() const;
-
     Cell get_furthest_cell() const;
 
+    std::optional<Cell> find_place_for_magic_state(const MultipleCellsOccupiedByPatch& distillation_region) const;
     Patch& get_patch_by_id_mut(PatchId id);
     const Patch& get_patch_by_id(PatchId id) const;
     std::optional<std::reference_wrapper<const Patch>> get_patch_on_cell(const Cell& cell) const;
