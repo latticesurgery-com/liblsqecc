@@ -90,8 +90,8 @@ std::optional<Cell> find_free_ancilla_location(const Layout& layout, const Slice
 }
 
 
-PatchComputation::PatchComputation(const LogicalLatticeComputation& logical_computation, std::unique_ptr<Layout>&& layout) {
-    layout_ = std::move(layout);
+void PatchComputation::make_slices(const LogicalLatticeComputation& logical_computation)
+{
     slices_.push_back(first_slice_from_layout(*layout_));
 
     { // Map initial patches to ids
@@ -198,6 +198,19 @@ PatchComputation::PatchComputation(const LogicalLatticeComputation& logical_comp
         }
         std::cout<<std::endl;
 #endif
+    }
+}
+
+PatchComputation::PatchComputation(const LogicalLatticeComputation& logical_computation, std::unique_ptr<Layout>&& layout) {
+    layout_ = std::move(layout);
+
+    try {
+        make_slices(logical_computation);
+    }
+    catch (const std::exception& e)
+    {
+        std::cout<<"Encountered exception: "<<e.what()<<std::endl;
+        std::cout<<"Halting slicing"<<std::endl;
     }
 }
 

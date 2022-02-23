@@ -10,7 +10,6 @@
 
 namespace lsqecc {
 
-
 class PatchComputation
 {
 public:
@@ -19,12 +18,13 @@ public:
 
 private:
 
+    void make_slices(const LogicalLatticeComputation& logical_computation);
+
     Slice& new_slice();
     Slice& last_slice();
 
     std::unique_ptr<Layout> layout_ = nullptr;
     std::vector<Slice> slices_;
-
 
 public:
     const std::vector<Slice>& get_slices()const {return slices_;}
