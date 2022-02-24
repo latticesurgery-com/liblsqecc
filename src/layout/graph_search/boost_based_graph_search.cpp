@@ -1,4 +1,4 @@
-#include <lsqecc/patches/routing.hpp>
+#include <lsqecc/layout/boost_based_graph_search.hpp>
 
 #include <boost/graph/graph_traits.hpp>
 #include <boost/graph/adjacency_list.hpp>

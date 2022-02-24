@@ -1,5 +1,5 @@
-#ifndef LSQECC_ROUTING_HPP
-#define LSQECC_ROUTING_HPP
+#ifndef LSQECC_BOOST_BASED_GRAPH_SEARCH_HPP
+#define LSQECC_BOOST_BASED_GRAPH_SEARCH_HPP
 
 
 #include <lsqecc/patches/slice.hpp>
@@ -19,4 +19,4 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
 std::optional<RoutingRegion> do_s_gate_routing(Slice& slice, PatchId target);
 
 }
-#endif //LSQECC_ROUTING_HPP
+#endif //LSQECC_BOOST_BASED_GRAPH_SEARCH_HPP
