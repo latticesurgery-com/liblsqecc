@@ -42,7 +42,7 @@ int main(int argc, const char* argv[])
     argparse::ArgumentParser parser(prog_name, "Slice LS-Instructions");
     parser.add_argument()
             .names({"-i", "--instructions"})
-            .description("File name of file with instructions")
+            .description("File name of file with LS Instructions")
             .required(true);
     parser.add_argument()
             .names({"-l", "--layout"})
@@ -50,11 +50,11 @@ int main(int argc, const char* argv[])
             .required(false);
     parser.add_argument()
             .names({"-o", "--output"})
-            .description("File name of output file")
+            .description("File name of output file to which write a latticesurgery.com JSON of the slices")
             .required(false);
     parser.add_argument()
             .names({"-t", "--timeout"})
-            .description("Set a timeout after which stop producing slices")
+            .description("Set a timeout in seconds after which stop producing slices")
             .required(false);
     parser.enable_help();
 
@@ -62,8 +62,15 @@ int main(int argc, const char* argv[])
     if (err)
     {
         std::cout << err << std::endl;
+        parser.print_help();
         return -1;
     }
+    if (parser.exists("help"))
+    {
+        parser.print_help();
+        return 0;
+    }
+
 
     std::cout << "Reading LS Instructions" << std::endl;
     auto start = std::chrono::steady_clock::now();

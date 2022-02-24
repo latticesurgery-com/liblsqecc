@@ -7,7 +7,7 @@ project(lsqecc)
 ####################################################
 # General configuration
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g -Wfatal-errors -Wall -pedantic -D_LIBCPP_DEBUG=1")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -g -Wfatal-errors -Wall -pedantic -D_LIBCPP_DEBUG=1")
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_BUILD_TYPE Debug)
 
@@ -68,12 +68,12 @@ target_link_libraries(lsqecclib absl::strings absl::str_format)
 ###################################################
 # Command line executable
 add_executable(
-        lsqecc
-        src/main.cpp
+        lsqecc_slicer
+        src/slicer.cpp
 )
 
 target_link_libraries(
-        lsqecc PUBLIC lsqecclib
+        lsqecc_slicer PUBLIC lsqecclib ${Boost_FILESYSTEM_LIBRARY}
 )
 
 ###################################################
