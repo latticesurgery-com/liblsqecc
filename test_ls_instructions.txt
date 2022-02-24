@@ -1,8 +1,0 @@
-DeclareLogicalQubitPatches 10234,11,1001,1002,1009,1010,1
-SGate 1001
-MultiBodyMeasure 1001:Z,1002:X
-HGate 11
-LogicalPauli Z 10234
-RequestMagicState 7
-RequestMagicState 13
-LogicalPauli Z 10234
