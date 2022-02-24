@@ -6,6 +6,7 @@
 #include <lsqecc/patches/slice.hpp>
 #include <lsqecc/patches/patches.hpp>
 #include <lsqecc/layout/layout.hpp>
+#include <lsqecc/layout/router.hpp>
 
 
 #include <chrono>
@@ -19,6 +20,7 @@ public:
     PatchComputation (
             const LogicalLatticeComputation& logical_computation,
             std::unique_ptr<Layout>&& layout,
+            std::unique_ptr<Router>&& router,
             std::optional<std::chrono::seconds> timeout);
 
 private:
@@ -28,7 +30,8 @@ private:
     Slice& new_slice();
     Slice& last_slice();
 
-    std::unique_ptr<Layout> layout_ = nullptr;
+    std::unique_ptr<Layout> layout_;
+    std::unique_ptr<Router> router_;
     std::vector<Slice> slices_;
 
 public:

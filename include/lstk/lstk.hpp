@@ -5,6 +5,10 @@
 #ifndef LSQECC_LSTK_HPP
 #define LSQECC_LSTK_HPP
 
+
+#define LSTK_NOOP static_cast<void>(0)
+
+
 namespace lstk {
 
 using FloatSeconds = std::chrono::duration<double, std::ratio<1>>;

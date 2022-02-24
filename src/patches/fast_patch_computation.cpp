@@ -1,6 +1,6 @@
 #include <lsqecc/patches/patches.hpp>
 #include <lsqecc/patches/fast_patch_computation.hpp>
-#include <lsqecc/patches/routing.hpp>
+#include <lsqecc/layout/router.hpp>
 
 #include <lstk/lstk.hpp>
 #include <absl/strings/str_format.h>
@@ -128,7 +128,7 @@ void PatchComputation::make_slices(
             if(p->op == SingleQubitOp::Operator::S)
             {
                 Slice& pre_slice = new_slice();
-                auto path = do_s_gate_routing(pre_slice, p->target);
+                auto path = router_->do_s_gate(pre_slice, p->target);
                 if(!path)
                     throw std::logic_error(absl::StrFormat("Couldn't find room to do an S gate measurement on patch %d", p->target));
                 pre_slice.routing_regions.push_back(*path);
@@ -146,7 +146,7 @@ void PatchComputation::make_slices(
             const auto& [source_id, source_op] = *pairs++;
             const auto& [target_id, target_op] = *pairs;
 
-            auto path = graph_search_route_ancilla(slice, source_id, source_op, target_id, target_op);
+            auto path = router_->find_routing_ancilla(slice, source_id, source_op, target_id, target_op);
 
             if(path)
                 slice.routing_regions.push_back(*path);
@@ -215,8 +215,10 @@ void PatchComputation::make_slices(
 PatchComputation::PatchComputation(
         const LogicalLatticeComputation& logical_computation,
         std::unique_ptr<Layout>&& layout,
+        std::unique_ptr<Router>&& router,
         std::optional<std::chrono::seconds> timeout) {
     layout_ = std::move(layout);
+    router_ = std::move(router);
 
     try {
         make_slices(logical_computation, timeout);

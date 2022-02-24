@@ -90,7 +90,6 @@ public:
         return ancilla_locations_;
     }
 
-
 private:
     size_t num_qubits_;
     std::vector<SurfaceCodeTimestep> distillation_times_;

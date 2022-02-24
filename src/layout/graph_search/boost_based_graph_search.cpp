@@ -1,15 +1,15 @@
-#include <lsqecc/layout/boost_based_graph_search.hpp>
+#include <lsqecc/layout/graph_search/boost_based_graph_search.hpp>
 
 #include <boost/graph/graph_traits.hpp>
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/dijkstra_shortest_paths.hpp>
 #include <boost/graph/graphviz.hpp>
-#include <boost/property_map/property_map.hpp>
 
 #include <iostream>
-#include <limits>
 
 namespace lsqecc {
+
+namespace boost_graph_search {
 
 std::optional<RoutingRegion> graph_search_route_ancilla(
         const Slice& slice,
@@ -60,7 +60,7 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
 
             bool node_is_free = !patch_of_node;
             if (node_is_free)
-                for (const Cell& neighbour: current.get_neigbours_within_bounding_box_inclusive({0,0},furthest_cell))
+                for (const Cell& neighbour: current.get_neigbours_within_bounding_box_inclusive({0, 0}, furthest_cell))
                     if (slice.is_cell_free(neighbour))
                         edges.emplace_back(make_vertex(neighbour), make_vertex(current));
 
@@ -70,7 +70,7 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
     // Add source
     const auto& source_patch = std::get_if<SingleCellOccupiedByPatch>(&slice.get_patch_by_id(source).cells);
     if (source_patch==nullptr) throw std::logic_error("Cannot route multi cell patches");
-    for (Cell neighbour: source_patch->cell.get_neigbours_within_bounding_box_inclusive({0,0},furthest_cell))
+    for (Cell neighbour: source_patch->cell.get_neigbours_within_bounding_box_inclusive({0, 0}, furthest_cell))
     {
         auto boundary = source_patch->get_boundary_with(neighbour);
         if (boundary && boundary->boundary_type==boundary_for_operator(source_op))
@@ -84,23 +84,20 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
 
     // This means we are trying to do an S-gate/twist measurement so we artificially add a new source coinciding
     // with the existing one
-    Vertex target_vertex = target == source ? (*std::max_element(vertices.begin(), vertices.end()))+1 : make_vertex(target_patch->cell);
+    Vertex target_vertex =
+            target==source ? (*std::max_element(vertices.begin(), vertices.end()))+1 : make_vertex(target_patch->cell);
 
-    for (Cell neighbour: target_patch->cell.get_neigbours_within_bounding_box_inclusive({0,0},furthest_cell))
+    for (Cell neighbour: target_patch->cell.get_neigbours_within_bounding_box_inclusive({0, 0}, furthest_cell))
     {
         auto boundary = target_patch->get_boundary_with(neighbour);
         if (boundary && boundary->boundary_type==boundary_for_operator(target_op))
             edges.emplace_back(make_vertex(neighbour), target_vertex);
     }
 
-
-
     Graph g{edges.begin(), edges.end(), vertices.size()};
 
     property_map<Graph, vertex_predecessor_t>::type p
             = get(vertex_predecessor, g);
-
-
 
     Vertex s = vertex(make_vertex(slice.get_patch_by_id(source).get_a_cell()), g);
     dijkstra_shortest_paths(g, s, predecessor_map(p));
@@ -142,7 +139,7 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
                 .cell=curr_cell
         });
 
-        for (const Cell& neighbour: curr_cell.get_neigbours_within_bounding_box_inclusive({0,0},furthest_cell))
+        for (const Cell& neighbour: curr_cell.get_neigbours_within_bounding_box_inclusive({0, 0}, furthest_cell))
         {
             if (prec_cell==neighbour || next_cell==neighbour)
             {
@@ -157,9 +154,8 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
     }
 
     // Check if out path reached the source
-    return curr==s ? std::make_optional(ret): std::nullopt;
+    return curr==s ? std::make_optional(ret) : std::nullopt;
 }
-
 
 std::optional<RoutingRegion> do_s_gate_routing(Slice& slice, PatchId target)
 {
@@ -172,4 +168,5 @@ std::optional<RoutingRegion> do_s_gate_routing(Slice& slice, PatchId target)
     );
 }
 
+}
 }
