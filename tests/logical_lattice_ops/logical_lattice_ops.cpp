@@ -34,7 +34,7 @@ TEST(MultiPatchMeasurement, get_operating_patches__one_patch)
 {
     LogicalLatticeOperation op{
         .operation=MultiPatchMeasurement{
-            .targetted_observable={{static_cast<PatchId>(11),PauliOperator::X}},
+            .observable={{static_cast<PatchId>(11), PauliOperator::X}},
             .is_negative=false
         }
     };
@@ -49,7 +49,7 @@ TEST(MultiPatchMeasurement, get_operating_patches__many_patches)
 {
     LogicalLatticeOperation op{
         .operation=MultiPatchMeasurement{
-            .targetted_observable={
+            .observable={
                         {static_cast<PatchId>(11),PauliOperator::X},
                         {static_cast<PatchId>(12),PauliOperator::Z},
                         {static_cast<PatchId>(13),PauliOperator::X},

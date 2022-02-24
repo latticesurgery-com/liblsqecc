@@ -7,7 +7,7 @@ using namespace lsqecc;
 
 TEST(PatchComputation, make)
 {
-    LogicalLatticeAssembly assembly{
+    LogicalLatticeComputation assembly{
         .core_qubits = {0},
         .instructions = {
         }
@@ -29,7 +29,7 @@ TEST(PatchComputation, make)
                                     .cell=Cell{0, 0}
                             },
                             .type=PatchType::Qubit,
-                            .id=std::nullopt,
+                            .id=0,
                     }
             }
     };
@@ -39,7 +39,7 @@ TEST(PatchComputation, make)
 
 TEST(MultiPatchMeasurement, get_operating_patches)
 {
-    MultiPatchMeasurement m{ .targetted_observable=tsl::ordered_map<PatchId, PauliOperator>{
+    MultiPatchMeasurement m{ .observable=tsl::ordered_map<PatchId, PauliOperator>{
             {0,PauliOperator::X},
             {10,PauliOperator::Y},
             {20,PauliOperator::Z}

@@ -1,0 +1,15 @@
+[submodule "external/json"]
+	path = external/json
+	url = https://github.com/nlohmann/json.git
+[submodule "external/include/cppitertools"]
+	path = external/include/cppitertools
+	url = git@github.com:ryanhaining/cppitertools.git
+[submodule "external/include/argparse"]
+	path = external/include/argparse
+	url = git@github.com:jamolnng/argparse.git
+[submodule "external/abseil-cpp"]
+	path = external/abseil-cpp
+	url = https://github.com/abseil/abseil-cpp.git
+[submodule "external/ordered-map"]
+	path = external/ordered-map
+	url = https://github.com/Tessil/ordered-map.git

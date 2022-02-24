@@ -3,7 +3,7 @@
 
 #include <variant>
 #include <stdexcept>
-
+#include <unordered_set>
 #include <lsqecc/patches/patches.hpp>
 
 #include <tsl/ordered_map.h>
@@ -11,14 +11,7 @@
 
 namespace lsqecc {
 
-enum class PauliOperator {
-    I,
-    X,
-    Y,
-    Z,
-};
 
-PauliOperator PauliOperator_from_string(std::string_view s);
 
 struct SinglePatchMeasurement {
     PatchId target;
@@ -29,10 +22,21 @@ struct SinglePatchMeasurement {
 };
 
 struct MultiPatchMeasurement {
-    tsl::ordered_map<PatchId, PauliOperator> targetted_observable;
+    tsl::ordered_map<PatchId, PauliOperator> observable;
     bool is_negative;
 
     bool operator==(const MultiPatchMeasurement&) const = default;
+};
+
+struct PatchInit {
+    PatchId target;
+
+    enum class InitializeableStates {
+        Zero,
+        Plus
+    };
+
+    InitializeableStates state;
 };
 
 struct MagicStateRequest {
@@ -41,23 +45,31 @@ struct MagicStateRequest {
     bool operator==(const MagicStateRequest&) const = default;
 };
 
-struct LogicalPauli {
+struct SingleQubitOp {
     PatchId target;
-    PauliOperator op;
 
-    bool operator==(const LogicalPauli&) const = default;
+    enum class Operator {
+        X = static_cast<int>(PauliOperator::X),
+        Y = static_cast<int >(PauliOperator::Y),
+        H,
+        S,
+    };
+
+    Operator op;
+
+    bool operator==(const SingleQubitOp&) const = default;
 };
 
 struct LogicalLatticeOperation {
-    std::variant<SinglePatchMeasurement, MultiPatchMeasurement, MagicStateRequest, LogicalPauli> operation;
+    std::variant<SinglePatchMeasurement, MultiPatchMeasurement, PatchInit, MagicStateRequest, SingleQubitOp> operation;
 
     std::vector<PatchId> get_operating_patches() const;
     bool operator==(const LogicalLatticeOperation&) const = default;
 };
 
-struct LogicalLatticeAssembly
+struct LogicalLatticeComputation
 {
-    std::vector<PatchId> core_qubits;
+    std::unordered_set<PatchId> core_qubits;
     std::vector<LogicalLatticeOperation> instructions;
 };
 

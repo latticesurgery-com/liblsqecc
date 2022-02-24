@@ -1,10 +1,14 @@
 #ifndef LSQECC_PATCHES_HPP
 #define LSQECC_PATCHES_HPP
 
+
+#include <lsqecc/pauli_rotations/pauli_operator.hpp>
+
 #include <cstdint>
 #include <optional>
 #include <vector>
 #include <variant>
+#include <stdexcept>
 
 #include <eigen3/Eigen/Dense>
 
@@ -17,10 +21,22 @@ enum class BoundaryType {
     Smooth,
 };
 
+
+BoundaryType boundary_for_operator(PauliOperator op);
+
 struct Cell {
     using CoordinateType = int32_t;
     CoordinateType row;
     CoordinateType col;
+
+    std::vector<Cell> get_neigbours() const;
+    std::vector<Cell> get_neigbours_within_bounding_box_inclusive(const Cell& origin, const Cell& furthest_cell) const;
+
+    template<class IntType>
+    static Cell from_ints(IntType _row, IntType _col)
+    {
+        return Cell{static_cast<Cell::CoordinateType>(_row),Cell::CoordinateType(_col)};
+    };
 
     bool operator==(const Cell&) const = default;
 };
@@ -47,14 +63,17 @@ struct Boundary {
     bool operator==(const Boundary&) const = default;
 };
 
-struct SingleCellOccupiedByPatch : public Cell {
+
+struct SingleCellOccupiedByPatch{
     Boundary top;
     Boundary bottom;
     Boundary left;
     Boundary right;
 
-    Cell cell;
+    std::optional<Boundary> get_boundary_with(const Cell& neighbour) const;
+    std::optional<std::reference_wrapper<Boundary>> get_mut_boundary_with(const Cell& neighbour);
 
+    Cell cell;
     bool operator==(const SingleCellOccupiedByPatch&) const = default;
 };
 
@@ -68,13 +87,22 @@ struct MultipleCellsOccupiedByPatch {
 using PatchId = uint32_t;
 
 struct Patch{
+    // TODO perhaps this should be region?
     std::variant<SingleCellOccupiedByPatch, MultipleCellsOccupiedByPatch> cells;
     PatchType type;
     PatchActivity activity;
 
     std::optional<PatchId> id;
 
+    std::vector<Cell> get_cells() const;
+    const Cell& get_a_cell() const;
     bool operator==(const Patch&) const = default;
+};
+
+struct RoutingRegion
+{
+    std::vector<SingleCellOccupiedByPatch> cells;
+    bool operator==(const RoutingRegion&) const = default;
 };
 
 
