@@ -34,7 +34,7 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
     std::vector<Vertex> vertices;
     std::vector<Edge> edges;
 
-    Cell furthest_cell = slice.get_furthest_cell();
+    Cell furthest_cell = slice.layout.furthest_cell();
 
     auto make_vertex = [&furthest_cell](const Cell& cell) -> Vertex
     {
@@ -56,7 +56,7 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
         {
             Cell current{row_idx, col_idx};
             vertices.push_back(make_vertex(current));
-            std::optional<std::reference_wrapper<const Patch>> patch_of_node{slice.get_patch_on_cell(current)};
+            std::optional<std::reference_wrapper<const Patch>> patch_of_node{slice.get_any_patch_on_cell(current)};
 
             bool node_is_free = !patch_of_node;
             if (node_is_free)

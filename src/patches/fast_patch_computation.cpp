@@ -18,10 +18,10 @@ namespace lsqecc {
 
 Slice first_slice_from_layout(const Layout& layout)
 {
-    Slice slice{.patches={}, .routing_regions={}, .layout={layout}, .time_to_next_magic_state_by_distillation_region={}};
+    Slice slice{.qubit_patches={}, .routing_regions={}, .layout={layout}, .time_to_next_magic_state_by_distillation_region={}};
 
     for (const Patch& p : layout.core_patches())
-        slice.patches.push_back(p);
+        slice.qubit_patches.push_back(p);
 
     size_t distillation_time_offset = 0;
     for(auto t : layout.distillation_times())
@@ -33,18 +33,18 @@ Slice first_slice_from_layout(const Layout& layout)
 
 Slice advance_slice(const Slice& old_slice, const Layout& layout) {
     Slice new_slice{
-        .patches = {},
+        .qubit_patches = {},
         .unbound_magic_states = old_slice.unbound_magic_states,
         .layout=old_slice.layout, // TODO should be able to take out
         .time_to_next_magic_state_by_distillation_region={}};
 
     // Copy patches over
-    for (const auto& old_patch : old_slice.patches) {
+    for (const auto& old_patch : old_slice.qubit_patches) {
         // Skip patches that were measured in the previous timestep
         if(old_patch.activity!=PatchActivity::Measurement)
         {
-            new_slice.patches.push_back(old_patch);
-            auto& new_patch = new_slice.patches.back();
+            new_slice.qubit_patches.push_back(old_patch);
+            auto& new_patch = new_slice.qubit_patches.back();
 
             // Clear Unitary Operator activity
             if (new_patch.activity==PatchActivity::Unitary)
@@ -60,7 +60,7 @@ Slice advance_slice(const Slice& old_slice, const Layout& layout) {
                 old_slice.time_to_next_magic_state_by_distillation_region[i]-1);
         if(new_slice.time_to_next_magic_state_by_distillation_region.back() == 0){
 
-            auto magic_state_cell = new_slice.find_place_for_magic_state(layout.distillation_regions()[i]);
+            auto magic_state_cell = new_slice.find_place_for_magic_state(i);
             if(magic_state_cell)
             {
                 Patch magic_state_patch = LayoutHelpers::basic_square_patch(*magic_state_cell);
@@ -99,7 +99,7 @@ void PatchComputation::make_slices(
     slices_.push_back(first_slice_from_layout(*layout_));
 
     { // Map initial patches to ids
-        auto& init_patches = slices_[0].patches;
+        auto& init_patches = slices_[0].qubit_patches;
         auto& ids = logical_computation.core_qubits;
         if (init_patches.size()<ids.size())
         {
@@ -159,8 +159,8 @@ void PatchComputation::make_slices(
             auto location = find_free_ancilla_location(*layout_, slice);
             if(!location) throw std::logic_error(absl::StrFormat("Could not allocate ancilla"));
 
-            slice.patches.push_back(LayoutHelpers::basic_square_patch(*location));
-            slice.patches.back().id = init->target;
+            slice.qubit_patches.push_back(LayoutHelpers::basic_square_patch(*location));
+            slice.qubit_patches.back().id = init->target;
         }
         else
         {
@@ -186,7 +186,7 @@ void PatchComputation::make_slices(
             {
                 newly_bound_magic_state->id = mr.target;
                 newly_bound_magic_state->type = PatchType::Qubit;
-                last_slice().patches.push_back(*newly_bound_magic_state);
+                last_slice().qubit_patches.push_back(*newly_bound_magic_state);
             }
             else
             {

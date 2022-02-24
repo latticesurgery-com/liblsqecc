@@ -96,19 +96,23 @@ public:
 
 
     const std::vector<Patch>& core_patches() const override { return cached_core_patches_;};
-    Cell min_furthest_cell() const override {return cached_min_furthest_cell_;};
+    Cell furthest_cell() const override {return cached_furthest_cell_;};
     const std::vector<MultipleCellsOccupiedByPatch>& distillation_regions() const override {return cached_distillation_regions_;};
     const std::vector<SurfaceCodeTimestep>& distillation_times() const override {return cached_distillation_times_;};
     const std::vector<Cell>& ancilla_location() const override {return cached_ancilla_locations_;}
+    const std::vector<Cell>& distilled_state_locations(size_t distillation_region_idx) const override
+    {
+        return cached_distilled_state_locations_[distillation_region_idx];
+    }
 
 private:
     std::vector<Patch> cached_core_patches_;
-    Cell cached_min_furthest_cell_;
+    Cell cached_furthest_cell_;
     std::vector<MultipleCellsOccupiedByPatch> cached_distillation_regions_;
     std::vector<SurfaceCodeTimestep> cached_distillation_times_;
     std::vector<Cell> cached_ancilla_locations_;
+    std::vector<std::vector<Cell>> cached_distilled_state_locations_;
     void init_cache(const AsciiLayoutSpec& spec);
-
 
 };
 

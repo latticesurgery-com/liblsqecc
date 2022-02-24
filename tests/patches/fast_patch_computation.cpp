@@ -19,7 +19,7 @@ TEST(PatchComputation, make)
 
     Slice expected{
             .distance_dependant_timesteps=1,
-            .patches=std::vector<Patch>{
+            .qubit_patches=std::vector<Patch>{
                     Patch{
                             .cells=SingleCellOccupiedByPatch{
                                     .top={BoundaryType::Rough, false},
