@@ -8,17 +8,22 @@
 #include <lsqecc/layout/layout.hpp>
 
 
+#include <chrono>
+
 namespace lsqecc {
 
 class PatchComputation
 {
 public:
 
-    PatchComputation (const LogicalLatticeComputation& logical_computation, std::unique_ptr<Layout>&& layout);
+    PatchComputation (
+            const LogicalLatticeComputation& logical_computation,
+            std::unique_ptr<Layout>&& layout,
+            std::optional<std::chrono::seconds> timeout);
 
 private:
 
-    void make_slices(const LogicalLatticeComputation& logical_computation);
+    void make_slices(const LogicalLatticeComputation& logical_computation, std::optional<std::chrono::seconds> timeout);
 
     Slice& new_slice();
     Slice& last_slice();

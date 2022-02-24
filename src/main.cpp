@@ -7,6 +7,8 @@
 #include <lsqecc/patches/slices_to_json.hpp>
 #include <lsqecc/patches/fast_patch_computation.hpp>
 
+#include <lstk/lstk.hpp>
+
 #include <argparse/argparse.h>
 
 #include <fstream>
@@ -14,6 +16,10 @@
 #include <string_view>
 #include <stdexcept>
 #include <filesystem>
+#include <chrono>
+
+
+
 
 
 
@@ -45,7 +51,11 @@ int main(int argc, const char* argv[])
     parser.add_argument()
             .names({"-o", "--output"})
             .description("File name of output file")
-            .required(true);
+            .required(false);
+    parser.add_argument()
+            .names({"-t", "--timeout"})
+            .description("Set a timeout after which stop producing slices")
+            .required(false);
     parser.enable_help();
 
     auto err = parser.parse(argc, argv);
@@ -55,9 +65,12 @@ int main(int argc, const char* argv[])
         return -1;
     }
 
-
+    std::cout << "Reading LS Instructions" << std::endl;
+    auto start = std::chrono::steady_clock::now();
     lsqecc::LogicalLatticeComputation computation {
         lsqecc::parse_ls_instructions(file_to_string(parser.get<std::string>("i")))};
+    std::cout << "Read " << computation.instructions.size() << " instructions."
+        << " Took " << lstk::since(start).count() << "s." << std::endl;
 
     std::unique_ptr<lsqecc::Layout> layout;
     if(parser.exists("l"))
@@ -65,12 +78,30 @@ int main(int argc, const char* argv[])
     else
         layout = std::make_unique<lsqecc::SimpleLayout>(computation.core_qubits.size());
 
+    auto timeout = parser.exists("t") ?
+            std::make_optional(std::chrono::seconds{parser.get<ulong>("t")})
+            : std::nullopt;
 
-    lsqecc::PatchComputation patch_computation {computation, std::move(layout)};
-    auto slices_json = lsqecc::computation_to_json(patch_computation);
-    //std::cout << slices_json.dump(3) << std::endl;
-    std::ofstream(parser.get<std::string>("o")) << slices_json.dump(3) << std::endl;
 
+    std::cout << "Making patch computation" << std::endl;
+    start = std::chrono::steady_clock::now();
+    lsqecc::PatchComputation patch_computation {
+        computation,
+        std::move(layout),
+        timeout
+    };
+
+    std::cout << "Made patch computation. Took " << lstk::since(start).count() << "s." << std::endl;
+    std::cout << "Generated " << patch_computation.get_slices().size() << " slices." << std::endl;
+
+    if(parser.exists("o"))
+    {
+        std::cout << "Writing slices" << std::endl;
+        start = std::chrono::steady_clock::now();
+        auto slices_json = lsqecc::computation_to_json(patch_computation);
+        std::cout << "Written slices. Took "<< lstk::since(start).count() << "s." << std::endl;
+        std::ofstream(parser.get<std::string>("o")) << slices_json.dump(3) << std::endl;
+    }
 
 
     return 0;

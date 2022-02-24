@@ -2,6 +2,7 @@
 #include <lsqecc/patches/fast_patch_computation.hpp>
 #include <lsqecc/patches/routing.hpp>
 
+#include <lstk/lstk.hpp>
 #include <absl/strings/str_format.h>
 
 #include <stdexcept>
@@ -65,7 +66,6 @@ Slice advance_slice(const Slice& old_slice, const Layout& layout) {
                 Patch magic_state_patch = LayoutHelpers::basic_square_patch(*magic_state_cell);
                 magic_state_patch.type = PatchType::PreparedState;
                 new_slice.unbound_magic_states.push_back(magic_state_patch);
-                new_slice.time_to_next_magic_state_by_distillation_region.back() = layout.distillation_times()[i];
             }
 #if false
             else
@@ -73,7 +73,9 @@ Slice advance_slice(const Slice& old_slice, const Layout& layout) {
                 std::cout<< "Could not find place for magic state produced by distillation region " << i <<std::endl;
             }
 #endif
+            new_slice.time_to_next_magic_state_by_distillation_region.back() = layout.distillation_times()[i];
         }
+
     }
 
     return new_slice;
@@ -90,7 +92,9 @@ std::optional<Cell> find_free_ancilla_location(const Layout& layout, const Slice
 }
 
 
-void PatchComputation::make_slices(const LogicalLatticeComputation& logical_computation)
+void PatchComputation::make_slices(
+        const LogicalLatticeComputation& logical_computation,
+        std::optional<std::chrono::seconds> timeout)
 {
     slices_.push_back(first_slice_from_layout(*layout_));
 
@@ -108,6 +112,8 @@ void PatchComputation::make_slices(const LogicalLatticeComputation& logical_comp
             (patch_itr++)->id = id;
         }
     }
+
+    auto start = std::chrono::steady_clock::now();
 
     for(const LogicalLatticeOperation& instruction : logical_computation.instructions)
     {
@@ -188,6 +194,11 @@ void PatchComputation::make_slices(const LogicalLatticeComputation& logical_comp
                         absl::StrFormat("Could not get magic state after waiting %d steps", max_wait_for_magic_state));
             }
 
+            if(timeout && lstk::since(start) > *timeout)
+                throw std::runtime_error{
+                        std::string{"Out of time after "}+std::to_string(timeout->count())+std::string{"s. "}
+                                +std::string{"Generated "}+std::to_string(slices_.size())+std::string{" slices."}};
+
         }
 
 #if false
@@ -201,11 +212,14 @@ void PatchComputation::make_slices(const LogicalLatticeComputation& logical_comp
     }
 }
 
-PatchComputation::PatchComputation(const LogicalLatticeComputation& logical_computation, std::unique_ptr<Layout>&& layout) {
+PatchComputation::PatchComputation(
+        const LogicalLatticeComputation& logical_computation,
+        std::unique_ptr<Layout>&& layout,
+        std::optional<std::chrono::seconds> timeout) {
     layout_ = std::move(layout);
 
     try {
-        make_slices(logical_computation);
+        make_slices(logical_computation, timeout);
     }
     catch (const std::exception& e)
     {
