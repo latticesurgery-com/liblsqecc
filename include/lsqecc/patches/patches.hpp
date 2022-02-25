@@ -25,15 +25,15 @@ enum class BoundaryType : uint8_t {
 BoundaryType boundary_for_operator(PauliOperator op);
 
 struct Cell {
-    using CoordinateType = int16_t;
+    using CoordinateType = int32_t;
     CoordinateType row;
     CoordinateType col;
 
     std::vector<Cell> get_neigbours() const;
     std::vector<Cell> get_neigbours_within_bounding_box_inclusive(const Cell& origin, const Cell& furthest_cell) const;
 
-    template<class IntType1, class IntType2>
-    static inline Cell from_ints(IntType1 _row, IntType2 _col)
+    template<class IntType>
+    static Cell from_ints(IntType _row, IntType _col)
     {
         return Cell{static_cast<Cell::CoordinateType>(_row),Cell::CoordinateType(_col)};
     };
