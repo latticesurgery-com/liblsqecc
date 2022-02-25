@@ -28,6 +28,7 @@ private:
 
     void make_slices(const LogicalLatticeComputation& logical_computation, std::optional<std::chrono::seconds> timeout);
 
+    /// Assumes that there already is a slice
     Slice& new_slice();
     Slice& last_slice();
 

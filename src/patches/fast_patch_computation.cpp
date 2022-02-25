@@ -40,14 +40,17 @@ Slice first_slice_from_layout(const Layout& layout)
 }
 
 
-Slice& PatchComputation::new_slice() {
-    const Slice& old_slice = last_slice();
+Slice& PatchComputation::new_slice()
+{
 
-    Slice new_slice{
+    // This is an expensive copy. To avoid doing it twice we do in in place on the heap
+    slices_.push_back(Slice{
         .qubit_patches = {},
-        .unbound_magic_states = old_slice.unbound_magic_states,
-        .layout=old_slice.layout, // TODO should be able to take out
-        .time_to_next_magic_state_by_distillation_region={}};
+        .unbound_magic_states = last_slice().unbound_magic_states,
+        .layout=*layout_, // TODO should be able to take out
+        .time_to_next_magic_state_by_distillation_region={}});
+    Slice& new_slice = slices_.back();
+    const Slice& old_slice = slices_[slices_.size()-2];
 
     // Copy patches over
     for (const auto& old_patch : old_slice.qubit_patches)
@@ -95,8 +98,6 @@ Slice& PatchComputation::new_slice() {
         }
 
     }
-
-    slices_.push_back(new_slice);
     return slices_.back();
 }
 
