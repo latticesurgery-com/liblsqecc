@@ -14,7 +14,7 @@
 
 namespace lsqecc {
 
-enum class BoundaryType {
+enum class BoundaryType : uint8_t {
     None, // Used by routing
     Connected, // Used for multi patch
     Rough,
@@ -41,14 +41,14 @@ struct Cell {
     bool operator==(const Cell&) const = default;
 };
 
-enum class PatchType {
+enum class PatchType : uint8_t {
     Distillation,
     PreparedState,
     Qubit,
     Routing
 };
 
-enum class PatchActivity
+enum class PatchActivity : uint8_t
 {
     None,
     Measurement,

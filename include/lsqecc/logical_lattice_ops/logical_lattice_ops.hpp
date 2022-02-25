@@ -31,7 +31,7 @@ struct MultiPatchMeasurement {
 struct PatchInit {
     PatchId target;
 
-    enum class InitializeableStates {
+    enum class InitializeableStates : uint8_t {
         Zero,
         Plus
     };
@@ -48,9 +48,9 @@ struct MagicStateRequest {
 struct SingleQubitOp {
     PatchId target;
 
-    enum class Operator {
-        X = static_cast<int>(PauliOperator::X),
-        Y = static_cast<int >(PauliOperator::Y),
+    enum class Operator : uint8_t {
+        X = static_cast<uint8_t>(PauliOperator::X),
+        Y = static_cast<uint8_t>(PauliOperator::Y),
         H,
         S,
     };
