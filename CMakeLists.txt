@@ -7,7 +7,7 @@ project(lsqecc)
 ####################################################
 # General configuration
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -g -Wfatal-errors -Wall -pedantic -D_LIBCPP_DEBUG=1")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -g -Wfatal-errors -Wall -pedantic -D_LIBCPP_DEBUG=1 -Wno-c++11-narrowing")
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_BUILD_TYPE Debug)
 
