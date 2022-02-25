@@ -11,6 +11,8 @@
 
 namespace lstk {
 
+using bool8 = uint8_t;
+
 using FloatSeconds = std::chrono::duration<double, std::ratio<1>>;
 
 template<

@@ -15,6 +15,15 @@
 namespace lsqecc {
 
 
+std::optional<Cell> PatchComputation::find_place_for_magic_state(size_t distillation_region_idx) const
+{
+    for(const auto& cell: layout_->distilled_state_locations(distillation_region_idx))
+        if(is_cell_free_[cell.row][cell.col])
+            return cell;
+
+    return std::nullopt;
+}
+
 
 Slice first_slice_from_layout(const Layout& layout)
 {
@@ -31,7 +40,9 @@ Slice first_slice_from_layout(const Layout& layout)
 }
 
 
-Slice advance_slice(const Slice& old_slice, const Layout& layout) {
+Slice& PatchComputation::new_slice() {
+    const Slice& old_slice = last_slice();
+
     Slice new_slice{
         .qubit_patches = {},
         .unbound_magic_states = old_slice.unbound_magic_states,
@@ -39,7 +50,8 @@ Slice advance_slice(const Slice& old_slice, const Layout& layout) {
         .time_to_next_magic_state_by_distillation_region={}};
 
     // Copy patches over
-    for (const auto& old_patch : old_slice.qubit_patches) {
+    for (const auto& old_patch : old_slice.qubit_patches)
+    {
         // Skip patches that were measured in the previous timestep
         if(old_patch.activity!=PatchActivity::Measurement)
         {
@@ -49,6 +61,11 @@ Slice advance_slice(const Slice& old_slice, const Layout& layout) {
             // Clear Unitary Operator activity
             if (new_patch.activity==PatchActivity::Unitary)
                 new_patch.activity = PatchActivity::None;
+        }
+        else
+        {
+            for (const Cell &cell : old_patch.get_cells())
+                is_cell_free_[cell.row][cell.col] = true;
         }
     }
 
@@ -60,12 +77,13 @@ Slice advance_slice(const Slice& old_slice, const Layout& layout) {
                 old_slice.time_to_next_magic_state_by_distillation_region[i]-1);
         if(new_slice.time_to_next_magic_state_by_distillation_region.back() == 0){
 
-            auto magic_state_cell = new_slice.find_place_for_magic_state(i);
+            auto magic_state_cell = find_place_for_magic_state(i);
             if(magic_state_cell)
             {
                 Patch magic_state_patch = LayoutHelpers::basic_square_patch(*magic_state_cell);
                 magic_state_patch.type = PatchType::PreparedState;
                 new_slice.unbound_magic_states.push_back(magic_state_patch);
+                is_cell_free_[magic_state_cell->row][magic_state_cell->col] = false;
             }
 #if false
             else
@@ -73,12 +91,13 @@ Slice advance_slice(const Slice& old_slice, const Layout& layout) {
                 std::cout<< "Could not find place for magic state produced by distillation region " << i <<std::endl;
             }
 #endif
-            new_slice.time_to_next_magic_state_by_distillation_region.back() = layout.distillation_times()[i];
+            new_slice.time_to_next_magic_state_by_distillation_region.back() = layout_->distillation_times()[i];
         }
 
     }
 
-    return new_slice;
+    slices_.push_back(new_slice);
+    return slices_.back();
 }
 
 
@@ -97,6 +116,7 @@ void PatchComputation::make_slices(
         std::optional<std::chrono::seconds> timeout)
 {
     slices_.push_back(first_slice_from_layout(*layout_));
+    compute_free_cells();
 
     { // Map initial patches to ids
         auto& init_patches = slices_[0].qubit_patches;
@@ -161,6 +181,7 @@ void PatchComputation::make_slices(
 
             slice.qubit_patches.push_back(LayoutHelpers::basic_square_patch(*location));
             slice.qubit_patches.back().id = init->target;
+            is_cell_free_[location->row][location->col] = false;
         }
         else
         {
@@ -212,6 +233,15 @@ void PatchComputation::make_slices(
     }
 }
 
+
+void PatchComputation::compute_free_cells()
+{
+    layout_->for_each_cell([&](const Cell& cell){
+        is_cell_free_[cell.row][cell.col] = !last_slice().get_any_patch_on_cell(cell);
+    });
+}
+
+
 PatchComputation::PatchComputation(
         const LogicalLatticeComputation& logical_computation,
         std::unique_ptr<Layout>&& layout,
@@ -219,6 +249,9 @@ PatchComputation::PatchComputation(
         std::optional<std::chrono::seconds> timeout) {
     layout_ = std::move(layout);
     router_ = std::move(router);
+
+    for(Cell::CoordinateType row = 0; row<=layout_->furthest_cell().row; row++ )
+        is_cell_free_.push_back(std::vector<lstk::bool8>(static_cast<size_t>(layout_->furthest_cell().col+1), false));
 
     try {
         make_slices(logical_computation, timeout);
@@ -230,11 +263,6 @@ PatchComputation::PatchComputation(
     }
 }
 
-
-Slice& PatchComputation::new_slice() {
-    slices_.push_back(advance_slice(slices_.back(), *layout_));
-    return slices_.back();
-}
 
 Slice& PatchComputation::last_slice() {
     return slices_.back();

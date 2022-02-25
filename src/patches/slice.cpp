@@ -6,16 +6,6 @@
 namespace lsqecc{
 
 
-std::optional<Cell> Slice::find_place_for_magic_state(size_t distillation_region_idx) const
-{
-    for(const auto& cell: layout.distilled_state_locations(distillation_region_idx))
-        if(is_cell_free(cell))
-            return cell;
-
-    return std::nullopt;
-}
-
-
 
 Patch& Slice::get_patch_by_id_mut(PatchId id) {
     for(auto& p: qubit_patches)

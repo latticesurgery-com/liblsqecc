@@ -8,6 +8,7 @@
 #include <lsqecc/layout/layout.hpp>
 #include <lsqecc/layout/router.hpp>
 
+#include <lstk/lstk.hpp>
 
 #include <chrono>
 
@@ -33,6 +34,12 @@ private:
     std::unique_ptr<Layout> layout_;
     std::unique_ptr<Router> router_;
     std::vector<Slice> slices_;
+
+    std::vector<std::vector<lstk::bool8>> is_cell_free_;
+
+private:
+    void compute_free_cells();
+    std::optional<Cell> find_place_for_magic_state(size_t distillation_region_idx) const;
 
 public:
     const std::vector<Slice>& get_slices()const {return slices_;}

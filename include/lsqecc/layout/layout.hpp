@@ -18,6 +18,8 @@ struct Layout {
     virtual const std::vector<SurfaceCodeTimestep>& distillation_times() const = 0;
     virtual const std::vector<Cell>& ancilla_location() const = 0;
 
+    template<class F> void for_each_cell(F f) const;
+
     virtual ~Layout() = default;
 };
 
@@ -108,6 +110,15 @@ private:
     std::vector<std::vector<Cell>> distilled_state_locations_;
 
 };
+
+
+template<class F> void Layout::for_each_cell(F f) const
+{
+    auto [max_row, max_col] = furthest_cell();
+    for(Cell::CoordinateType row = 0; row<=max_row; row++ )
+        for(Cell::CoordinateType col = 0; col<=max_col; col++)
+            f(Cell{row,col});
+}
 
 
 }
