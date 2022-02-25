@@ -3,7 +3,6 @@
 #include <lsqecc/layout/router.hpp>
 
 #include <lstk/lstk.hpp>
-#include <absl/strings/str_format.h>
 
 #include <stdexcept>
 #include <iterator>
@@ -151,7 +150,9 @@ void PatchComputation::make_slices(
                 Slice& pre_slice = new_slice();
                 auto path = router_->do_s_gate(pre_slice, p->target);
                 if(!path)
-                    throw std::logic_error(absl::StrFormat("Couldn't find room to do an S gate measurement on patch %d", p->target));
+                    throw std::logic_error(
+                            std::string{"Couldn't find room to do an S gate measurement on patch "}
+                            + std::to_string(p->target));
                 pre_slice.routing_regions.push_back(*path);
             }
             Slice& slice = new_slice();
@@ -172,13 +173,14 @@ void PatchComputation::make_slices(
             if(path)
                 slice.routing_regions.push_back(*path);
             else
-                throw std::logic_error(absl::StrFormat("Couldn't find a path from %d to %d", source_id, target_id));
+                throw std::logic_error(std::string{"Couldn't find a path from "}
+                    +std::to_string(source_id)+" to "+ std::to_string(target_id));
         }
         else if (const auto* init = std::get_if<PatchInit>(&instruction.operation))
         {
             Slice& slice = new_slice();
             auto location = find_free_ancilla_location(*layout_, slice);
-            if(!location) throw std::logic_error(absl::StrFormat("Could not allocate ancilla"));
+            if(!location) throw std::logic_error("Could not allocate ancilla");
 
             slice.qubit_patches.push_back(LayoutHelpers::basic_square_patch(*location));
             slice.qubit_patches.back().id = init->target;
@@ -213,7 +215,8 @@ void PatchComputation::make_slices(
             else
             {
                 throw std::logic_error(
-                        absl::StrFormat("Could not get magic state after waiting %d steps", max_wait_for_magic_state));
+                        std::string{"Could not get magic state after waiting for steps: "}
+                        +std::to_string(max_wait_for_magic_state));
             }
 
             if(timeout && lstk::since(start) > *timeout)
