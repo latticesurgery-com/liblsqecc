@@ -10,7 +10,7 @@ namespace lsqecc {
 json init_blank_json_slice(const Slice& slice)
 {
     json out_rows = json::array();
-    Cell furthest_cell = slice.get_furthest_cell();
+    Cell furthest_cell = slice.layout.furthest_cell();
     for (int row_idx = 0; row_idx<=furthest_cell.row; ++row_idx)
     {
         json out_row = json::array();
@@ -51,7 +51,7 @@ json core_to_json(const Slice& slice)
 {
     json out_slice = init_blank_json_slice(slice);
 
-    std::vector<Patch> all_patches{slice.patches};
+    std::vector<Patch> all_patches{slice.qubit_patches};
     all_patches.insert(all_patches.end(),slice.unbound_magic_states.begin(), slice.unbound_magic_states.end());
     for(const Patch& p : all_patches)
     {

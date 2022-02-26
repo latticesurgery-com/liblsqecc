@@ -130,6 +130,8 @@ bool is_already_in_some_distillation_region(const std::vector<MultipleCellsOccup
 
 void LayoutFromSpec::init_cache(const AsciiLayoutSpec& spec)
 {
+    cached_furthest_cell_ = spec.furthest_cell();
+
     for(const AsciiLayoutSpec::CellType distillation_region_char : AsciiLayoutSpec::k_distillation_region_types)
     {
 
@@ -143,13 +145,31 @@ void LayoutFromSpec::init_cache(const AsciiLayoutSpec& spec)
 
             auto new_distillation_region = make_distillation_region_starting_from(starting_cell, spec);
 
+            std::vector<Cell> queue_for_new_region;
+
             for(auto& cell_occupied_by_patch : new_distillation_region.sub_cells)
-                for(const auto& neighbour : cell_occupied_by_patch.cell.get_neigbours())
+            {
+
+                // Draw distillation region boundaries
+                for (const auto& neighbour: cell_occupied_by_patch.cell.get_neigbours())
                     cell_occupied_by_patch.get_mut_boundary_with(neighbour)->get().boundary_type =
                             is_already_in_this_distillation_region(new_distillation_region, neighbour)
                             ? BoundaryType::None : BoundaryType::Smooth;
 
+
+
+                // Define distillation region
+                auto inside_neighbours = cell_occupied_by_patch.cell
+                        .get_neigbours_within_bounding_box_inclusive({0,0},cached_furthest_cell_);
+                for(const auto& neighbour: inside_neighbours)
+                    if( spec.get_grid_spec()[neighbour.row][neighbour.col] == AsciiLayoutSpec::CellType::RoutingAncilla)
+                        queue_for_new_region.push_back(neighbour);
+
+
+            }
+
             cached_distillation_regions_.push_back(new_distillation_region);
+            cached_distilled_state_locations_.push_back(queue_for_new_region);
             cached_distillation_times_.push_back(10);
 
         }
@@ -162,8 +182,6 @@ void LayoutFromSpec::init_cache(const AsciiLayoutSpec& spec)
                 cached_core_patches_.push_back(LayoutHelpers::basic_square_patch(Cell::from_ints(row,col)));
 
     cached_ancilla_locations_ = spec.find_all_cells_of_type(AsciiLayoutSpec::CellType::AncillaQubitLocation);
-
-    cached_min_furthest_cell_ = spec.furthest_cell();
 }
 
 

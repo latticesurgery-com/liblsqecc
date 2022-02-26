@@ -12,12 +12,15 @@ using SurfaceCodeTimestep = uint32_t;
 struct Layout {
 
     virtual const std::vector<Patch>& core_patches() const = 0;
-    virtual Cell min_furthest_cell() const = 0;
+    virtual Cell furthest_cell() const = 0;
     virtual const std::vector<MultipleCellsOccupiedByPatch>& distillation_regions() const = 0;
+    virtual const std::vector<Cell>& distilled_state_locations(size_t distillation_region_idx) const = 0;
     virtual const std::vector<SurfaceCodeTimestep>& distillation_times() const = 0;
     virtual const std::vector<Cell>& ancilla_location() const = 0;
 
-    virtual ~Layout(){};
+    template<class F> void for_each_cell(F f) const;
+
+    virtual ~Layout() = default;
 };
 
 
@@ -61,6 +64,9 @@ public:
                 }},
         };
 
+        distilled_state_locations_ = {{Cell{2,0},Cell{2,1},Cell{2,2}},
+                                      {Cell{2,3},Cell{2,4},Cell{2,5}},};
+
         ancilla_locations_ = {Cell{1,7}};
 
         for(const auto& r: distillation_regions_)
@@ -72,8 +78,8 @@ public:
         return core_patches_;
     }
 
-    Cell min_furthest_cell() const override {
-        return Cell{1,7};
+    Cell furthest_cell() const override {
+        return Cell{5,7};
     }
 
     const std::vector<SurfaceCodeTimestep>& distillation_times() const override {
@@ -85,11 +91,15 @@ public:
         return distillation_regions_;
     }
 
+    const std::vector<Cell>& distilled_state_locations(size_t distillation_region_idx) const override
+    {
+        return distilled_state_locations_[distillation_region_idx];
+    }
+
     const std::vector<Cell>& ancilla_location() const override
     {
         return ancilla_locations_;
     }
-
 
 private:
     size_t num_qubits_;
@@ -97,8 +107,18 @@ private:
     std::vector<Patch> core_patches_;
     std::vector<MultipleCellsOccupiedByPatch> distillation_regions_;
     std::vector<Cell> ancilla_locations_;
+    std::vector<std::vector<Cell>> distilled_state_locations_;
 
 };
+
+
+template<class F> void Layout::for_each_cell(F f) const
+{
+    auto [max_row, max_col] = furthest_cell();
+    for(Cell::CoordinateType row = 0; row<=max_row; row++ )
+        for(Cell::CoordinateType col = 0; col<=max_col; col++)
+            f(Cell{row,col});
+}
 
 
 }

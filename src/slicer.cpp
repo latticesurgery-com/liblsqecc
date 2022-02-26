@@ -4,6 +4,7 @@
 
 #include <lsqecc/logical_lattice_ops/ls_instructions_parse.hpp>
 #include <lsqecc/layout/ascii_layout_spec.hpp>
+#include <lsqecc/layout/router.hpp>
 #include <lsqecc/patches/slices_to_json.hpp>
 #include <lsqecc/patches/fast_patch_computation.hpp>
 
@@ -56,6 +57,10 @@ int main(int argc, const char* argv[])
             .names({"-t", "--timeout"})
             .description("Set a timeout in seconds after which stop producing slices")
             .required(false);
+    parser.add_argument()
+            .names({"-r", "--router"})
+            .description("Set a router. Choices: naive_cached (default), naive")
+            .required(false);
     parser.enable_help();
 
     auto err = parser.parse(argc, argv);
@@ -90,11 +95,29 @@ int main(int argc, const char* argv[])
             : std::nullopt;
 
 
+    std::unique_ptr<lsqecc::Router> router = std::make_unique<lsqecc::CachedNaiveDijkstraRouter>();
+
+    if(parser.exists("r"))
+    {
+        auto router_name = parser.get<std::string>("r");
+        if(router_name =="naive_cached")
+            LSTK_NOOP;// Already set
+        else if(router_name=="naive")
+            router = std::make_unique<lsqecc::NaiveDijkstraRouter>();
+        else
+        {
+            std::cerr<<"Unknown router: "<< router_name <<std::endl;
+            return -1;
+        }
+    }
+
+
     std::cout << "Making patch computation" << std::endl;
     start = std::chrono::steady_clock::now();
     lsqecc::PatchComputation patch_computation {
         computation,
         std::move(layout),
+        std::move(router),
         timeout
     };
 
