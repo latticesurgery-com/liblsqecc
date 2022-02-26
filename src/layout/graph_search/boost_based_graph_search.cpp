@@ -34,7 +34,7 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
     std::vector<Vertex> vertices;
     std::vector<Edge> edges;
 
-    Cell furthest_cell = slice.layout.furthest_cell();
+    Cell furthest_cell = slice.layout.get().furthest_cell();
 
     auto make_vertex = [&furthest_cell](const Cell& cell) -> Vertex
     {

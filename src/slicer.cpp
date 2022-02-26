@@ -58,6 +58,10 @@ int main(int argc, const char* argv[])
             .description("Set a timeout in seconds after which stop producing slices")
             .required(false);
     parser.add_argument()
+            .names({"-s", "--slice-tracking"})
+            .description("Slice tracking policy: all, last_two")
+            .required(false);
+    parser.add_argument()
             .names({"-r", "--router"})
             .description("Set a router. Choices: naive_cached (default), naive")
             .required(false);
@@ -96,7 +100,6 @@ int main(int argc, const char* argv[])
 
 
     std::unique_ptr<lsqecc::Router> router = std::make_unique<lsqecc::CachedNaiveDijkstraRouter>();
-
     if(parser.exists("r"))
     {
         auto router_name = parser.get<std::string>("r");
@@ -107,6 +110,23 @@ int main(int argc, const char* argv[])
         else
         {
             std::cerr<<"Unknown router: "<< router_name <<std::endl;
+            std::cerr << "Choices are: naive, naive_cached." << std::endl;
+            return -1;
+        }
+    }
+
+    auto slice_tracking_policy = lsqecc::SliceTrackingPolicy::KeepAll;
+    if(parser.exists("s"))
+    {
+        auto policy_name = parser.get<std::string>("s");
+        if(policy_name =="all")
+            LSTK_NOOP;// Already set
+        else if(policy_name=="last_two")
+            slice_tracking_policy = lsqecc::SliceTrackingPolicy::KeepOnlyLastTwo;
+        else
+        {
+            std::cerr << "Unknown slice tracking policy: " << policy_name << std::endl;
+            std::cerr << "Choices are: all, last_two." << std::endl;
             return -1;
         }
     }
@@ -118,11 +138,12 @@ int main(int argc, const char* argv[])
         computation,
         std::move(layout),
         std::move(router),
-        timeout
+        timeout,
+        slice_tracking_policy
     };
 
     std::cout << "Made patch computation. Took " << lstk::since(start).count() << "s." << std::endl;
-    std::cout << "Generated " << patch_computation.get_slices().size() << " slices." << std::endl;
+    std::cout << "Generated " << patch_computation.slice_count() << " slices." << std::endl;
 
     if(parser.exists("o"))
     {

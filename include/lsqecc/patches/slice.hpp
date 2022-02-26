@@ -13,7 +13,7 @@ struct Slice {
     std::vector<Patch> qubit_patches;
     std::vector<RoutingRegion> routing_regions;
     std::deque<Patch> unbound_magic_states;
-    const Layout& layout;
+    std::reference_wrapper<const Layout> layout;
     std::vector<SurfaceCodeTimestep> time_to_next_magic_state_by_distillation_region;
 
     Patch& get_patch_by_id_mut(PatchId id);
@@ -23,6 +23,8 @@ struct Slice {
     std::optional<std::reference_wrapper<const Patch>> get_any_patch_on_cell(const Cell& cell) const;
     bool is_cell_free(const Cell& cell) const;
     std::vector<Cell> get_neigbours_within_slice(const Cell& cell) const;
+    static Slice make_blank_slice(const Layout& layout);
+
 
     bool operator==(const Slice& other) const {
         return qubit_patches == other.qubit_patches
