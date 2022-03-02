@@ -1,0 +1,119 @@
+[
+   [
+      [
+         {
+            "activity": {
+               "activity_type": null
+            },
+            "edges": {
+               "Bottom": "Dashed",
+               "Left": "Solid",
+               "Right": "Solid",
+               "Top": "Dashed"
+            },
+            "patch_type": "Qubit",
+            "text": "|+>"
+         },
+         null,
+         {
+            "activity": {
+               "activity_type": null
+            },
+            "edges": {
+               "Bottom": "Dashed",
+               "Left": "Solid",
+               "Right": "Solid",
+               "Top": "Dashed"
+            },
+            "patch_type": "Qubit",
+            "text": "|+>"
+         }
+      ],
+      [
+         null,
+         null,
+         null
+      ]
+   ],
+   [
+      [
+         {
+            "activity": {
+               "activity_type": null
+            },
+            "edges": {
+               "Bottom": "Dashed",
+               "Left": "Solid",
+               "Right": "SolidStiched",
+               "Top": "Dashed"
+            },
+            "patch_type": "Qubit",
+            "text": "Entangled"
+         },
+         {
+            "activity": {},
+            "edges": {
+               "Bottom": "None",
+               "Left": "AncillaJoin",
+               "Right": "AncillaJoin",
+               "Top": "None"
+            },
+            "patch_type": "Ancilla"
+         },
+         {
+            "activity": {
+               "activity_type": null
+            },
+            "edges": {
+               "Bottom": "Dashed",
+               "Left": "SolidStiched",
+               "Right": "Solid",
+               "Top": "Dashed"
+            },
+            "patch_type": "Qubit",
+            "text": "Entangled"
+         }
+      ],
+      [
+         null,
+         null,
+         null
+      ]
+   ],
+   [
+      [
+         {
+            "activity": {
+               "activity_type": null
+            },
+            "edges": {
+               "Bottom": "Dashed",
+               "Left": "Solid",
+               "Right": "Solid",
+               "Top": "Dashed"
+            },
+            "patch_type": "Qubit",
+            "text": "Entangled"
+         },
+         null,
+         {
+            "activity": {
+               "activity_type": null
+            },
+            "edges": {
+               "Bottom": "Dashed",
+               "Left": "Solid",
+               "Right": "Solid",
+               "Top": "Dashed"
+            },
+            "patch_type": "Qubit",
+            "text": "Entangled"
+         }
+      ],
+      [
+         null,
+         null,
+         null
+      ]
+   ]
+]
