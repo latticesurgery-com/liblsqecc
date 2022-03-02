@@ -7,7 +7,8 @@ project(lsqecc)
 ####################################################
 # General configuration
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -g -Wfatal-errors -Wall -pedantic -D_LIBCPP_DEBUG=1")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -g -Wfatal-errors -Wall -pedantic")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -g -D_LIBCPP_DEBUG=1 -DNDEBUG")
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_BUILD_TYPE Debug)
 
@@ -25,10 +26,6 @@ find_package(Boost REQUIRED COMPONENTS filesystem graph)
 
 include_directories(external/ordered-map/include)
 add_subdirectory(external/pybind11)
-
-set(ABSL_PROPAGATE_CXX_STD ON)
-add_subdirectory(external/abseil-cpp)
-include_directories(external/abseil-cpp/include)
 
 include_directories(external/json/single_include)
 
@@ -66,8 +63,6 @@ set_property(TARGET lsqecclib PROPERTY POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(lsqecclib
     ${Boost_FILESYSTEM_LIBRARY}
 )
-
-target_link_libraries(lsqecclib absl::strings absl::str_format)
 
 ###################################################
 # Command line executable

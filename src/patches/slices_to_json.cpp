@@ -1,6 +1,5 @@
 
 #include <lsqecc/patches/slices_to_json.hpp>
-#include <absl/strings/str_format.h>
 
 using namespace nlohmann;
 
@@ -81,14 +80,14 @@ json core_to_json(const Slice& slice)
                     }
             };
 
-            constexpr absl::string_view  cell_text_format = "Id: %d";
-            visual_array_cell["text"] = p.id ? absl::StrFormat(cell_text_format, *p.id) : "Unbound";
+            visual_array_cell["text"] = p.id ? std::string{"Id: "} + std::to_string(*p.id) : "Not bound";
             out_slice[single_cell_patch->cell.row][single_cell_patch->cell.col] = visual_array_cell;
         }
         else
         {
             const auto& multi_cell_patch = std::get<MultipleCellsOccupiedByPatch>(p.cells);
-            // TODO
+            LSTK_UNUSED(multi_cell_patch);
+            throw std::runtime_error{"MultipleCellsOccupiedByPatch to JSON not implemented"};
         }
     }
 
@@ -129,16 +128,13 @@ json core_to_json(const Slice& slice)
     return out_slice;
 }
 
-json computation_to_json(const PatchComputation& computation)
+json slices_to_json(const std::vector<Slice>& slices)
 {
     json out_slices = json::array();
 
-    for(const Slice& slice : computation.get_slices())
-    {
-        json core = core_to_json(slice);
+    for(const Slice& slice : slices)
+        out_slices.push_back(core_to_json(slice));
 
-        out_slices.push_back(core);
-    }
     return out_slices;
 }
 

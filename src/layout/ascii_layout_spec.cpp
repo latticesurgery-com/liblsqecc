@@ -3,21 +3,20 @@
 //
 
 #include <lsqecc/layout/ascii_layout_spec.hpp>
-#include <absl/strings/str_split.h>
 #include <cppitertools/itertools.hpp>
+#include <lstk/lstk.hpp>
 
 #include <iterator>
+#include <ostream>
 #include <algorithm>
 #include <numeric>
 #include <deque>
-
-static_assert(std::is_same_v<absl::string_view,std::string_view>);
 
 namespace lsqecc{
 std::vector<std::vector<AsciiLayoutSpec::CellType>> AsciiLayoutSpec::parse_grid(const std::string_view input)
 {
     std::vector<std::vector<AsciiLayoutSpec::CellType>> rows;
-    for(const std::string_view& row: absl::StrSplit(input,'\n'))
+    for(const std::string_view& row: lstk::split_on(input,'\n'))
     {
         if(row.length() == 0) continue;
 

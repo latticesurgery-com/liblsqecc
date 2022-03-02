@@ -1,6 +1,7 @@
 
 #include <lsqecc/logical_lattice_ops/ls_instructions_parse.hpp>
 #include <lsqecc/logical_lattice_ops/parse_utils.hpp>
+#include <lstk/lstk.hpp>
 
 #include <ranges>
 #include <stdexcept>
@@ -9,12 +10,12 @@ namespace lsqecc {
 
 tsl::ordered_map<PatchId, PauliOperator> parse_multi_body_measurement_dict(std::string_view dict_arg)
 {
-    auto dict_pairs = sv_split_on_char(dict_arg, ',');
+    auto dict_pairs = lstk::split_on(dict_arg, ',');
     tsl::ordered_map<PatchId, PauliOperator> ret;
 
     for (auto pair: dict_pairs)
     {
-        auto assoc = sv_split_on_char(pair, ':');
+        auto assoc = lstk::split_on(pair, ':');
         if (assoc.size()!=2)
         {
             throw std::logic_error(std::string{"MultiBody dict_pairs not in key pair format:"}+std::string{pair});
@@ -27,7 +28,7 @@ tsl::ordered_map<PatchId, PauliOperator> parse_multi_body_measurement_dict(std::
 std::unordered_set<PatchId> parse_patch_id_list(std::string_view arg)
 {
     std::unordered_set<PatchId> ret;
-    auto entries = sv_split_on_char(arg, ',');
+    auto entries = lstk::split_on(arg, ',');
     for(auto e : entries)
     {
         ret.insert(parse_patch_id(e));
@@ -37,7 +38,7 @@ std::unordered_set<PatchId> parse_patch_id_list(std::string_view arg)
 
 std::variant<LogicalLatticeOperation, std::unordered_set<PatchId>> parse_ls_instruction(std::string_view line)
 {
-    auto args = sv_split_on_char(line,' ');
+    auto args = lstk::split_on(line,' ');
     auto args_itr = args.begin();
 
     auto has_next_arg = [&](){return args_itr<args.end();};
@@ -102,7 +103,7 @@ LogicalLatticeComputation parse_ls_instructions(std::string_view source)
 {
     LogicalLatticeComputation computation;
 
-    auto view = sv_split_on_char(source,'\n');
+    auto view = lstk::split_on(source,'\n');
     bool got_patch_id_list = false;
     for (auto line : view)
     {

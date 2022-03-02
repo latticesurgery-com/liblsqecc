@@ -55,13 +55,15 @@ Slice& PatchComputation::make_new_slice()
 {
 
     // This is an expensive copy. To avoid doing it twice we do in in place on the heap
+    // TODO avoid this copy by doing a move and updating things
+
     Slice new_slice{
         .qubit_patches = {},
-        .unbound_magic_states = last_slice().unbound_magic_states,
+        .unbound_magic_states = slice_store_.last_slice().unbound_magic_states,
         .layout=*layout_, // TODO should be able to take out
         .time_to_next_magic_state_by_distillation_region={}};
 
-    const Slice& old_slice = last_slice();
+    const Slice& old_slice = slice_store_.last_slice();
 
     // Copy patches over
     for (const auto& old_patch : old_slice.qubit_patches)
@@ -108,8 +110,8 @@ Slice& PatchComputation::make_new_slice()
             new_slice.time_to_next_magic_state_by_distillation_region.back() = layout_->distillation_times()[i];
         }
     }
-    accept_new_slice(std::move(new_slice));
-    return last_slice();
+    slice_store_.accept_new_slice(std::move(new_slice));
+    return slice_store_.last_slice();
 }
 
 
@@ -127,7 +129,7 @@ void PatchComputation::make_slices(
         const LogicalLatticeComputation& logical_computation,
         std::optional<std::chrono::seconds> timeout)
 {
-    accept_new_slice(first_slice_from_layout(*layout_, logical_computation.core_qubits));
+    slice_store_.accept_new_slice(first_slice_from_layout(*layout_, logical_computation.core_qubits));
     compute_free_cells();
 
     auto start = std::chrono::steady_clock::now();
@@ -135,7 +137,6 @@ void PatchComputation::make_slices(
 
     for(const LogicalLatticeOperation& instruction : logical_computation.instructions)
     {
-
         if (const auto* s = std::get_if<SinglePatchMeasurement>(&instruction.operation))
         {
             Slice& slice = make_new_slice();
@@ -208,7 +209,7 @@ void PatchComputation::make_slices(
             {
                 newly_bound_magic_state->id = mr.target;
                 newly_bound_magic_state->type = PatchType::Qubit;
-                last_slice().qubit_patches.push_back(*newly_bound_magic_state);
+                slice_store_.last_slice().qubit_patches.push_back(*newly_bound_magic_state);
             }
             else
             {
@@ -221,10 +222,8 @@ void PatchComputation::make_slices(
             if(timeout && lstk::since(start) > *timeout)
             {
                 auto timeout_str = std::string{"Out of time after "}+std::to_string(timeout->count())+std::string{"s. "}
-                    + std::string{"Consumed "} + std::to_string(ls_op_counter) + std::string{" Instructions"};
-
-                if(auto* slice_vector = std::get_if<PatchComputation::SlicesVector>(&slices_))
-                    timeout_str += std::string{"Generated "}+std::to_string(slice_vector->size())+std::string{" slices."};
+                    + std::string{"Consumed "} + std::to_string(ls_op_counter) + std::string{" Instructions. "}
+                    + std::string{"Generated "} + std::to_string(slice_store_.slice_count()) + std::string{"Slices."};
 
                 throw std::runtime_error{timeout_str};
             }
@@ -246,7 +245,7 @@ void PatchComputation::make_slices(
 void PatchComputation::compute_free_cells()
 {
     layout_->for_each_cell([&](const Cell& cell){
-        is_cell_free_[cell.row][cell.col] = !last_slice().get_any_patch_on_cell(cell);
+        is_cell_free_[cell.row][cell.col] = !slice_store_.last_slice().get_any_patch_on_cell(cell);
     });
 }
 
@@ -255,15 +254,11 @@ PatchComputation::PatchComputation(
         const LogicalLatticeComputation& logical_computation,
         std::unique_ptr<Layout>&& layout,
         std::unique_ptr<Router>&& router,
-        std::optional<std::chrono::seconds> timeout,
-        SliceTrackingPolicy slice_tracking_policy) {
+        std::optional<std::chrono::seconds> timeout)
+        :slice_store_(*layout)
+        {
     layout_ = std::move(layout);
     router_ = std::move(router);
-
-    if(slice_tracking_policy == SliceTrackingPolicy::KeepAll)
-        slices_ =  PatchComputation::SlicesVector{};
-    else if(slice_tracking_policy == SliceTrackingPolicy::KeepOnlyLastTwo)
-        slices_ = std::make_pair(Slice::make_blank_slice(*layout), Slice::make_blank_slice(*layout));
 
     for(Cell::CoordinateType row = 0; row<=layout_->furthest_cell().row; row++ )
         is_cell_free_.push_back(std::vector<lstk::bool8>(static_cast<size_t>(layout_->furthest_cell().col+1), false));
@@ -279,50 +274,17 @@ PatchComputation::PatchComputation(
 }
 
 
-Slice& PatchComputation::last_slice() {
-    if (auto* s = std::get_if<PatchComputation::SlicesVector>(&slices_))
-        return s->back();
-    else
-        return std::get<PatchComputation::SlicesPair>(slices_).second;
-
-}
-
-Slice& PatchComputation::second_last_slice() {
-    if (auto* s = std::get_if<PatchComputation::SlicesVector>(&slices_))
-        return (*s)[s->size()-2];
-    else
-        return std::get<PatchComputation::SlicesPair>(slices_).second;
-}
-
-const std::vector<Slice>& PatchComputation::get_slices() const
+void SliceStore::accept_new_slice(Slice&& slice)
 {
-    if (const auto* s = std::get_if<PatchComputation::SlicesVector>(&slices_))
-        return *s;
-    else
-    {
-        auto slices_pair = std::get<PatchComputation::SlicesPair>(slices_);
-        throw std::logic_error("Cannot get slices in discard mode");
-    }
-}
-void PatchComputation::accept_new_slice(Slice&& slice)
-{
-    if (auto* slice_vector = std::get_if<PatchComputation::SlicesVector>(&slices_))
-        slice_vector->push_back(std::move(slice));
-    else
-    {
-        auto& slices_pair = std::get<PatchComputation::SlicesPair>(slices_);
-        slices_pair.first = std::move(slices_pair.second);
-        slices_pair.second = std::move(slice);
-    }
+    second_last_slice_ = std::move(last_slice_);
+    last_slice_ = std::move(slice);
     slice_count_++;
 }
-size_t PatchComputation::slice_count() const
-{
-    if (auto* slice_vector = std::get_if<PatchComputation::SlicesVector>(&slices_))
-        assert(slice_vector->size() == slice_count_);
 
-    return slice_count_;
-}
+
+SliceStore::SliceStore(const Layout& layout)
+    :last_slice_(Slice::make_blank_slice(layout)), second_last_slice_(Slice::make_blank_slice(layout))
+{}
 
 }
 

@@ -14,7 +14,7 @@ enum class PauliOperator : uint8_t {
     Z,
 };
 
-static PauliOperator PauliOperator_from_string(std::string_view s)
+static inline PauliOperator PauliOperator_from_string(std::string_view s)
 {
     if (s=="I") return PauliOperator::I;
     if (s=="X") return PauliOperator::X;

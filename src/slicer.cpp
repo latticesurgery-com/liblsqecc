@@ -21,9 +21,6 @@
 
 
 
-
-
-
 std::string file_to_string(std::string fname)
 {
     if(!std::filesystem::exists(fname))
@@ -58,12 +55,8 @@ int main(int argc, const char* argv[])
             .description("Set a timeout in seconds after which stop producing slices")
             .required(false);
     parser.add_argument()
-            .names({"-s", "--slice-tracking"})
-            .description("Slice tracking policy: all, last_two")
-            .required(false);
-    parser.add_argument()
             .names({"-r", "--router"})
-            .description("Set a router. Choices: naive_cached (default), naive")
+            .description("Set a router: naive_cached (default), naive")
             .required(false);
     parser.enable_help();
 
@@ -115,22 +108,6 @@ int main(int argc, const char* argv[])
         }
     }
 
-    auto slice_tracking_policy = lsqecc::SliceTrackingPolicy::KeepAll;
-    if(parser.exists("s"))
-    {
-        auto policy_name = parser.get<std::string>("s");
-        if(policy_name =="all")
-            LSTK_NOOP;// Already set
-        else if(policy_name=="last_two")
-            slice_tracking_policy = lsqecc::SliceTrackingPolicy::KeepOnlyLastTwo;
-        else
-        {
-            std::cerr << "Unknown slice tracking policy: " << policy_name << std::endl;
-            std::cerr << "Choices are: all, last_two." << std::endl;
-            return -1;
-        }
-    }
-
 
     std::cout << "Making patch computation" << std::endl;
     start = std::chrono::steady_clock::now();
@@ -138,8 +115,7 @@ int main(int argc, const char* argv[])
         computation,
         std::move(layout),
         std::move(router),
-        timeout,
-        slice_tracking_policy
+        timeout
     };
 
     std::cout << "Made patch computation. Took " << lstk::since(start).count() << "s." << std::endl;
@@ -147,11 +123,15 @@ int main(int argc, const char* argv[])
 
     if(parser.exists("o"))
     {
+        std::cerr<< "Slice tracking not implemented" << std::endl;
+        return -1;
+
         std::cout << "Writing slices" << std::endl;
         start = std::chrono::steady_clock::now();
-        auto slices_json = lsqecc::computation_to_json(patch_computation);
+        // TODO write slices
+        // auto slices_json = lsqecc::computation_to_json(patch_computation);
+        // std::ofstream(parser.get<std::string>("o")) << slices_json.dump(3) << std::endl;
         std::cout << "Written slices. Took "<< lstk::since(start).count() << "s." << std::endl;
-        std::ofstream(parser.get<std::string>("o")) << slices_json.dump(3) << std::endl;
     }
 
 

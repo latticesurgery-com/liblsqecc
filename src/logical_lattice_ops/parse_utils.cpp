@@ -4,15 +4,10 @@
 #include <vector>
 #include <ranges>
 #include <charconv>
-#include <absl/strings/str_split.h>
+#include <lstk/lstk.hpp>
 
 namespace lsqecc
 {
-
-std::vector<std::string_view> sv_split_on_char(std::string_view source, char c)
-{
-    return absl::StrSplit(source, c);
-}
 
 PatchId parse_patch_id(const std::string_view & input)
 {

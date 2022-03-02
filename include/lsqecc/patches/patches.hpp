@@ -10,8 +10,6 @@
 #include <variant>
 #include <stdexcept>
 
-#include <eigen3/Eigen/Dense>
-
 namespace lsqecc {
 
 enum class BoundaryType : uint8_t {
