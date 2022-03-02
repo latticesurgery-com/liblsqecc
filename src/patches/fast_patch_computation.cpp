@@ -127,7 +127,8 @@ std::optional<Cell> find_free_ancilla_location(const Layout& layout, const Slice
 
 void PatchComputation::make_slices(
         const LogicalLatticeComputation& logical_computation,
-        std::optional<std::chrono::seconds> timeout)
+        std::optional<std::chrono::seconds> timeout,
+        SliceVisitorFunction slice_visitor)
 {
     slice_store_.accept_new_slice(first_slice_from_layout(*layout_, logical_computation.core_qubits));
     compute_free_cells();
@@ -141,6 +142,7 @@ void PatchComputation::make_slices(
         {
             Slice& slice = make_new_slice();
             slice.get_patch_by_id_mut(s->target).activity = PatchActivity::Measurement;
+            slice_visitor(slice);
         }
         else if (const auto* p = std::get_if<SingleQubitOp>(&instruction.operation))
         {
@@ -156,6 +158,7 @@ void PatchComputation::make_slices(
             }
             Slice& slice = make_new_slice();
             slice.get_patch_by_id_mut(p->target).activity = PatchActivity::Unitary;
+            slice_visitor(slice);
         }
         else if (const auto* m = std::get_if<MultiPatchMeasurement>(&instruction.operation))
         {
@@ -174,6 +177,7 @@ void PatchComputation::make_slices(
             else
                 throw std::logic_error(std::string{"Couldn't find a path from "}
                     +std::to_string(source_id)+" to "+ std::to_string(target_id));
+            slice_visitor(slice);
         }
         else if (const auto* init = std::get_if<PatchInit>(&instruction.operation))
         {
@@ -184,6 +188,7 @@ void PatchComputation::make_slices(
             slice.qubit_patches.push_back(LayoutHelpers::basic_square_patch(*location));
             slice.qubit_patches.back().id = init->target;
             is_cell_free_[location->row][location->col] = false;
+            slice_visitor(slice);
         }
         else
         {
@@ -203,6 +208,7 @@ void PatchComputation::make_slices(
                     slice_with_magic_state.unbound_magic_states.pop_front();
                     break;
                 }
+                slice_visitor(slice_with_magic_state);
             }
 
             if(newly_bound_magic_state)
@@ -210,6 +216,7 @@ void PatchComputation::make_slices(
                 newly_bound_magic_state->id = mr.target;
                 newly_bound_magic_state->type = PatchType::Qubit;
                 slice_store_.last_slice().qubit_patches.push_back(*newly_bound_magic_state);
+                slice_visitor(slice_store_.last_slice());
             }
             else
             {
@@ -254,7 +261,8 @@ PatchComputation::PatchComputation(
         const LogicalLatticeComputation& logical_computation,
         std::unique_ptr<Layout>&& layout,
         std::unique_ptr<Router>&& router,
-        std::optional<std::chrono::seconds> timeout)
+        std::optional<std::chrono::seconds> timeout,
+        SliceVisitorFunction slice_visitor)
         :slice_store_(*layout)
         {
     layout_ = std::move(layout);
@@ -264,7 +272,7 @@ PatchComputation::PatchComputation(
         is_cell_free_.push_back(std::vector<lstk::bool8>(static_cast<size_t>(layout_->furthest_cell().col+1), false));
 
     try {
-        make_slices(logical_computation, timeout);
+        make_slices(logical_computation, timeout, slice_visitor);
     }
     catch (const std::exception& e)
     {

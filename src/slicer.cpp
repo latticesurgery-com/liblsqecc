@@ -108,6 +108,18 @@ int main(int argc, const char* argv[])
         }
     }
 
+    auto no_op_visitor = [](const lsqecc::Slice& s) -> void {LSTK_UNUSED(s);};
+    lsqecc::PatchComputation::SliceVisitorFunction slice_visitor(no_op_visitor);
+    std::vector<lsqecc::Slice> slices;
+    if(parser.exists("o"))
+    {
+        std::cout << "Will keep slices in memory during computation to write them as json" << std::endl;
+        slice_visitor = [&slices](const lsqecc::Slice& s){
+            slices.push_back(s);
+        };
+    }
+
+
 
     std::cout << "Making patch computation" << std::endl;
     start = std::chrono::steady_clock::now();
@@ -115,22 +127,19 @@ int main(int argc, const char* argv[])
         computation,
         std::move(layout),
         std::move(router),
-        timeout
+        timeout,
+        slice_visitor
     };
 
     std::cout << "Made patch computation. Took " << lstk::since(start).count() << "s." << std::endl;
     std::cout << "Generated " << patch_computation.slice_count() << " slices." << std::endl;
 
-    if(parser.exists("o"))
+    if(slices.size()>0)
     {
-        std::cerr<< "Slice tracking not implemented" << std::endl;
-        return -1;
-
-        std::cout << "Writing slices" << std::endl;
+        std::cout << "Writing slices to file" << std::endl;
         start = std::chrono::steady_clock::now();
-        // TODO write slices
-        // auto slices_json = lsqecc::computation_to_json(patch_computation);
-        // std::ofstream(parser.get<std::string>("o")) << slices_json.dump(3) << std::endl;
+        auto slices_json = lsqecc::slices_to_json(slices);
+        std::ofstream(parser.get<std::string>("o")) << slices_json.dump(3) << std::endl;
         std::cout << "Written slices. Took "<< lstk::since(start).count() << "s." << std::endl;
     }
 

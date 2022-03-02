@@ -11,6 +11,7 @@
 #include <lstk/lstk.hpp>
 
 #include <chrono>
+#include <functional>
 
 namespace lsqecc {
 
@@ -34,17 +35,23 @@ class PatchComputation
 {
 public:
 
+    using SliceVisitorFunction = std::function<void(const Slice& slice)>;
+
     PatchComputation (
             const LogicalLatticeComputation& logical_computation,
             std::unique_ptr<Layout>&& layout,
             std::unique_ptr<Router>&& router,
-            std::optional<std::chrono::seconds> timeout);
+            std::optional<std::chrono::seconds> timeout,
+            SliceVisitorFunction slice_visitor);
 
     size_t slice_count() const {return slice_store_.slice_count();}
 
 private:
 
-    void make_slices(const LogicalLatticeComputation& logical_computation, std::optional<std::chrono::seconds> timeout);
+    void make_slices(
+            const LogicalLatticeComputation& logical_computation,
+            std::optional<std::chrono::seconds> timeout,
+            SliceVisitorFunction slice_visitor);
 
     /// Assumes that there already is a slice
     Slice& make_new_slice();
