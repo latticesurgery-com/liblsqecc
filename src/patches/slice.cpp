@@ -60,7 +60,7 @@ std::optional<std::reference_wrapper<const Patch>> Slice::get_any_patch_on_cell(
 
 bool Slice::is_cell_free(const Cell& cell) const
 {
-    for(const auto& distillation_region: layout.distillation_regions())
+    for(const auto& distillation_region: layout.get().distillation_regions())
         for(const auto& distillation_cell: distillation_region.sub_cells)
             if(distillation_cell.cell==cell)
                 return false;
@@ -70,7 +70,17 @@ bool Slice::is_cell_free(const Cell& cell) const
 
 std::vector<Cell> Slice::get_neigbours_within_slice(const Cell& cell) const
 {
-    return cell.get_neigbours_within_bounding_box_inclusive({0,0}, layout.furthest_cell());
+    return cell.get_neigbours_within_bounding_box_inclusive({0,0}, layout.get().furthest_cell());
+}
+Slice Slice::make_blank_slice(const Layout& layout)
+{
+    return Slice{
+        .qubit_patches = {},
+        .routing_regions = {},
+        .unbound_magic_states = {},
+        .layout = {layout},
+        .time_to_next_magic_state_by_distillation_region = {},
+    };
 }
 
 }

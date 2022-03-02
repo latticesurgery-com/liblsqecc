@@ -24,7 +24,7 @@ std::optional<Cell> PatchComputation::find_place_for_magic_state(size_t distilla
 }
 
 
-Slice first_slice_from_layout(const Layout& layout)
+Slice first_slice_from_layout(const Layout& layout, const std::unordered_set<PatchId>& core_qubit_ids)
 {
     Slice slice{.qubit_patches={}, .routing_regions={}, .layout={layout}, .time_to_next_magic_state_by_distillation_region={}};
 
@@ -35,21 +35,33 @@ Slice first_slice_from_layout(const Layout& layout)
     for(auto t : layout.distillation_times())
         slice.time_to_next_magic_state_by_distillation_region.push_back(t+distillation_time_offset++);
 
+
+    // Map initial patches to ids
+    if (slice.qubit_patches.size()<core_qubit_ids.size())
+        throw std::logic_error("Not enough Init patches for all ids");
+
+
+    auto patch_itr = slice.qubit_patches.begin();
+    for (const auto& id: core_qubit_ids)
+    {
+        (patch_itr++)->id = id;
+    }
+
     return slice;
 }
 
 
-Slice& PatchComputation::new_slice()
+Slice& PatchComputation::make_new_slice()
 {
 
     // This is an expensive copy. To avoid doing it twice we do in in place on the heap
-    slices_.push_back(Slice{
+    Slice new_slice{
         .qubit_patches = {},
         .unbound_magic_states = last_slice().unbound_magic_states,
         .layout=*layout_, // TODO should be able to take out
-        .time_to_next_magic_state_by_distillation_region={}});
-    Slice& new_slice = slices_.back();
-    const Slice& old_slice = slices_[slices_.size()-2];
+        .time_to_next_magic_state_by_distillation_region={}};
+
+    const Slice& old_slice = last_slice();
 
     // Copy patches over
     for (const auto& old_patch : old_slice.qubit_patches)
@@ -95,9 +107,9 @@ Slice& PatchComputation::new_slice()
 #endif
             new_slice.time_to_next_magic_state_by_distillation_region.back() = layout_->distillation_times()[i];
         }
-
     }
-    return slices_.back();
+    accept_new_slice(std::move(new_slice));
+    return last_slice();
 }
 
 
@@ -115,39 +127,25 @@ void PatchComputation::make_slices(
         const LogicalLatticeComputation& logical_computation,
         std::optional<std::chrono::seconds> timeout)
 {
-    slices_.push_back(first_slice_from_layout(*layout_));
+    accept_new_slice(first_slice_from_layout(*layout_, logical_computation.core_qubits));
     compute_free_cells();
 
-    { // Map initial patches to ids
-        auto& init_patches = slices_[0].qubit_patches;
-        auto& ids = logical_computation.core_qubits;
-        if (init_patches.size()<ids.size())
-        {
-            throw std::logic_error("Not enough Init patches for all ids");
-        }
-
-        auto patch_itr = init_patches.begin();
-        for (auto id: ids)
-        {
-            (patch_itr++)->id = id;
-        }
-    }
-
     auto start = std::chrono::steady_clock::now();
+    size_t ls_op_counter = 0;
 
     for(const LogicalLatticeOperation& instruction : logical_computation.instructions)
     {
 
         if (const auto* s = std::get_if<SinglePatchMeasurement>(&instruction.operation))
         {
-            Slice& slice = new_slice();
+            Slice& slice = make_new_slice();
             slice.get_patch_by_id_mut(s->target).activity = PatchActivity::Measurement;
         }
         else if (const auto* p = std::get_if<SingleQubitOp>(&instruction.operation))
         {
             if(p->op == SingleQubitOp::Operator::S)
             {
-                Slice& pre_slice = new_slice();
+                Slice& pre_slice = make_new_slice();
                 auto path = router_->do_s_gate(pre_slice, p->target);
                 if(!path)
                     throw std::logic_error(
@@ -155,12 +153,12 @@ void PatchComputation::make_slices(
                             + std::to_string(p->target));
                 pre_slice.routing_regions.push_back(*path);
             }
-            Slice& slice = new_slice();
+            Slice& slice = make_new_slice();
             slice.get_patch_by_id_mut(p->target).activity = PatchActivity::Unitary;
         }
         else if (const auto* m = std::get_if<MultiPatchMeasurement>(&instruction.operation))
         {
-            Slice& slice = new_slice();
+            Slice& slice = make_new_slice();
 
             if(m->observable.size()!=2)
                 throw std::logic_error("Multi patch measurement only supports 2 patches currently");
@@ -178,7 +176,7 @@ void PatchComputation::make_slices(
         }
         else if (const auto* init = std::get_if<PatchInit>(&instruction.operation))
         {
-            Slice& slice = new_slice();
+            Slice& slice = make_new_slice();
             auto location = find_free_ancilla_location(*layout_, slice);
             if(!location) throw std::logic_error("Could not allocate ancilla");
 
@@ -197,7 +195,7 @@ void PatchComputation::make_slices(
             std::optional<Patch> newly_bound_magic_state;
             for (int i = 0; i<max_wait_for_magic_state; i++)
             {
-                auto& slice_with_magic_state = new_slice();
+                auto& slice_with_magic_state = make_new_slice();
                 if(slice_with_magic_state.unbound_magic_states.size()>0)
                 {
                     newly_bound_magic_state = slice_with_magic_state.unbound_magic_states.front();
@@ -219,10 +217,17 @@ void PatchComputation::make_slices(
                         +std::to_string(max_wait_for_magic_state));
             }
 
+            ls_op_counter++;
             if(timeout && lstk::since(start) > *timeout)
-                throw std::runtime_error{
-                        std::string{"Out of time after "}+std::to_string(timeout->count())+std::string{"s. "}
-                                +std::string{"Generated "}+std::to_string(slices_.size())+std::string{" slices."}};
+            {
+                auto timeout_str = std::string{"Out of time after "}+std::to_string(timeout->count())+std::string{"s. "}
+                    + std::string{"Consumed "} + std::to_string(ls_op_counter) + std::string{" Instructions"};
+
+                if(auto* slice_vector = std::get_if<PatchComputation::SlicesVector>(&slices_))
+                    timeout_str += std::string{"Generated "}+std::to_string(slice_vector->size())+std::string{" slices."};
+
+                throw std::runtime_error{timeout_str};
+            }
 
         }
 
@@ -250,9 +255,15 @@ PatchComputation::PatchComputation(
         const LogicalLatticeComputation& logical_computation,
         std::unique_ptr<Layout>&& layout,
         std::unique_ptr<Router>&& router,
-        std::optional<std::chrono::seconds> timeout) {
+        std::optional<std::chrono::seconds> timeout,
+        SliceTrackingPolicy slice_tracking_policy) {
     layout_ = std::move(layout);
     router_ = std::move(router);
+
+    if(slice_tracking_policy == SliceTrackingPolicy::KeepAll)
+        slices_ =  PatchComputation::SlicesVector{};
+    else if(slice_tracking_policy == SliceTrackingPolicy::KeepOnlyLastTwo)
+        slices_ = std::make_pair(Slice::make_blank_slice(*layout), Slice::make_blank_slice(*layout));
 
     for(Cell::CoordinateType row = 0; row<=layout_->furthest_cell().row; row++ )
         is_cell_free_.push_back(std::vector<lstk::bool8>(static_cast<size_t>(layout_->furthest_cell().col+1), false));
@@ -269,9 +280,49 @@ PatchComputation::PatchComputation(
 
 
 Slice& PatchComputation::last_slice() {
-    return slices_.back();
+    if (auto* s = std::get_if<PatchComputation::SlicesVector>(&slices_))
+        return s->back();
+    else
+        return std::get<PatchComputation::SlicesPair>(slices_).second;
+
 }
 
+Slice& PatchComputation::second_last_slice() {
+    if (auto* s = std::get_if<PatchComputation::SlicesVector>(&slices_))
+        return (*s)[s->size()-2];
+    else
+        return std::get<PatchComputation::SlicesPair>(slices_).second;
+}
+
+const std::vector<Slice>& PatchComputation::get_slices() const
+{
+    if (const auto* s = std::get_if<PatchComputation::SlicesVector>(&slices_))
+        return *s;
+    else
+    {
+        auto slices_pair = std::get<PatchComputation::SlicesPair>(slices_);
+        throw std::logic_error("Cannot get slices in discard mode");
+    }
+}
+void PatchComputation::accept_new_slice(Slice&& slice)
+{
+    if (auto* slice_vector = std::get_if<PatchComputation::SlicesVector>(&slices_))
+        slice_vector->push_back(std::move(slice));
+    else
+    {
+        auto& slices_pair = std::get<PatchComputation::SlicesPair>(slices_);
+        slices_pair.first = std::move(slices_pair.second);
+        slices_pair.second = std::move(slice);
+    }
+    slice_count_++;
+}
+size_t PatchComputation::slice_count() const
+{
+    if (auto* slice_vector = std::get_if<PatchComputation::SlicesVector>(&slices_))
+        assert(slice_vector->size() == slice_count_);
+
+    return slice_count_;
+}
 
 }
 

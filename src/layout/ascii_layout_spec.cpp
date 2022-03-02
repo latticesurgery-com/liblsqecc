@@ -19,6 +19,8 @@ std::vector<std::vector<AsciiLayoutSpec::CellType>> AsciiLayoutSpec::parse_grid(
     std::vector<std::vector<AsciiLayoutSpec::CellType>> rows;
     for(const std::string_view& row: absl::StrSplit(input,'\n'))
     {
+        if(row.length() == 0) continue;
+
         rows.emplace_back();
         for(char c: row)
         {

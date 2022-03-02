@@ -7,7 +7,7 @@
 
 namespace lsqecc {
 
-enum class PauliOperator {
+enum class PauliOperator : uint8_t {
     I,
     X,
     Y,

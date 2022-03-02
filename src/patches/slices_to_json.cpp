@@ -10,7 +10,7 @@ namespace lsqecc {
 json init_blank_json_slice(const Slice& slice)
 {
     json out_rows = json::array();
-    Cell furthest_cell = slice.layout.furthest_cell();
+    Cell furthest_cell = slice.layout.get().furthest_cell();
     for (int row_idx = 0; row_idx<=furthest_cell.row; ++row_idx)
     {
         json out_row = json::array();
@@ -105,7 +105,7 @@ json core_to_json(const Slice& slice)
     }
 
     size_t distillation_region_counter = 0;
-    for(const MultipleCellsOccupiedByPatch& distillation_region: slice.layout.distillation_regions())
+    for(const MultipleCellsOccupiedByPatch& distillation_region: slice.layout.get().distillation_regions())
     {
         bool placed_ttd = false;
         for(const SingleCellOccupiedByPatch& distillation_cell: distillation_region.sub_cells)
