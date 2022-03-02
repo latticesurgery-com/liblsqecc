@@ -22,7 +22,9 @@ PatchId parse_patch_id(const std::string_view & input)
 PatchInit::InitializeableStates parse_init_state(std::string_view s)
 {
     if(s=="|0>") return PatchInit::InitializeableStates::Zero;
+    if(s=="0")   return PatchInit::InitializeableStates::Zero;
     if(s=="|+>") return PatchInit::InitializeableStates::Plus;
+    if(s=="+")   return PatchInit::InitializeableStates::Plus;
     throw std::runtime_error{std::string{"Not an initializeable state "} + std::string{s}};
 }
 

@@ -54,40 +54,40 @@ std::variant<LogicalLatticeOperation, std::unordered_set<PatchId>> parse_ls_inst
     {
         return parse_patch_id_list(get_next_arg());
     }
-    if(instruction == "Init")
+    if(instruction == "Init" || instruction == "0")
     {
         auto patch_id = parse_patch_id(get_next_arg());
         auto state = parse_init_state(get_next_arg());
         return LogicalLatticeOperation{PatchInit{patch_id, state}};
     }
-    else if(instruction == "MeasureSinglePatch")
+    else if(instruction == "MeasureSinglePatch" || instruction == "1")
     {
         auto patch_id = parse_patch_id(get_next_arg());
         auto op = PauliOperator_from_string(get_next_arg());
         return LogicalLatticeOperation{SinglePatchMeasurement{patch_id,op,false}};
     }
-    else if (instruction == "MultiBodyMeasure")
+    else if (instruction == "MultiBodyMeasure" || instruction == "2")
     {
         auto patches_dict = get_next_arg();
         return LogicalLatticeOperation{MultiPatchMeasurement{parse_multi_body_measurement_dict(patches_dict)}};
     }
-    else if(instruction == "RequestMagicState")
+    else if(instruction == "RequestMagicState" || instruction == "3")
     {
         auto patch_id = parse_patch_id(get_next_arg());
         return LogicalLatticeOperation{MagicStateRequest{patch_id}};
     }
-    else if (instruction == "LogicalPauli")
+    else if (instruction == "LogicalPauli" || instruction == "4")
     {
         auto patch_id = parse_patch_id(get_next_arg());
         auto op = PauliOperator_from_string(get_next_arg());
         return LogicalLatticeOperation{SingleQubitOp{patch_id, static_cast<SingleQubitOp::Operator>(op)}};
     }
-    else if (instruction == "HGate")
+    else if (instruction == "HGate" || instruction == "5")
     {
         auto patch_id = parse_patch_id(get_next_arg());
         return LogicalLatticeOperation{SingleQubitOp{patch_id, SingleQubitOp::Operator::H}};
     }
-    else if (instruction == "SGate")
+    else if (instruction == "SGate" || instruction == "6")
     {
         auto patch_id = parse_patch_id(get_next_arg());
         return LogicalLatticeOperation{SingleQubitOp{patch_id, SingleQubitOp::Operator::S}};
