@@ -7,7 +7,7 @@
 
 namespace lsqecc {
 
-LogicalLatticeComputation parse_ls_instructions(std::string_view source);
+InMemoryLogicalLatticeComputation parse_ls_instructions(std::string_view source);
 
 }
 

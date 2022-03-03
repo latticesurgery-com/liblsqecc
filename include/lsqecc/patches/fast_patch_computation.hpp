@@ -38,7 +38,7 @@ public:
     using SliceVisitorFunction = std::function<void(const Slice& slice)>;
 
     PatchComputation (
-            const LogicalLatticeComputation& logical_computation,
+            const InMemoryLogicalLatticeComputation& logical_computation,
             std::unique_ptr<Layout>&& layout,
             std::unique_ptr<Router>&& router,
             std::optional<std::chrono::seconds> timeout,
@@ -49,7 +49,7 @@ public:
 private:
 
     void make_slices(
-            const LogicalLatticeComputation& logical_computation,
+            const InMemoryLogicalLatticeComputation& logical_computation,
             std::optional<std::chrono::seconds> timeout,
             SliceVisitorFunction slice_visitor);
 

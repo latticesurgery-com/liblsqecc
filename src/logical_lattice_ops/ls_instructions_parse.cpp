@@ -99,9 +99,9 @@ std::variant<LogicalLatticeOperation, std::unordered_set<PatchId>> parse_ls_inst
 }
 
 
-LogicalLatticeComputation parse_ls_instructions(std::string_view source)
+InMemoryLogicalLatticeComputation parse_ls_instructions(std::string_view source)
 {
-    LogicalLatticeComputation computation;
+    InMemoryLogicalLatticeComputation computation;
 
     auto view = lstk::split_on(source,'\n');
     bool got_patch_id_list = false;

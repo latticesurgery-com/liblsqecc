@@ -76,16 +76,16 @@ int main(int argc, const char* argv[])
 
     std::cout << "Reading LS Instructions" << std::endl;
     auto start = std::chrono::steady_clock::now();
-    lsqecc::LogicalLatticeComputation computation {
+    lsqecc::InMemoryLogicalLatticeComputation logical_lattice_computation {
         lsqecc::parse_ls_instructions(file_to_string(parser.get<std::string>("i")))};
-    std::cout << "Read " << computation.instructions.size() << " instructions."
+    std::cout << "Read " << logical_lattice_computation.instructions.size() << " instructions."
         << " Took " << lstk::since(start).count() << "s." << std::endl;
 
     std::unique_ptr<lsqecc::Layout> layout;
     if(parser.exists("l"))
         layout = std::make_unique<lsqecc::LayoutFromSpec>(file_to_string(parser.get<std::string>("l")));
     else
-        layout = std::make_unique<lsqecc::SimpleLayout>(computation.core_qubits.size());
+        layout = std::make_unique<lsqecc::SimpleLayout>(logical_lattice_computation.core_qubits.size());
 
     auto timeout = parser.exists("t") ?
             std::make_optional(std::chrono::seconds{parser.get<ulong>("t")})
@@ -124,11 +124,11 @@ int main(int argc, const char* argv[])
     std::cout << "Making patch computation" << std::endl;
     start = std::chrono::steady_clock::now();
     lsqecc::PatchComputation patch_computation {
-        computation,
-        std::move(layout),
-        std::move(router),
-        timeout,
-        slice_visitor
+            logical_lattice_computation,
+            std::move(layout),
+            std::move(router),
+            timeout,
+            slice_visitor
     };
 
     std::cout << "Made patch computation. Took " << lstk::since(start).count() << "s." << std::endl;

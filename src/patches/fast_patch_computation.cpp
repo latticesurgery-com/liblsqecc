@@ -126,7 +126,7 @@ std::optional<Cell> find_free_ancilla_location(const Layout& layout, const Slice
 
 
 void PatchComputation::make_slices(
-        const LogicalLatticeComputation& logical_computation,
+        const InMemoryLogicalLatticeComputation& logical_computation,
         std::optional<std::chrono::seconds> timeout,
         SliceVisitorFunction slice_visitor)
 {
@@ -258,7 +258,7 @@ void PatchComputation::compute_free_cells()
 
 
 PatchComputation::PatchComputation(
-        const LogicalLatticeComputation& logical_computation,
+        const InMemoryLogicalLatticeComputation& logical_computation,
         std::unique_ptr<Layout>&& layout,
         std::unique_ptr<Router>&& router,
         std::optional<std::chrono::seconds> timeout,

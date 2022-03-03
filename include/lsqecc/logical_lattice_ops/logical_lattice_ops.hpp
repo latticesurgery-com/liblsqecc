@@ -67,7 +67,7 @@ struct LogicalLatticeOperation {
     bool operator==(const LogicalLatticeOperation&) const = default;
 };
 
-struct LogicalLatticeComputation
+class InMemoryLogicalLatticeComputation
 {
     std::unordered_set<PatchId> core_qubits;
     std::vector<LogicalLatticeOperation> instructions;

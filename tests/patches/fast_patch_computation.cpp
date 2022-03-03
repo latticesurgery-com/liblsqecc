@@ -7,7 +7,7 @@ using namespace lsqecc;
 
 TEST(PatchComputation, make)
 {
-    LogicalLatticeComputation assembly{
+    InMemoryLogicalLatticeComputation assembly{
         .core_qubits = {0},
         .instructions = {
         }
