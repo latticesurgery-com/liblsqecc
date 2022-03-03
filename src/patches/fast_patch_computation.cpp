@@ -136,7 +136,7 @@ void PatchComputation::make_slices(
     auto start = std::chrono::steady_clock::now();
     size_t ls_op_counter = 0;
 
-    for(const LogicalLatticeOperation& instruction : logical_computation.instructions)
+    for(const LSInstruction& instruction : logical_computation.instructions)
     {
         if (const auto* s = std::get_if<SinglePatchMeasurement>(&instruction.operation))
         {

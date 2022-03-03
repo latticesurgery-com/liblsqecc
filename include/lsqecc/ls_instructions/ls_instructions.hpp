@@ -60,17 +60,17 @@ struct SingleQubitOp {
     bool operator==(const SingleQubitOp&) const = default;
 };
 
-struct LogicalLatticeOperation {
+struct LSInstruction {
     std::variant<SinglePatchMeasurement, MultiPatchMeasurement, PatchInit, MagicStateRequest, SingleQubitOp> operation;
 
     std::vector<PatchId> get_operating_patches() const;
-    bool operator==(const LogicalLatticeOperation&) const = default;
+    bool operator==(const LSInstruction&) const = default;
 };
 
-class InMemoryLogicalLatticeComputation
+struct InMemoryLogicalLatticeComputation
 {
     std::unordered_set<PatchId> core_qubits;
-    std::vector<LogicalLatticeOperation> instructions;
+    std::vector<LSInstruction> instructions;
 };
 
 

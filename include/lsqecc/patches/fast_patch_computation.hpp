@@ -2,7 +2,7 @@
 #define LSQECC_FAST_PATCH_COMPUTATION_HPP
 
 
-#include <lsqecc/logical_lattice_ops/logical_lattice_ops.hpp>
+#include <lsqecc/ls_instructions/ls_instructions.hpp>
 #include <lsqecc/patches/slice.hpp>
 #include <lsqecc/patches/patches.hpp>
 #include <lsqecc/layout/layout.hpp>
