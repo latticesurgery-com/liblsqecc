@@ -23,6 +23,10 @@ using FloatSeconds = std::chrono::duration<double, std::ratio<1>>;
 template<class T>
 using delayed_init = std::optional<T>;
 
+
+
+// Timing helpers
+
 template<
         class result_t   = FloatSeconds,
         class clock_t    = std::chrono::steady_clock,
@@ -33,6 +37,22 @@ auto since(std::chrono::time_point<clock_t, duration_t> const& start)
     return std::chrono::duration_cast<result_t>(clock_t::now()-start);
 }
 
+template<
+        class clock_t    = std::chrono::steady_clock,
+        class duration_t = std::chrono::milliseconds
+>
+double seconds_since(std::chrono::time_point<clock_t, duration_t> const& start)
+{
+    return std::chrono::duration_cast<FloatSeconds>(clock_t::now()-start).count();
+}
+
+inline auto now()
+{
+    return std::chrono::steady_clock::now();
+}
+
+
+// Parsing helpers
 
 static inline std::vector<std::string_view> split_on(std::string_view s, char delim)
 {
@@ -44,7 +64,6 @@ static inline std::vector<std::string_view> split_on(std::string_view s, char de
     auto push_accum_to_ret = [&](){
         ret.emplace_back(accum_begin, static_cast<size_t>(std::distance(accum_begin,accum_end)));
     };
-
 
     while(accum_end != s.end())
     {

@@ -59,6 +59,10 @@ int main(int argc, const char* argv[])
             .names({"-r", "--router"})
             .description("Set a router: naive_cached (default), naive")
             .required(false);
+    parser.add_argument()
+            .names({"--progress"})
+            .description("Print how many slices have been produces")
+            .required(false);
     parser.enable_help();
 
     auto err = parser.parse(argc, argv);
@@ -74,7 +78,6 @@ int main(int argc, const char* argv[])
         return 0;
     }
 
-    auto start = std::chrono::steady_clock::now();
     lsqecc::LSInstructionStream instruction_stream{std::ifstream(parser.get<std::string>("i"))};
 
     std::unique_ptr<lsqecc::Layout> layout;
@@ -105,35 +108,52 @@ int main(int argc, const char* argv[])
     }
 
     auto no_op_visitor = [](const lsqecc::Slice& s) -> void {LSTK_UNUSED(s);};
-    lsqecc::PatchComputation::SliceVisitorFunction slice_visitor(no_op_visitor);
+    lsqecc::PatchComputation::SliceVisitorFunction slice_appending_visitor(no_op_visitor);
     std::vector<lsqecc::Slice> slices;
     if(parser.exists("o"))
     {
         std::cout << "Will keep slices in memory during computation to write them as json" << std::endl;
-        slice_visitor = [&slices](const lsqecc::Slice& s){
+        slice_appending_visitor = [&slices](const lsqecc::Slice& s){
             slices.push_back(s);
         };
     }
 
 
+    size_t slice_counter = 0;
+    lsqecc::PatchComputation::SliceVisitorFunction visitor_with_progress = slice_appending_visitor;
+    auto gave_update_at = lstk::now();
+    if(parser.exists("progress"))
+    {
+        visitor_with_progress = [&](const lsqecc::Slice& s)
+        {
+            slice_appending_visitor(s);
+            slice_counter++;
+            if(lstk::seconds_since(gave_update_at)>=1)
+            {
+                std::cout << "Slice count: " << slice_counter << "\r" << std::flush;
+                gave_update_at = std::chrono::steady_clock::now();
+            }
+        };
+    }
+
 
     std::cout << "Making patch computation" << std::endl;
-    start = std::chrono::steady_clock::now();
+    auto start = lstk::now();
     lsqecc::PatchComputation patch_computation {
             std::move(instruction_stream),
             std::move(layout),
             std::move(router),
             timeout,
-            slice_visitor
+            visitor_with_progress
     };
 
-    std::cout << "Made patch computation. Took " << lstk::since(start).count() << "s." << std::endl;
     std::cout << "Generated " << patch_computation.slice_count() << " slices." << std::endl;
+    std::cout << "Made patch computation. Took " << lstk::seconds_since(start)<< "s." << std::endl;
 
     if(slices.size()>0)
     {
         std::cout << "Writing slices to file" << std::endl;
-        start = std::chrono::steady_clock::now();
+        start = lstk::now();
         auto slices_json = lsqecc::slices_to_json(slices);
         std::ofstream(parser.get<std::string>("o")) << slices_json.dump(3) << std::endl;
         std::cout << "Written slices. Took "<< lstk::since(start).count() << "s." << std::endl;

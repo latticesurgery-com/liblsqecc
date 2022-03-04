@@ -9,10 +9,39 @@
 namespace lsqecc {
 using namespace std::string_literals;
 
+
+void LSInstructionStream::advance_instruction()
+{
+    std::string line;
+    while(!instructions_file_.eof() && line.size() ==0)
+    {
+        std::getline(instructions_file_, line);
+        line_number_++;
+    }
+
+    if(line.size()==0)
+    {
+        next_instruction_ = std::nullopt;
+        return;
+    }
+
+    next_instruction_ = [&](){
+        try {
+            return parse_ls_instruction(std::string_view{line});
+        } catch (const InstructionParseException& e) {
+            throw std::runtime_error{
+                    "Encountered parsing exception at line "s+std::to_string(line_number_)+":\n"s+e.what()};
+        }
+    }();
+}
+
+
 LSInstructionStream::LSInstructionStream(std::ifstream&& instructions_file)
     :instructions_file_(std::move(instructions_file))
 {
-    if(!has_next_instruction())
+
+    advance_instruction();
+    if(!next_instruction_)
         throw std::runtime_error("No instructions");
 
     LSInstruction first_instruction = get_next_instruction();
@@ -24,24 +53,11 @@ LSInstructionStream::LSInstructionStream(std::ifstream&& instructions_file)
 
 LSInstruction LSInstructionStream::get_next_instruction()
 {
-    std::string line;
-    std::getline(instructions_file_, line);
-    LSInstruction instruction = [&](){
-        try {
-            return parse_ls_instruction(std::string_view{line});
-        } catch (const InstructionParseException& e) {
-            throw std::runtime_error{
-                "Encountered parsing exception at line "s+std::to_string(line_number_)+":\n"+e.what()};
-        }
-    }();
-    line_number_++;
+    LSInstruction instruction = next_instruction_.value();
+    advance_instruction();
     return instruction;
 }
 
-bool LSInstructionStream::has_next_instruction() const
-{
-    return !instructions_file_.eof();
-}
 
 }
 
