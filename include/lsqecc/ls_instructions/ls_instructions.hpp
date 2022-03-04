@@ -7,11 +7,16 @@
 #include <lsqecc/patches/patches.hpp>
 
 #include <tsl/ordered_map.h>
+#include <tsl/ordered_set.h>
 
 
 namespace lsqecc {
 
 
+
+struct DeclareLogicalQubitPatches{
+    tsl::ordered_set<PatchId> patch_ids;
+};
 
 struct SinglePatchMeasurement {
     PatchId target;
@@ -61,7 +66,13 @@ struct SingleQubitOp {
 };
 
 struct LSInstruction {
-    std::variant<SinglePatchMeasurement, MultiPatchMeasurement, PatchInit, MagicStateRequest, SingleQubitOp> operation;
+    std::variant<
+            DeclareLogicalQubitPatches,
+            SinglePatchMeasurement,
+            MultiPatchMeasurement,
+            PatchInit,
+            MagicStateRequest,
+            SingleQubitOp> operation;
 
     std::vector<PatchId> get_operating_patches() const;
     bool operator==(const LSInstruction&) const = default;
@@ -69,7 +80,7 @@ struct LSInstruction {
 
 struct InMemoryLogicalLatticeComputation
 {
-    std::unordered_set<PatchId> core_qubits;
+    tsl::ordered_set<PatchId> core_qubits;
     std::vector<LSInstruction> instructions;
 };
 

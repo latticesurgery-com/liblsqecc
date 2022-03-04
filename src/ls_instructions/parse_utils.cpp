@@ -1,4 +1,4 @@
-#include <lsqecc/logical_lattice_ops/parse_utils.hpp>
+#include <lsqecc/ls_instructions/parse_utils.hpp>
 #include <lsqecc/patches/patches.hpp>
 
 #include <vector>

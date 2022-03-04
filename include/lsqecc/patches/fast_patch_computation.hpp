@@ -3,6 +3,7 @@
 
 
 #include <lsqecc/ls_instructions/ls_instructions.hpp>
+#include <lsqecc/ls_instructions/ls_instruction_stream.hpp>
 #include <lsqecc/patches/slice.hpp>
 #include <lsqecc/patches/patches.hpp>
 #include <lsqecc/layout/layout.hpp>
@@ -38,7 +39,7 @@ public:
     using SliceVisitorFunction = std::function<void(const Slice& slice)>;
 
     PatchComputation (
-            const InMemoryLogicalLatticeComputation& logical_computation,
+            LSInstructionStream&& instruction_stream,
             std::unique_ptr<Layout>&& layout,
             std::unique_ptr<Router>&& router,
             std::optional<std::chrono::seconds> timeout,
@@ -49,7 +50,7 @@ public:
 private:
 
     void make_slices(
-            const InMemoryLogicalLatticeComputation& logical_computation,
+            LSInstructionStream&& instruction_stream,
             std::optional<std::chrono::seconds> timeout,
             SliceVisitorFunction slice_visitor);
 

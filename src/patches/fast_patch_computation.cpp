@@ -24,7 +24,7 @@ std::optional<Cell> PatchComputation::find_place_for_magic_state(size_t distilla
 }
 
 
-Slice first_slice_from_layout(const Layout& layout, const std::unordered_set<PatchId>& core_qubit_ids)
+Slice first_slice_from_layout(const Layout& layout, const tsl::ordered_set<PatchId>& core_qubit_ids)
 {
     Slice slice{.qubit_patches={}, .routing_regions={}, .layout={layout}, .time_to_next_magic_state_by_distillation_region={}};
 
@@ -126,18 +126,19 @@ std::optional<Cell> find_free_ancilla_location(const Layout& layout, const Slice
 
 
 void PatchComputation::make_slices(
-        const InMemoryLogicalLatticeComputation& logical_computation,
+        LSInstructionStream&& instruction_stream,
         std::optional<std::chrono::seconds> timeout,
         SliceVisitorFunction slice_visitor)
 {
-    slice_store_.accept_new_slice(first_slice_from_layout(*layout_, logical_computation.core_qubits));
+    slice_store_.accept_new_slice(first_slice_from_layout(*layout_, instruction_stream.core_qubits()));
     compute_free_cells();
 
     auto start = std::chrono::steady_clock::now();
     size_t ls_op_counter = 0;
 
-    for(const LSInstruction& instruction : logical_computation.instructions)
+    while (instruction_stream.has_next_instruction())
     {
+        LSInstruction instruction = instruction_stream.get_next_instruction();
         if (const auto* s = std::get_if<SinglePatchMeasurement>(&instruction.operation))
         {
             Slice& slice = make_new_slice();
@@ -258,7 +259,7 @@ void PatchComputation::compute_free_cells()
 
 
 PatchComputation::PatchComputation(
-        const InMemoryLogicalLatticeComputation& logical_computation,
+        LSInstructionStream&& instruction_stream,
         std::unique_ptr<Layout>&& layout,
         std::unique_ptr<Router>&& router,
         std::optional<std::chrono::seconds> timeout,
@@ -272,7 +273,7 @@ PatchComputation::PatchComputation(
         is_cell_free_.push_back(std::vector<lstk::bool8>(static_cast<size_t>(layout_->furthest_cell().col+1), false));
 
     try {
-        make_slices(logical_computation, timeout, slice_visitor);
+        make_slices(std::move(instruction_stream), timeout, slice_visitor);
     }
     catch (const std::exception& e)
     {

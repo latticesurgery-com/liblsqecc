@@ -37,16 +37,16 @@ include_directories(external/include)
 add_library(
         lsqecclib
         src/patches/fast_patch_computation.cpp
-        src/logical_lattice_ops/logical_lattice_ops.cpp
-        src/logical_lattice_ops/ls_instructions_parse.cpp
-        src/logical_lattice_ops/parse_utils.cpp
+        src/ls_instructions/ls_instructions.cpp
+        src/ls_instructions/ls_instructions_parse.cpp
+        src/ls_instructions/parse_utils.cpp
         src/patches/patches.cpp
         src/patches/slice.cpp
         src/patches/slices_to_json.cpp
         src/layout/graph_search/boost_based_graph_search.cpp
         src/layout/router.cpp
         src/layout/ascii_layout_spec.cpp
-        src/layout/layout.cpp)
+        src/layout/layout.cpp src/ls_instructions/ls_instruction_stream.cpp src/ls_instructions/ls_instruction_stream.hpp)
 
 set(INCLUDE_DIRS
         "${PROJECT_SOURCE_DIR}/include"
@@ -102,7 +102,8 @@ add_executable(
         lsqecc_tests
         tests/main.cpp
         tests/patches/fast_patch_computation.cpp
-        tests/logical_lattice_ops/logical_lattice_ops.cpp tests/logical_lattice_ops/ls_instructions_parse.cpp)
+        tests/logical_lattice_ops/logical_lattice_ops.cpp
+        tests/logical_lattice_ops/ls_instructions_parse.cpp)
 target_link_libraries(lsqecc_tests
         lsqecclib
         gtest

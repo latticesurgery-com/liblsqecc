@@ -2,7 +2,8 @@
 // Created by george on 2022-02-16.
 //
 
-#include <lsqecc/logical_lattice_ops/ls_instructions_parse.hpp>
+#include <lsqecc/ls_instructions/ls_instructions_parse.hpp>
+#include <lsqecc/ls_instructions/ls_instruction_stream.hpp>
 #include <lsqecc/layout/ascii_layout_spec.hpp>
 #include <lsqecc/layout/router.hpp>
 #include <lsqecc/patches/slices_to_json.hpp>
@@ -73,19 +74,14 @@ int main(int argc, const char* argv[])
         return 0;
     }
 
-
-    std::cout << "Reading LS Instructions" << std::endl;
     auto start = std::chrono::steady_clock::now();
-    lsqecc::InMemoryLogicalLatticeComputation logical_lattice_computation {
-        lsqecc::parse_ls_instructions(file_to_string(parser.get<std::string>("i")))};
-    std::cout << "Read " << logical_lattice_computation.instructions.size() << " instructions."
-        << " Took " << lstk::since(start).count() << "s." << std::endl;
+    lsqecc::LSInstructionStream instruction_stream{std::ifstream(parser.get<std::string>("i"))};
 
     std::unique_ptr<lsqecc::Layout> layout;
     if(parser.exists("l"))
         layout = std::make_unique<lsqecc::LayoutFromSpec>(file_to_string(parser.get<std::string>("l")));
     else
-        layout = std::make_unique<lsqecc::SimpleLayout>(logical_lattice_computation.core_qubits.size());
+        layout = std::make_unique<lsqecc::SimpleLayout>(instruction_stream.core_qubits().size());
 
     auto timeout = parser.exists("t") ?
             std::make_optional(std::chrono::seconds{parser.get<ulong>("t")})
@@ -124,7 +120,7 @@ int main(int argc, const char* argv[])
     std::cout << "Making patch computation" << std::endl;
     start = std::chrono::steady_clock::now();
     lsqecc::PatchComputation patch_computation {
-            logical_lattice_computation,
+            std::move(instruction_stream),
             std::move(layout),
             std::move(router),
             timeout,
