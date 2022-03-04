@@ -11,6 +11,7 @@
 
 #include <vector>
 #include <string_view>
+#include <optional>
 
 
 namespace lstk {
@@ -18,6 +19,9 @@ namespace lstk {
 using bool8 = uint8_t;
 
 using FloatSeconds = std::chrono::duration<double, std::ratio<1>>;
+
+template<class T>
+using delayed_init = std::optional<T>;
 
 template<
         class result_t   = FloatSeconds,

@@ -26,6 +26,7 @@ public:
 private:
     std::ifstream instructions_file_;
     tsl::ordered_set<PatchId> core_qubits_;
+    size_t line_number_ = 0;
 };
 
 }

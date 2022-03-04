@@ -10,6 +10,7 @@
 
 namespace lsqecc {
 
+
 tsl::ordered_map<PatchId, PauliOperator> parse_multi_body_measurement_dict(std::string_view dict_arg)
 {
     auto dict_pairs = lstk::split_on(dict_arg, ',');
@@ -19,9 +20,8 @@ tsl::ordered_map<PatchId, PauliOperator> parse_multi_body_measurement_dict(std::
     {
         auto assoc = lstk::split_on(pair, ':');
         if (assoc.size()!=2)
-        {
-            throw std::logic_error(std::string{"MultiBody dict_pairs not in key pair format:"}+std::string{pair});
-        }
+            throw InstructionParseException{std::string{"MultiBody dict_pairs not in key pair format:"}+std::string{pair}};
+
         ret.insert_or_assign(parse_patch_id(assoc[0]), PauliOperator_from_string(assoc[1]));
     }
     return ret;
@@ -46,7 +46,7 @@ LSInstruction parse_ls_instruction(std::string_view line)
     auto has_next_arg = [&](){return args_itr<args.end();};
     auto get_next_arg = [&](){
         if(!has_next_arg())
-            throw std::out_of_range{"Out of arguments"};
+            throw InstructionParseException{"Out of arguments"};
         return *args_itr++;
     };
 
@@ -96,7 +96,7 @@ LSInstruction parse_ls_instruction(std::string_view line)
     }
     else
     {
-        throw std::logic_error(std::string{"Operation not supported: "}+std::string{instruction});
+        throw InstructionParseException(std::string{"Operation not supported: "}+std::string{instruction});
     }
 }
 
@@ -115,7 +115,7 @@ InMemoryLogicalLatticeComputation parse_ls_instructions(std::string_view source)
             if(auto patch_declararion = std::get_if<DeclareLogicalQubitPatches>(&instruction.operation))
             {
                 if(got_patch_id_list)
-                    throw std::logic_error("Double declaration of patch ids");
+                    throw InstructionParseException("Double declaration of patch ids");
 
                 computation.core_qubits = std::move(patch_declararion->patch_ids);
                 got_patch_id_list=true;

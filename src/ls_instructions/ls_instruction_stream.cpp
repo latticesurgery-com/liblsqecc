@@ -1,4 +1,5 @@
 
+#include <lstk/lstk.hpp>
 
 #include <lsqecc/ls_instructions/ls_instruction_stream.hpp>
 #include <lsqecc/ls_instructions/ls_instructions_parse.hpp>
@@ -6,6 +7,7 @@
 
 
 namespace lsqecc {
+using namespace std::string_literals;
 
 LSInstructionStream::LSInstructionStream(std::ifstream&& instructions_file)
     :instructions_file_(std::move(instructions_file))
@@ -24,7 +26,16 @@ LSInstruction LSInstructionStream::get_next_instruction()
 {
     std::string line;
     std::getline(instructions_file_, line);
-    return parse_ls_instruction(std::string_view{line});
+    LSInstruction instruction = [&](){
+        try {
+            return parse_ls_instruction(std::string_view{line});
+        } catch (const InstructionParseException& e) {
+            throw std::runtime_error{
+                "Encountered parsing exception at line "s+std::to_string(line_number_)+":\n"+e.what()};
+        }
+    }();
+    line_number_++;
+    return instruction;
 }
 
 bool LSInstructionStream::has_next_instruction() const
