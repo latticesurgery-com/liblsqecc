@@ -21,12 +21,13 @@ Full usage:
 ```
 Usage: lsqecc_slicer [options...]
 Options:
-    -i, --instructions     File name of file with LS Instructions (Required)
+    -i, --instructions     File name of file with LS Instructions. If not provided will read from stdin
     -l, --layout           File name of file with layout spec. Defaults to simple layout if none is provided
     -o, --output           File name of output file to which write a latticesurgery.com JSON of the slices
     -t, --timeout          Set a timeout in seconds after which stop producing slices
     -r, --router           Set a router: naive_cached (default), naive
-    -h, --help             Shows this page
+    -f, --output-format    How to format output: progress (default), noprogres, machine
+    -h, --help             Shows this page 
 ```
 
 #### The `liblsqecc` library

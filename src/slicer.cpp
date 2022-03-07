@@ -35,14 +35,20 @@ std::string file_to_string(std::string fname)
 }
 
 
+enum class OutputFormatMode
+{
+    Progress, NoProgress, Machine
+};
+
+
 int main(int argc, const char* argv[])
 {
     std::string prog_name{argv[0]};
     argparse::ArgumentParser parser(prog_name, "Slice LS-Instructions");
     parser.add_argument()
             .names({"-i", "--instructions"})
-            .description("File name of file with LS Instructions")
-            .required(true);
+            .description("File name of file with LS Instructions. If not provided will read from stdin")
+            .required(false);
     parser.add_argument()
             .names({"-l", "--layout"})
             .description("File name of file with layout spec. Defaults to simple layout if none is provided")
@@ -60,15 +66,15 @@ int main(int argc, const char* argv[])
             .description("Set a router: naive_cached (default), naive")
             .required(false);
     parser.add_argument()
-            .names({"--progress"})
-            .description("Print how many slices have been produces")
+            .names({"-f", "--output-format"})
+            .description("How to format output: progress (default), noprogres, machine")
             .required(false);
     parser.enable_help();
 
     auto err = parser.parse(argc, argv);
     if (err)
     {
-        std::cout << err << std::endl;
+        std::cerr << err << std::endl;
         parser.print_help();
         return -1;
     }
@@ -78,7 +84,31 @@ int main(int argc, const char* argv[])
         return 0;
     }
 
-    lsqecc::LSInstructionStream instruction_stream{std::ifstream(parser.get<std::string>("i"))};
+
+    auto output_format_mode = OutputFormatMode::Progress;
+    if(parser.exists("f"))
+    {
+        auto mode_arg = parser.get<std::string>("f");
+        if( mode_arg== "progress")
+            LSTK_NOOP;
+        else if (mode_arg == "noprogres")
+            output_format_mode = OutputFormatMode::NoProgress;
+        else if (mode_arg == "machine")
+            output_format_mode = OutputFormatMode::Machine;
+        else
+        {
+            std::cerr << "Unknown output format mode " << mode_arg << std::endl;
+            return -1;
+        }
+    }
+
+
+
+    std::optional<std::ifstream> instructions_file;
+    if(parser.exists("i"))
+        instructions_file = std::ifstream(parser.get<std::string>("i"));
+
+    lsqecc::LSInstructionStream instruction_stream{instructions_file?*instructions_file:std::cin};
 
     std::unique_ptr<lsqecc::Layout> layout;
     if(parser.exists("l"))
@@ -108,21 +138,21 @@ int main(int argc, const char* argv[])
     }
 
     auto no_op_visitor = [](const lsqecc::Slice& s) -> void {LSTK_UNUSED(s);};
+
+    // TODO replace this with a stream to file visitor
     lsqecc::PatchComputation::SliceVisitorFunction slice_appending_visitor(no_op_visitor);
     std::vector<lsqecc::Slice> slices;
     if(parser.exists("o"))
     {
-        std::cout << "Will keep slices in memory during computation to write them as json" << std::endl;
         slice_appending_visitor = [&slices](const lsqecc::Slice& s){
             slices.push_back(s);
         };
     }
 
-
     size_t slice_counter = 0;
     lsqecc::PatchComputation::SliceVisitorFunction visitor_with_progress = slice_appending_visitor;
     auto gave_update_at = lstk::now();
-    if(parser.exists("progress"))
+    if(output_format_mode == OutputFormatMode::Progress)
     {
         visitor_with_progress = [&](const lsqecc::Slice& s)
         {
@@ -136,8 +166,6 @@ int main(int argc, const char* argv[])
         };
     }
 
-
-    std::cout << "Making patch computation" << std::endl;
     auto start = lstk::now();
     lsqecc::PatchComputation patch_computation {
             std::move(instruction_stream),
@@ -147,8 +175,18 @@ int main(int argc, const char* argv[])
             visitor_with_progress
     };
 
-    std::cout << "Generated " << patch_computation.slice_count() << " slices." << std::endl;
-    std::cout << "Made patch computation. Took " << lstk::seconds_since(start)<< "s." << std::endl;
+    if(output_format_mode == OutputFormatMode::Machine)
+    {
+        std::cout << patch_computation.ls_instructions_count() << ","
+                  << patch_computation.slice_count() << ","
+                  << lstk::seconds_since(start) << std::endl;
+    }
+    else
+    {
+        std::cout << "LS Instructions read  " << patch_computation.ls_instructions_count() << std::endl;
+        std::cout << "Slices " << patch_computation.slice_count() << std::endl;
+        std::cout << "Made patch computation. Took " << lstk::seconds_since(start) << "s." << std::endl;
+    }
 
     if(slices.size()>0)
     {
