@@ -2,7 +2,8 @@
 // Created by george on 2022-02-16.
 //
 
-#include <lsqecc/logical_lattice_ops/ls_instructions_parse.hpp>
+#include <lsqecc/ls_instructions/ls_instructions_parse.hpp>
+#include <lsqecc/ls_instructions/ls_instruction_stream.hpp>
 #include <lsqecc/layout/ascii_layout_spec.hpp>
 #include <lsqecc/layout/router.hpp>
 #include <lsqecc/patches/slices_to_json.hpp>
@@ -18,9 +19,6 @@
 #include <stdexcept>
 #include <filesystem>
 #include <chrono>
-
-
-
 
 
 
@@ -58,12 +56,12 @@ int main(int argc, const char* argv[])
             .description("Set a timeout in seconds after which stop producing slices")
             .required(false);
     parser.add_argument()
-            .names({"-s", "--slice-tracking"})
-            .description("Slice tracking policy: all, last_two")
+            .names({"-r", "--router"})
+            .description("Set a router: naive_cached (default), naive")
             .required(false);
     parser.add_argument()
-            .names({"-r", "--router"})
-            .description("Set a router. Choices: naive_cached (default), naive")
+            .names({"--progress"})
+            .description("Print how many slices have been produces")
             .required(false);
     parser.enable_help();
 
@@ -80,19 +78,13 @@ int main(int argc, const char* argv[])
         return 0;
     }
 
-
-    std::cout << "Reading LS Instructions" << std::endl;
-    auto start = std::chrono::steady_clock::now();
-    lsqecc::LogicalLatticeComputation computation {
-        lsqecc::parse_ls_instructions(file_to_string(parser.get<std::string>("i")))};
-    std::cout << "Read " << computation.instructions.size() << " instructions."
-        << " Took " << lstk::since(start).count() << "s." << std::endl;
+    lsqecc::LSInstructionStream instruction_stream{std::ifstream(parser.get<std::string>("i"))};
 
     std::unique_ptr<lsqecc::Layout> layout;
     if(parser.exists("l"))
         layout = std::make_unique<lsqecc::LayoutFromSpec>(file_to_string(parser.get<std::string>("l")));
     else
-        layout = std::make_unique<lsqecc::SimpleLayout>(computation.core_qubits.size());
+        layout = std::make_unique<lsqecc::SimpleLayout>(instruction_stream.core_qubits().size());
 
     auto timeout = parser.exists("t") ?
             std::make_optional(std::chrono::seconds{parser.get<ulong>("t")})
@@ -115,43 +107,56 @@ int main(int argc, const char* argv[])
         }
     }
 
-    auto slice_tracking_policy = lsqecc::SliceTrackingPolicy::KeepAll;
-    if(parser.exists("s"))
+    auto no_op_visitor = [](const lsqecc::Slice& s) -> void {LSTK_UNUSED(s);};
+    lsqecc::PatchComputation::SliceVisitorFunction slice_appending_visitor(no_op_visitor);
+    std::vector<lsqecc::Slice> slices;
+    if(parser.exists("o"))
     {
-        auto policy_name = parser.get<std::string>("s");
-        if(policy_name =="all")
-            LSTK_NOOP;// Already set
-        else if(policy_name=="last_two")
-            slice_tracking_policy = lsqecc::SliceTrackingPolicy::KeepOnlyLastTwo;
-        else
+        std::cout << "Will keep slices in memory during computation to write them as json" << std::endl;
+        slice_appending_visitor = [&slices](const lsqecc::Slice& s){
+            slices.push_back(s);
+        };
+    }
+
+
+    size_t slice_counter = 0;
+    lsqecc::PatchComputation::SliceVisitorFunction visitor_with_progress = slice_appending_visitor;
+    auto gave_update_at = lstk::now();
+    if(parser.exists("progress"))
+    {
+        visitor_with_progress = [&](const lsqecc::Slice& s)
         {
-            std::cerr << "Unknown slice tracking policy: " << policy_name << std::endl;
-            std::cerr << "Choices are: all, last_two." << std::endl;
-            return -1;
-        }
+            slice_appending_visitor(s);
+            slice_counter++;
+            if(lstk::seconds_since(gave_update_at)>=1)
+            {
+                std::cout << "Slice count: " << slice_counter << "\r" << std::flush;
+                gave_update_at = std::chrono::steady_clock::now();
+            }
+        };
     }
 
 
     std::cout << "Making patch computation" << std::endl;
-    start = std::chrono::steady_clock::now();
+    auto start = lstk::now();
     lsqecc::PatchComputation patch_computation {
-        computation,
-        std::move(layout),
-        std::move(router),
-        timeout,
-        slice_tracking_policy
+            std::move(instruction_stream),
+            std::move(layout),
+            std::move(router),
+            timeout,
+            visitor_with_progress
     };
 
-    std::cout << "Made patch computation. Took " << lstk::since(start).count() << "s." << std::endl;
     std::cout << "Generated " << patch_computation.slice_count() << " slices." << std::endl;
+    std::cout << "Made patch computation. Took " << lstk::seconds_since(start)<< "s." << std::endl;
 
-    if(parser.exists("o"))
+    if(slices.size()>0)
     {
-        std::cout << "Writing slices" << std::endl;
-        start = std::chrono::steady_clock::now();
-        auto slices_json = lsqecc::computation_to_json(patch_computation);
-        std::cout << "Written slices. Took "<< lstk::since(start).count() << "s." << std::endl;
+        std::cout << "Writing slices to file" << std::endl;
+        start = lstk::now();
+        auto slices_json = lsqecc::slices_to_json(slices);
         std::ofstream(parser.get<std::string>("o")) << slices_json.dump(3) << std::endl;
+        std::cout << "Written slices. Took "<< lstk::since(start).count() << "s." << std::endl;
     }
 
 

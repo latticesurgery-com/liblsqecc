@@ -25,7 +25,6 @@ Options:
     -l, --layout           File name of file with layout spec. Defaults to simple layout if none is provided
     -o, --output           File name of output file to which write a latticesurgery.com JSON of the slices
     -t, --timeout          Set a timeout in seconds after which stop producing slices
-    -s, --slice-tracking   Set a slice tracking policy: all (default), last_two
     -r, --router           Set a router: naive_cached (default), naive
     -h, --help             Shows this page
 ```

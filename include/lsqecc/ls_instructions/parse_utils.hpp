@@ -1,7 +1,7 @@
 #ifndef LSQECC_PARSE_UTILS_HPP
 #define LSQECC_PARSE_UTILS_HPP
 
-#include <lsqecc/logical_lattice_ops/logical_lattice_ops.hpp>
+#include <lsqecc/ls_instructions/ls_instructions.hpp>
 
 namespace lsqecc {
 

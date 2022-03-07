@@ -3,6 +3,7 @@
 
 
 #include <lsqecc/patches/patches.hpp>
+#include <lstk/lstk.hpp>
 
 namespace lsqecc {
 
@@ -70,7 +71,10 @@ public:
         ancilla_locations_ = {Cell{1,7}};
 
         for(const auto& r: distillation_regions_)
+        {
             distillation_times_.push_back(5);
+            LSTK_UNUSED(r);
+        }
     }
 
     const std::vector<Patch>& core_patches() const override

@@ -1,4 +1,4 @@
-#include <lsqecc/logical_lattice_ops/logical_lattice_ops.hpp>
+#include <lsqecc/ls_instructions/ls_instructions.hpp>
 
 #include <ranges>
 
@@ -6,7 +6,7 @@
 namespace lsqecc {
 
 
-std::vector<PatchId> LogicalLatticeOperation::get_operating_patches() const
+std::vector<PatchId> LSInstruction::get_operating_patches() const
 {
     std::vector<PatchId> ret;
     if (const auto* s = std::get_if<SinglePatchMeasurement>(&operation))

@@ -1,0 +1,39 @@
+DeclareLogicalQubitPatches 0,1,2,3,4,5,6,7,8,9,10
+RequestMagicState 1000
+HGate 4
+HGate 4
+HGate 4
+HGate 4
+HGate 4
+HGate 4
+SGate 0
+Init 1001 |+>
+MultiBodyMeasure 0:Z,1000:X
+MeasureSinglePatch 1000 Z
+MultiBodyMeasure 5:Z,1001:X
+MeasureSinglePatch 1001 Z
+HGate 4
+HGate 4
+HGate 4
+HGate 4
+HGate 4
+HGate 4
+HGate 4
+HGate 4
+HGate 4
+HGate 4
+HGate 4
+HGate 4
+HGate 4
+HGate 4
+HGate 4
+HGate 4
+HGate 4
+HGate 4
+HGate 4
+HGate 4
+HGate 4
+HGate 4
+HGate 4
+HGate 4
+HGate 4
