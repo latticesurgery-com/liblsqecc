@@ -36,8 +36,8 @@ void LSInstructionStream::advance_instruction()
 }
 
 
-LSInstructionStream::LSInstructionStream(std::ifstream&& instructions_file)
-    :instructions_file_(std::move(instructions_file))
+LSInstructionStream::LSInstructionStream(std::istream& instructions_file)
+    :instructions_file_(instructions_file)
 {
 
     advance_instruction();

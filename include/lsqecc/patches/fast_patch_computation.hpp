@@ -46,6 +46,7 @@ public:
             SliceVisitorFunction slice_visitor);
 
     size_t slice_count() const {return slice_store_.slice_count();}
+    size_t ls_instructions_count() const {return ls_instructions_count_;}
 
 private:
 
@@ -69,6 +70,8 @@ private: // Data members
 
     // Cache which cells are free in the last slice to speed up search computations
     std::vector<std::vector<lstk::bool8>> is_cell_free_;
+
+    size_t ls_instructions_count_ = 0;
 
 };
 

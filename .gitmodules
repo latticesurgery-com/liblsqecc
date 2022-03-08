@@ -10,3 +10,6 @@
 [submodule "external/ordered-map"]
 	path = external/ordered-map
 	url = https://github.com/Tessil/ordered-map.git
+[submodule "external/staq"]
+	path = external/staq
+	url = https://github.com/softwareQinc/staq

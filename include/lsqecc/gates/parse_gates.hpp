@@ -1,0 +1,8 @@
+#ifndef LSQECC_PARSE_GATES_HPP
+#define LSQECC_PARSE_GATES_HPP
+
+
+
+
+
+#endif //LSQECC_PARSE_GATES_HPP

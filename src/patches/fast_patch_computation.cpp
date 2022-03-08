@@ -131,6 +131,7 @@ void PatchComputation::make_slices(
         SliceVisitorFunction slice_visitor)
 {
     slice_store_.accept_new_slice(first_slice_from_layout(*layout_, instruction_stream.core_qubits()));
+    ls_instructions_count_++;
     compute_free_cells();
 
     auto start = std::chrono::steady_clock::now();
@@ -139,6 +140,8 @@ void PatchComputation::make_slices(
     while (instruction_stream.has_next_instruction())
     {
         LSInstruction instruction = instruction_stream.get_next_instruction();
+        ls_instructions_count_++;
+
         if (const auto* s = std::get_if<SinglePatchMeasurement>(&instruction.operation))
         {
             Slice& slice = make_new_slice();
