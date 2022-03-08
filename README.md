@@ -2,11 +2,7 @@
 
 A collection of C++ tools to speed up the [Lattice Surgery Compiler](https://github.com/latticesurgery-com/lattice-surgery-compiler).
 
-Currently, its main goal is to produce a 3D assembly of "slices" representing routed LS Instructions.
-
-#### Structure
-This package builds two main targets, an executable and a library.
-
+### Targets
 #### The `lsqecc_slicer` executable
 
 Found at the top level of the build directory. Produces [latticesurgery.com](https://latticesurgery.com) style slices from [LS Instructions](https://github.com/latticesurgery-com/lattice-surgery-compiler/issues/246), using a [layout spec](https://github.com/latticesurgery-com/lattice-surgery-compiler/issues/250).
@@ -14,8 +10,12 @@ Found at the top level of the build directory. Produces [latticesurgery.com](htt
 Example usage: 
 
 ```shell
-lsqecc -i instructions.txt -l 10_by_10_layout.txt -o qft.json -t 5
+lsqecc_slicer -i instructions.txt -l 10_by_10_layout.txt -o output.json
 ```
+Where:
+ * `instructions.txt` contains [LS Instructions](https://github.com/latticesurgery-com/lattice-surgery-compiler/issues/246)
+ * `10_by_10_layout.txt` is a [layout spec](https://github.com/latticesurgery-com/lattice-surgery-compiler/issues/250) file.
+ * `output.json` is a file containing the 3D assembly of slices. Those can just be uploaded [latticesurgery.com](https://latticesurgery.com) for viewing
 
 Full usage:
 ```
@@ -40,11 +40,16 @@ Clone:
 $ git clone --recursive git@github.com:latticesurgery-com/liblsqecc.git 
 ```
 
+Install the [Boost](https://www.boost.org/) development headers for your platform.
+
 Standard CMake build:
 ```shell
 $ mkdir build
 $ cd build
 $ cmake ..
 ```
+
+The `lsqecc_slicer` executable will be at the top level of the `build` directory.
+
 
 ###
