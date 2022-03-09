@@ -11,8 +11,5 @@
 	path = external/ordered-map
 	url = https://github.com/Tessil/ordered-map.git
 [submodule "external/staq"]
-	path = external/include/staq
+	path = external/staq
 	url = https://github.com/softwareQinc/staq
-[submodule "external/CXXGraph"]
-	path = external/CXXGraph
-	url = git@github.com:ZigRazor/CXXGraph.git
