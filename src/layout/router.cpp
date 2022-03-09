@@ -51,12 +51,12 @@ size_t CachedNaiveDijkstraRouter::PathIdentifier::hash::operator()(
         const CachedNaiveDijkstraRouter::PathIdentifier& x) const
 {
     return 0
-            + std::hash<ulong>()(static_cast<ulong>(x.source_op))
-            + std::hash<ulong>()(static_cast<ulong>(x.source_cell.row))
-            + std::hash<ulong>()(static_cast<ulong>(x.source_cell.col))
-            + std::hash<ulong>()(static_cast<ulong>(x.target_op))
-            + std::hash<ulong>()(static_cast<ulong>(x.target_cell.row))
-            + std::hash<ulong>()(static_cast<ulong>(x.target_cell.col));
+            + std::hash<uint32_t>()(static_cast<uint32_t>(x.source_op))
+            + std::hash<uint32_t>()(static_cast<uint32_t>(x.source_cell.row))
+            + std::hash<uint32_t>()(static_cast<uint32_t>(x.source_cell.col))
+            + std::hash<uint32_t>()(static_cast<uint32_t>(x.target_op))
+            + std::hash<uint32_t>()(static_cast<uint32_t>(x.target_cell.row))
+            + std::hash<uint32_t>()(static_cast<uint32_t>(x.target_cell.col));
 }
 
 

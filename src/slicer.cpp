@@ -121,7 +121,7 @@ int main(int argc, const char* argv[])
         layout = std::make_unique<lsqecc::SimpleLayout>(instruction_stream.core_qubits().size());
 
     auto timeout = parser.exists("t") ?
-            std::make_optional(std::chrono::seconds{parser.get<ulong>("t")})
+            std::make_optional(std::chrono::seconds{parser.get<uint32_t>("t")})
             : std::nullopt;
 
 

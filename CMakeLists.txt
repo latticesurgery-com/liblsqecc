@@ -16,7 +16,7 @@ set(CMAKE_BUILD_TYPE Debug)
 ####################################################
 # Dependencies
 
-find_package(Boost REQUIRED COMPONENTS graph)
+find_package(Boost COMPONENTS graph)
 if(Boost_FOUND)
     add_definitions(-DENABLE_BOOST_GRAPH_SEARCH)
 endif()
