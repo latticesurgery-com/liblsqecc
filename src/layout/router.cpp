@@ -1,4 +1,6 @@
 
+#include <lsqecc/layout/graph_search/boost_based_graph_search.hpp>
+#include <lsqecc/layout/graph_search/custom_graph_search.hpp>
 #include <lsqecc/layout/router.hpp>
 
 namespace lsqecc {
@@ -25,7 +27,7 @@ std::optional<RoutingRegion> CachedNaiveDijkstraRouter::find_routing_ancilla(con
     auto path_identifier = path_identifier_from_ids(slice, source, source_op, target, target_op);
     if(!cached_routes_.contains(path_identifier))
     {
-        auto route =boost_graph_search::graph_search_route_ancilla(
+        auto route = naive_router_.find_routing_ancilla(
                 slice, source, source_op, target, target_op);
         if(!route) return std::nullopt;
         cached_routes_.insert({path_identifier, *route});
@@ -61,13 +63,25 @@ size_t CachedNaiveDijkstraRouter::PathIdentifier::hash::operator()(
 std::optional<RoutingRegion>NaiveDijkstraRouter::find_routing_ancilla(
         const Slice& slice, PatchId source, PauliOperator source_op, PatchId target, PauliOperator target_op) const
 {
-    return boost_graph_search::graph_search_route_ancilla(
-            slice, source, source_op, target, target_op);
+
+    switch(graph_search_provider_)
+    {
+    case GraphSearchProvider::Boost:
+        return boost_graph_search::graph_search_route_ancilla(slice, source, source_op, target, target_op);
+    case GraphSearchProvider::Custom:
+        return custom_graph_search::graph_search_route_ancilla(slice, source, source_op, target, target_op);
+    }
 }
 
 std::optional<RoutingRegion>NaiveDijkstraRouter::do_s_gate(lsqecc::Slice& slice, PatchId target) const
 {
-    return boost_graph_search::do_s_gate_routing(slice, target);
+    switch(graph_search_provider_)
+    {
+    case GraphSearchProvider::Boost:
+        return boost_graph_search::do_s_gate_routing(slice, target);
+    case GraphSearchProvider::Custom:
+        return custom_graph_search::do_s_gate_routing(slice, target);
+    }
 }
 
 

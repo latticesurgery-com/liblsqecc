@@ -69,6 +69,10 @@ int main(int argc, const char* argv[])
             .names({"-f", "--output-format"})
             .description("How to format output: progress (default), noprogres, machine")
             .required(false);
+    parser.add_argument()
+            .names({"-g", "--graph-search"})
+            .description("Set a graph search provider: custom (default), boost (not allways available)")
+            .required(false);
     parser.enable_help();
 
     auto err = parser.parse(argc, argv);
@@ -136,6 +140,23 @@ int main(int argc, const char* argv[])
             return -1;
         }
     }
+
+    router->set_graph_search_provider(lsqecc::GraphSearchProvider::Custom);
+    if(parser.exists("g"))
+    {
+        auto router_name = parser.get<std::string>("r");
+        if(router_name =="custom")
+            LSTK_NOOP;// Already set
+        else if(router_name=="boost")
+            router->set_graph_search_provider(lsqecc::GraphSearchProvider::Boost);
+        else
+        {
+            std::cerr<<"Unknown router: "<< router_name <<std::endl;
+            std::cerr << "Choices are: custom, boost." << std::endl;
+            return -1;
+        }
+    }
+
 
     auto no_op_visitor = [](const lsqecc::Slice& s) -> void {LSTK_UNUSED(s);};
 

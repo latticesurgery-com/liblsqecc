@@ -1,12 +1,12 @@
 #include <gtest/gtest.h>
 
-#include <lsqecc/logical_lattice_ops/logical_lattice_ops.hpp>
+#include <lsqecc/ls_instructions/ls_instructions.hpp>
 
 using namespace lsqecc;
 
 TEST(SinglePatchMeasurement, get_operating_patches)
 {
-    LogicalLatticeOperation op{
+    LSInstruction op{
         .operation=SinglePatchMeasurement{
             .target=99,
             .observable=PauliOperator::X,
@@ -18,11 +18,12 @@ TEST(SinglePatchMeasurement, get_operating_patches)
     ASSERT_EQ(99,op.get_operating_patches().at(0));
 }
 
-TEST(LogicalPauli, get_operating_patches)
+TEST(SingleQubitOp, get_operating_patches)
 {
-    LogicalLatticeOperation op{
-        .operation=LogicalPauli{
+    LSInstruction op{
+        .operation=SingleQubitOp{
             .target=98,
+            .op=SingleQubitOp::Operator::H
         }
     };
 
@@ -32,7 +33,7 @@ TEST(LogicalPauli, get_operating_patches)
 
 TEST(MultiPatchMeasurement, get_operating_patches__one_patch)
 {
-    LogicalLatticeOperation op{
+    LSInstruction op{
         .operation=MultiPatchMeasurement{
             .observable={{static_cast<PatchId>(11), PauliOperator::X}},
             .is_negative=false
@@ -47,7 +48,7 @@ TEST(MultiPatchMeasurement, get_operating_patches__one_patch)
 
 TEST(MultiPatchMeasurement, get_operating_patches__many_patches)
 {
-    LogicalLatticeOperation op{
+    LSInstruction op{
         .operation=MultiPatchMeasurement{
             .observable={
                         {static_cast<PatchId>(11),PauliOperator::X},

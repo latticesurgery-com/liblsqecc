@@ -2,11 +2,16 @@
 #define LSQECC_ROUTER_HPP
 
 #include <lsqecc/patches/slice.hpp>
-#include <lsqecc/layout/graph_search/boost_based_graph_search.hpp>
 
 #include <unordered_map>
 
 namespace lsqecc {
+
+enum class GraphSearchProvider
+{
+    Boost,
+    Custom
+};
 
 struct Router {
     virtual std::optional<RoutingRegion> find_routing_ancilla(
@@ -18,6 +23,8 @@ struct Router {
             ) const = 0;
 
     virtual std::optional<RoutingRegion> do_s_gate(Slice& slice, PatchId target) const = 0;
+
+    virtual void set_graph_search_provider(GraphSearchProvider graph_search_provider) = 0;
 
     virtual ~Router(){};
 };
@@ -34,6 +41,13 @@ struct NaiveDijkstraRouter : public Router
     ) const override;
 
     std::optional<RoutingRegion> do_s_gate(Slice& slice, PatchId target) const override;
+
+    void set_graph_search_provider(GraphSearchProvider graph_search_provider) override {
+        graph_search_provider_ = graph_search_provider;
+    };
+
+private:
+    GraphSearchProvider graph_search_provider_ = GraphSearchProvider::Boost;
 
 };
 
@@ -56,6 +70,9 @@ struct CachedNaiveDijkstraRouter : public Router
 
     std::optional<RoutingRegion> do_s_gate(Slice& slice, PatchId target) const override;
 
+    void set_graph_search_provider(GraphSearchProvider graph_search_provider) override {
+        naive_router_.set_graph_search_provider(graph_search_provider);
+    };
 
     struct PathIdentifier {
         Cell source_cell;

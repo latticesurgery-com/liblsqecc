@@ -1,0 +1,3 @@
+DeclareLogicalQubitPatches 0,1,2,3
+MultiBodyMeasure 1:Z,3:Z
+MultiBodyMeasure 2:X,3:X

@@ -1,15 +1,20 @@
 #include <lsqecc/layout/graph_search/boost_based_graph_search.hpp>
 
-#include <boost/graph/graph_traits.hpp>
-#include <boost/graph/adjacency_list.hpp>
-#include <boost/graph/dijkstra_shortest_paths.hpp>
-#include <boost/graph/graphviz.hpp>
+#ifdef ENABLE_BOOST_GRAPH_SEARCH
+# include <boost/graph/graph_traits.hpp>
+# include <boost/graph/adjacency_list.hpp>
+# include <boost/graph/dijkstra_shortest_paths.hpp>
+# include <boost/graph/graphviz.hpp>
+#endif
 
 #include <iostream>
 
 namespace lsqecc {
 
 namespace boost_graph_search {
+
+
+#ifdef ENABLE_BOOST_GRAPH_SEARCH
 
 std::optional<RoutingRegion> graph_search_route_ancilla(
         const Slice& slice,
@@ -156,6 +161,21 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
     // Check if out path reached the source
     return curr==s ? std::make_optional(ret) : std::nullopt;
 }
+
+#else
+
+std::optional<RoutingRegion> graph_search_route_ancilla(
+        const Slice& slice,
+        PatchId source,
+        PauliOperator source_op,
+        PatchId target,
+        PauliOperator target_op
+)
+{
+    throw std::runtime_error("Boost graph search not available");
+}
+
+#endif
 
 std::optional<RoutingRegion> do_s_gate_routing(Slice& slice, PatchId target)
 {

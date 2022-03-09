@@ -81,6 +81,16 @@ std::optional<Boundary> SingleCellOccupiedByPatch::get_boundary_with(const Cell&
     return std::nullopt;
 }
 
+
+bool SingleCellOccupiedByPatch::have_boundary_of_type_with(PauliOperator op, const Cell& neighbour) const
+{
+    std::optional<Boundary> boundary = get_boundary_with(neighbour);
+    if (boundary && boundary->boundary_type==boundary_for_operator(op))
+        return true;
+    return false;
+}
+
+
 std::optional<std::reference_wrapper<Boundary>> SingleCellOccupiedByPatch::get_mut_boundary_with(const Cell& neighbour)
 {
     if(neighbour == Cell{cell.row-1, cell.col})   return top;
