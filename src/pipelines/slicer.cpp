@@ -1,8 +1,5 @@
-//
-// Created by george on 2022-02-16.
-//
+#include <lsqecc/pipelines/slicer.hpp>
 
-#include <lsqecc/ls_instructions/ls_instructions_parse.hpp>
 #include <lsqecc/ls_instructions/ls_instruction_stream.hpp>
 #include <lsqecc/layout/ascii_layout_spec.hpp>
 #include <lsqecc/layout/router.hpp>
@@ -12,14 +9,17 @@
 #include <lstk/lstk.hpp>
 
 #include <argparse/argparse.h>
+#include <nlohmann/json.hpp>
 
-#include <fstream>
 #include <iostream>
 #include <string_view>
+#include <sstream>
 #include <stdexcept>
 #include <filesystem>
 #include <chrono>
 
+namespace lsqecc
+{
 
 
 std::string file_to_string(std::string fname)
@@ -41,7 +41,11 @@ enum class OutputFormatMode
 };
 
 
-int main(int argc, const char* argv[])
+int run_slicer_program(
+        int argc, const char* argv[],
+        std::istream& in_stream,
+        std::ostream& out_stream,
+        std::ostream& err_stream)
 {
     std::string prog_name{argv[0]};
     argparse::ArgumentParser parser(prog_name, "Slice LS-Instructions");
@@ -78,7 +82,7 @@ int main(int argc, const char* argv[])
     auto err = parser.parse(argc, argv);
     if (err)
     {
-        std::cerr << err << std::endl;
+        err_stream << err << std::endl;
         parser.print_help();
         return -1;
     }
@@ -101,7 +105,7 @@ int main(int argc, const char* argv[])
             output_format_mode = OutputFormatMode::Machine;
         else
         {
-            std::cerr << "Unknown output format mode " << mode_arg << std::endl;
+            err_stream << "Unknown output format mode " << mode_arg << std::endl;
             return -1;
         }
     }
@@ -112,83 +116,83 @@ int main(int argc, const char* argv[])
     if(parser.exists("i"))
         instructions_file = std::ifstream(parser.get<std::string>("i"));
 
-    lsqecc::LSInstructionStream instruction_stream{instructions_file?*instructions_file:std::cin};
+    LSInstructionStream instruction_stream{instructions_file?*instructions_file:in_stream};
 
-    std::unique_ptr<lsqecc::Layout> layout;
+    std::unique_ptr<Layout> layout;
     if(parser.exists("l"))
-        layout = std::make_unique<lsqecc::LayoutFromSpec>(file_to_string(parser.get<std::string>("l")));
+        layout = std::make_unique<LayoutFromSpec>(file_to_string(parser.get<std::string>("l")));
     else
-        layout = std::make_unique<lsqecc::SimpleLayout>(instruction_stream.core_qubits().size());
+        layout = std::make_unique<SimpleLayout>(instruction_stream.core_qubits().size());
 
     auto timeout = parser.exists("t") ?
-            std::make_optional(std::chrono::seconds{parser.get<uint32_t>("t")})
-            : std::nullopt;
+                   std::make_optional(std::chrono::seconds{parser.get<uint32_t>("t")})
+                                      : std::nullopt;
 
 
-    std::unique_ptr<lsqecc::Router> router = std::make_unique<lsqecc::CachedNaiveDijkstraRouter>();
+    std::unique_ptr<Router> router = std::make_unique<CachedNaiveDijkstraRouter>();
     if(parser.exists("r"))
     {
         auto router_name = parser.get<std::string>("r");
         if(router_name =="naive_cached")
             LSTK_NOOP;// Already set
         else if(router_name=="naive")
-            router = std::make_unique<lsqecc::NaiveDijkstraRouter>();
+            router = std::make_unique<NaiveDijkstraRouter>();
         else
         {
-            std::cerr<<"Unknown router: "<< router_name <<std::endl;
-            std::cerr << "Choices are: naive, naive_cached." << std::endl;
+            err_stream <<"Unknown router: "<< router_name << std::endl;
+            err_stream << "Choices are: naive, naive_cached." << std::endl;
             return -1;
         }
     }
 
-    router->set_graph_search_provider(lsqecc::GraphSearchProvider::Custom);
+    router->set_graph_search_provider(GraphSearchProvider::Custom);
     if(parser.exists("g"))
     {
         auto router_name = parser.get<std::string>("r");
         if(router_name =="custom")
             LSTK_NOOP;// Already set
         else if(router_name=="boost")
-            router->set_graph_search_provider(lsqecc::GraphSearchProvider::Boost);
+            router->set_graph_search_provider(GraphSearchProvider::Boost);
         else
         {
-            std::cerr<<"Unknown router: "<< router_name <<std::endl;
-            std::cerr << "Choices are: custom, boost." << std::endl;
+            err_stream<<"Unknown router: "<< router_name <<std::endl;
+            err_stream << "Choices are: custom, boost." << std::endl;
             return -1;
         }
     }
 
 
-    auto no_op_visitor = [](const lsqecc::Slice& s) -> void {LSTK_UNUSED(s);};
+    auto no_op_visitor = [](const Slice& s) -> void {LSTK_UNUSED(s);};
 
     // TODO replace this with a stream to file visitor
-    lsqecc::PatchComputation::SliceVisitorFunction slice_appending_visitor(no_op_visitor);
-    std::vector<lsqecc::Slice> slices;
+    PatchComputation::SliceVisitorFunction slice_appending_visitor(no_op_visitor);
+    std::vector<Slice> slices;
     if(parser.exists("o"))
     {
-        slice_appending_visitor = [&slices](const lsqecc::Slice& s){
+        slice_appending_visitor = [&slices](const Slice& s){
             slices.push_back(s);
         };
     }
 
     size_t slice_counter = 0;
-    lsqecc::PatchComputation::SliceVisitorFunction visitor_with_progress = slice_appending_visitor;
+    PatchComputation::SliceVisitorFunction visitor_with_progress = slice_appending_visitor;
     auto gave_update_at = lstk::now();
     if(output_format_mode == OutputFormatMode::Progress)
     {
-        visitor_with_progress = [&](const lsqecc::Slice& s)
+        visitor_with_progress = [&](const Slice& s)
         {
             slice_appending_visitor(s);
             slice_counter++;
             if(lstk::seconds_since(gave_update_at)>=1)
             {
-                std::cout << "Slice count: " << slice_counter << "\r" << std::flush;
+                out_stream << "Slice count: " << slice_counter << "\r" << std::flush;
                 gave_update_at = std::chrono::steady_clock::now();
             }
         };
     }
 
     auto start = lstk::now();
-    lsqecc::PatchComputation patch_computation {
+    PatchComputation patch_computation {
             std::move(instruction_stream),
             std::move(layout),
             std::move(router),
@@ -198,26 +202,62 @@ int main(int argc, const char* argv[])
 
     if(output_format_mode == OutputFormatMode::Machine)
     {
-        std::cout << patch_computation.ls_instructions_count() << ","
+        out_stream << patch_computation.ls_instructions_count() << ","
                   << patch_computation.slice_count() << ","
                   << lstk::seconds_since(start) << std::endl;
     }
     else
     {
-        std::cout << "LS Instructions read  " << patch_computation.ls_instructions_count() << std::endl;
-        std::cout << "Slices " << patch_computation.slice_count() << std::endl;
-        std::cout << "Made patch computation. Took " << lstk::seconds_since(start) << "s." << std::endl;
+        out_stream << "LS Instructions read  " << patch_computation.ls_instructions_count() << std::endl;
+        out_stream << "Slices " << patch_computation.slice_count() << std::endl;
+        out_stream << "Made patch computation. Took " << lstk::seconds_since(start) << "s." << std::endl;
     }
 
     if(slices.size()>0)
     {
-        std::cout << "Writing slices to file" << std::endl;
+        out_stream << "Writing slices to file" << std::endl;
         start = lstk::now();
-        auto slices_json = lsqecc::slices_to_json(slices);
+        auto slices_json = slices_to_json(slices);
         std::ofstream(parser.get<std::string>("o")) << slices_json.dump(3) << std::endl;
-        std::cout << "Written slices. Took "<< lstk::since(start).count() << "s." << std::endl;
+        out_stream << "Written slices. Took "<< lstk::since(start).count() << "s." << std::endl;
     }
 
 
     return 0;
+}
+
+
+
+std::string run_slicer_program_from_strings(std::string command_line, std::string standard_input)
+{
+    std::vector<std::string> args = lstk::split_on_get_strings(command_line, ' ');
+    std::vector<const char*> c_args;
+
+    for (const auto &arg : args)
+        c_args.push_back(arg.c_str());
+
+    std::istringstream input{standard_input};
+    std::ostringstream output;
+    std::ostringstream err;
+
+    int exit_code = -1;
+    try {
+        exit_code = run_slicer_program(static_cast<int>(c_args.size()), c_args.data(), input, output, err);
+    } catch (const std::exception& e)
+    {
+        err << "Compiler exception: " << e.what() << std::endl;
+    }
+
+    nlohmann::json json_res = {
+            {"output", output.str()},
+            {"err",err.str()},
+            {"exit_code", exit_code}
+    };
+
+    return json_res.dump(3);
+}
+
+
+
+
 }

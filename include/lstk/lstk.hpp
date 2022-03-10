@@ -83,6 +83,16 @@ static inline std::vector<std::string_view> split_on(std::string_view s, char de
     return ret;
 }
 
+static inline std::vector<std::string> split_on_get_strings(std::string_view s, char delim)
+{
+    std::vector<std::string> ret;
+    auto sub_strs = split_on(s, delim);
+    for (const auto &item : sub_strs)
+        ret.emplace_back(item);
+    return ret;
+}
+
+
 }
 
 #endif //LSQECC_LSTK_HPP

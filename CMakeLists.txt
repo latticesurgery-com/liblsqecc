@@ -43,6 +43,7 @@ add_library(
         src/patches/fast_patch_computation.cpp
         src/ls_instructions/ls_instructions.cpp
         src/ls_instructions/ls_instructions_parse.cpp
+        src/ls_instructions/ls_instruction_stream.cpp
         src/ls_instructions/parse_utils.cpp
         src/patches/patches.cpp
         src/patches/slice.cpp
@@ -52,7 +53,8 @@ add_library(
         src/layout/router.cpp
         src/layout/ascii_layout_spec.cpp
         src/layout/layout.cpp
-        src/ls_instructions/ls_instruction_stream.cpp)
+        src/pipelines/slicer.cpp
+        )
 
 set(LSQECCLIB_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/include")
 
@@ -67,24 +69,30 @@ set_property(TARGET lsqecclib PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 ###################################################
 # Command line executable
-add_executable(
-        lsqecc_slicer
-        src/slicer.cpp
-)
+if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
 
-target_link_libraries(
-        lsqecc_slicer PUBLIC lsqecclib
-)
+    add_executable(
+            lsqecc_slicer
+            src/lsqecc_slicer_main.cpp
+    )
+
+    target_link_libraries(
+            lsqecc_slicer PUBLIC lsqecclib
+    )
+
+endif()
 
 ###################################################
 # Emscripten interface
 
 if(DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
-
+    
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fexceptions")
+    
     add_executable(
             lsqecc_emscripten
             src/emscripten_bindings.cpp
-    )
+            src/pipelines/slicer.cpp)
 
     target_link_libraries(
             lsqecc_emscripten PUBLIC lsqecclib
@@ -95,6 +103,13 @@ if(DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
             PUBLIC
             #TODO
     )
+    
+    set_target_properties(lsqecclib PROPERTIES LINK_FLAGS "-fexceptions -s MODULARIZE=1 -s TOTAL_MEMORY=1024MB -s DEMANGLE_SUPPORT=1  --bind")
+    set_target_properties(lsqecc_emscripten PROPERTIES LINK_FLAGS "-fexceptions -s MODULARIZE=1 -s TOTAL_MEMORY=1024MB -s DEMANGLE_SUPPORT=1 -s EXPORT_NAME='LsqeccModule' --bind")
+
+    #target_link_options(lsqecclib PUBLIC "-s TOTAL_MEMORY=1024MB ")
+    #target_link_options(lsqecc_emscripten PUBLIC "-s TOTAL_MEMORY=1024MB --bind")
+
 endif()
 
 
@@ -117,34 +132,36 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
     target_link_libraries(
             lsqecclib_bybind PUBLIC lsqecclib
     )
+
+
+    ###################################################
+    # Tests
+
+    enable_testing()
+
+
+    # lib
+    add_executable(
+            lsqecc_tests
+            tests/main.cpp
+            tests/patches/fast_patch_computation.cpp
+            tests/logical_lattice_ops/ls_instructions.cpp
+            tests/logical_lattice_ops/ls_instructions_parse.cpp)
+    target_link_libraries(
+            lsqecc_tests
+            lsqecclib
+            gtest
+            gtest_main
+    )
+    add_test(
+            NAME unit
+            COMMAND ${PROJECT_BINARY_DIR}/lsqecc_tests
+    )
+    #add_custom_command(
+    #        TARGET lsqecc_tests
+    #        COMMENT "Run lsqecc_tests"
+    #        POST_BUILD
+    #        COMMAND valgrind ${PROJECT_BINARY_DIR}/lsqecc_tests
+    #)
+
 endif()
-
-###################################################
-# Tests
-
-enable_testing()
-
-
-# lib
-add_executable(
-        lsqecc_tests
-        tests/main.cpp
-        tests/patches/fast_patch_computation.cpp
-        tests/logical_lattice_ops/ls_instructions.cpp
-        tests/logical_lattice_ops/ls_instructions_parse.cpp)
-target_link_libraries(
-        lsqecc_tests
-        lsqecclib
-        gtest
-        gtest_main
-)
-add_test(
-        NAME unit
-        COMMAND ${PROJECT_BINARY_DIR}/lsqecc_tests
-)
-#add_custom_command(
-#        TARGET lsqecc_tests
-#        COMMENT "Run lsqecc_tests"
-#        POST_BUILD
-#        COMMAND valgrind ${PROJECT_BINARY_DIR}/lsqecc_tests
-#)

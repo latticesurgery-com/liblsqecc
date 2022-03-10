@@ -1,12 +1,9 @@
 #include <emscripten/bind.h>
+#include <lsqecc/pipelines/slicer.hpp>
 
 using namespace emscripten;
 
-std::string getText()
-{
-    return "Hello there from C++!";
-}
 
-EMSCRIPTEN_BINDINGS(my_module) {
-        function("getText", &getText);
+EMSCRIPTEN_BINDINGS(lsqecc_emscripten) {
+        function("run_slicer_program_from_strings", &lsqecc::run_slicer_program_from_strings);
 }
