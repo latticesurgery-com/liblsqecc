@@ -12,8 +12,10 @@
 #include <vector>
 #include <string_view>
 #include <optional>
+#include <stdexcept>
 #include <chrono>
 
+#define LSTK_UNREACHABLE throw std::logic_error(std::string{"Meant to be unreachable: "}+__FILE__+":"+std::to_string(__LINE__))
 
 namespace lstk {
 

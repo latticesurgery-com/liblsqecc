@@ -14,6 +14,8 @@ BoundaryType boundary_for_operator(PauliOperator op){
     case PauliOperator::I: throw std::logic_error("No boundary for I operator");
     case PauliOperator::Y: throw std::logic_error("No boundary for Y operator");
     }
+
+    LSTK_UNREACHABLE;
 }
 
 PatchId global_patch_id_counter = 0;
@@ -54,7 +56,20 @@ const Cell& Patch::get_a_cell() const
     }
 }
 
-std::vector<Cell> Cell::get_neigbours() const
+void Patch::visit_individual_cells(void (*v)(SingleCellOccupiedByPatch &))
+{
+    if(SingleCellOccupiedByPatch* patch = std::get_if<SingleCellOccupiedByPatch>(&cells))
+    {
+        v(*patch);
+    }
+    else
+    {
+        auto& single_cells = std::get<MultipleCellsOccupiedByPatch>(cells).sub_cells;
+        for(auto& c: single_cells) v(c);
+    }
+}
+
+    std::vector<Cell> Cell::get_neigbours() const
 {
     return {Cell{row-1, col},
             Cell{row+1, col},
@@ -82,6 +97,7 @@ std::optional<Boundary> SingleCellOccupiedByPatch::get_boundary_with(const Cell&
 
     return std::nullopt;
 }
+
 
 
 bool SingleCellOccupiedByPatch::have_boundary_of_type_with(PauliOperator op, const Cell& neighbour) const

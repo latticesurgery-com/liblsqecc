@@ -18,7 +18,10 @@ struct Slice {
     std::vector<SurfaceCodeTimestep> time_to_next_magic_state_by_distillation_region;
 
     Patch& get_patch_by_id_mut(PatchId id);
+
     const Patch& get_patch_by_id(PatchId id) const;
+    const SingleCellOccupiedByPatch& get_single_cell_occupied_by_patch_by_id(PatchId id) const;
+    SingleCellOccupiedByPatch& get_single_cell_occupied_by_patch_by_id_mut(PatchId id);
     std::optional<std::reference_wrapper<const Patch>> get_qubit_patch_on_cell(const Cell& cell) const;
     std::optional<std::reference_wrapper<const Patch>> get_magic_state_on_cell(const Cell& cell) const;
     std::optional<std::reference_wrapper<const Patch>> get_any_patch_on_cell(const Cell& cell) const;

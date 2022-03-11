@@ -40,14 +40,8 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
 )
 {
 
-    auto get_underlying_patch = [&](PatchId patch_id) -> const SingleCellOccupiedByPatch&
-    {
-        const auto* patch = std::get_if<SingleCellOccupiedByPatch>(&slice.get_patch_by_id(patch_id).cells);
-        if (patch==nullptr) throw std::logic_error("Cannot route multi cell patch with id "+std::to_string(patch_id));
-        return *patch;
-    };
-    const auto& source_patch = get_underlying_patch(source);
-    const auto& target_patch = get_underlying_patch(target);
+    const auto& source_patch = slice.get_single_cell_occupied_by_patch_by_id(source);
+    const auto& target_patch = slice.get_single_cell_occupied_by_patch_by_id(target);
 
     Cell furthest_cell = slice.layout.get().furthest_cell();
 

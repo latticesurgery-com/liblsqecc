@@ -96,6 +96,7 @@ struct Patch{
     std::vector<Cell> get_cells() const;
     const Cell& get_a_cell() const;
     bool operator==(const Patch&) const = default;
+    void visit_individual_cells(void (v)(SingleCellOccupiedByPatch& c));
 };
 
 struct RoutingRegion

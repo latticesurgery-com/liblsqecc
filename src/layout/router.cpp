@@ -62,6 +62,8 @@ std::optional<RoutingRegion>NaiveDijkstraRouter::find_routing_ancilla(
     case GraphSearchProvider::Custom:
         return custom_graph_search::graph_search_route_ancilla(slice, source, source_op, target, target_op);
     }
+
+    LSTK_UNREACHABLE;
 }
 
 
