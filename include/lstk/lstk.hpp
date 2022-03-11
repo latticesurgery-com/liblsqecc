@@ -12,6 +12,7 @@
 #include <vector>
 #include <string_view>
 #include <optional>
+#include <chrono>
 
 
 namespace lstk {

@@ -5,6 +5,7 @@
 #include <lsqecc/layout/layout.hpp>
 
 #include <queue>
+#include <functional>
 
 namespace lsqecc {
 

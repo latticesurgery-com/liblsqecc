@@ -34,7 +34,7 @@ struct Cell {
     static Cell from_ints(IntType _row, IntType _col)
     {
         return Cell{static_cast<Cell::CoordinateType>(_row),Cell::CoordinateType(_col)};
-    };
+    }
 
     bool operator==(const Cell&) const = default;
 };

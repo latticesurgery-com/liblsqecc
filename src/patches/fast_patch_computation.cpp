@@ -87,7 +87,7 @@ Slice& PatchComputation::make_new_slice()
 
 
     // Make magic states appear:
-    for (int i = 0; i<old_slice.time_to_next_magic_state_by_distillation_region.size(); ++i)
+    for (size_t i = 0; i<old_slice.time_to_next_magic_state_by_distillation_region.size(); ++i)
     {
         new_slice.time_to_next_magic_state_by_distillation_region.push_back(
                 old_slice.time_to_next_magic_state_by_distillation_region[i]-1);

@@ -1,5 +1,7 @@
 #include <lsqecc/patches/patches.hpp>
 
+#include <functional>
+
 namespace lsqecc {
 
 
