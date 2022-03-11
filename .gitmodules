@@ -13,3 +13,6 @@
 [submodule "external/staq"]
 	path = external/staq
 	url = https://github.com/softwareQinc/staq
+[submodule "external/pybind11"]
+	path = external/pybind11
+	url = git@github.com:pybind/pybind11.git
