@@ -30,7 +30,8 @@ struct PredecessorData {
 
 
 
-std::optional<RoutingRegion> graph_search_route_ancilla(
+template<bool want_cycle>
+std::optional<RoutingRegion> do_graph_search_route_ancilla(
         const Slice& slice,
         PatchId source,
         PauliOperator source_op,
@@ -39,31 +40,42 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
 )
 {
 
-    Cell furthest_cell = slice.layout.get().furthest_cell();
-
-    auto make_vertex = [&furthest_cell](const Cell& cell) -> Vertex
-    {
-        return cell.row*(furthest_cell.col+1)+cell.col;
-    };
-
-    auto cell_from_vertex = [&furthest_cell](Vertex vertex) -> Cell
-    {
-        auto v = static_cast<Cell::CoordinateType>(vertex);
-        auto col = v%(furthest_cell.col+1);
-        return Cell{(v-col)/(furthest_cell.col+1), col};
-    };
-
-
     auto get_underlying_patch = [&](PatchId patch_id) -> const SingleCellOccupiedByPatch&
     {
         const auto* patch = std::get_if<SingleCellOccupiedByPatch>(&slice.get_patch_by_id(patch_id).cells);
         if (patch==nullptr) throw std::logic_error("Cannot route multi cell patch with id "+std::to_string(patch_id));
         return *patch;
     };
-
     const auto& source_patch = get_underlying_patch(source);
-    Vertex source_vertex = make_vertex(source_patch.cell);
     const auto& target_patch = get_underlying_patch(target);
+
+    Cell furthest_cell = slice.layout.get().furthest_cell();
+
+
+    auto make_vertex = [&furthest_cell](const Cell& cell) -> Vertex
+    {
+        return cell.row*(furthest_cell.col+1)+cell.col;
+    };
+
+    // Only used when want_cycle
+    Vertex simulated_source = make_vertex(furthest_cell)+1;
+
+    auto cell_from_vertex = [&](Vertex vertex) -> Cell
+    {
+        if constexpr (want_cycle)
+        {
+            // In this case we add a simulate source at the end of the list of vertices
+            if(vertex == simulated_source)
+                return target_patch.cell;
+        }
+
+        auto v = static_cast<Cell::CoordinateType>(vertex);
+        auto col = v%(furthest_cell.col+1);
+        return Cell{(v-col)/(furthest_cell.col+1), col};
+    };
+
+
+    Vertex source_vertex = make_vertex(source_patch.cell);
     Vertex target_vertex = make_vertex(target_patch.cell);
 
 
@@ -84,19 +96,38 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
     };
 
 
-    size_t index_of_the_last_vertex = make_vertex(furthest_cell);
-    std::vector<PredecessorData> predecessor_map(index_of_the_last_vertex+1);
+    size_t num_vertices_on_lattice = make_vertex(furthest_cell) + 1;
+    std::vector<PredecessorData> predecessor_map(num_vertices_on_lattice);
     for (size_t i = 0; i<predecessor_map.size(); ++i)
         predecessor_map[i] = PredecessorData{std::nullopt, i};
 
-
-    predecessor_map[source_vertex] = {0, source_vertex};
 
     auto cmp = [&](Vertex a, Vertex b){
         return predecessor_map[a] > predecessor_map[b]; // Note the inversion
     };
     std::priority_queue<Vertex, std::vector<Vertex>, decltype(cmp)> frontier(cmp);
-    frontier.push(source_vertex);
+
+    if constexpr (!want_cycle)
+    {
+        predecessor_map[source_vertex] = {0, source_vertex};
+        frontier.push(source_vertex);
+    }
+    else // Simulated double source to force a cycle case
+    {
+        predecessor_map.push_back({0,simulated_source});
+
+        auto neighbours = slice.get_neigbours_within_slice(source_patch.cell);
+        for(const Cell& neighbour_cell : neighbours)
+        {
+            if(have_directed_edge(source_patch.cell, neighbour_cell))
+            {
+                Vertex neighbour = make_vertex(neighbour_cell);
+                predecessor_map[neighbour] = {1, simulated_source};
+                frontier.push(neighbour);
+            }
+        }
+
+    }
 
     while(frontier.size()>0)
     {
@@ -139,6 +170,7 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
     Vertex prec = make_vertex(slice.get_patch_by_id(target).get_a_cell());
     Vertex curr = predecessor_map[target_vertex].predecessor;
     Vertex next = predecessor_map[curr].predecessor;
+
     while (curr!=next)
     {
         Cell prec_cell = cell_from_vertex(prec);
@@ -168,18 +200,24 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
     }
 
     // Check if out path reached the source
-    return curr==source_vertex ? std::make_optional(ret) : std::nullopt;
+
+    bool reached_source = curr==source_vertex;
+    if constexpr (want_cycle) reached_source = curr == simulated_source;
+    return reached_source ? std::make_optional(ret) : std::nullopt;
 }
 
-std::optional<RoutingRegion> do_s_gate_routing(Slice& slice, PatchId target)
+std::optional<RoutingRegion> graph_search_route_ancilla(
+        const Slice& slice,
+        PatchId source,
+        PauliOperator source_op,
+        PatchId target,
+        PauliOperator target_op
+)
 {
-    return graph_search_route_ancilla(
-            slice,
-            target,
-            PauliOperator::X,
-            target,
-            PauliOperator::Z
-    );
+
+    return source == target ?
+        do_graph_search_route_ancilla<true>(slice, source, source_op, target, target_op):
+        do_graph_search_route_ancilla<false>(slice, source, source_op, target, target_op);
 }
 
 

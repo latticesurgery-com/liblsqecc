@@ -124,6 +124,19 @@ std::optional<Cell> find_free_ancilla_location(const Layout& layout, const Slice
     return std::nullopt;
 }
 
+void activate_edges_next_to_routing(const Slice& slice,
+                                    PatchId source, PatchId target,
+                                    const RoutingRegion& routing_region)
+{
+
+
+    if (routing_region.cells.size() == 0)
+    {
+
+    }
+}
+
+
 
 void PatchComputation::make_slices(
         LSInstructionStream&& instruction_stream,
@@ -153,12 +166,13 @@ void PatchComputation::make_slices(
             if(p->op == SingleQubitOp::Operator::S)
             {
                 Slice& pre_slice = make_new_slice();
-                auto path = router_->do_s_gate(pre_slice, p->target);
+                auto path = router_->find_routing_ancilla(pre_slice, p->target, PauliOperator::X, p->target, PauliOperator::Z);
                 if(!path)
                     throw std::logic_error(
                             std::string{"Couldn't find room to do an S gate measurement on patch "}
                             + std::to_string(p->target));
                 pre_slice.routing_regions.push_back(*path);
+                slice_visitor(pre_slice);
             }
             Slice& slice = make_new_slice();
             slice.get_patch_by_id_mut(p->target).activity = PatchActivity::Unitary;

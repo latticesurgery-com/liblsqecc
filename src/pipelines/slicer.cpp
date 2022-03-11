@@ -114,7 +114,13 @@ namespace lsqecc
 
         std::optional<std::ifstream> instructions_file;
         if(parser.exists("i"))
+        {
             instructions_file = std::ifstream(parser.get<std::string>("i"));
+            if(instructions_file->fail()){
+                err_stream << "Could not open instruction file: " << parser.get<std::string>("i") <<std::endl;
+                return -1;
+            }
+        }
 
         LSInstructionStream instruction_stream{instructions_file?*instructions_file:in_stream};
 

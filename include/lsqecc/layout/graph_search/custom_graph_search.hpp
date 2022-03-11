@@ -8,6 +8,7 @@ namespace lsqecc {
 
 namespace custom_graph_search {
 
+
 std::optional<RoutingRegion> graph_search_route_ancilla(
         const Slice& slice,
         PatchId source,
@@ -16,7 +17,7 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
         PauliOperator target_op
 );
 
-std::optional<RoutingRegion> do_s_gate_routing(Slice& slice, PatchId target);
+std::optional<RoutingRegion> cycle_routing(Slice& slice, PatchId target);
 
 }
 

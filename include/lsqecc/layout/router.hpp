@@ -22,8 +22,6 @@ struct Router {
                 PauliOperator target_op
             ) const = 0;
 
-    virtual std::optional<RoutingRegion> do_s_gate(Slice& slice, PatchId target) const = 0;
-
     virtual void set_graph_search_provider(GraphSearchProvider graph_search_provider) = 0;
 
     virtual ~Router(){};
@@ -40,14 +38,12 @@ struct NaiveDijkstraRouter : public Router
             PauliOperator target_op
     ) const override;
 
-    std::optional<RoutingRegion> do_s_gate(Slice& slice, PatchId target) const override;
-
     void set_graph_search_provider(GraphSearchProvider graph_search_provider) override {
         graph_search_provider_ = graph_search_provider;
     };
 
 private:
-    GraphSearchProvider graph_search_provider_ = GraphSearchProvider::Boost;
+    GraphSearchProvider graph_search_provider_ = GraphSearchProvider::Custom;
 
 };
 
@@ -68,7 +64,6 @@ struct CachedNaiveDijkstraRouter : public Router
             PauliOperator target_op
     ) const override;
 
-    std::optional<RoutingRegion> do_s_gate(Slice& slice, PatchId target) const override;
 
     void set_graph_search_provider(GraphSearchProvider graph_search_provider) override {
         naive_router_.set_graph_search_provider(graph_search_provider);

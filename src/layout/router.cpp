@@ -37,15 +37,6 @@ std::optional<RoutingRegion> CachedNaiveDijkstraRouter::find_routing_ancilla(con
 }
 
 
-std::optional<RoutingRegion> CachedNaiveDijkstraRouter::do_s_gate(Slice& slice, PatchId target) const
-{
-    return find_routing_ancilla(
-            slice,
-            target,
-            PauliOperator::X,
-            target,
-            PauliOperator::Z);
-}
 
 size_t CachedNaiveDijkstraRouter::PathIdentifier::hash::operator()(
         const CachedNaiveDijkstraRouter::PathIdentifier& x) const
@@ -73,16 +64,6 @@ std::optional<RoutingRegion>NaiveDijkstraRouter::find_routing_ancilla(
     }
 }
 
-std::optional<RoutingRegion>NaiveDijkstraRouter::do_s_gate(lsqecc::Slice& slice, PatchId target) const
-{
-    switch(graph_search_provider_)
-    {
-    case GraphSearchProvider::Boost:
-        return boost_graph_search::do_s_gate_routing(slice, target);
-    case GraphSearchProvider::Custom:
-        return custom_graph_search::do_s_gate_routing(slice, target);
-    }
-}
 
 
 }
