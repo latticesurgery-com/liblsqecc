@@ -11,6 +11,7 @@
 
 #include <vector>
 #include <string_view>
+#include <functional>
 #include <optional>
 #include <stdexcept>
 #include <chrono>
@@ -95,6 +96,26 @@ static inline std::vector<std::string> split_on_get_strings(std::string_view s, 
     return ret;
 }
 
+static inline bool contains(std::string_view s, char target){
+    return s.find(target) != std::string_view::npos;
+}
+
+// String manipulation
+
+template<class Stringifyable>
+std::string cat(Stringifyable&& s)
+{
+    if constexpr (std::is_arithmetic_v<Stringifyable>)
+        return std::to_string(s);
+    else
+        return std::string{s};
+}
+
+template<class Stringifyable, class ...Args>
+std::string cat(Stringifyable&& s, Args&&... args)
+{
+    return cat(std::forward<Stringifyable>(s))+cat(std::forward<Args>(args)...);
+}
 
 }
 
