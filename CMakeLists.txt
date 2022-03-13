@@ -44,6 +44,7 @@ include_directories(external/include)
 
 add_library(
         lsqecclib
+        src/gates/parse_gates.cpp
         src/patches/fast_patch_computation.cpp
         src/ls_instructions/ls_instructions.cpp
         src/ls_instructions/ls_instructions_parse.cpp
@@ -77,8 +78,7 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
 
     add_executable(
             lsqecc_slicer
-            src/lsqecc_slicer_main.cpp
-    )
+            src/lsqecc_slicer_main.cpp)
 
     target_link_libraries(
             lsqecc_slicer PUBLIC lsqecclib
