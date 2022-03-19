@@ -13,17 +13,23 @@
 
 namespace lsqecc {
 
-class LSInstructionStream;
-
-
-
-class LSInstructionStream {
+class LSInstructionStream
+{
 public:
-    LSInstructionStream(std::istream& instructions_file);
+    virtual LSInstruction get_next_instruction() =0 ;
+    virtual bool has_next_instruction() const = 0;
+    virtual const tsl::ordered_set<PatchId>& core_qubits() const = 0;
+};
 
-    LSInstruction get_next_instruction();
-    bool has_next_instruction() const {return next_instruction_.has_value();};
-    const tsl::ordered_set<PatchId>& core_qubits() const {return core_qubits_;}
+
+
+class LSInstructionStreamFromFile : public LSInstructionStream {
+public:
+    LSInstructionStreamFromFile(std::istream& instructions_file);
+
+    LSInstruction get_next_instruction() override;
+    bool has_next_instruction() const override {return next_instruction_.has_value();};
+    const tsl::ordered_set<PatchId>& core_qubits() const override {return core_qubits_;}
 
 private:
     std::istream& instructions_file_;

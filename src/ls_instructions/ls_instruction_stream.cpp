@@ -10,7 +10,7 @@ namespace lsqecc {
 using namespace std::string_literals;
 
 
-void LSInstructionStream::advance_instruction()
+void LSInstructionStreamFromFile::advance_instruction()
 {
     std::string line;
     while(!instructions_file_.eof() && line.size() ==0)
@@ -36,7 +36,7 @@ void LSInstructionStream::advance_instruction()
 }
 
 
-LSInstructionStream::LSInstructionStream(std::istream& instructions_file)
+LSInstructionStreamFromFile::LSInstructionStreamFromFile(std::istream& instructions_file)
     :instructions_file_(instructions_file)
 {
 
@@ -51,7 +51,7 @@ LSInstructionStream::LSInstructionStream(std::istream& instructions_file)
     core_qubits_ = std::get<DeclareLogicalQubitPatches>(first_instruction.operation).patch_ids;
 }
 
-LSInstruction LSInstructionStream::get_next_instruction()
+LSInstruction LSInstructionStreamFromFile::get_next_instruction()
 {
     LSInstruction instruction = next_instruction_.value();
     advance_instruction();

@@ -10,7 +10,7 @@
 namespace lsqecc
 {
 
-using ArbitraryPrecisionInteger = uint32_t;
+using ArbitraryPrecisionInteger = int64_t;
 
 struct Fraction{
     ArbitraryPrecisionInteger num;
@@ -67,7 +67,9 @@ MAKE_BASIC_GATE(X);
 MAKE_BASIC_GATE(Z);
 MAKE_BASIC_GATE(S);
 MAKE_BASIC_GATE(T);
-MAKE_BASIC_GATE(H);
+MAKE_BASIC_GATE(H)
+
+#undef MAKE_BASIC_GATE
 
 
 inline constexpr ControlledGate CNOT(QubitNum target_qubit, QubitNum control_qubit){
@@ -80,8 +82,9 @@ inline constexpr ControlledGate CRZ(QubitNum target_qubit, QubitNum control_qubi
 
 using Gate = std::variant<BasicGate, RZ, ControlledGate>;
 
-}
+} // gates namespace
 
+std::vector<gates::Gate> to_clifford_plus_t(gates::Gate gate);
 
 }
 

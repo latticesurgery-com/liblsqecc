@@ -59,7 +59,7 @@ add_library(
         src/layout/ascii_layout_spec.cpp
         src/layout/layout.cpp
         src/pipelines/slicer.cpp
-        )
+        src/gates/gates.cpp)
 
 set(LSQECCLIB_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/include")
 
