@@ -3,6 +3,8 @@
 
 #include <lsqecc/ls_instructions/ls_instruction_stream.hpp>
 #include <lsqecc/ls_instructions/ls_instructions_parse.hpp>
+#include <lsqecc/ls_instructions/from_gates.hpp>
+
 
 
 
@@ -56,6 +58,27 @@ LSInstruction LSInstructionStreamFromFile::get_next_instruction()
     LSInstruction instruction = next_instruction_.value();
     advance_instruction();
     return instruction;
+}
+
+LSInstruction LSInstructionStreamFromGateStream::get_next_instruction()
+{
+    if(next_instructions_.empty())
+    {
+        if(!gate_stream_.has_next_gate())
+            throw std::logic_error{"LSInstructionStreamFromGateStream: No more gates but requesting instructions"};
+
+        // RESUME HERE BREAKING INSTRUCIONS DOWN AND PUSHING THEM TO next_instructions_
+
+    }
+
+    return lstk::queue_pop(next_instructions_);
+}
+
+
+
+LSInstructionStreamFromGateStream::LSInstructionStreamFromGateStream(GateStream& gate_stream)
+: gate_stream_(gate_stream)
+{
 }
 
 

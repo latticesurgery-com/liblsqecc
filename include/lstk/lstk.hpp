@@ -10,6 +10,7 @@
 #define LSTK_UNUSED(X) static_cast<void>(X)
 
 #include <vector>
+#include <queue>
 #include <string_view>
 #include <functional>
 #include <optional>
@@ -126,6 +127,14 @@ template<class T>
 void vector_extend(std::vector<T> &target, const std::vector<T> &extend_with)
 {
     target.insert(target.end(), extend_with.begin(), extend_with.end());
+}
+
+template<class T>
+T queue_pop(std::queue<T> queue)
+{
+    T v = queue.front();
+    queue.pop();
+    return v;
 }
 
 

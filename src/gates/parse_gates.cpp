@@ -25,15 +25,15 @@ Integer try_parse_int(std::string_view sv)
     Integer res = std::strtol(s.c_str(), &endptr, 10);
 
     if (errno != 0)
-        throw std::runtime_error(lstk::cat("Could not parse ", s, "as string, strtol gave errno: ",
+        throw GateParseException(lstk::cat("Could not parse ", s, "as string, strtol gave errno: ",
                                                 static_cast<int>(errno)));
     if (endptr == s.c_str())
-        throw std::runtime_error(lstk::cat("Could not parse ", s, ". No digits were found"));
+        throw GateParseException(lstk::cat("Could not parse ", s, ". No digits were found"));
     if (*endptr != '\0')
-        throw std::runtime_error(lstk::cat("Could not parse ", s, ". Further characters after number"));
+        throw GateParseException(lstk::cat("Could not parse ", s, ". Further characters after number"));
 
 //    if(std::to_string(res) != s)
-//        throw std::runtime_error(std::string{"Could not parse "} + s + "as string, atol gave "+std::to_string(res));
+//        throw GateParseException(std::string{"Could not parse "} + s + "as string, atol gave "+std::to_string(res));
     return res;
 }
 
@@ -77,7 +77,7 @@ gates::Gate parse_qasm_gate(const Line& line)
                 Fraction{1,pi_frac_den}};
         }
         else {
-            throw std::runtime_error{lstk::cat(
+            throw GateParseException{lstk::cat(
                     "Can only parse pi/n for n power of 2 angles as crz args, got ",line.instruction)};
         }
     }
@@ -93,44 +93,110 @@ gates::Gate parse_qasm_gate(const Line& line)
                 Fraction{1,pi_frac_den});
         }
         else {
-            throw std::runtime_error{lstk::cat(
+            throw GateParseException{lstk::cat(
                     "Can only parse pi/n for n power of 2 angles as crz args, got ",line.instruction)};
         }
     }
 
-    throw std::runtime_error{lstk::cat("Instruction not implemented ",line.instruction)};
+    throw GateParseException{lstk::cat("Instruction not implemented ",line.instruction)};
 }
 
 bool is_ignored_instruction(std::string_view instr)
 {
     if( instr == "OPENQASM" ||
         instr == "include" ||
-        instr == "barrier" ||
-        instr == "qreg")
+        instr == "barrier")
         return true;
     return false;
 }
 
 
-std::vector<gates::Gate> parse_all_gates_from_qasm(std::istream qasm_stream)
+
+Qreg parse_qreg(std::vector<std::string_view>& args)
 {
-    std::vector<gates::Gate> out;
+    if(args.size() != 1)
+        throw GateParseException(lstk::cat("Encountered qreg with ", args.size(), "args"));
 
-    while (!qasm_stream.eof())
+    auto parts = lstk::split_on(args[0], '[');
+    QubitNum num = get_index_arg(args[0]);
+    return {
+        .name=std::string{parts[0]},
+        .size=num
+    };
+}
+
+ParseGateResult parse_gate(std::string_view str_line)
+{
+    Line line = split_instruction_and_args(str_line);
+    if (!is_ignored_instruction(line.instruction))
     {
-        std::string str_line;
-        while (!qasm_stream.eof() && str_line.size() == 0)
-            std::getline(qasm_stream, str_line);
+        if (line.instruction == "qreg")
+            return parse_qreg(line.args);
+        else
+            return parse_qasm_gate(line);
+    }
+    return IgnoredInstruction{};
+}
 
-        if(str_line.size()>0)
+
+
+void GateStreamFromFile::advance_gate()
+{
+
+    ParseGateResult maybe_gate = IgnoredInstruction{};
+    while(!std::holds_alternative<gates::Gate>(maybe_gate))
+    {
+        std::string line;
+        while(!gate_file_.eof() && line.size() ==0)
         {
-            Line line = split_instruction_and_args(str_line);
-            if (!is_ignored_instruction(line.instruction))
-                out.push_back(parse_qasm_gate(line));
+            std::getline(gate_file_, line);
+            line_number_++;
+        }
+
+        if(line.size()==0)
+        {
+            next_gate_ = std::nullopt;
+            return;
+        }
+
+        try
+        {
+            maybe_gate = parse_gate(std::string_view{line});
+
+            if(auto* qreg = std::get_if<Qreg>(&maybe_gate))
+            {
+                if(!qreg_)
+                    qreg_ = *qreg;
+                else
+                    throw GateParseException{
+                            lstk::cat("Can only handle one qreg, found second at line ", line_number_)};
+            }
+        }
+        catch (const GateParseException& e)
+        {
+            throw std::runtime_error{
+                    lstk::cat("Encountered gate parsing exception at line ", line_number_, ":\n", e.what())};
         }
     }
 
-    return out;
+    next_gate_ = std::make_optional(std::get<gates::Gate>(maybe_gate));
+}
+
+
+GateStreamFromFile::GateStreamFromFile(std::istream& gate_file)
+        : gate_file_(gate_file)
+{
+    advance_gate();
+
+    if(!qreg_)
+        throw std::runtime_error{"A single qreg must precede instructions"};
+}
+
+gates::Gate GateStreamFromFile::get_next_gate()
+{
+    gates::Gate gate = next_gate_.value();
+    advance_gate();
+    return gate;
 }
 
 }

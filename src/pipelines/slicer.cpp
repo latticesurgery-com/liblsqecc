@@ -1,5 +1,6 @@
 #include <lsqecc/pipelines/slicer.hpp>
 
+#include <lsqecc/gates/parse_gates.hpp>
 #include <lsqecc/ls_instructions/ls_instruction_stream.hpp>
 #include <lsqecc/layout/ascii_layout_spec.hpp>
 #include <lsqecc/layout/router.hpp>
@@ -16,6 +17,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <filesystem>
+#include <fstream>
 #include <chrono>
 
 namespace lsqecc
@@ -115,8 +117,9 @@ namespace lsqecc
         }
 
 
-        std::unique_ptr<LSInstructionStream> instruction_stream;
         std::ifstream file_stream;
+
+        std::unique_ptr<LSInstructionStream> instruction_stream;
         if(parser.exists("i"))
         {
             if(parser.exists("q")){
@@ -132,7 +135,11 @@ namespace lsqecc
 
             instruction_stream = std::make_unique<LSInstructionStreamFromFile>(file_stream);
         }
+        if(!instruction_stream)
+            instruction_stream = std::make_unique<LSInstructionStreamFromFile>(std::cin);
 
+
+        std::unique_ptr<GateStream> gate_stream;
         if(parser.exists("q"))
         {
             file_stream = std::ifstream(parser.get<std::string>("q"));
@@ -141,12 +148,9 @@ namespace lsqecc
                 return -1;
             }
 
-            throw std::runtime_error{"Not implemented: -q option"};
+            gate_stream = std::make_unique<GateStreamFromFile>(file_stream);
         }
 
-
-        if(!instruction_stream)
-            instruction_stream = std::make_unique<LSInstructionStreamFromFile>(std::cin);
 
         std::unique_ptr<Layout> layout;
         if(parser.exists("l"))
