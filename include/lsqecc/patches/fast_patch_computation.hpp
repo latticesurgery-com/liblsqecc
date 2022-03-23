@@ -61,6 +61,7 @@ private:
     void compute_free_cells();
 
     std::optional<Cell> find_place_for_magic_state(size_t distillation_region_idx) const;
+    void merge_patches(Slice& slice, PatchId source, PauliOperator source_op, PatchId target, PauliOperator target_op);
 
 private: // Data members
     SliceStore slice_store_;

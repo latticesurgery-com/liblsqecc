@@ -8,6 +8,7 @@
 #include <iterator>
 #include <ranges>
 #include <iostream>
+#include <sstream>
 
 
 
@@ -77,6 +78,14 @@ Slice& PatchComputation::make_new_slice()
             // Clear Unitary Operator activity
             if (new_patch.activity==PatchActivity::Unitary)
                 new_patch.activity = PatchActivity::None;
+
+            new_patch.visit_individual_cells([](SingleCellOccupiedByPatch& c)
+            {
+               c.top.is_active = false;
+               c.bottom.is_active = false;
+               c.left.is_active = false;
+               c.right.is_active = false;
+            });
         }
         else
         {
@@ -87,7 +96,7 @@ Slice& PatchComputation::make_new_slice()
 
 
     // Make magic states appear:
-    for (int i = 0; i<old_slice.time_to_next_magic_state_by_distillation_region.size(); ++i)
+    for (size_t i = 0; i<old_slice.time_to_next_magic_state_by_distillation_region.size(); ++i)
     {
         new_slice.time_to_next_magic_state_by_distillation_region.push_back(
                 old_slice.time_to_next_magic_state_by_distillation_region[i]-1);
@@ -124,6 +133,53 @@ std::optional<Cell> find_free_ancilla_location(const Layout& layout, const Slice
     return std::nullopt;
 }
 
+void activate_edges_next_to_routing(const Slice& slice,
+                                    PatchId source,
+                                    PatchId target,
+                                    const RoutingRegion& routing_region)
+{
+
+
+}
+
+
+
+void PatchComputation::merge_patches(
+        Slice& slice,
+        PatchId source,
+        PauliOperator source_op,
+        PatchId target,
+        PauliOperator target_op)
+{
+    auto routing_region = router_->find_routing_ancilla(slice, source, source_op, target, target_op);
+    if(!routing_region)
+    {
+
+        std::stringstream err_msg {"Couldn't find room to route: "};
+        err_msg << source << ":" << PauliOperator_to_string(source_op) << ","
+                << target << ":" << PauliOperator_to_string(target_op) << std::endl;
+        throw std::runtime_error(err_msg.str());
+    }
+
+    slice.routing_regions.push_back(*routing_region);
+
+    auto& source_patch = slice.get_single_cell_occupied_by_patch_by_id_mut(source);
+    auto& target_patch = slice.get_single_cell_occupied_by_patch_by_id_mut(target);
+
+    if (routing_region->cells.empty())
+    {
+        source_patch.get_mut_boundary_with(target_patch.cell)->get().is_active=true;
+        target_patch.get_mut_boundary_with(source_patch.cell)->get().is_active=true;
+    }
+    else
+    {
+        source_patch.get_mut_boundary_with(routing_region->cells.back().cell)->get().is_active=true;
+        target_patch.get_mut_boundary_with(routing_region->cells.front().cell)->get().is_active=true;
+    }
+
+}
+
+
 
 void PatchComputation::make_slices(
         LSInstructionStream&& instruction_stream,
@@ -152,13 +208,9 @@ void PatchComputation::make_slices(
         {
             if(p->op == SingleQubitOp::Operator::S)
             {
-                Slice& pre_slice = make_new_slice();
-                auto path = router_->do_s_gate(pre_slice, p->target);
-                if(!path)
-                    throw std::logic_error(
-                            std::string{"Couldn't find room to do an S gate measurement on patch "}
-                            + std::to_string(p->target));
-                pre_slice.routing_regions.push_back(*path);
+                Slice& twist_merge_slice = make_new_slice();
+                merge_patches(twist_merge_slice, p->target, PauliOperator::X, p->target, PauliOperator::Z);
+                slice_visitor(twist_merge_slice);
             }
             Slice& slice = make_new_slice();
             slice.get_patch_by_id_mut(p->target).activity = PatchActivity::Unitary;
@@ -174,13 +226,7 @@ void PatchComputation::make_slices(
             const auto& [source_id, source_op] = *pairs++;
             const auto& [target_id, target_op] = *pairs;
 
-            auto path = router_->find_routing_ancilla(slice, source_id, source_op, target_id, target_op);
-
-            if(path)
-                slice.routing_regions.push_back(*path);
-            else
-                throw std::logic_error(std::string{"Couldn't find a path from "}
-                    +std::to_string(source_id)+" to "+ std::to_string(target_id));
+            merge_patches(slice, source_id, source_op, target_id, target_op);
             slice_visitor(slice);
         }
         else if (const auto* init = std::get_if<PatchInit>(&instruction.operation))
@@ -203,7 +249,7 @@ void PatchComputation::make_slices(
             size_t max_wait_for_magic_state = *std::max_element(d_times.begin(), d_times.end());
 
             std::optional<Patch> newly_bound_magic_state;
-            for (int i = 0; i<max_wait_for_magic_state; i++)
+            for (size_t i = 0; i<max_wait_for_magic_state; i++)
             {
                 auto& slice_with_magic_state = make_new_slice();
                 if(slice_with_magic_state.unbound_magic_states.size()>0)

@@ -35,6 +35,7 @@ json cell_patch_to_visual_array_edges_json(const SingleCellOccupiedByPatch& cell
         case BoundaryType::Rough:return boundary.is_active ? "DashedStiched": "Dashed";
         case BoundaryType::Smooth: return boundary.is_active ? "SolidStiched": "Solid";
         }
+        LSTK_UNREACHABLE;
     };
 
     return json{{"edges", {
@@ -65,6 +66,7 @@ json core_to_json(const Slice& slice)
                 case PatchType::Qubit: return "Qubit";
                 case PatchType::Routing: return "Ancilla";
                 }
+                LSTK_UNREACHABLE;
             }();
 
             visual_array_cell["activity"] = {
@@ -76,7 +78,9 @@ json core_to_json(const Slice& slice)
                                 case PatchActivity::None: return json();
                                 case PatchActivity::Measurement: return json("Measurement");
                                 case PatchActivity::Unitary: return json("Unitary");
-                                }}()
+                                }
+                                LSTK_UNREACHABLE;
+                            }()
                     }
             };
 

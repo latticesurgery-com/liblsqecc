@@ -83,4 +83,18 @@ Slice Slice::make_blank_slice(const Layout& layout)
     };
 }
 
+const SingleCellOccupiedByPatch &Slice::get_single_cell_occupied_by_patch_by_id(PatchId id) const
+{
+    return const_cast<Slice*>(this)->get_single_cell_occupied_by_patch_by_id_mut(id);
+
+}
+SingleCellOccupiedByPatch &Slice::get_single_cell_occupied_by_patch_by_id_mut(PatchId id)
+{
+
+    SingleCellOccupiedByPatch* patch = std::get_if<SingleCellOccupiedByPatch>(&get_patch_by_id_mut(id).cells);
+    if (patch==nullptr) throw std::logic_error("Patch "+std::to_string(id)+" does not hold a single cell");
+    return *patch;
+
+}
+
 }

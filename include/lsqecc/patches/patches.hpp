@@ -34,7 +34,7 @@ struct Cell {
     static Cell from_ints(IntType _row, IntType _col)
     {
         return Cell{static_cast<Cell::CoordinateType>(_row),Cell::CoordinateType(_col)};
-    };
+    }
 
     bool operator==(const Cell&) const = default;
 };
@@ -69,6 +69,7 @@ struct SingleCellOccupiedByPatch{
     Boundary right;
 
     std::optional<Boundary> get_boundary_with(const Cell& neighbour) const;
+    bool have_boundary_of_type_with(PauliOperator op, const Cell& neighbour) const;
     std::optional<std::reference_wrapper<Boundary>> get_mut_boundary_with(const Cell& neighbour);
 
     Cell cell;
@@ -95,6 +96,7 @@ struct Patch{
     std::vector<Cell> get_cells() const;
     const Cell& get_a_cell() const;
     bool operator==(const Patch&) const = default;
+    void visit_individual_cells(void (v)(SingleCellOccupiedByPatch& c));
 };
 
 struct RoutingRegion

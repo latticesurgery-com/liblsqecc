@@ -1,0 +1,4 @@
+DeclareLogicalQubitPatches 0,1,2,3
+SGate 1
+MultiBodyMeasure 0:X,3:Z
+SGate 3

@@ -13,9 +13,10 @@
 namespace lsqecc {
 
 
-
 struct DeclareLogicalQubitPatches{
     tsl::ordered_set<PatchId> patch_ids;
+
+    bool operator==(const DeclareLogicalQubitPatches&) const = default;
 };
 
 struct SinglePatchMeasurement {
@@ -42,6 +43,8 @@ struct PatchInit {
     };
 
     InitializeableStates state;
+
+    bool operator==(const PatchInit&) const = default;
 };
 
 struct MagicStateRequest {
@@ -55,7 +58,7 @@ struct SingleQubitOp {
 
     enum class Operator : uint8_t {
         X = static_cast<uint8_t>(PauliOperator::X),
-        Y = static_cast<uint8_t>(PauliOperator::Y),
+        Z = static_cast<uint8_t>(PauliOperator::Z),
         H,
         S,
     };
