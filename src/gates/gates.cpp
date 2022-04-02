@@ -7,9 +7,9 @@ namespace lsqecc {
 
 
 
-bool is_power_of_two(ArbitraryPrecisionInteger i)
+bool is_power_of_two(ArbitraryPrecisionInteger n)
 {
-
+    return (n & (n - 1)) == 0 && n != 0;
 }
 
 
