@@ -184,7 +184,7 @@ void PatchComputation::merge_patches(
 void PatchComputation::make_slices(
         LSInstructionStream&& instruction_stream,
         std::optional<std::chrono::seconds> timeout,
-        SliceVisitorFunction slice_visitor)
+        const SliceVisitorFunction& slice_visitor)
 {
     slice_store_.accept_new_slice(first_slice_from_layout(*layout_, instruction_stream.core_qubits()));
     ls_instructions_count_++;
@@ -312,7 +312,7 @@ PatchComputation::PatchComputation(
         std::unique_ptr<Layout>&& layout,
         std::unique_ptr<Router>&& router,
         std::optional<std::chrono::seconds> timeout,
-        SliceVisitorFunction slice_visitor)
+        const SliceVisitorFunction& slice_visitor)
         :slice_store_(*layout)
         {
     layout_ = std::move(layout);

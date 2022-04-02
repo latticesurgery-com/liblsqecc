@@ -13,7 +13,6 @@ bool is_power_of_two(ArbitraryPrecisionInteger n)
 }
 
 
-
 std::vector<gates::Gate> approximate_RZ_gate(const gates::RZ rz_gate)
 {
     std::vector<gates::Gate> res;
