@@ -24,6 +24,9 @@ std::vector<PatchId> LSInstruction::get_operating_patches() const
             ret.push_back(pair.first);
         }
     }
+    else if (const auto* rotation = std::get_if<RotateSingleCellPatch>(&operation)) {
+        ret.push_back(rotation->target);
+    }
     else {
         const auto& mr = std::get<MagicStateRequest>(operation);
         ret.push_back(mr.target);

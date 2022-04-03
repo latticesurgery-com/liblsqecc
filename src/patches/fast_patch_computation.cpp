@@ -240,6 +240,35 @@ void PatchComputation::make_slices(
             is_cell_free_[location->row][location->col] = false;
             slice_visitor(slice);
         }
+        else if (const auto* rotation = std::get_if<PatchInit>(&instruction.operation))
+        {
+            Patch patch{slice_store_.last_slice().get_patch_by_id(rotation->target)};
+            if(auto* single_cell_patch = std::get_if<SingleCellOccupiedByPatch>(&patch.cells))
+            {
+                std::optional<Cell> free_neighbour;
+                for(auto neighbour_cell :slice_store_.last_slice().get_neigbours_within_slice(single_cell_patch->cell))
+                    if(slice_store_.last_slice().is_cell_free(neighbour_cell))
+                        free_neighbour = neighbour_cell;
+
+                if(!free_neighbour)
+                    throw std::runtime_error(lstk::cat(
+                            "Cannot rotate patch ", rotation->target, ": has no free neighbour"));
+
+                // Litinski style patch rotation
+                Slice& slice1 = make_new_slice();
+                //  TODO Create the multi cell region between them
+
+                Slice& slice2 = make_new_slice();
+                // TODO Advance the rotation
+
+                Slice& slice3 = make_new_slice();
+                // Make the rotated patch appear
+
+            }
+            else
+                throw std::runtime_error(lstk::cat(
+                        "Cannot rotate patch ", rotation->target, ": is not single cell"));
+        }
         else
         {
             const auto& mr = std::get<MagicStateRequest>(instruction.operation);

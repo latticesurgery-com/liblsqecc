@@ -53,6 +53,13 @@ struct MagicStateRequest {
     bool operator==(const MagicStateRequest&) const = default;
 };
 
+
+struct RotateSingleCellPatch {
+    PatchId target;
+
+    bool operator==(const RotateSingleCellPatch&) const = default;
+};
+
 struct SingleQubitOp {
     PatchId target;
 
@@ -75,7 +82,8 @@ struct LSInstruction {
             MultiPatchMeasurement,
             PatchInit,
             MagicStateRequest,
-            SingleQubitOp> operation;
+            SingleQubitOp,
+            RotateSingleCellPatch> operation;
 
     std::vector<PatchId> get_operating_patches() const;
     bool operator==(const LSInstruction&) const = default;

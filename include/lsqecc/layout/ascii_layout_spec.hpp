@@ -17,6 +17,7 @@ public:
     enum CellType : char {
         RoutingAncilla = 'r',
         LogicalComputationQubit_StandardBorderOrientation = 'Q',
+        LogicalComputationQubit_RotatedBorderOrientation = 'T',
         AncillaQubitLocation = 'A',
         DistillationRegion_0 = '0',
         DistillationRegion_1 = '1',
