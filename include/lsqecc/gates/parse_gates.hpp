@@ -38,6 +38,8 @@ public:
     virtual gates::Gate get_next_gate() =0 ;
     virtual bool has_next_gate() const = 0;
     virtual const Qreg& get_qreg() const = 0;
+
+    virtual ~GateStream() {};
 };
 
 

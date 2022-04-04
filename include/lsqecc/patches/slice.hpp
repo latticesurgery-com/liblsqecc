@@ -20,6 +20,8 @@ struct Slice {
     Patch& get_patch_by_id_mut(PatchId id);
 
     const Patch& get_patch_by_id(PatchId id) const;
+    void delete_qubit_patch(PatchId id);
+
     const SingleCellOccupiedByPatch& get_single_cell_occupied_by_patch_by_id(PatchId id) const;
     SingleCellOccupiedByPatch& get_single_cell_occupied_by_patch_by_id_mut(PatchId id);
     std::optional<std::reference_wrapper<const Patch>> get_qubit_patch_on_cell(const Cell& cell) const;

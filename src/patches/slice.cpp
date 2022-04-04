@@ -29,6 +29,12 @@ const Patch& Slice::get_patch_by_id(PatchId id) const {
     throw std::logic_error(std::string{"No patch for id: "+std::to_string(id)});
 }
 
+void Slice::delete_qubit_patch(PatchId id)
+{
+    auto new_end = std::remove_if(qubit_patches.begin(), qubit_patches.end(), [&id](const Patch& p){return p.id==id;});
+    qubit_patches.erase(new_end,qubit_patches.end());
+}
+
 
 std::optional<std::reference_wrapper<const Patch>> Slice::get_qubit_patch_on_cell(const Cell& cell) const
 {

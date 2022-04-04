@@ -7,6 +7,7 @@
  * It is the lowest precision for which the pi/2^135 could be approximated.
  */
 #include <string_view>
+#include <array>
 
 
 constexpr std::array<std::string_view ,134> get_pi_over_2_to_the_n_rz_gate = {

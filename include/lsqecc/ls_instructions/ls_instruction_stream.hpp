@@ -21,6 +21,8 @@ public:
     virtual LSInstruction get_next_instruction() =0 ;
     virtual bool has_next_instruction() const = 0;
     virtual const tsl::ordered_set<PatchId>& core_qubits() const = 0;
+
+    virtual ~LSInstructionStream(){};
 };
 
 

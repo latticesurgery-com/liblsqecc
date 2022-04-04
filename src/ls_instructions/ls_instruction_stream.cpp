@@ -79,8 +79,13 @@ LSInstruction LSInstructionStreamFromGateStream::get_next_instruction()
 LSInstructionStreamFromGateStream::LSInstructionStreamFromGateStream(GateStream& gate_stream)
 : gate_stream_(gate_stream)
 {
+    for(PatchId id = 0; id <gate_stream_.get_qreg().size; id++)
+        core_qubits_.insert(id);
 }
-
+const tsl::ordered_set<PatchId>& LSInstructionStreamFromGateStream::core_qubits() const
+{
+    return core_qubits_;
+}
 
 }
 

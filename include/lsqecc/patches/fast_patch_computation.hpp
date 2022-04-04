@@ -43,7 +43,7 @@ public:
             std::unique_ptr<Layout>&& layout,
             std::unique_ptr<Router>&& router,
             std::optional<std::chrono::seconds> timeout,
-            const SliceVisitorFunction& slice_visitor);
+            SliceVisitorFunction slice_visitor);
 
     size_t slice_count() const {return slice_store_.slice_count();}
     size_t ls_instructions_count() const {return ls_instructions_count_;}
@@ -53,7 +53,7 @@ private:
     void make_slices(
             LSInstructionStream&& instruction_stream,
             std::optional<std::chrono::seconds> timeout,
-            const SliceVisitorFunction& slice_visitor);
+            SliceVisitorFunction slice_visitor);
 
     /// Assumes that there already is a slice
     Slice& make_new_slice();

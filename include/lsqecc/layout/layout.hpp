@@ -5,6 +5,8 @@
 #include <lsqecc/patches/patches.hpp>
 #include <lstk/lstk.hpp>
 
+#include <tuple>
+
 namespace lsqecc {
 
 using SurfaceCodeTimestep = uint32_t;
@@ -28,6 +30,17 @@ struct Layout {
 namespace LayoutHelpers{
     Patch basic_square_patch(Cell placement);
     SingleCellOccupiedByPatch make_distillation_region_cell(Cell placement);
+
+
+    struct SinglePatchRotationALaLitinskiStages
+    {
+        RoutingRegion stage_1;
+        RoutingRegion stage_2;
+        Patch final_state;
+    };
+    SinglePatchRotationALaLitinskiStages single_patch_rotation_a_la_litinski(
+            const Patch& target_patch, const Cell& free_neighbour);
+
 }
 
 

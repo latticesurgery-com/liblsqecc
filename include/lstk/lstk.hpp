@@ -10,6 +10,7 @@
 #define LSTK_UNUSED(X) static_cast<void>(X)
 
 #include <vector>
+#include <string>
 #include <queue>
 #include <string_view>
 #include <functional>
@@ -24,11 +25,11 @@ namespace lstk
 
 using bool8 = uint8_t;
 
+
 using FloatSeconds = std::chrono::duration<double, std::ratio<1>>;
 
 template<class T>
 using delayed_init = std::optional<T>;
-
 
 
 // Timing helpers
@@ -108,7 +109,7 @@ static inline bool contains(std::string_view s, char target)
 template<class Stringifyable>
 std::string cat(Stringifyable &&s)
 {
-    if constexpr (std::is_arithmetic_v<Stringifyable>)
+    if constexpr (std::is_arithmetic_v<std::remove_reference_t<Stringifyable>>)
         return std::to_string(s);
     else
         return std::string{s};

@@ -53,6 +53,7 @@ std::vector<gates::Gate> decompose_CRZ_gate(const gates::ControlledGate& crz_gat
                                                     rz_gate.pi_fraction.den*2}}));
     res.emplace_back(gates::CNOT(rz_gate.target_qubit, crz_gate.control_qubit));
 
+    return res;
 }
 
 

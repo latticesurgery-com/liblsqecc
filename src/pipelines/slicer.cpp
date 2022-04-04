@@ -230,7 +230,7 @@ namespace lsqecc
         try
         {
             PatchComputation patch_computation{
-                    std::move(instruction_stream),
+                    std::move(*instruction_stream),
                     std::move(layout),
                     std::move(router),
                     timeout,

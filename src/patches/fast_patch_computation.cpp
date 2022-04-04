@@ -184,7 +184,7 @@ void PatchComputation::merge_patches(
 void PatchComputation::make_slices(
         LSInstructionStream&& instruction_stream,
         std::optional<std::chrono::seconds> timeout,
-        const SliceVisitorFunction& slice_visitor)
+        SliceVisitorFunction slice_visitor)
 {
     slice_store_.accept_new_slice(first_slice_from_layout(*layout_, instruction_stream.core_qubits()));
     ls_instructions_count_++;
@@ -240,13 +240,13 @@ void PatchComputation::make_slices(
             is_cell_free_[location->row][location->col] = false;
             slice_visitor(slice);
         }
-        else if (const auto* rotation = std::get_if<PatchInit>(&instruction.operation))
+        else if (const auto* rotation = std::get_if<RotateSingleCellPatch>(&instruction.operation))
         {
-            Patch patch{slice_store_.last_slice().get_patch_by_id(rotation->target)};
-            if(auto* single_cell_patch = std::get_if<SingleCellOccupiedByPatch>(&patch.cells))
+            const Patch target_patch{slice_store_.last_slice().get_patch_by_id(rotation->target)};
+            if(const auto* target_occupied_cell = std::get_if<SingleCellOccupiedByPatch>(&target_patch.cells))
             {
                 std::optional<Cell> free_neighbour;
-                for(auto neighbour_cell :slice_store_.last_slice().get_neigbours_within_slice(single_cell_patch->cell))
+                for(auto neighbour_cell :slice_store_.last_slice().get_neigbours_within_slice(target_occupied_cell->cell))
                     if(slice_store_.last_slice().is_cell_free(neighbour_cell))
                         free_neighbour = neighbour_cell;
 
@@ -254,15 +254,15 @@ void PatchComputation::make_slices(
                     throw std::runtime_error(lstk::cat(
                             "Cannot rotate patch ", rotation->target, ": has no free neighbour"));
 
-                // Litinski style patch rotation
-                Slice& slice1 = make_new_slice();
-                //  TODO Create the multi cell region between them
+                slice_store_.last_slice().delete_qubit_patch(rotation->target);
 
-                Slice& slice2 = make_new_slice();
-                // TODO Advance the rotation
-
-                Slice& slice3 = make_new_slice();
-                // Make the rotated patch appear
+                auto stages{LayoutHelpers::single_patch_rotation_a_la_litinski(target_patch, *free_neighbour)};
+                make_new_slice().routing_regions.push_back(std::move(stages.stage_1));
+                slice_visitor(slice_store_.last_slice());
+                make_new_slice().routing_regions.push_back(std::move(stages.stage_2));
+                slice_visitor(slice_store_.last_slice());
+                make_new_slice().qubit_patches.push_back(stages.final_state);
+                slice_visitor(slice_store_.last_slice());
 
             }
             else
@@ -271,6 +271,8 @@ void PatchComputation::make_slices(
         }
         else
         {
+            if (!std::holds_alternative<MagicStateRequest>(instruction.operation))
+                throw std::logic_error{"Unhandled LS instruction in PatchComputation"};
             const auto& mr = std::get<MagicStateRequest>(instruction.operation);
 
             const auto& d_times = layout_->distillation_times();
@@ -341,7 +343,7 @@ PatchComputation::PatchComputation(
         std::unique_ptr<Layout>&& layout,
         std::unique_ptr<Router>&& router,
         std::optional<std::chrono::seconds> timeout,
-        const SliceVisitorFunction& slice_visitor)
+        SliceVisitorFunction slice_visitor)
         :slice_store_(*layout)
         {
     layout_ = std::move(layout);
@@ -350,14 +352,16 @@ PatchComputation::PatchComputation(
     for(Cell::CoordinateType row = 0; row<=layout_->furthest_cell().row; row++ )
         is_cell_free_.push_back(std::vector<lstk::bool8>(static_cast<size_t>(layout_->furthest_cell().col+1), false));
 
-    try {
+    try
+    {
         make_slices(std::move(instruction_stream), timeout, slice_visitor);
     }
     catch (const std::exception& e)
     {
-        std::cout<<"Encountered exception: "<<e.what()<<std::endl;
-        std::cout<<"Halting slicing"<<std::endl;
+        std::cout << "Encountered exception: " << e.what() << std::endl;
+        std::cout << "Halting slicing" << std::endl;
     }
+
 }
 
 
