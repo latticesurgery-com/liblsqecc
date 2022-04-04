@@ -94,6 +94,11 @@ LSInstruction parse_ls_instruction(std::string_view line)
         auto patch_id = parse_patch_id(get_next_arg());
         return {SingleQubitOp{patch_id, SingleQubitOp::Operator::S}};
     }
+    else if (instruction == "RotateSingleCellPatch" || instruction == "7")
+    {
+        auto patch_id = parse_patch_id(get_next_arg());
+        return {RotateSingleCellPatch{patch_id}};
+    }
     else
     {
         throw InstructionParseException(std::string{"Operation not supported: "}+std::string{instruction});

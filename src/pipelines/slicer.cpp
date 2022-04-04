@@ -1,5 +1,6 @@
 #include <lsqecc/pipelines/slicer.hpp>
 
+#include <lsqecc/gates/parse_gates.hpp>
 #include <lsqecc/ls_instructions/ls_instruction_stream.hpp>
 #include <lsqecc/layout/ascii_layout_spec.hpp>
 #include <lsqecc/layout/router.hpp>
@@ -16,6 +17,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <filesystem>
+#include <fstream>
 #include <chrono>
 
 namespace lsqecc
@@ -51,7 +53,11 @@ namespace lsqecc
         argparse::ArgumentParser parser(prog_name, "Slice LS-Instructions");
         parser.add_argument()
                 .names({"-i", "--instructions"})
-                .description("File name of file with LS Instructions. If not provided will read from stdin")
+                .description("File name of file with LS Instructions. If not provided will read LS Instructions from stdin")
+                .required(false);
+        parser.add_argument()
+                .names({"-q", "--qasm"})
+                .description("File name of file with QASM. If not provided will read LS Instructions (not QASM) from stdin")
                 .required(false);
         parser.add_argument()
                 .names({"-l", "--layout"})
@@ -111,24 +117,46 @@ namespace lsqecc
         }
 
 
+        std::ifstream file_stream;
 
-        std::optional<std::ifstream> instructions_file;
+        std::unique_ptr<LSInstructionStream> instruction_stream;
         if(parser.exists("i"))
         {
-            instructions_file = std::ifstream(parser.get<std::string>("i"));
-            if(instructions_file->fail()){
+            if(parser.exists("q")){
+                err_stream << "Can only allow one of -i and -q at once" <<std::endl;
+                return -1;
+            }
+
+            file_stream = std::ifstream(parser.get<std::string>("i"));
+            if(file_stream.fail()){
                 err_stream << "Could not open instruction file: " << parser.get<std::string>("i") <<std::endl;
                 return -1;
             }
+
+            instruction_stream = std::make_unique<LSInstructionStreamFromFile>(file_stream);
+        }
+        if(!instruction_stream)
+            instruction_stream = std::make_unique<LSInstructionStreamFromFile>(std::cin);
+
+
+        std::unique_ptr<GateStream> gate_stream;
+        if(parser.exists("q"))
+        {
+            file_stream = std::ifstream(parser.get<std::string>("q"));
+            if(file_stream.fail()){
+                err_stream << "Could not open instruction file: " << parser.get<std::string>("q") <<std::endl;
+                return -1;
+            }
+
+            gate_stream = std::make_unique<GateStreamFromFile>(file_stream);
         }
 
-        LSInstructionStream instruction_stream{instructions_file?*instructions_file:in_stream};
 
         std::unique_ptr<Layout> layout;
         if(parser.exists("l"))
             layout = std::make_unique<LayoutFromSpec>(file_to_string(parser.get<std::string>("l")));
         else
-            layout = std::make_unique<SimpleLayout>(instruction_stream.core_qubits().size());
+            layout = std::make_unique<SimpleLayout>(instruction_stream->core_qubits().size());
 
         auto timeout = parser.exists("t") ?
                        std::make_optional(std::chrono::seconds{parser.get<uint32_t>("t")})
@@ -139,7 +167,7 @@ namespace lsqecc
         if(parser.exists("r"))
         {
             auto router_name = parser.get<std::string>("r");
-            if(router_name =="naive_cached")
+            if(router_name =="naive_cached") //TODO change to djikstra
                 LSTK_NOOP;// Already set
             else if(router_name=="naive")
                 router = std::make_unique<NaiveDijkstraRouter>();
@@ -202,7 +230,7 @@ namespace lsqecc
         try
         {
             PatchComputation patch_computation{
-                    std::move(instruction_stream),
+                    std::move(*instruction_stream),
                     std::move(layout),
                     std::move(router),
                     timeout,
