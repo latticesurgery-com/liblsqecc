@@ -9,6 +9,7 @@ namespace lsqecc {
 
 nlohmann::json cell_patch_to_visual_array_edges_json(const SingleCellOccupiedByPatch& boundary);
 
+nlohmann::json slice_to_json(const Slice& slices);
 nlohmann::json slices_to_json(const std::vector<Slice>& slices);
 
 }

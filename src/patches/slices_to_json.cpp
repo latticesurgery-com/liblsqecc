@@ -47,7 +47,7 @@ json cell_patch_to_visual_array_edges_json(const SingleCellOccupiedByPatch& cell
 }
 
 
-json core_to_json(const Slice& slice)
+json slice_to_json(const Slice& slice)
 {
     json out_slice = init_blank_json_slice(slice);
 
@@ -137,7 +137,7 @@ json slices_to_json(const std::vector<Slice>& slices)
     json out_slices = json::array();
 
     for(const Slice& slice : slices)
-        out_slices.push_back(core_to_json(slice));
+        out_slices.push_back(slice_to_json(slice));
 
     return out_slices;
 }
