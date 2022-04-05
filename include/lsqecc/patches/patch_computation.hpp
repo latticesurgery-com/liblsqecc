@@ -1,5 +1,5 @@
-#ifndef LSQECC_FAST_PATCH_COMPUTATION_HPP
-#define LSQECC_FAST_PATCH_COMPUTATION_HPP
+#ifndef LSQECC_PATCH_COMPUTATION_HPP
+#define LSQECC_PATCH_COMPUTATION_HPP
 
 
 #include <lsqecc/ls_instructions/ls_instructions.hpp>
@@ -79,4 +79,4 @@ private: // Data members
 
 }
 
-#endif //LSQECC_FAST_PATCH_COMPUTATION_HPP
+#endif //LSQECC_PATCH_COMPUTATION_HPP

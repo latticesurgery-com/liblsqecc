@@ -1,5 +1,5 @@
 #include <lsqecc/patches/patches.hpp>
-#include <lsqecc/patches/fast_patch_computation.hpp>
+#include <lsqecc/patches/patch_computation.hpp>
 #include <lsqecc/layout/router.hpp>
 
 #include <lstk/lstk.hpp>
