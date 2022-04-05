@@ -78,7 +78,7 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
 
         if(a == cell_from_vertex(source_vertex) && b == cell_from_vertex(target_vertex))
             return source_patch.have_boundary_of_type_with(source_op, b)
-                && source_patch.have_boundary_of_type_with(target_op, a);
+                && target_patch.have_boundary_of_type_with(target_op, a);
 
         if(a == cell_from_vertex(source_vertex) && slice.is_cell_free(b))
             return source_patch.have_boundary_of_type_with(source_op, b);
@@ -88,7 +88,6 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
 
         return false;
     };
-
 
     size_t num_vertices_on_lattice = make_vertex(furthest_cell) + 1;
     std::vector<PredecessorData> predecessor_map(num_vertices_on_lattice);
