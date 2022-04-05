@@ -70,6 +70,7 @@ struct SingleCellOccupiedByPatch{
 
     std::optional<Boundary> get_boundary_with(const Cell& neighbour) const;
     bool have_boundary_of_type_with(PauliOperator op, const Cell& neighbour) const;
+    bool has_active_boundary() const;
     std::optional<std::reference_wrapper<Boundary>> get_mut_boundary_with(const Cell& neighbour);
 
     Cell cell;

@@ -52,8 +52,8 @@ private:
 
     void make_slices(
             LSInstructionStream&& instruction_stream,
-            std::optional<std::chrono::seconds> timeout,
-            SliceVisitorFunction slice_visitor);
+            std::optional<std::chrono::seconds> timeout);
+
 
     /// Assumes that there already is a slice
     Slice& make_new_slice();
@@ -61,10 +61,10 @@ private:
     void compute_free_cells();
 
     std::optional<Cell> find_place_for_magic_state(size_t distillation_region_idx) const;
-    void merge_patches(Slice& slice, PatchId source, PauliOperator source_op, PatchId target, PauliOperator target_op);
 
 private: // Data members
     SliceStore slice_store_;
+    SliceVisitorFunction slice_visitor_;
 
     std::unique_ptr<Layout> layout_;
     std::unique_ptr<Router> router_;

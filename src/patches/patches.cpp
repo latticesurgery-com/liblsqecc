@@ -118,6 +118,11 @@ std::optional<std::reference_wrapper<Boundary>> SingleCellOccupiedByPatch::get_m
 
     return std::nullopt;
 }
+bool SingleCellOccupiedByPatch::has_active_boundary() const
+{
+    auto neighbours = cell.get_neigbours();
+    return std::any_of(neighbours.begin(), neighbours.end(), [&](auto n){return get_boundary_with(n)->is_active;});
 
+}
 
 }

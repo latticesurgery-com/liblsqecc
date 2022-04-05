@@ -55,6 +55,8 @@ Slice first_slice_from_layout(const Layout& layout, const tsl::ordered_set<Patch
 Slice& PatchComputation::make_new_slice()
 {
 
+    slice_visitor_(slice_store_.last_slice());
+
     // This is an expensive copy. To avoid doing it twice we do in in place on the heap
     // TODO avoid this copy by doing a move and updating things
 
@@ -133,58 +135,64 @@ std::optional<Cell> find_free_ancilla_location(const Layout& layout, const Slice
     return std::nullopt;
 }
 
-void activate_edges_next_to_routing(const Slice& slice,
-                                    PatchId source,
-                                    PatchId target,
-                                    const RoutingRegion& routing_region)
+
+void stitch_boundaries(Slice& slice, PatchId source, PatchId target, RoutingRegion& routing_region)
 {
-
-
-}
-
-
-
-void PatchComputation::merge_patches(
-        Slice& slice,
-        PatchId source,
-        PauliOperator source_op,
-        PatchId target,
-        PauliOperator target_op)
-{
-    auto routing_region = router_->find_routing_ancilla(slice, source, source_op, target, target_op);
-    if(!routing_region)
-    {
-
-        std::stringstream err_msg {"Couldn't find room to route: "};
-        err_msg << source << ":" << PauliOperator_to_string(source_op) << ","
-                << target << ":" << PauliOperator_to_string(target_op) << std::endl;
-        throw std::runtime_error(err_msg.str());
-    }
-
-    slice.routing_regions.push_back(*routing_region);
-
     auto& source_patch = slice.get_single_cell_occupied_by_patch_by_id_mut(source);
     auto& target_patch = slice.get_single_cell_occupied_by_patch_by_id_mut(target);
 
-    if (routing_region->cells.empty())
+    if (routing_region.cells.empty())
     {
         source_patch.get_mut_boundary_with(target_patch.cell)->get().is_active=true;
         target_patch.get_mut_boundary_with(source_patch.cell)->get().is_active=true;
     }
     else
     {
-        source_patch.get_mut_boundary_with(routing_region->cells.back().cell)->get().is_active=true;
-        target_patch.get_mut_boundary_with(routing_region->cells.front().cell)->get().is_active=true;
+        source_patch.get_mut_boundary_with(routing_region.cells.back().cell)->get().is_active=true;
+        target_patch.get_mut_boundary_with(routing_region.cells.front().cell)->get().is_active=true;
     }
-
 }
+
+// TODO this file ha several helpers like this one, that could be moved to a separate file
+/*
+ * Returns true iff merge was susccesful
+ */
+bool merge_patches(
+        Slice& slice,
+        Router& router,
+        PatchId source,
+        PauliOperator source_op,
+        PatchId target,
+        PauliOperator target_op)
+{
+
+    if(slice.get_patch_by_id(source).activity != PatchActivity::None
+    || slice.get_patch_by_id(source).activity != PatchActivity::None)
+        return false;
+
+    auto source_occupied_cell = slice.get_single_cell_occupied_by_patch_by_id(source);
+    auto target_occupied_cell = slice.get_single_cell_occupied_by_patch_by_id(target);
+    if(source_occupied_cell.has_active_boundary() || target_occupied_cell.has_active_boundary())
+        return false;
+
+    auto routing_region = router.find_routing_ancilla(slice, source, source_op, target, target_op);
+    if(!routing_region)
+        return false;
+
+
+    stitch_boundaries(slice, source, target, *routing_region);
+    if(!routing_region->cells.empty())
+        slice.routing_regions.push_back(std::move(*routing_region));
+
+    return true;
+}
+
 
 
 
 void PatchComputation::make_slices(
         LSInstructionStream&& instruction_stream,
-        std::optional<std::chrono::seconds> timeout,
-        SliceVisitorFunction slice_visitor)
+        std::optional<std::chrono::seconds> timeout)
 {
     slice_store_.accept_new_slice(first_slice_from_layout(*layout_, instruction_stream.core_qubits()));
     ls_instructions_count_++;
@@ -202,23 +210,19 @@ void PatchComputation::make_slices(
         {
             Slice& slice = make_new_slice();
             slice.get_patch_by_id_mut(s->target).activity = PatchActivity::Measurement;
-            slice_visitor(slice);
         }
         else if (const auto* p = std::get_if<SingleQubitOp>(&instruction.operation))
         {
             if(p->op == SingleQubitOp::Operator::S)
             {
                 Slice& twist_merge_slice = make_new_slice();
-                merge_patches(twist_merge_slice, p->target, PauliOperator::X, p->target, PauliOperator::Z);
-                slice_visitor(twist_merge_slice);
+                merge_patches(twist_merge_slice, *router_, p->target, PauliOperator::X, p->target, PauliOperator::Z);
             }
             Slice& slice = make_new_slice();
             slice.get_patch_by_id_mut(p->target).activity = PatchActivity::Unitary;
-            slice_visitor(slice);
         }
         else if (const auto* m = std::get_if<MultiPatchMeasurement>(&instruction.operation))
         {
-            Slice& slice = make_new_slice();
 
             if(m->observable.size()!=2)
                 throw std::logic_error("Multi patch measurement only supports 2 patches currently");
@@ -226,8 +230,14 @@ void PatchComputation::make_slices(
             const auto& [source_id, source_op] = *pairs++;
             const auto& [target_id, target_op] = *pairs;
 
-            merge_patches(slice, source_id, source_op, target_id, target_op);
-            slice_visitor(slice);
+            if(!merge_patches(slice_store_.last_slice(), *router_, source_id, source_op, target_id, target_op))
+            {
+                Slice& slice = make_new_slice();
+                if(!merge_patches(slice_store_.last_slice(), *router_, source_id, source_op, target_id, target_op))
+                    throw std::runtime_error{ lstk::cat("Couldn't find room to route: ",
+                            source_id , ":" , PauliOperator_to_string(source_op), ",",
+                            target_id , ":" , PauliOperator_to_string(target_op))};
+            }
         }
         else if (const auto* init = std::get_if<PatchInit>(&instruction.operation))
         {
@@ -238,7 +248,6 @@ void PatchComputation::make_slices(
             slice.qubit_patches.push_back(LayoutHelpers::basic_square_patch(*location));
             slice.qubit_patches.back().id = init->target;
             is_cell_free_[location->row][location->col] = false;
-            slice_visitor(slice);
         }
         else if (const auto* rotation = std::get_if<RotateSingleCellPatch>(&instruction.operation))
         {
@@ -258,12 +267,8 @@ void PatchComputation::make_slices(
 
                 auto stages{LayoutHelpers::single_patch_rotation_a_la_litinski(target_patch, *free_neighbour)};
                 make_new_slice().routing_regions.push_back(std::move(stages.stage_1));
-                slice_visitor(slice_store_.last_slice());
                 make_new_slice().routing_regions.push_back(std::move(stages.stage_2));
-                slice_visitor(slice_store_.last_slice());
                 make_new_slice().qubit_patches.push_back(stages.final_state);
-                slice_visitor(slice_store_.last_slice());
-
             }
             else
                 throw std::runtime_error(lstk::cat(
@@ -289,7 +294,6 @@ void PatchComputation::make_slices(
                     slice_with_magic_state.unbound_magic_states.pop_front();
                     break;
                 }
-                slice_visitor(slice_with_magic_state);
             }
 
             if(newly_bound_magic_state)
@@ -297,7 +301,6 @@ void PatchComputation::make_slices(
                 newly_bound_magic_state->id = mr.target;
                 newly_bound_magic_state->type = PatchType::Qubit;
                 slice_store_.last_slice().qubit_patches.push_back(*newly_bound_magic_state);
-                slice_visitor(slice_store_.last_slice());
             }
             else
             {
@@ -327,6 +330,9 @@ void PatchComputation::make_slices(
         std::cout<<std::endl;
 #endif
     }
+
+    slice_visitor_(slice_store_.last_slice());
+
 }
 
 
@@ -344,7 +350,7 @@ PatchComputation::PatchComputation(
         std::unique_ptr<Router>&& router,
         std::optional<std::chrono::seconds> timeout,
         SliceVisitorFunction slice_visitor)
-        :slice_store_(*layout)
+        :slice_store_(*layout), slice_visitor_(slice_visitor)
         {
     layout_ = std::move(layout);
     router_ = std::move(router);
@@ -354,7 +360,7 @@ PatchComputation::PatchComputation(
 
     try
     {
-        make_slices(std::move(instruction_stream), timeout, slice_visitor);
+        make_slices(std::move(instruction_stream), timeout);
     }
     catch (const std::exception& e)
     {
