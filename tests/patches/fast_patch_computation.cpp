@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <lsqecc/patches/fast_patch_computation.hpp>
+#include <lsqecc/patches/patch_computation.hpp>
 
 using namespace lsqecc;
 

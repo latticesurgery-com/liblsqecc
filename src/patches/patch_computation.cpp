@@ -81,7 +81,7 @@ Slice& PatchComputation::make_new_slice()
             if (new_patch.activity==PatchActivity::Unitary)
                 new_patch.activity = PatchActivity::None;
 
-            new_patch.visit_individual_cells([](SingleCellOccupiedByPatch& c)
+            new_patch.visit_individual_cells_mut([](SingleCellOccupiedByPatch& c)
             {
                c.top.is_active = false;
                c.bottom.is_active = false;
@@ -166,13 +166,7 @@ bool merge_patches(
         PauliOperator target_op)
 {
 
-    if(slice.get_patch_by_id(source).activity != PatchActivity::None
-    || slice.get_patch_by_id(source).activity != PatchActivity::None)
-        return false;
-
-    auto source_occupied_cell = slice.get_single_cell_occupied_by_patch_by_id(source);
-    auto target_occupied_cell = slice.get_single_cell_occupied_by_patch_by_id(target);
-    if(source_occupied_cell.has_active_boundary() || target_occupied_cell.has_active_boundary())
+    if(slice.get_patch_by_id(source).is_active() || slice.get_patch_by_id(target).is_active())
         return false;
 
     auto routing_region = router.find_routing_ancilla(slice, source, source_op, target, target_op);
@@ -232,7 +226,7 @@ void PatchComputation::make_slices(
 
             if(!merge_patches(slice_store_.last_slice(), *router_, source_id, source_op, target_id, target_op))
             {
-                Slice& slice = make_new_slice();
+                make_new_slice();
                 if(!merge_patches(slice_store_.last_slice(), *router_, source_id, source_op, target_id, target_op))
                     throw std::runtime_error{ lstk::cat("Couldn't find room to route: ",
                             source_id , ":" , PauliOperator_to_string(source_op), ",",
