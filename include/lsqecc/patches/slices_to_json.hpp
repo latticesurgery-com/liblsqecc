@@ -1,7 +1,7 @@
 #ifndef LSQECC_SLICES_TO_JSON_HPP
 #define LSQECC_SLICES_TO_JSON_HPP
 
-#include <lsqecc/patches/fast_patch_computation.hpp>
+#include <lsqecc/patches/patch_computation.hpp>
 #include <nlohmann/json.hpp>
 
 namespace lsqecc {

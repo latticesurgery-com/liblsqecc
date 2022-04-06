@@ -56,20 +56,37 @@ const Cell& Patch::get_a_cell() const
     }
 }
 
-void Patch::visit_individual_cells(void (*v)(SingleCellOccupiedByPatch &))
+void Patch::visit_individual_cells_mut(std::function<void (SingleCellOccupiedByPatch&)> f)
 {
     if(SingleCellOccupiedByPatch* patch = std::get_if<SingleCellOccupiedByPatch>(&cells))
     {
-        v(*patch);
+        f(*patch);
     }
     else
     {
         auto& single_cells = std::get<MultipleCellsOccupiedByPatch>(cells).sub_cells;
-        for(auto& c: single_cells) v(c);
+        for(auto& c: single_cells) f(c);
     }
 }
 
-    std::vector<Cell> Cell::get_neigbours() const
+void Patch::visit_individual_cells(std::function<void (const SingleCellOccupiedByPatch&)> f) const
+{
+    const_cast<Patch*>(this)->visit_individual_cells_mut(f);
+}
+
+bool Patch::is_active() const
+{
+    if(activity!=PatchActivity::None) return true;
+
+    bool active_boundary=false;
+    visit_individual_cells([&](auto& c){
+        active_boundary = active_boundary || c.has_active_boundary();
+    });
+
+    return active_boundary;
+}
+
+std::vector<Cell> Cell::get_neigbours() const
 {
     return {Cell{row-1, col},
             Cell{row+1, col},
@@ -118,6 +135,11 @@ std::optional<std::reference_wrapper<Boundary>> SingleCellOccupiedByPatch::get_m
 
     return std::nullopt;
 }
+bool SingleCellOccupiedByPatch::has_active_boundary() const
+{
+    auto neighbours = cell.get_neigbours();
+    return std::any_of(neighbours.begin(), neighbours.end(), [&](auto n){return get_boundary_with(n)->is_active;});
 
+}
 
 }

@@ -76,7 +76,7 @@ LSInstruction parse_ls_instruction(std::string_view line)
     else if(instruction == "RequestMagicState" || instruction == "3")
     {
         auto patch_id = parse_patch_id(get_next_arg());
-        return {MagicStateRequest{patch_id}};
+        return {MagicStateRequest{patch_id,MagicStateRequest::DEFAULT_WAIT}};
     }
     else if (instruction == "LogicalPauli" || instruction == "4")
     {

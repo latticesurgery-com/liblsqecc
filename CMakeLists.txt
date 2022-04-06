@@ -45,7 +45,7 @@ include_directories(external/include)
 add_library(
         lsqecclib
         src/gates/parse_gates.cpp
-        src/patches/fast_patch_computation.cpp
+        src/patches/patch_computation.cpp
         src/ls_instructions/ls_instructions.cpp
         src/ls_instructions/ls_instructions_parse.cpp
         src/ls_instructions/ls_instruction_stream.cpp

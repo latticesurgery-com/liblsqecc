@@ -131,9 +131,9 @@ void vector_extend(std::vector<T> &target, const std::vector<T> &extend_with)
 }
 
 template<class T>
-T queue_pop(std::queue<T> queue)
+T queue_pop(std::queue<T>& queue)
 {
-    T v = queue.front();
+    T v{std::move(queue.front())};
     queue.pop();
     return v;
 }
