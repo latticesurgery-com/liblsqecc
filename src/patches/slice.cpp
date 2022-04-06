@@ -6,27 +6,26 @@
 namespace lsqecc{
 
 
-
-Patch& Slice::get_patch_by_id_mut(PatchId id) {
+bool Slice::has_patch(PatchId id) const
+{
     for(auto& p: qubit_patches)
-    {
         if(p.id == id)
-        {
+            return true;
+    return false;
+}
+
+Patch& Slice::get_patch_by_id_mut(PatchId id)
+{
+    for(auto& p: qubit_patches)
+        if(p.id == id)
             return p;
-        }
-    }
+
     throw std::logic_error(std::string{"No patch for id: "+std::to_string(id)});
 }
 
-const Patch& Slice::get_patch_by_id(PatchId id) const {
-    for(auto& p: qubit_patches)
-    {
-        if(p.id == id)
-        {
-            return p;
-        }
-    }
-    throw std::logic_error(std::string{"No patch for id: "+std::to_string(id)});
+const Patch& Slice::get_patch_by_id(PatchId id) const
+{
+    return const_cast<Slice*>(this)->get_patch_by_id_mut(id);
 }
 
 void Slice::delete_qubit_patch(PatchId id)
@@ -102,5 +101,6 @@ SingleCellOccupiedByPatch &Slice::get_single_cell_occupied_by_patch_by_id_mut(Pa
     return *patch;
 
 }
+
 
 }

@@ -14,12 +14,14 @@ struct Slice {
     std::vector<Patch> qubit_patches;
     std::vector<RoutingRegion> routing_regions;
     std::deque<Patch> unbound_magic_states;
-    std::reference_wrapper<const Layout> layout;
+    std::reference_wrapper<const Layout> layout; // reference_wrapper Keeps the slice copyable
     std::vector<SurfaceCodeTimestep> time_to_next_magic_state_by_distillation_region;
 
-    Patch& get_patch_by_id_mut(PatchId id);
 
+    bool has_patch(PatchId id) const;
+    Patch& get_patch_by_id_mut(PatchId id);
     const Patch& get_patch_by_id(PatchId id) const;
+
     void delete_qubit_patch(PatchId id);
 
     const SingleCellOccupiedByPatch& get_single_cell_occupied_by_patch_by_id(PatchId id) const;

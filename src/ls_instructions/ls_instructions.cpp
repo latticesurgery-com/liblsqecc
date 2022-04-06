@@ -34,7 +34,10 @@ std::vector<PatchId> LSInstruction::get_operating_patches() const
     return ret;
 }
 
-
+std::ostream& operator<<(std::ostream& os, const LSInstruction& instruction)
+{
+    return os << "<An LS Instruction>";
+}
 
 
 }

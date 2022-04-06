@@ -17,6 +17,7 @@ namespace lsqecc {
 
 std::optional<Cell> PatchComputation::find_place_for_magic_state(size_t distillation_region_idx) const
 {
+    compute_free_cells(is_cell_free_, slice_store_.last_slice_const());
     for(const auto& cell: layout_->distilled_state_locations(distillation_region_idx))
         if(is_cell_free_[cell.row][cell.col])
             return cell;
@@ -155,7 +156,7 @@ void stitch_boundaries(Slice& slice, PatchId source, PatchId target, RoutingRegi
 
 // TODO this file ha several helpers like this one, that could be moved to a separate file
 /*
- * Returns true iff merge was susccesful
+ * Returns true iff merge was successful
  */
 bool merge_patches(
         Slice& slice,
@@ -183,136 +184,222 @@ bool merge_patches(
 
 
 
+// TODO replace with a variant
+struct InstructionApplicationResult
+{
+    std::unique_ptr<std::exception> maybe_error;
+    std::vector<LSInstruction> followup_instructions;
+};
+
+
+InstructionApplicationResult try_apply_instruction(
+        Slice& slice,
+        LSInstruction instruction,
+        Router& router,
+        FreeCellCache is_cell_free)
+{
+    if (const auto* s = std::get_if<SinglePatchMeasurement>(&instruction.operation))
+    {
+        if (!slice.has_patch(s->target))
+            return {std::make_unique<std::runtime_error>(lstk::cat("Patch ", s->target, " not on lattice")), {}};
+
+        auto& target_patch = slice.get_patch_by_id_mut(s->target);
+        if (target_patch.is_active())
+            return {std::make_unique<std::runtime_error>(lstk::cat("Patch ", s->target, " is active")), {}};
+        target_patch.activity = PatchActivity::Measurement;
+        return {nullptr, {}};
+    }
+    else if (const auto* p = std::get_if<SingleQubitOp>(&instruction.operation))
+    {
+        if (!slice.has_patch(p->target))
+            return {std::make_unique<std::runtime_error>(lstk::cat("Patch ", p->target, " not on lattice")), {}};
+
+        if (p->op==SingleQubitOp::Operator::S)
+        {
+            if (!merge_patches(slice, router, p->target, PauliOperator::X, p->target, PauliOperator::Z))
+                return {std::make_unique<std::runtime_error>(lstk::cat("Could not do S gate routing on ", p->target)),
+                        {}};
+            LSInstruction corrective_term{SingleQubitOp{p->target, SingleQubitOp::Operator::Z}};
+            return {nullptr, {corrective_term}};
+        }
+        else
+        {
+            if (slice.get_patch_by_id_mut(p->target).is_active())
+                return {std::make_unique<std::runtime_error>(lstk::cat("Patch ", p->target, " is active")), {}};
+
+            slice.get_patch_by_id_mut(p->target).activity = PatchActivity::Unitary;
+            return {nullptr, {}};
+        }
+    }
+    else if (const auto* m = std::get_if<MultiPatchMeasurement>(&instruction.operation))
+    {
+
+        if (m->observable.size()!=2)
+            throw std::logic_error("Multi patch measurement only supports 2 patches currently");
+        auto pairs = m->observable.begin();
+        const auto&[source_id, source_op] = *pairs++;
+        const auto&[target_id, target_op] = *pairs;
+
+        if (!slice.has_patch(source_id))
+            return {std::make_unique<std::runtime_error>(lstk::cat("Patch ", source_id, " not on lattice")), {}};
+        if (!slice.has_patch(target_id))
+            return {std::make_unique<std::runtime_error>(lstk::cat("Patch ", target_id, " not on lattice")), {}};
+
+        if (!merge_patches(slice, router, source_id, source_op, target_id, target_op))
+            return {std::make_unique<std::runtime_error>(lstk::cat("Couldn't find room to route: ",
+                    source_id, ":", PauliOperator_to_string(source_op), ",",
+                    target_id, ":", PauliOperator_to_string(target_op))), {}};
+        return {nullptr, {}};
+    }
+    else if (const auto* init = std::get_if<PatchInit>(&instruction.operation))
+    {
+        auto location = find_free_ancilla_location(slice.layout, slice);
+        if (!location) return {std::make_unique<std::runtime_error>("Could not allocate ancilla"), {}};
+
+        slice.qubit_patches.push_back(LayoutHelpers::basic_square_patch(*location));
+        slice.qubit_patches.back().id = init->target;
+        is_cell_free[location->row][location->col] = false;
+
+        return {nullptr, {}};
+    }
+    else if (const auto* rotation = std::get_if<RotateSingleCellPatch>(&instruction.operation))
+    {
+        if (!slice.has_patch(rotation->target))
+            return {std::make_unique<std::runtime_error>(lstk::cat("Patch ", rotation->target, " not on lattice")), {}};
+
+        const Patch target_patch{slice.get_patch_by_id(rotation->target)};
+        if (const auto* target_occupied_cell = std::get_if<SingleCellOccupiedByPatch>(&target_patch.cells))
+        {
+            std::optional<Cell> free_neighbour;
+            compute_free_cells(is_cell_free, slice);
+            for (auto neighbour_cell: slice.get_neigbours_within_slice(target_occupied_cell->cell))
+                if (is_cell_free[neighbour_cell.row][neighbour_cell.col])
+                    free_neighbour = neighbour_cell;
+
+            if (!free_neighbour)
+                return {std::make_unique<std::runtime_error>(lstk::cat(
+                        "Cannot rotate patch ", rotation->target, ": has no free neighbour")), {}};
+
+            slice.delete_qubit_patch(rotation->target);
+
+            auto stages{LayoutHelpers::single_patch_rotation_a_la_litinski(target_patch, *free_neighbour)};
+            slice.routing_regions.push_back(std::move(stages.stage_1));
+
+            return {nullptr, {{BusyRegion{std::move(stages.stage_2), 1, std::move(stages.final_state)}}}};
+        }
+        else
+            return {std::make_unique<std::runtime_error>(lstk::cat(
+                    "Cannot rotate patch ", rotation->target, ": is not single cell")), {}};
+    }
+    else if (auto* mr = std::get_if<MagicStateRequest>(&instruction.operation))
+    {
+        const auto& d_times = slice.layout.get().distillation_times();
+        if (!d_times.size()) throw std::logic_error("No distillation times");
+
+        if (slice.unbound_magic_states.size()>0)
+        {
+            std::optional<Patch> newly_bound_magic_state = std::move(slice.unbound_magic_states.front());
+            slice.unbound_magic_states.pop_front();
+            newly_bound_magic_state->id = mr->target;
+            newly_bound_magic_state->type = PatchType::Qubit;
+            slice.qubit_patches.push_back(*newly_bound_magic_state);
+            return {nullptr, {}};
+        }
+        else if (mr->wait_at_most_for<=0)
+            return {std::make_unique<std::runtime_error>(
+                    std::string{"Could not get magic state after waiting"}), {}};
+
+        else
+            return {nullptr, {{MagicStateRequest{mr->target, mr->wait_at_most_for-1}}}};
+
+    }
+    else if (auto* busy_region = std::get_if<BusyRegion>(&instruction.operation))
+    {
+        if(busy_region->steps_to_clear <= 0)
+        {
+
+            compute_free_cells(is_cell_free, slice);
+            bool could_not_find_space_for_patch = false;
+            busy_region->state_after_clearing.visit_individual_cells(
+                    [&](const SingleCellOccupiedByPatch& occupied_cell){
+                        if(!is_cell_free[occupied_cell.cell.row][occupied_cell.cell.col])
+                            could_not_find_space_for_patch = true;
+            });
+
+            if(could_not_find_space_for_patch)
+                return {std::make_unique<std::runtime_error>(
+                        "Could not find space to place patch after rotation"),{std::move(instruction)}};
+
+            slice.qubit_patches.push_back(busy_region->state_after_clearing);
+            return {nullptr,{}};
+        }
+        else
+        {
+            compute_free_cells(is_cell_free, slice);
+            for(const auto& occupied_cell: busy_region->region.cells)
+                if(!is_cell_free[occupied_cell.cell.row][occupied_cell.cell.col])
+                    return {std::make_unique<std::runtime_error>("Could not find free cell for rotation"),
+                            {std::move(instruction)}};
+
+            slice.routing_regions.push_back(busy_region->region);
+            return {nullptr,{{BusyRegion{
+                std::move(busy_region->region),
+                busy_region->steps_to_clear-1,
+                std::move(busy_region->state_after_clearing)}}}};
+        }
+
+    }
+
+    return {std::make_unique<std::runtime_error>("Unhandled LS instruction in PatchComputation"),{}};
+}
+
 
 void PatchComputation::make_slices(
         LSInstructionStream&& instruction_stream,
         std::optional<std::chrono::seconds> timeout)
 {
     slice_store_.accept_new_slice(first_slice_from_layout(*layout_, instruction_stream.core_qubits()));
-    ls_instructions_count_++;
-    compute_free_cells();
+    ls_instructions_count_++; // The declare qubits instruction
+
+    // Add a blank slice for visualization
+    slice_visitor_(slice_store_.last_slice());
+    make_new_slice();
 
     auto start = std::chrono::steady_clock::now();
     size_t ls_op_counter = 0;
 
-    while (instruction_stream.has_next_instruction())
+    std::queue<LSInstruction> future_instructions;
+
+    while (instruction_stream.has_next_instruction() || !future_instructions.empty())
     {
-        LSInstruction instruction = instruction_stream.get_next_instruction();
-        ls_instructions_count_++;
+        LSInstruction instruction{[&](){
+            if(!future_instructions.empty())
+                return lstk::queue_pop(future_instructions);
+            ls_instructions_count_++;
+            return instruction_stream.get_next_instruction();
+        }()};
 
-        if (const auto* s = std::get_if<SinglePatchMeasurement>(&instruction.operation))
+        auto application_result = try_apply_instruction(slice_store_.last_slice(), instruction, *router_, is_cell_free_);
+        if(application_result.maybe_error)
         {
-            Slice& slice = make_new_slice();
-            slice.get_patch_by_id_mut(s->target).activity = PatchActivity::Measurement;
+            make_new_slice();
+            application_result = try_apply_instruction(slice_store_.last_slice(), instruction, *router_, is_cell_free_);
+            if(application_result.maybe_error)
+                throw std::runtime_error{application_result.maybe_error->what()};
+
         }
-        else if (const auto* p = std::get_if<SingleQubitOp>(&instruction.operation))
+
+        for(auto&& i : application_result.followup_instructions)
+            future_instructions.push(i);
+
+        ls_op_counter++;
+        if(timeout && lstk::since(start) > *timeout)
         {
-            if(p->op == SingleQubitOp::Operator::S)
-            {
-                Slice& twist_merge_slice = make_new_slice();
-                merge_patches(twist_merge_slice, *router_, p->target, PauliOperator::X, p->target, PauliOperator::Z);
-            }
-            Slice& slice = make_new_slice();
-            slice.get_patch_by_id_mut(p->target).activity = PatchActivity::Unitary;
-        }
-        else if (const auto* m = std::get_if<MultiPatchMeasurement>(&instruction.operation))
-        {
-
-            if(m->observable.size()!=2)
-                throw std::logic_error("Multi patch measurement only supports 2 patches currently");
-            auto pairs = m->observable.begin();
-            const auto& [source_id, source_op] = *pairs++;
-            const auto& [target_id, target_op] = *pairs;
-
-            if(!merge_patches(slice_store_.last_slice(), *router_, source_id, source_op, target_id, target_op))
-            {
-                make_new_slice();
-                if(!merge_patches(slice_store_.last_slice(), *router_, source_id, source_op, target_id, target_op))
-                    throw std::runtime_error{ lstk::cat("Couldn't find room to route: ",
-                            source_id , ":" , PauliOperator_to_string(source_op), ",",
-                            target_id , ":" , PauliOperator_to_string(target_op))};
-            }
-        }
-        else if (const auto* init = std::get_if<PatchInit>(&instruction.operation))
-        {
-            Slice& slice = make_new_slice();
-            auto location = find_free_ancilla_location(*layout_, slice);
-            if(!location) throw std::logic_error("Could not allocate ancilla");
-
-            slice.qubit_patches.push_back(LayoutHelpers::basic_square_patch(*location));
-            slice.qubit_patches.back().id = init->target;
-            is_cell_free_[location->row][location->col] = false;
-        }
-        else if (const auto* rotation = std::get_if<RotateSingleCellPatch>(&instruction.operation))
-        {
-            const Patch target_patch{slice_store_.last_slice().get_patch_by_id(rotation->target)};
-            if(const auto* target_occupied_cell = std::get_if<SingleCellOccupiedByPatch>(&target_patch.cells))
-            {
-                std::optional<Cell> free_neighbour;
-                for(auto neighbour_cell :slice_store_.last_slice().get_neigbours_within_slice(target_occupied_cell->cell))
-                    if(slice_store_.last_slice().is_cell_free(neighbour_cell))
-                        free_neighbour = neighbour_cell;
-
-                if(!free_neighbour)
-                    throw std::runtime_error(lstk::cat(
-                            "Cannot rotate patch ", rotation->target, ": has no free neighbour"));
-
-                slice_store_.last_slice().delete_qubit_patch(rotation->target);
-
-                auto stages{LayoutHelpers::single_patch_rotation_a_la_litinski(target_patch, *free_neighbour)};
-                make_new_slice().routing_regions.push_back(std::move(stages.stage_1));
-                make_new_slice().routing_regions.push_back(std::move(stages.stage_2));
-                make_new_slice().qubit_patches.push_back(stages.final_state);
-            }
-            else
-                throw std::runtime_error(lstk::cat(
-                        "Cannot rotate patch ", rotation->target, ": is not single cell"));
-        }
-        else
-        {
-            if (!std::holds_alternative<MagicStateRequest>(instruction.operation))
-                throw std::logic_error{"Unhandled LS instruction in PatchComputation"};
-            const auto& mr = std::get<MagicStateRequest>(instruction.operation);
-
-            const auto& d_times = layout_->distillation_times();
-            if(!d_times.size()) throw std::logic_error("No distillation times");
-            size_t max_wait_for_magic_state = *std::max_element(d_times.begin(), d_times.end());
-
-            std::optional<Patch> newly_bound_magic_state;
-            for (size_t i = 0; i<max_wait_for_magic_state; i++)
-            {
-                auto& slice_with_magic_state = make_new_slice();
-                if(slice_with_magic_state.unbound_magic_states.size()>0)
-                {
-                    newly_bound_magic_state = slice_with_magic_state.unbound_magic_states.front();
-                    slice_with_magic_state.unbound_magic_states.pop_front();
-                    break;
-                }
-            }
-
-            if(newly_bound_magic_state)
-            {
-                newly_bound_magic_state->id = mr.target;
-                newly_bound_magic_state->type = PatchType::Qubit;
-                slice_store_.last_slice().qubit_patches.push_back(*newly_bound_magic_state);
-            }
-            else
-            {
-                throw std::logic_error(
-                        std::string{"Could not get magic state after waiting for steps: "}
-                        +std::to_string(max_wait_for_magic_state));
-            }
-
-            ls_op_counter++;
-            if(timeout && lstk::since(start) > *timeout)
-            {
-                auto timeout_str = std::string{"Out of time after "}+std::to_string(timeout->count())+std::string{"s. "}
+            auto timeout_str = std::string{"Out of time after "}+std::to_string(timeout->count())+std::string{"s. "}
                     + std::string{"Consumed "} + std::to_string(ls_op_counter) + std::string{" Instructions. "}
                     + std::string{"Generated "} + std::to_string(slice_store_.slice_count()) + std::string{"Slices."};
 
-                throw std::runtime_error{timeout_str};
-            }
-
+            throw std::runtime_error{timeout_str};
         }
 
 #if false
@@ -330,11 +417,22 @@ void PatchComputation::make_slices(
 }
 
 
-void PatchComputation::compute_free_cells()
+void compute_free_cells(FreeCellCache& is_cell_free, const Slice& slice)
 {
-    layout_->for_each_cell([&](const Cell& cell){
-        is_cell_free_[cell.row][cell.col] = !slice_store_.last_slice().get_any_patch_on_cell(cell);
+    std::for_each(is_cell_free.begin(), is_cell_free.end(), [](std::vector<lstk::bool8>& row){
+        std::fill(row.begin(), row.end(), true);
     });
+
+    auto mark_as_not_free = [&is_cell_free](const SingleCellOccupiedByPatch& occupied_cell){
+        is_cell_free[occupied_cell.cell.row][occupied_cell.cell.col] = false;};
+
+    for(const Patch& p: slice.qubit_patches)
+        p.visit_individual_cells(mark_as_not_free);
+
+    for(const auto& rr : slice.routing_regions)
+        for(const auto& occupied_cell : rr.cells)
+            mark_as_not_free(occupied_cell);
+
 }
 
 
