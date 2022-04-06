@@ -361,8 +361,7 @@ void PatchComputation::make_slices(
     slice_store_.accept_new_slice(first_slice_from_layout(*layout_, instruction_stream.core_qubits()));
     ls_instructions_count_++; // The declare qubits instruction
 
-    // Add a blank slice for visualization
-    slice_visitor_(slice_store_.last_slice());
+    // Add a blank slice for the initial visualization of the layout
     make_new_slice();
 
     auto start = std::chrono::steady_clock::now();
