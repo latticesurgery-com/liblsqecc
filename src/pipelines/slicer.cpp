@@ -39,7 +39,7 @@ namespace lsqecc
 
     enum class OutputFormatMode
     {
-        Progress, NoProgress, Machine
+        Progress, NoProgress, Machine, Slices
     };
 
 
@@ -65,7 +65,12 @@ namespace lsqecc
                 .required(false);
         parser.add_argument()
                 .names({"-o", "--output"})
-                .description("File name of output file to which write a latticesurgery.com JSON of the slices")
+                .description("File name of output file to which write a latticesurgery.com JSON of the slices."
+                             " By default outputs to stdout")
+                .required(false);
+        parser.add_argument()
+                .names({"-f", "--output-format"})
+                .description("Requires, STDOUT output format: slices (default), progress , noprogress, machine,")
                 .required(false);
         parser.add_argument()
                 .names({"-t", "--timeout"})
@@ -74,10 +79,6 @@ namespace lsqecc
         parser.add_argument()
                 .names({"-r", "--router"})
                 .description("Set a router: naive_cached (default), naive")
-                .required(false);
-        parser.add_argument()
-                .names({"-f", "--output-format"})
-                .description("How to format output: progress (default), noprogres, machine")
                 .required(false);
         parser.add_argument()
                 .names({"-g", "--graph-search"})
@@ -99,26 +100,38 @@ namespace lsqecc
         }
 
 
-        auto output_format_mode = OutputFormatMode::Progress;
+        std::reference_wrapper<std::ostream> write_slices_stream = std::ref(std::cout);
+        std::unique_ptr<std::ostream> _ofstream_store;
+        if(parser.exists("o"))
+        {
+            _ofstream_store = std::make_unique<std::ofstream>(parser.get<std::string>("o"));
+            write_slices_stream = std::ref(*_ofstream_store);
+        }
+
+        auto output_format_mode = parser.exists("o") ? OutputFormatMode::Progress : OutputFormatMode::Slices;
         if(parser.exists("f"))
         {
             auto mode_arg = parser.get<std::string>("f");
-            if( mode_arg== "progress")
-                LSTK_NOOP;
-            else if (mode_arg == "noprogres")
+            if (mode_arg=="slices")
+                output_format_mode = OutputFormatMode::Slices;
+            else if (mode_arg=="progress")
+                output_format_mode = OutputFormatMode::Progress;
+            else if (mode_arg=="noprogres")
                 output_format_mode = OutputFormatMode::NoProgress;
-            else if (mode_arg == "machine")
+            else if (mode_arg=="machine")
                 output_format_mode = OutputFormatMode::Machine;
             else
             {
                 err_stream << "Unknown output format mode " << mode_arg << std::endl;
                 return -1;
             }
+
         }
+        bool is_writing_slices = parser.exists("o") || output_format_mode == OutputFormatMode::Slices;
+
 
 
         std::ifstream file_stream;
-
         std::unique_ptr<LSInstructionStream> instruction_stream;
         if(parser.exists("i"))
         {
@@ -198,24 +211,29 @@ namespace lsqecc
 
         auto no_op_visitor = [](const Slice& s) -> void {LSTK_UNUSED(s);};
 
-        // TODO replace this with a stream to file visitor
-        PatchComputation::SliceVisitorFunction slice_appending_visitor(no_op_visitor);
-        std::vector<Slice> slices;
-        if(parser.exists("o"))
+        PatchComputation::SliceVisitorFunction slice_printing_visitor{no_op_visitor};
+        bool is_first_slice = true;
+        if(is_writing_slices)
         {
-            slice_appending_visitor = [&slices](const Slice& s){
-                slices.push_back(s);
+            slice_printing_visitor = [&write_slices_stream, &is_first_slice](const Slice& s){
+                if(is_first_slice)
+                {
+                    write_slices_stream.get() << "[\n" << slice_to_json(s).dump(3);
+                    is_first_slice = false;
+                }
+                else
+                    write_slices_stream.get() << ",\n" << slice_to_json(s).dump(3);
             };
         }
 
         size_t slice_counter = 0;
-        PatchComputation::SliceVisitorFunction visitor_with_progress = slice_appending_visitor;
+        PatchComputation::SliceVisitorFunction visitor_with_progress{slice_printing_visitor};
         auto gave_update_at = lstk::now();
         if(output_format_mode == OutputFormatMode::Progress)
         {
             visitor_with_progress = [&](const Slice& s)
             {
-                slice_appending_visitor(s);
+                slice_printing_visitor(s);
                 slice_counter++;
                 if(lstk::seconds_since(gave_update_at)>=1)
                 {
@@ -243,21 +261,15 @@ namespace lsqecc
                            << patch_computation.slice_count() << ","
                            << lstk::seconds_since(start) << std::endl;
             }
-            else
+            else if (output_format_mode == OutputFormatMode::Progress)
             {
                 out_stream << "LS Instructions read  " << patch_computation.ls_instructions_count() << std::endl;
                 out_stream << "Slices " << patch_computation.slice_count() << std::endl;
                 out_stream << "Made patch computation. Took " << lstk::seconds_since(start) << "s." << std::endl;
             }
 
-            if(slices.size()>0)
-            {
-                out_stream << "Writing slices to file" << std::endl;
-                start = lstk::now();
-                auto slices_json = slices_to_json(slices);
-                std::ofstream(parser.get<std::string>("o")) << slices_json.dump(3) << std::endl;
-                out_stream << "Written slices. Took "<< lstk::since(start).count() << "s." << std::endl;
-            }
+            if(is_writing_slices)
+                write_slices_stream.get() << "]" <<std::endl;
 
         }
         catch (const std::exception& e)
