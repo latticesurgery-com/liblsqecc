@@ -73,7 +73,7 @@ namespace lsqecc
                 .required(false);
         parser.add_argument()
                 .names({"-r", "--router"})
-                .description("Set a router: naive_cached (default), naive")
+                .description("Set a router: graph (default), graph_cached")
                 .required(false);
         parser.add_argument()
                 .names({"-f", "--output-format"})
@@ -163,18 +163,18 @@ namespace lsqecc
                                           : std::nullopt;
 
 
-        std::unique_ptr<Router> router = std::make_unique<CachedNaiveDijkstraRouter>();
+        std::unique_ptr<Router> router = std::make_unique<NaiveDijkstraRouter>();
         if(parser.exists("r"))
         {
             auto router_name = parser.get<std::string>("r");
-            if(router_name =="naive_cached") //TODO change to djikstra
+            if(router_name =="graph") //TODO change to djikstra
                 LSTK_NOOP;// Already set
-            else if(router_name=="naive")
-                router = std::make_unique<NaiveDijkstraRouter>();
+            else if(router_name=="graph_cached")
+                router = std::make_unique<CachedNaiveDijkstraRouter>();
             else
             {
                 err_stream <<"Unknown router: "<< router_name << std::endl;
-                err_stream << "Choices are: naive, naive_cached." << std::endl;
+                err_stream << "Choices are: graph, graph_cached." << std::endl;
                 return -1;
             }
         }
