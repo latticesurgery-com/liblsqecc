@@ -142,4 +142,10 @@ bool SingleCellOccupiedByPatch::has_active_boundary() const
 
 }
 
+
+std::ostream& operator<<(std::ostream& os, const Cell& c)
+{
+    return os << "("<<c.row<<", "<<c.col <<")";
+}
+
 }
