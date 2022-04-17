@@ -149,6 +149,12 @@ void stitch_boundaries(Slice& slice, PatchId source, PatchId target, RoutingRegi
     }
     else
     {
+#if false
+        std::cout<<target_patch.cell<<"->";
+        for(auto c : routing_region.cells)
+            std::cout<<c.cell<<"->";
+        std::cout << source_patch.cell<< std::endl;
+#endif
         source_patch.get_mut_boundary_with(routing_region.cells.back().cell)->get().is_active=true;
         target_patch.get_mut_boundary_with(routing_region.cells.front().cell)->get().is_active=true;
     }

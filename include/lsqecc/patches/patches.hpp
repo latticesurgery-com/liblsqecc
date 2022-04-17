@@ -9,6 +9,7 @@
 #include <vector>
 #include <variant>
 #include <stdexcept>
+#include <iostream>
 
 namespace lsqecc {
 
@@ -111,6 +112,7 @@ struct RoutingRegion
 
 PatchId make_new_patch_id();
 
+std::ostream& operator<<(std::ostream& os, const Cell& c);
 
 }
 
