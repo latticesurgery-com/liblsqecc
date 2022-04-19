@@ -135,11 +135,9 @@ std::optional<std::reference_wrapper<Boundary>> SingleCellOccupiedByPatch::get_m
 
     return std::nullopt;
 }
-bool SingleCellOccupiedByPatch::has_active_boundary() const
+bool CellBoundaries::has_active_boundary() const
 {
-    auto neighbours = cell.get_neigbours();
-    return std::any_of(neighbours.begin(), neighbours.end(), [&](auto n){return get_boundary_with(n)->is_active;});
-
+    return top.is_active || bottom.is_active || left.is_active || right.is_active;
 }
 
 
@@ -147,5 +145,11 @@ std::ostream& operator<<(std::ostream& os, const Cell& c)
 {
     return os << "("<<c.row<<", "<<c.col <<")";
 }
+
+SparsePatch DensePatch::to_sparse_patch(const Cell& c) const
+{
+    return SparsePatch{{type, activity, id}, SingleCellOccupiedByPatch{{boundaries}, c}};
+}
+
 
 }

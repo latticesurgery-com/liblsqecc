@@ -6,6 +6,7 @@
 #include <lsqecc/layout/router.hpp>
 #include <lsqecc/patches/slices_to_json.hpp>
 #include <lsqecc/patches/sparse_patch_computation.hpp>
+#include <lsqecc/patches/dense_patch_computation.hpp>
 
 #include <lstk/lstk.hpp>
 

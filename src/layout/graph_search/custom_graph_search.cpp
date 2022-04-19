@@ -171,11 +171,11 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
         Cell next_cell = cell_from_vertex(next);
 
         ret.cells.push_back(SingleCellOccupiedByPatch{
-                .top=   {BoundaryType::None, false},
-                .bottom={BoundaryType::None, false},
-                .left=  {BoundaryType::None, false},
-                .right= {BoundaryType::None, false},
-                .cell=curr_cell
+                {.top=   {BoundaryType::None, false},
+                 .bottom={BoundaryType::None, false},
+                 .left=  {BoundaryType::None, false},
+                 .right= {BoundaryType::None, false}},
+                curr_cell
         });
 
         for (const Cell& neighbour: curr_cell.get_neigbours_within_bounding_box_inclusive({0, 0}, furthest_cell))
