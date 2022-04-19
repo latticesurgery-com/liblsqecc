@@ -14,7 +14,7 @@ bool Slice::has_patch(PatchId id) const
     return false;
 }
 
-Patch& Slice::get_patch_by_id_mut(PatchId id)
+SparsePatch& Slice::get_patch_by_id_mut(PatchId id)
 {
     for(auto& p: qubit_patches)
         if(p.id == id)
@@ -23,21 +23,21 @@ Patch& Slice::get_patch_by_id_mut(PatchId id)
     throw std::logic_error(std::string{"No patch for id: "+std::to_string(id)});
 }
 
-const Patch& Slice::get_patch_by_id(PatchId id) const
+const SparsePatch& Slice::get_patch_by_id(PatchId id) const
 {
     return const_cast<Slice*>(this)->get_patch_by_id_mut(id);
 }
 
 void Slice::delete_qubit_patch(PatchId id)
 {
-    auto new_end = std::remove_if(qubit_patches.begin(), qubit_patches.end(), [&id](const Patch& p){return p.id==id;});
+    auto new_end = std::remove_if(qubit_patches.begin(), qubit_patches.end(), [&id](const SparsePatch& p){return p.id==id;});
     qubit_patches.erase(new_end,qubit_patches.end());
 }
 
 
-std::optional<std::reference_wrapper<const Patch>> Slice::get_qubit_patch_on_cell(const Cell& cell) const
+std::optional<std::reference_wrapper<const SparsePatch>> Slice::get_qubit_patch_on_cell(const Cell& cell) const
 {
-    for(const Patch& p: qubit_patches)
+    for(const SparsePatch& p: qubit_patches)
         for (const Cell& c: p.get_cells())
             if(c==cell)
                 return p;
@@ -46,9 +46,9 @@ std::optional<std::reference_wrapper<const Patch>> Slice::get_qubit_patch_on_cel
 }
 
 
-std::optional<std::reference_wrapper<const Patch>> Slice::get_magic_state_on_cell(const Cell& cell) const
+std::optional<std::reference_wrapper<const SparsePatch>> Slice::get_magic_state_on_cell(const Cell& cell) const
 {
-    for(const Patch& p: unbound_magic_states)
+    for(const SparsePatch& p: unbound_magic_states)
         for (const Cell& c: p.get_cells())
             if(c==cell)
                 return p;
@@ -56,7 +56,7 @@ std::optional<std::reference_wrapper<const Patch>> Slice::get_magic_state_on_cel
     return std::nullopt;
 }
 
-std::optional<std::reference_wrapper<const Patch>> Slice::get_any_patch_on_cell(const Cell& cell) const
+std::optional<std::reference_wrapper<const SparsePatch>> Slice::get_any_patch_on_cell(const Cell& cell) const
 {
     auto p = get_qubit_patch_on_cell(cell);
     if(p) return p;

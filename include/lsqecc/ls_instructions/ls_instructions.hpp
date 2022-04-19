@@ -82,7 +82,7 @@ struct SingleQubitOp {
 struct BusyRegion{
     RoutingRegion region;
     size_t steps_to_clear;
-    Patch state_after_clearing;
+    SparsePatch state_after_clearing;
 
     bool operator==(const BusyRegion&) const = default;
 };

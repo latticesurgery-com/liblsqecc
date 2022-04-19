@@ -51,9 +51,9 @@ json core_to_json(const Slice& slice)
 {
     json out_slice = init_blank_json_slice(slice);
 
-    std::vector<Patch> all_patches{slice.qubit_patches};
+    std::vector<SparsePatch> all_patches{slice.qubit_patches};
     all_patches.insert(all_patches.end(),slice.unbound_magic_states.begin(), slice.unbound_magic_states.end());
-    for(const Patch& p : all_patches)
+    for(const SparsePatch& p : all_patches)
     {
         if(auto single_cell_patch = std::get_if<SingleCellOccupiedByPatch>(&p.cells))
         {

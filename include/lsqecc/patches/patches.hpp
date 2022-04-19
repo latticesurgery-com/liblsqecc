@@ -62,7 +62,6 @@ struct Boundary {
     bool operator==(const Boundary&) const = default;
 };
 
-
 struct SingleCellOccupiedByPatch{
     Boundary top;
     Boundary bottom;
@@ -87,9 +86,9 @@ struct MultipleCellsOccupiedByPatch {
 
 using PatchId = uint32_t;
 
-struct Patch{
+struct SparsePatch{
     // TODO perhaps this should be region?
-    std::variant<SingleCellOccupiedByPatch, MultipleCellsOccupiedByPatch> cells;
+    std::variant<SingleCellOccupiedByPatch, MultipleCellsOccupiedByPatch> occupied_cell;
     PatchType type;
     PatchActivity activity;
 
@@ -97,7 +96,7 @@ struct Patch{
 
     std::vector<Cell> get_cells() const;
     const Cell& get_a_cell() const;
-    bool operator==(const Patch&) const = default;
+    bool operator==(const SparsePatch&) const = default;
     void visit_individual_cells_mut(std::function<void (SingleCellOccupiedByPatch&)> f);
     void visit_individual_cells(std::function<void (const SingleCellOccupiedByPatch&)> f) const;
     bool is_active() const;

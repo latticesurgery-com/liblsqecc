@@ -30,7 +30,7 @@ Slice first_slice_from_layout(const Layout& layout, const tsl::ordered_set<Patch
 {
     Slice slice{.qubit_patches={}, .routing_regions={}, .layout={layout}, .time_to_next_magic_state_by_distillation_region={}};
 
-    for (const Patch& p : layout.core_patches())
+    for (const SparsePatch& p : layout.core_patches())
         slice.qubit_patches.push_back(p);
 
     size_t distillation_time_offset = 0;
@@ -108,7 +108,7 @@ Slice& PatchComputation::make_new_slice()
             auto magic_state_cell = find_place_for_magic_state(i);
             if(magic_state_cell)
             {
-                Patch magic_state_patch = LayoutHelpers::basic_square_patch(*magic_state_cell);
+                SparsePatch magic_state_patch = LayoutHelpers::basic_square_patch(*magic_state_cell);
                 magic_state_patch.type = PatchType::PreparedState;
                 new_slice.unbound_magic_states.push_back(magic_state_patch);
                 is_cell_free_[magic_state_cell->row][magic_state_cell->col] = false;
@@ -273,7 +273,7 @@ InstructionApplicationResult try_apply_instruction(
         if (!slice.has_patch(rotation->target))
             return {std::make_unique<std::runtime_error>(lstk::cat("Patch ", rotation->target, " not on lattice")), {}};
 
-        const Patch target_patch{slice.get_patch_by_id(rotation->target)};
+        const SparsePatch target_patch{slice.get_patch_by_id(rotation->target)};
         if (const auto* target_occupied_cell = std::get_if<SingleCellOccupiedByPatch>(&target_patch.cells))
         {
             std::optional<Cell> free_neighbour;
@@ -304,7 +304,7 @@ InstructionApplicationResult try_apply_instruction(
 
         if (slice.unbound_magic_states.size()>0)
         {
-            std::optional<Patch> newly_bound_magic_state = std::move(slice.unbound_magic_states.front());
+            std::optional<SparsePatch> newly_bound_magic_state = std::move(slice.unbound_magic_states.front());
             slice.unbound_magic_states.pop_front();
             newly_bound_magic_state->id = mr->target;
             newly_bound_magic_state->type = PatchType::Qubit;
@@ -431,7 +431,7 @@ void compute_free_cells(FreeCellCache& is_cell_free, const Slice& slice)
     auto mark_as_not_free = [&is_cell_free](const SingleCellOccupiedByPatch& occupied_cell){
         is_cell_free[occupied_cell.cell.row][occupied_cell.cell.col] = false;};
 
-    for(const Patch& p: slice.qubit_patches)
+    for(const SparsePatch& p: slice.qubit_patches)
         p.visit_individual_cells(mark_as_not_free);
 
     for(const auto& rr : slice.routing_regions)
