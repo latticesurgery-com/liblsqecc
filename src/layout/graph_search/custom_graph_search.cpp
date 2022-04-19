@@ -32,7 +32,7 @@ struct PredecessorData {
 
 template<bool want_cycle>
 std::optional<RoutingRegion> do_graph_search_route_ancilla(
-        const Slice& slice,
+        const SparseSlice& slice,
         PatchId source,
         PauliOperator source_op,
         PatchId target,
@@ -201,7 +201,7 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
 }
 
 std::optional<RoutingRegion> graph_search_route_ancilla(
-        const Slice& slice,
+        const SparseSlice& slice,
         PatchId source,
         PauliOperator source_op,
         PatchId target,

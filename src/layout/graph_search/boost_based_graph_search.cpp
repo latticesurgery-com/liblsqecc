@@ -17,7 +17,7 @@ namespace boost_graph_search {
 #ifdef ENABLE_BOOST_GRAPH_SEARCH
 
 std::optional<RoutingRegion> graph_search_route_ancilla(
-        const Slice& slice,
+        const SparseSlice& slice,
         PatchId source,
         PauliOperator source_op,
         PatchId target,
@@ -177,7 +177,7 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
 
 #endif
 
-std::optional<RoutingRegion> cycle_routing(Slice& slice, PatchId target)
+std::optional<RoutingRegion> cycle_routing(SparseSlice& slice, PatchId target)
 {
     return graph_search_route_ancilla(
             slice,

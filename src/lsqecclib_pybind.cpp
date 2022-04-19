@@ -1,6 +1,6 @@
 #include <pybind11/pybind11.h>
 
-#include <lsqecc/patches/patch_computation.hpp>
+#include <lsqecc/patches/sparse_patch_computation.hpp>
 
 int fast_make_computation(int i)
 {

@@ -5,7 +5,7 @@
 #include <lsqecc/layout/ascii_layout_spec.hpp>
 #include <lsqecc/layout/router.hpp>
 #include <lsqecc/patches/slices_to_json.hpp>
-#include <lsqecc/patches/patch_computation.hpp>
+#include <lsqecc/patches/sparse_patch_computation.hpp>
 
 #include <lstk/lstk.hpp>
 
@@ -196,24 +196,24 @@ namespace lsqecc
         }
 
 
-        auto no_op_visitor = [](const Slice& s) -> void {LSTK_UNUSED(s);};
+        auto no_op_visitor = [](const SparseSlice& s) -> void {LSTK_UNUSED(s);};
 
         // TODO replace this with a stream to file visitor
-        PatchComputation::SliceVisitorFunction slice_appending_visitor(no_op_visitor);
-        std::vector<Slice> slices;
+        SparsePatchComputation::SliceVisitorFunction slice_appending_visitor(no_op_visitor);
+        std::vector<SparseSlice> slices;
         if(parser.exists("o"))
         {
-            slice_appending_visitor = [&slices](const Slice& s){
+            slice_appending_visitor = [&slices](const SparseSlice& s){
                 slices.push_back(s);
             };
         }
 
         size_t slice_counter = 0;
-        PatchComputation::SliceVisitorFunction visitor_with_progress = slice_appending_visitor;
+        SparsePatchComputation::SliceVisitorFunction visitor_with_progress = slice_appending_visitor;
         auto gave_update_at = lstk::now();
         if(output_format_mode == OutputFormatMode::Progress)
         {
-            visitor_with_progress = [&](const Slice& s)
+            visitor_with_progress = [&](const SparseSlice& s)
             {
                 slice_appending_visitor(s);
                 slice_counter++;
@@ -229,7 +229,7 @@ namespace lsqecc
 
         try
         {
-            PatchComputation patch_computation{
+            SparsePatchComputation patch_computation{
                     std::move(*instruction_stream),
                     std::move(layout),
                     std::move(router),

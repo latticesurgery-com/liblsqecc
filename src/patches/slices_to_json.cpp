@@ -6,7 +6,7 @@ using namespace nlohmann;
 namespace lsqecc {
 
 
-json init_blank_json_slice(const Slice& slice)
+json init_blank_json_slice(const SparseSlice& slice)
 {
     json out_rows = json::array();
     Cell furthest_cell = slice.layout.get().furthest_cell();
@@ -47,7 +47,7 @@ json cell_patch_to_visual_array_edges_json(const SingleCellOccupiedByPatch& cell
 }
 
 
-json core_to_json(const Slice& slice)
+json core_to_json(const SparseSlice& slice)
 {
     json out_slice = init_blank_json_slice(slice);
 
@@ -132,11 +132,11 @@ json core_to_json(const Slice& slice)
     return out_slice;
 }
 
-json slices_to_json(const std::vector<Slice>& slices)
+json slices_to_json(const std::vector<SparseSlice>& slices)
 {
     json out_slices = json::array();
 
-    for(const Slice& slice : slices)
+    for(const SparseSlice& slice : slices)
         out_slices.push_back(core_to_json(slice));
 
     return out_slices;

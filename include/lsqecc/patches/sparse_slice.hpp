@@ -1,5 +1,5 @@
-#ifndef LSQECC_SLICE_HPP
-#define LSQECC_SLICE_HPP
+#ifndef LSQECC_SPARSE_SLICE_HPP
+#define LSQECC_SPARSE_SLICE_HPP
 
 #include <lsqecc/patches/patches.hpp>
 #include <lsqecc/layout/layout.hpp>
@@ -10,7 +10,7 @@
 namespace lsqecc {
 
 
-struct Slice {
+struct SparseSlice {
     std::vector<SparsePatch> qubit_patches;
     std::vector<RoutingRegion> routing_regions;
     std::deque<SparsePatch> unbound_magic_states;
@@ -31,10 +31,10 @@ struct Slice {
     std::optional<std::reference_wrapper<const SparsePatch>> get_any_patch_on_cell(const Cell& cell) const;
     bool is_cell_free(const Cell& cell) const;
     std::vector<Cell> get_neigbours_within_slice(const Cell& cell) const;
-    static Slice make_blank_slice(const Layout& layout);
+    static SparseSlice make_blank_slice(const Layout& layout);
 
 
-    bool operator==(const Slice& other) const {
+    bool operator==(const SparseSlice& other) const {
         return qubit_patches == other.qubit_patches
             && routing_regions == other.routing_regions
             && time_to_next_magic_state_by_distillation_region == other.time_to_next_magic_state_by_distillation_region;
@@ -45,4 +45,4 @@ struct Slice {
 
 }
 
-#endif //LSQECC_SLICE_HPP
+#endif //LSQECC_SPARSE_SLICE_HPP
