@@ -80,11 +80,11 @@ std::vector<Cell> SparseSlice::get_neigbours_within_slice(const Cell& cell) cons
 SparseSlice SparseSlice::make_blank_slice(const Layout& layout)
 {
     return SparseSlice{
-        .qubit_patches = {},
-        .routing_regions = {},
-        .unbound_magic_states = {},
-        .layout = {layout},
-        .time_to_next_magic_state_by_distillation_region = {},
+        {},
+        {},
+        {},
+        {layout},
+        {},
     };
 }
 

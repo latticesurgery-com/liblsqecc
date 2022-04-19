@@ -28,7 +28,8 @@ std::optional<Cell> SparsePatchComputation::find_place_for_magic_state(size_t di
 
 SparseSlice first_slice_from_layout(const Layout& layout, const tsl::ordered_set<PatchId>& core_qubit_ids)
 {
-    SparseSlice slice{.qubit_patches={}, .routing_regions={}, .layout={layout}, .time_to_next_magic_state_by_distillation_region={}};
+    SparseSlice slice{{}, {},{}, {layout},{}};
+
 
     for (const SparsePatch& p : layout.core_patches())
         slice.qubit_patches.push_back(p);
@@ -62,10 +63,11 @@ SparseSlice& SparsePatchComputation::make_new_slice()
     // TODO avoid this copy by doing a move and updating things
 
     SparseSlice new_slice{
-        .qubit_patches = {},
-        .unbound_magic_states = slice_store_.last_slice().unbound_magic_states,
-        .layout=*layout_, // TODO should be able to take out
-        .time_to_next_magic_state_by_distillation_region={}};
+        {},
+        {},
+        slice_store_.last_slice().unbound_magic_states,
+        *layout_, // TODO should be able to take out
+        {}};
 
     const SparseSlice& old_slice = slice_store_.last_slice();
 

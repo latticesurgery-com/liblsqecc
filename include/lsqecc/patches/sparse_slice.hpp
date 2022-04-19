@@ -1,7 +1,7 @@
 #ifndef LSQECC_SPARSE_SLICE_HPP
 #define LSQECC_SPARSE_SLICE_HPP
 
-#include <lsqecc/patches/patches.hpp>
+#include <lsqecc/patches/slice.hpp>
 #include <lsqecc/layout/layout.hpp>
 
 #include <queue>
@@ -10,7 +10,20 @@
 namespace lsqecc {
 
 
-struct SparseSlice {
+struct SparseSlice : public Slice<SparseSlice> {
+
+    SparseSlice(std::vector<SparsePatch> _qubit_patches,
+    std::vector<RoutingRegion> _routing_regions,
+    std::deque<SparsePatch> _unbound_magic_states,
+    std::reference_wrapper<const Layout> _layout, // reference_wrapper Keeps the slice copyable
+    std::vector<SurfaceCodeTimestep> _time_to_next_magic_state_by_distillation_region)
+        : qubit_patches(_qubit_patches),
+          routing_regions(_routing_regions),
+          unbound_magic_states(_unbound_magic_states),
+          layout(_layout),
+          time_to_next_magic_state_by_distillation_region(_time_to_next_magic_state_by_distillation_region)
+    {}
+
     std::vector<SparsePatch> qubit_patches;
     std::vector<RoutingRegion> routing_regions;
     std::deque<SparsePatch> unbound_magic_states;
