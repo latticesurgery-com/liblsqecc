@@ -3,9 +3,9 @@
 
 namespace lsqecc {
 
-Patch LayoutHelpers::basic_square_patch(Cell placement)
+SparsePatch LayoutHelpers::basic_square_patch(Cell placement)
 {
-    return Patch{
+    return SparsePatch{
             .cells=SingleCellOccupiedByPatch{
                     .top={BoundaryType::Rough,false},
                     .bottom={BoundaryType::Rough,false},
@@ -28,7 +28,7 @@ SingleCellOccupiedByPatch LayoutHelpers::make_distillation_region_cell(Cell plac
         };
 }
 LayoutHelpers::SinglePatchRotationALaLitinskiStages LayoutHelpers::single_patch_rotation_a_la_litinski(
-        const Patch& target_patch, const Cell& free_neighbour)
+        const SparsePatch& target_patch, const Cell& free_neighbour)
 {
     if(!std::holds_alternative<SingleCellOccupiedByPatch>(target_patch.cells))
         throw std::logic_error{lstk::cat("Trying to rotate patch ", target_patch.id.value_or(-1), "which is not single cell")};
@@ -72,7 +72,7 @@ LayoutHelpers::SinglePatchRotationALaLitinskiStages LayoutHelpers::single_patch_
        new_boundary.is_active = false;
    }
 
-   Patch new_patch{target_patch};
+   SparsePatch new_patch{target_patch};
    new_patch.cells = rotated_first_patch;
 
    return {.stage_1 = occupied_space, .stage_2 = occupied_space, .final_state = new_patch};

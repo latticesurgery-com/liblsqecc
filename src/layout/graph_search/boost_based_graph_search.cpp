@@ -61,7 +61,7 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
         {
             Cell current{row_idx, col_idx};
             vertices.push_back(make_vertex(current));
-            std::optional<std::reference_wrapper<const Patch>> patch_of_node{slice.get_any_patch_on_cell(current)};
+            std::optional<std::reference_wrapper<const SparsePatch>> patch_of_node{slice.get_any_patch_on_cell(current)};
 
             bool node_is_free = !patch_of_node;
             if (node_is_free)

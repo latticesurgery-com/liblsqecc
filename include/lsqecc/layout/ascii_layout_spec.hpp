@@ -97,7 +97,7 @@ public:
     }
 
 
-    const std::vector<Patch>& core_patches() const override { return cached_core_patches_;};
+    const std::vector<SparsePatch>& core_patches() const override { return cached_core_patches_;};
     Cell furthest_cell() const override {return cached_furthest_cell_;};
     const std::vector<MultipleCellsOccupiedByPatch>& distillation_regions() const override {return cached_distillation_regions_;};
     const std::vector<SurfaceCodeTimestep>& distillation_times() const override {return cached_distillation_times_;};
@@ -108,7 +108,7 @@ public:
     }
 
 private:
-    std::vector<Patch> cached_core_patches_;
+    std::vector<SparsePatch> cached_core_patches_;
     Cell cached_furthest_cell_;
     std::vector<MultipleCellsOccupiedByPatch> cached_distillation_regions_;
     std::vector<SurfaceCodeTimestep> cached_distillation_times_;
