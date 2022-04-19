@@ -1,5 +1,5 @@
 #include <lsqecc/patches/patches.hpp>
-#include <lsqecc/patches/patch_computation.hpp>
+#include <lsqecc/patches/sparse_patch_computation.hpp>
 #include <lsqecc/layout/router.hpp>
 
 #include <lstk/lstk.hpp>
@@ -15,7 +15,7 @@
 namespace lsqecc {
 
 
-std::optional<Cell> PatchComputation::find_place_for_magic_state(size_t distillation_region_idx) const
+std::optional<Cell> SparsePatchComputation::find_place_for_magic_state(size_t distillation_region_idx) const
 {
     compute_free_cells(is_cell_free_, slice_store_.last_slice_const());
     for(const auto& cell: layout_->distilled_state_locations(distillation_region_idx))
@@ -26,9 +26,9 @@ std::optional<Cell> PatchComputation::find_place_for_magic_state(size_t distilla
 }
 
 
-Slice first_slice_from_layout(const Layout& layout, const tsl::ordered_set<PatchId>& core_qubit_ids)
+SparseSlice first_slice_from_layout(const Layout& layout, const tsl::ordered_set<PatchId>& core_qubit_ids)
 {
-    Slice slice{.qubit_patches={}, .routing_regions={}, .layout={layout}, .time_to_next_magic_state_by_distillation_region={}};
+    SparseSlice slice{.qubit_patches={}, .routing_regions={}, .layout={layout}, .time_to_next_magic_state_by_distillation_region={}};
 
     for (const SparsePatch& p : layout.core_patches())
         slice.qubit_patches.push_back(p);
@@ -53,7 +53,7 @@ Slice first_slice_from_layout(const Layout& layout, const tsl::ordered_set<Patch
 }
 
 
-Slice& PatchComputation::make_new_slice()
+SparseSlice& SparsePatchComputation::make_new_slice()
 {
 
     slice_visitor_(slice_store_.last_slice());
@@ -61,13 +61,13 @@ Slice& PatchComputation::make_new_slice()
     // This is an expensive copy. To avoid doing it twice we do in in place on the heap
     // TODO avoid this copy by doing a move and updating things
 
-    Slice new_slice{
+    SparseSlice new_slice{
         .qubit_patches = {},
         .unbound_magic_states = slice_store_.last_slice().unbound_magic_states,
         .layout=*layout_, // TODO should be able to take out
         .time_to_next_magic_state_by_distillation_region={}};
 
-    const Slice& old_slice = slice_store_.last_slice();
+    const SparseSlice& old_slice = slice_store_.last_slice();
 
     // Copy patches over
     for (const auto& old_patch : old_slice.qubit_patches)
@@ -128,7 +128,7 @@ Slice& PatchComputation::make_new_slice()
 
 
 
-std::optional<Cell> find_free_ancilla_location(const Layout& layout, const Slice& slice)
+std::optional<Cell> find_free_ancilla_location(const Layout& layout, const SparseSlice& slice)
 {
     for(const Cell& possible_ancilla_location : layout.ancilla_location())
         if(slice.is_cell_free(possible_ancilla_location))
@@ -137,7 +137,7 @@ std::optional<Cell> find_free_ancilla_location(const Layout& layout, const Slice
 }
 
 
-void stitch_boundaries(Slice& slice, PatchId source, PatchId target, RoutingRegion& routing_region)
+void stitch_boundaries(SparseSlice& slice, PatchId source, PatchId target, RoutingRegion& routing_region)
 {
     auto& source_patch = slice.get_single_cell_occupied_by_patch_by_id_mut(source);
     auto& target_patch = slice.get_single_cell_occupied_by_patch_by_id_mut(target);
@@ -165,7 +165,7 @@ void stitch_boundaries(Slice& slice, PatchId source, PatchId target, RoutingRegi
  * Returns true iff merge was successful
  */
 bool merge_patches(
-        Slice& slice,
+        SparseSlice& slice,
         Router& router,
         PatchId source,
         PauliOperator source_op,
@@ -199,7 +199,7 @@ struct InstructionApplicationResult
 
 
 InstructionApplicationResult try_apply_instruction(
-        Slice& slice,
+        SparseSlice& slice,
         LSInstruction instruction,
         Router& router,
         FreeCellCache is_cell_free)
@@ -360,7 +360,7 @@ InstructionApplicationResult try_apply_instruction(
 }
 
 
-void PatchComputation::make_slices(
+void SparsePatchComputation::make_slices(
         LSInstructionStream&& instruction_stream,
         std::optional<std::chrono::seconds> timeout)
 {
@@ -422,7 +422,7 @@ void PatchComputation::make_slices(
 }
 
 
-void compute_free_cells(FreeCellCache& is_cell_free, const Slice& slice)
+void compute_free_cells(FreeCellCache& is_cell_free, const SparseSlice& slice)
 {
     std::for_each(is_cell_free.begin(), is_cell_free.end(), [](std::vector<lstk::bool8>& row){
         std::fill(row.begin(), row.end(), true);
@@ -441,7 +441,7 @@ void compute_free_cells(FreeCellCache& is_cell_free, const Slice& slice)
 }
 
 
-PatchComputation::PatchComputation(
+SparsePatchComputation::SparsePatchComputation(
         LSInstructionStream&& instruction_stream,
         std::unique_ptr<Layout>&& layout,
         std::unique_ptr<Router>&& router,
@@ -468,7 +468,7 @@ PatchComputation::PatchComputation(
 }
 
 
-void SliceStore::accept_new_slice(Slice&& slice)
+void SliceStore::accept_new_slice(SparseSlice&& slice)
 {
     second_last_slice_ = std::move(last_slice_);
     last_slice_ = std::move(slice);
@@ -477,7 +477,7 @@ void SliceStore::accept_new_slice(Slice&& slice)
 
 
 SliceStore::SliceStore(const Layout& layout)
-    :last_slice_(Slice::make_blank_slice(layout)), second_last_slice_(Slice::make_blank_slice(layout))
+    :last_slice_(SparseSlice::make_blank_slice(layout)), second_last_slice_(SparseSlice::make_blank_slice(layout))
 {}
 
 }

@@ -8,7 +8,7 @@ namespace lsqecc {
 
 
 CachedNaiveDijkstraRouter::PathIdentifier path_identifier_from_ids(
-        const Slice& slice,
+        const SparseSlice& slice,
         PatchId source,
         PauliOperator source_op,
         PatchId target,
@@ -19,7 +19,7 @@ CachedNaiveDijkstraRouter::PathIdentifier path_identifier_from_ids(
     return CachedNaiveDijkstraRouter::PathIdentifier{source_cell, source_op, target_cell, target_op};
 }
 
-std::optional<RoutingRegion> CachedNaiveDijkstraRouter::find_routing_ancilla(const Slice& slice, PatchId source,
+std::optional<RoutingRegion> CachedNaiveDijkstraRouter::find_routing_ancilla(const SparseSlice& slice, PatchId source,
         PauliOperator source_op, PatchId target, PauliOperator target_op) const
 {
 
@@ -52,7 +52,7 @@ size_t CachedNaiveDijkstraRouter::PathIdentifier::hash::operator()(
 
 
 std::optional<RoutingRegion>NaiveDijkstraRouter::find_routing_ancilla(
-        const Slice& slice, PatchId source, PauliOperator source_op, PatchId target, PauliOperator target_op) const
+        const SparseSlice& slice, PatchId source, PauliOperator source_op, PatchId target, PauliOperator target_op) const
 {
 
     switch(graph_search_provider_)
