@@ -2,17 +2,24 @@
 #define LSQECC_DENSE_SLICE_HPP
 
 #include <lsqecc/patches/patches.hpp>
-#include <lsqecc/patches/slice.hpp>
+#include <lsqecc/layout/layout.hpp>
 
 #include <functional>
 
 namespace lsqecc
 {
 
+
+
 struct DenseSlice
 {
     using RowStore = std::vector<std::optional<DensePatch>>;
     std::vector<RowStore> cells;
+
+    // Sort out the problem with distillations
+    // std::queue<Cell> magic_state_queue;
+    // time_to_next_magic_state_by_distillation_region
+
 
     size_t rows() const {return cells.size();};
     size_t cols() const  {return cells.at(0).size();};
@@ -27,12 +34,12 @@ struct DenseSlice
     void traverse_cells_mut(const CellTraversalFunctor& f);
     void traverse_cells(const CellTraversalConstFunctor& f) const;
 
-    std::optional<std::reference_wrapper<DensePatch>> get_patch_by_id_mut(PatchId id);
+    std::optional<std::reference_wrapper<DensePatch>> get_patch_by_id(PatchId id);
     std::optional<std::reference_wrapper<const DensePatch>> get_patch_by_id(PatchId id) const;
-    std::optional<std::reference_wrapper<DensePatch>> get_patch_on_cell_mut(const Cell& cell);
-    std::optional<std::reference_wrapper<const DensePatch>> get_patch_on_cell(const Cell& cell) const;
+    std::optional<DensePatch>& patch_at(const Cell& cell);
+    const std::optional<DensePatch>& patch_at(const Cell& cell) const;
 
-    void delete_qubit_patch(PatchId id);
+    void delete_patch_by_id(PatchId id);
 
     bool is_cell_free(const Cell& cell) const;
 

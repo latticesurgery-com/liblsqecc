@@ -27,7 +27,7 @@ void DenseSlice::traverse_cells(const CellTraversalConstFunctor& f) const
 
 
 
-std::optional<std::reference_wrapper<DensePatch>> DenseSlice::get_patch_by_id_mut(PatchId id)
+std::optional<std::reference_wrapper<DensePatch>> DenseSlice::get_patch_by_id(PatchId id)
 {
     std::optional<std::reference_wrapper<DensePatch>> ret;
     traverse_cells_mut([&](const Cell& c, std::optional<DensePatch>& p) {
@@ -38,26 +38,30 @@ std::optional<std::reference_wrapper<DensePatch>> DenseSlice::get_patch_by_id_mu
 }
 
 
-std::optional<std::reference_wrapper<const DensePatch>> DenseSlice::get_patch_by_id(PatchId id) const
+std::optional<std::reference_wrapper<DensePatch const>> DenseSlice::get_patch_by_id(PatchId id) const
 {
-    return const_cast<DenseSlice*>(this)->get_patch_by_id_mut(id);
+    auto maybe_patch = const_cast<DenseSlice*>(this)->get_patch_by_id(id);
+    return maybe_patch ? std::make_optional(std::cref(maybe_patch->get())) : std::nullopt;
 }
 
-std::optional<std::reference_wrapper<DensePatch>> DenseSlice::get_patch_on_cell_mut(const Cell& cell)
+std::optional<DensePatch>& DenseSlice::patch_at(const Cell& cell)
 {
-    std::optional<std::reference_wrapper<DensePatch>> ret;
+    using MaybeDensePatch = std::optional<DensePatch>;
+    std::optional<std::reference_wrapper<MaybeDensePatch>>ret;
     traverse_cells_mut([&](const Cell& c, std::optional<DensePatch>& p) {
-        if(c == cell && p) ret = std::ref(*p);
+        if(c == cell) ret = std::ref(p);
     });
-    return ret;
+
+    if(!ret) throw std::logic_error(lstk::cat("Cell (", cell.row, ", ", cell.col, ") out of bounds"));
+    return ret->get();
 }
 
-std::optional<std::reference_wrapper<const DensePatch>> DenseSlice::get_patch_on_cell(const Cell& cell) const
+const std::optional<DensePatch>& DenseSlice::patch_at(const Cell& cell) const
 {
-    return std::cref(const_cast<DenseSlice*>(this)->get_patch_on_cell_mut(cell)->get());
+    return const_cast<DenseSlice*>(this)->patch_at(cell);
 }
 
-void DenseSlice::delete_qubit_patch(PatchId id)
+void DenseSlice::delete_patch_by_id(PatchId id)
 {
     traverse_cells_mut([&](const Cell& c, std::optional<DensePatch>& p) {
         if(p && p->id == id) p = std::nullopt;
@@ -80,7 +84,7 @@ DenseSlice DenseSlice::make_blank_slice(const Layout& layout)
 
 bool DenseSlice::is_cell_free(const Cell& cell) const
 {
-    return get_patch_on_cell(cell).has_value();
+    return patch_at(cell).has_value();
 }
 
 
