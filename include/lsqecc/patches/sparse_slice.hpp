@@ -1,7 +1,6 @@
 #ifndef LSQECC_SPARSE_SLICE_HPP
 #define LSQECC_SPARSE_SLICE_HPP
 
-#include <lsqecc/patches/slice.hpp>
 #include <lsqecc/layout/layout.hpp>
 
 #include <queue>
@@ -10,7 +9,7 @@
 namespace lsqecc {
 
 
-struct SparseSlice : public Slice<SparseSlice> {
+struct SparseSlice {
 
     SparseSlice(std::vector<SparsePatch> _qubit_patches,
     std::vector<RoutingRegion> _routing_regions,

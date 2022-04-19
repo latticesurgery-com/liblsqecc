@@ -150,6 +150,15 @@ SparsePatch DensePatch::to_sparse_patch(const Cell& c) const
 {
     return SparsePatch{{type, activity, id}, SingleCellOccupiedByPatch{{boundaries}, c}};
 }
+DensePatch DensePatch::from_sparse_patch(const SparsePatch& sp)
+{
+    auto* occupied_cell = std::get_if<SingleCellOccupiedByPatch>(&sp.cells);
 
+    return DensePatch{static_cast<Patch>(sp),
+                      {.top=occupied_cell->top,
+                       .bottom=occupied_cell->bottom,
+                        .left=occupied_cell->left,
+                       .right=occupied_cell->right}};
+}
 
 }

@@ -7,7 +7,7 @@ project(lsqecc)
 ####################################################
 # General configuration
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wfatal-errors -Wall -pedantic")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -Wfatal-errors -Wall -pedantic")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -g3 -DNDEBUG")
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_BUILD_TYPE Debug)
@@ -45,13 +45,13 @@ include_directories(external/include)
 add_library(
         lsqecclib
         src/gates/parse_gates.cpp
-        src/patches/patch_computation.cpp
+        src/patches/sparse_patch_computation.cpp
         src/ls_instructions/ls_instructions.cpp
         src/ls_instructions/ls_instructions_parse.cpp
         src/ls_instructions/ls_instruction_stream.cpp
         src/ls_instructions/parse_utils.cpp
         src/patches/patches.cpp
-        src/patches/slice.cpp
+        src/patches/sparse_slice.cpp
         src/patches/slices_to_json.cpp
         src/layout/graph_search/boost_based_graph_search.cpp
         src/layout/graph_search/custom_graph_search.cpp
@@ -59,7 +59,7 @@ add_library(
         src/layout/ascii_layout_spec.cpp
         src/layout/layout.cpp
         src/pipelines/slicer.cpp
-        src/gates/gates.cpp)
+        src/gates/gates.cpp src/patches/dense_slice.cpp src/patches/dense_patch_computation.cpp)
 
 set(LSQECCLIB_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/include")
 
