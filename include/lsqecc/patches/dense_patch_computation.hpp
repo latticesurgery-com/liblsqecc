@@ -22,7 +22,7 @@ using DenseSliceVisitor = std::function<void(const DenseSlice& slice)>;
 void run_through_dense_slices(
         LSInstructionStream&& instruction_stream,
         const Layout& layout,
-        const Router& router,
+        Router& router,
         std::optional<std::chrono::seconds> timeout,
         const DenseSliceVisitor& slice_visitor);
 

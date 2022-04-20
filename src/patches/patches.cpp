@@ -160,5 +160,10 @@ DensePatch DensePatch::from_sparse_patch(const SparsePatch& sp)
                         .left=occupied_cell->left,
                        .right=occupied_cell->right}};
 }
+bool DensePatch::is_active() const
+{
+    if(activity!=PatchActivity::None) return true;
+    return boundaries.has_active_boundary();
+}
 
 }

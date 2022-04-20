@@ -5,6 +5,7 @@
 #include <lsqecc/layout/layout.hpp>
 
 #include <functional>
+#include <unordered_map>
 
 namespace lsqecc
 {
@@ -16,9 +17,8 @@ struct DenseSlice
     using RowStore = std::vector<std::optional<DensePatch>>;
     std::vector<RowStore> cells;
 
-    // Sort out the problem with distillations
-    // std::queue<Cell> magic_state_queue;
-    // time_to_next_magic_state_by_distillation_region
+    std::queue<Cell> magic_state_queue;
+    std::vector<size_t> time_to_next_magic_state_by_distillation_region;
 
 
     size_t rows() const {return cells.size();};
@@ -38,6 +38,9 @@ struct DenseSlice
     std::optional<std::reference_wrapper<const DensePatch>> get_patch_by_id(PatchId id) const;
     std::optional<DensePatch>& patch_at(const Cell& cell);
     const std::optional<DensePatch>& patch_at(const Cell& cell) const;
+
+    // Return a cell of the placed patch
+    Cell place_sparse_patch(const SparsePatch& sparse_patch);
 
     void delete_patch_by_id(PatchId id);
 
