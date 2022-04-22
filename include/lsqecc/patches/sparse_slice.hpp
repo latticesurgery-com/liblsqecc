@@ -2,6 +2,7 @@
 #define LSQECC_SPARSE_SLICE_HPP
 
 #include <lsqecc/layout/layout.hpp>
+#include <lsqecc/layout/searchable_slice.hpp>
 
 #include <queue>
 #include <functional>
@@ -9,7 +10,7 @@
 namespace lsqecc {
 
 
-struct SparseSlice {
+struct SparseSlice : public SearchableSlice{
 
     SparseSlice(std::vector<SparsePatch> _qubit_patches,
     std::vector<RoutingRegion> _routing_regions,
@@ -30,9 +31,10 @@ struct SparseSlice {
     std::vector<SurfaceCodeTimestep> time_to_next_magic_state_by_distillation_region;
 
 
-    bool has_patch(PatchId id) const;
+    bool has_patch(PatchId id) const override;
     SparsePatch& get_patch_by_id_mut(PatchId id);
     const SparsePatch& get_patch_by_id(PatchId id) const;
+    std::optional<Cell> get_cell_by_id(PatchId id) const override;
 
     void delete_qubit_patch(PatchId id);
 
@@ -41,8 +43,13 @@ struct SparseSlice {
     std::optional<std::reference_wrapper<const SparsePatch>> get_qubit_patch_on_cell(const Cell& cell) const;
     std::optional<std::reference_wrapper<const SparsePatch>> get_magic_state_on_cell(const Cell& cell) const;
     std::optional<std::reference_wrapper<const SparsePatch>> get_any_patch_on_cell(const Cell& cell) const;
-    bool is_cell_free(const Cell& cell) const;
-    std::vector<Cell> get_neigbours_within_slice(const Cell& cell) const;
+    bool is_cell_free(const Cell& cell) const override;
+    std::vector<Cell> get_neigbours_within_slice(const Cell& cell) const override;
+    bool have_boundary_of_type_with(const Cell& target, const Cell& neighbour, PauliOperator op) const override;
+
+
+    Cell furthest_cell() const override;
+
     static SparseSlice make_blank_slice(const Layout& layout);
 
 
