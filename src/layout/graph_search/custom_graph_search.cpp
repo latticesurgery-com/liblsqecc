@@ -32,7 +32,7 @@ struct PredecessorData {
 
 template<bool want_cycle>
 std::optional<RoutingRegion> do_graph_search_route_ancilla(
-        const SparseSlice& slice,
+        const SearchableSlice& slice,
         PatchId source,
         PauliOperator source_op,
         PatchId target,
@@ -40,10 +40,10 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
 )
 {
 
-    const auto& source_patch = slice.get_single_cell_occupied_by_patch_by_id(source);
-    const auto& target_patch = slice.get_single_cell_occupied_by_patch_by_id(target);
+    const Cell source_cell = slice.get_cell_by_id(source).value();
+    const Cell target_cell = slice.get_cell_by_id(target).value();
 
-    Cell furthest_cell = slice.layout.get().furthest_cell();
+    Cell furthest_cell = slice.furthest_cell();
 
 
     auto make_vertex = [&furthest_cell](const Cell& cell) -> Vertex
@@ -60,7 +60,7 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
         {
             // In this case we add a simulate source at the end of the list of vertices
             if(vertex == simulated_source)
-                return target_patch.cell;
+                return target_cell;
         }
 
         auto v = static_cast<Cell::CoordinateType>(vertex);
@@ -69,22 +69,22 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
     };
 
 
-    Vertex source_vertex = make_vertex(source_patch.cell);
-    Vertex target_vertex = make_vertex(target_patch.cell);
+    Vertex source_vertex = make_vertex(source_cell);
+    Vertex target_vertex = make_vertex(target_cell);
 
 
     auto have_directed_edge = [&](const Cell& a, const Cell& b) -> bool{
         if(slice.is_cell_free(a) && slice.is_cell_free(b)) return true;
 
         if(a == cell_from_vertex(source_vertex) && b == cell_from_vertex(target_vertex))
-            return source_patch.have_boundary_of_type_with(source_op, b)
-                && source_patch.have_boundary_of_type_with(target_op, a);
+            return slice.have_boundary_of_type_with(source_cell, b, source_op)
+                && slice.have_boundary_of_type_with(source_cell, a, target_op);
 
         if(a == cell_from_vertex(source_vertex) && slice.is_cell_free(b))
-            return source_patch.have_boundary_of_type_with(source_op, b);
+            return slice.have_boundary_of_type_with(source_cell, b, source_op);
 
         if(slice.is_cell_free(a) && b == cell_from_vertex(target_vertex))
-            return target_patch.have_boundary_of_type_with(target_op, a);
+            return slice.have_boundary_of_type_with(target_cell, a, target_op);
 
         return false;
     };
@@ -110,10 +110,10 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
     {
         predecessor_map.push_back({0,simulated_source});
 
-        auto neighbours = slice.get_neigbours_within_slice(source_patch.cell);
+        auto neighbours = slice.get_neigbours_within_slice(source_cell);
         for(const Cell& neighbour_cell : neighbours)
         {
-            if(have_directed_edge(source_patch.cell, neighbour_cell))
+            if(have_directed_edge(source_cell, neighbour_cell))
             {
                 Vertex neighbour = make_vertex(neighbour_cell);
                 predecessor_map[neighbour] = {1, simulated_source};
@@ -161,7 +161,7 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
     // TODO refactor this to be shared with the boost implementation
     RoutingRegion ret;
 
-    Vertex prec = make_vertex(slice.get_patch_by_id(target).get_a_cell());
+    Vertex prec = make_vertex(*slice.get_cell_by_id(target));
     Vertex curr = predecessor_map[target_vertex].predecessor;
     Vertex next = predecessor_map[curr].predecessor;
 
@@ -201,7 +201,7 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
 }
 
 std::optional<RoutingRegion> graph_search_route_ancilla(
-        const SparseSlice& slice,
+        const SearchableSlice& slice,
         PatchId source,
         PauliOperator source_op,
         PatchId target,

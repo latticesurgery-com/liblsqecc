@@ -17,7 +17,7 @@ namespace boost_graph_search {
 #ifdef ENABLE_BOOST_GRAPH_SEARCH
 
 std::optional<RoutingRegion> graph_search_route_ancilla(
-        const SparseSlice& slice,
+        const SearchableSlice& slice,
         PatchId source,
         PauliOperator source_op,
         PatchId target,
@@ -39,7 +39,7 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
     std::vector<Vertex> vertices;
     std::vector<Edge> edges;
 
-    Cell furthest_cell = slice.layout.get().furthest_cell();
+    Cell furthest_cell = slice.furthest_cell();
 
     auto make_vertex = [&furthest_cell](const Cell& cell) -> Vertex
     {
@@ -61,10 +61,7 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
         {
             Cell current{row_idx, col_idx};
             vertices.push_back(make_vertex(current));
-            std::optional<std::reference_wrapper<const SparsePatch>> patch_of_node{slice.get_any_patch_on_cell(current)};
-
-            bool node_is_free = !patch_of_node;
-            if (node_is_free)
+            if (!slice.is_cell_free(current))
                 for (const Cell& neighbour: current.get_neigbours_within_bounding_box_inclusive({0, 0}, furthest_cell))
                     if (slice.is_cell_free(neighbour))
                         edges.emplace_back(make_vertex(neighbour), make_vertex(current));
@@ -73,29 +70,25 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
     }
 
     // Add source
-    const auto& source_patch = std::get_if<SingleCellOccupiedByPatch>(&slice.get_patch_by_id(source).cells);
-    if (source_patch==nullptr) throw std::logic_error("Cannot route multi cell patches");
-    for (Cell neighbour: source_patch->cell.get_neigbours_within_bounding_box_inclusive({0, 0}, furthest_cell))
+    const auto source_cell = *slice.get_cell_by_id(source);
+    for (Cell neighbour: slice.get_neigbours_within_slice(source_cell))
     {
-        auto boundary = source_patch->get_boundary_with(neighbour);
-        if (boundary && boundary->boundary_type==boundary_for_operator(source_op))
-            edges.emplace_back(make_vertex(source_patch->cell), make_vertex(neighbour));
+        if (slice.have_boundary_of_type_with(source_cell, neighbour, source_op))
+            edges.emplace_back(make_vertex(source_cell), make_vertex(neighbour));
 
     }
 
     // Add target
-    const auto& target_patch = std::get_if<SingleCellOccupiedByPatch>(&slice.get_patch_by_id(target).cells);
-    if (target_patch==nullptr) throw std::logic_error("Cannot route multi cell patches");
+    const auto target_cell = *slice.get_cell_by_id(target);
 
     // This means we are trying to do an S-gate/twist measurement so we artificially add a new source coinciding
     // with the existing one
     Vertex target_vertex =
-            target==source ? (*std::max_element(vertices.begin(), vertices.end()))+1 : make_vertex(target_patch->cell);
+            target==source ? (*std::max_element(vertices.begin(), vertices.end()))+1 : make_vertex(target_cell);
 
-    for (Cell neighbour: target_patch->cell.get_neigbours_within_bounding_box_inclusive({0, 0}, furthest_cell))
+    for (Cell neighbour: slice.get_neigbours_within_slice(target_cell))
     {
-        auto boundary = target_patch->get_boundary_with(neighbour);
-        if (boundary && boundary->boundary_type==boundary_for_operator(target_op))
+        if (slice.have_boundary_of_type_with(target_cell, neighbour,target_op))
             edges.emplace_back(make_vertex(neighbour), target_vertex);
     }
 
@@ -104,7 +97,7 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
     property_map<Graph, vertex_predecessor_t>::type p
             = get(vertex_predecessor, g);
 
-    Vertex s = vertex(make_vertex(slice.get_patch_by_id(source).get_a_cell()), g);
+    Vertex s = vertex(make_vertex(*slice.get_cell_by_id(source)), g);
     dijkstra_shortest_paths(g, s, predecessor_map(p));
 
 #if false
@@ -127,7 +120,7 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
 
     RoutingRegion ret;
 
-    Vertex prec = make_vertex(slice.get_patch_by_id(target).get_a_cell());
+    Vertex prec = make_vertex(*slice.get_cell_by_id(target));
     Vertex curr = p[target_vertex];
     Vertex next = p[curr];
     while (curr!=next)
@@ -177,7 +170,7 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
 
 #endif
 
-std::optional<RoutingRegion> cycle_routing(SparseSlice& slice, PatchId target)
+std::optional<RoutingRegion> cycle_routing(SearchableSlice& slice, PatchId target)
 {
     return graph_search_route_ancilla(
             slice,
