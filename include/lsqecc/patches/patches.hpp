@@ -120,11 +120,13 @@ struct SparsePatch : public Patch {
 struct DensePatch : public Patch {
 
     CellBoundaries boundaries;
+
     SparsePatch to_sparse_patch(const Cell& c) const;
     static DensePatch from_sparse_patch(const SparsePatch& p);
 
     bool is_active() const;
 };
+
 
 struct RoutingRegion
 {

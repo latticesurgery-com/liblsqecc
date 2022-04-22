@@ -44,6 +44,16 @@ std::optional<std::reference_wrapper<DensePatch const>> DenseSlice::get_patch_by
     return maybe_patch ? std::make_optional(std::cref(maybe_patch->get())) : std::nullopt;
 }
 
+std::optional<Cell> DenseSlice::get_cell_by_id(PatchId id) const
+{
+    std::optional<Cell> ret;
+    traverse_cells([&](const Cell& c, const std::optional<DensePatch>& p) {
+        if(p && p->id == id)
+            ret = c;
+    });
+    return ret;
+}
+
 std::optional<DensePatch>& DenseSlice::patch_at(const Cell& cell)
 {
     using MaybeDensePatch = std::optional<DensePatch>;
@@ -92,12 +102,32 @@ Cell DenseSlice::place_sparse_patch(const SparsePatch& sparse_patch)
 {
     auto* occupied_cell = std::get_if<SingleCellOccupiedByPatch>(&sparse_patch.cells);
     if(!occupied_cell)
-        throw std::logic_error("Placing Multi Patch cell not yet suported");
+        throw std::logic_error("Placing Multi Patch cell not yet supported");
     if(patch_at(occupied_cell->cell))
         throw std::logic_error("Double patch occupation");
 
     patch_at(occupied_cell->cell) = DensePatch::from_sparse_patch(sparse_patch);
     return occupied_cell->cell;
 }
+
+bool DenseSlice::has_patch(PatchId id) const
+{
+    return (bool) get_patch_by_id(id);
+}
+
+std::optional<std::reference_wrapper<Boundary>> DenseSlice::get_boundary_between(
+        const Cell& target, const Cell& neighbour)
+{
+    auto& target_patch = patch_at(target).value();
+
+    if(neighbour == Cell{target.row-1, target.col})   return target_patch.boundaries.top;
+    if(neighbour == Cell{target.row+1, target.col})   return target_patch.boundaries.bottom;
+    if(neighbour == Cell{target.row,   target.col-1}) return target_patch.boundaries.left;
+    if(neighbour == Cell{target.row,   target.col+1}) return target_patch.boundaries.right;
+
+    return std::nullopt;
+
+}
+
 
 }

@@ -36,8 +36,12 @@ struct DenseSlice
 
     std::optional<std::reference_wrapper<DensePatch>> get_patch_by_id(PatchId id);
     std::optional<std::reference_wrapper<const DensePatch>> get_patch_by_id(PatchId id) const;
+    std::optional<Cell> get_cell_by_id(PatchId id) const;
+    bool has_patch(PatchId id) const;
     std::optional<DensePatch>& patch_at(const Cell& cell);
     const std::optional<DensePatch>& patch_at(const Cell& cell) const;
+
+    std::optional<std::reference_wrapper<Boundary>> get_boundary_between(const Cell& target, const Cell& neighbour);
 
     // Return a cell of the placed patch
     Cell place_sparse_patch(const SparsePatch& sparse_patch);
