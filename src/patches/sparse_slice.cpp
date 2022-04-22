@@ -101,6 +101,26 @@ SingleCellOccupiedByPatch &SparseSlice::get_single_cell_occupied_by_patch_by_id_
     return *patch;
 
 }
+std::optional<Cell> SparseSlice::get_cell_by_id(PatchId id) const
+{
+    if (!has_patch(id))
+        return std::nullopt;
 
+    return get_patch_by_id(id).get_a_cell();
+}
+
+
+Cell SparseSlice::furthest_cell() const
+{
+    return layout.get().furthest_cell();
+}
+
+bool SparseSlice::have_boundary_of_type_with(const Cell& target, const Cell& neighbour,
+        PauliOperator op) const
+{
+    const auto* occupied_cell = std::get_if<SingleCellOccupiedByPatch>(&get_qubit_patch_on_cell(target).value().get().cells);
+    if(!occupied_cell) return false;
+    return occupied_cell->have_boundary_of_type_with(op, neighbour);
+}
 
 }

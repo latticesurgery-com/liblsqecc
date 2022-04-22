@@ -83,14 +83,11 @@ std::vector<Cell> DenseSlice::get_neigbours_within_slice(const Cell& cell) const
     return cell.get_neigbours_within_bounding_box_inclusive({0,0}, furthest_cell());
 }
 
-DenseSlice DenseSlice::make_blank_slice(const Layout& layout)
-{
-    return DenseSlice{
-        .cells=std::vector<RowStore>(
-            layout.furthest_cell().col+1,
-            RowStore(layout.furthest_cell().row+1, std::nullopt))
-    };
-}
+DenseSlice::DenseSlice(const Layout& layout)
+: cells(std::vector<RowStore>(
+        layout.furthest_cell().col+1,
+        RowStore(layout.furthest_cell().row+1, std::nullopt)))
+{}
 
 bool DenseSlice::is_cell_free(const Cell& cell) const
 {
@@ -129,5 +126,18 @@ std::optional<std::reference_wrapper<Boundary>> DenseSlice::get_boundary_between
 
 }
 
+std::optional<std::reference_wrapper<const Boundary>> DenseSlice::get_boundary_between(
+        const Cell& target, const Cell& neighbour) const
+{
+    std::optional<std::reference_wrapper<Boundary>> r
+        = const_cast<DenseSlice*>(this)->get_boundary_between(target,neighbour);
+    return std::cref(r->get());
+}
+
+bool DenseSlice::have_boundary_of_type_with(const Cell& target, const Cell& neighbour, PauliOperator op) const
+{
+    const auto b = get_boundary_between(target, neighbour);
+    return b ? b->get().boundary_type== boundary_for_operator(op) : false;
+}
 
 }

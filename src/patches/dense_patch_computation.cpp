@@ -6,7 +6,7 @@ namespace lsqecc
 
 DenseSlice first_slice_from_layout(const Layout& layout, const tsl::ordered_set<PatchId>& core_qubit_ids)
 {
-    DenseSlice slice = DenseSlice::make_blank_slice(layout);
+    DenseSlice slice(layout);
 
     if (layout.core_patches().size()<core_qubit_ids.size())
         throw std::runtime_error("Not enough Init patches for all ids");
@@ -88,8 +88,8 @@ void advance_slice(DenseSlice& slice, const Layout& layout)
 
 void stitch_boundaries(
         DenseSlice& slice,
-        Cell& source_cell,
-        Cell& target_cell,
+        Cell source_cell,
+        Cell target_cell,
         RoutingRegion& routing_region)
 {
     if (routing_region.cells.empty())
@@ -132,7 +132,7 @@ bool merge_patches(
         return false;
 
 
-    stitch_boundaries(slice, slice.get_cell_by_id(source), slice.get_cell_by_id(target), *routing_region);
+    stitch_boundaries(slice, *slice.get_cell_by_id(source), *slice.get_cell_by_id(target), *routing_region);
     apply_routing_region(slice, *routing_region);
 
     return true;
