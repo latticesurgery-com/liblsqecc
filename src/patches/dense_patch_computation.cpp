@@ -304,7 +304,7 @@ InstructionApplicationResult try_apply_instruction(
 
 
 
-void run_through_dense_slices(
+DensePatchComputationResult run_through_dense_slices(
         LSInstructionStream&& instruction_stream,
         const Layout& layout,
         Router& router,
@@ -312,14 +312,14 @@ void run_through_dense_slices(
         const DenseSliceVisitor& slice_visitor)
 {
 
+    DensePatchComputationResult res;
+
     try
     {
 
         DenseSlice slice = first_slice_from_layout(layout, instruction_stream.core_qubits());
 
         auto start = std::chrono::steady_clock::now();
-        size_t ls_op_counter = 0;
-        size_t slice_counter = 1;
 
         std::queue<LSInstruction> future_instructions;
 
@@ -329,7 +329,7 @@ void run_through_dense_slices(
             {
                 if (!future_instructions.empty())
                     return lstk::queue_pop(future_instructions);
-                ls_op_counter++;
+                res.ls_instructions_count_++;
                 return instruction_stream.get_next_instruction();
             }();
 
@@ -338,7 +338,7 @@ void run_through_dense_slices(
             {
                 slice_visitor(slice);
                 advance_slice(slice, layout);
-                slice_counter++;
+                res.slice_count_++;
 
                 application_result = try_apply_instruction(slice, instruction, layout, router);
                 if (application_result.maybe_error)
@@ -352,8 +352,8 @@ void run_through_dense_slices(
             if (timeout && lstk::since(start)>*timeout)
             {
                 auto timeout_str = std::string{"Out of time after "}+std::to_string(timeout->count())+std::string{"s. "}
-                        +std::string{"Consumed "}+std::to_string(ls_op_counter)+std::string{" Instructions. "}
-                        +std::string{"Generated "}+std::to_string(slice_counter)+std::string{"Slices."};
+                        +std::string{"Consumed "}+std::to_string(res.ls_instructions_count_)+std::string{" Instructions. "}
+                        +std::string{"Generated "}+std::to_string(res.slice_count_)+std::string{"Slices."};
 
                 throw std::runtime_error{timeout_str};
             }
@@ -364,6 +364,12 @@ void run_through_dense_slices(
         std::cout << "Encountered exception: " << e.what() << std::endl;
         std::cout << "Halting slicing" << std::endl;
     }
+
+    return res;
 }
+
+DensePatchComputationResult::DensePatchComputationResult(const DensePatchComputationResult& other)
+ : ls_instructions_count_(other.ls_instructions_count_), slice_count_(other.slice_count_)
+{}
 
 }
