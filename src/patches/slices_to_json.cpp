@@ -135,7 +135,7 @@ json core_to_json(const SparseSlice& slice)
 json slices_to_json(const std::vector<SparseSlice>& slices)
 {
     json out_slices = json::array();
-    
+
     for(const SparseSlice& slice : slices)
         out_slices.push_back(core_to_json(slice));
 
