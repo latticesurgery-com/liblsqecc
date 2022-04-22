@@ -85,6 +85,10 @@ namespace lsqecc
                 .names({"-g", "--graph-search"})
                 .description("Set a graph search provider: custom (default), boost (not allways available)")
                 .required(false);
+        parser.add_argument()
+                .names({"-a", "--slice-repr"})
+                .description("Set how slices are represented: dense (default), sparse")
+                .required(false);
         parser.enable_help();
 
         auto err = parser.parse(argc, argv);
@@ -251,24 +255,40 @@ namespace lsqecc
 
         try
         {
-            SparsePatchComputation patch_computation{
+            std::unique_ptr<PatchComputationResult> computation_result;
+
+            if(parser.exists("a") && parser.get<std::string>("a") == "sparse")
+                computation_result = std::make_unique<SparsePatchComputation>(
                     std::move(*instruction_stream),
                     std::move(layout),
                     std::move(router),
                     timeout,
                     visitor_with_progress
-            };
+                );
+            else if (!parser.exists("a") || (parser.exists("a") && parser.get<std::string>("a") == "dense"))
+            {
+                computation_result = std::make_unique<DensePatchComputationResult>(run_through_dense_slices(
+                        std::move(*instruction_stream),
+                        *layout,
+                        *router,
+                        timeout,
+                        visitor_with_progress));
+            } else
+            {
+                err_stream << "Invalid patch repr: " << parser.get<std::string>("a") << std::endl;
+                return 1;
+            }
 
             if(output_format_mode == OutputFormatMode::Machine)
             {
-                out_stream << patch_computation.ls_instructions_count() << ","
-                           << patch_computation.slice_count() << ","
+                out_stream << computation_result->ls_instructions_count() << ","
+                           << computation_result->slice_count() << ","
                            << lstk::seconds_since(start) << std::endl;
             }
             else if (output_format_mode == OutputFormatMode::Progress)
             {
-                out_stream << "LS Instructions read  " << patch_computation.ls_instructions_count() << std::endl;
-                out_stream << "Slices " << patch_computation.slice_count() << std::endl;
+                out_stream << "LS Instructions read  " << computation_result->ls_instructions_count() << std::endl;
+                out_stream << "Slices " << computation_result->slice_count() << std::endl;
                 out_stream << "Made patch computation. Took " << lstk::seconds_since(start) << "s." << std::endl;
             }
 

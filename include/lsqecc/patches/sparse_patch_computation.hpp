@@ -4,6 +4,7 @@
 
 #include <lsqecc/ls_instructions/ls_instructions.hpp>
 #include <lsqecc/ls_instructions/ls_instruction_stream.hpp>
+#include <lsqecc/patches/patch_computation_result.hpp>
 #include <lsqecc/patches/sparse_slice.hpp>
 #include <lsqecc/patches/patches.hpp>
 #include <lsqecc/layout/layout.hpp>
@@ -36,7 +37,7 @@ private:
 using FreeCellCache = std::vector<std::vector<lstk::bool8>>;
 void compute_free_cells(FreeCellCache& is_cell_free, const SparseSlice& slice);
 
-class SparsePatchComputation
+class SparsePatchComputation : public PatchComputationResult
 {
 public:
 
@@ -49,8 +50,8 @@ public:
             std::optional<std::chrono::seconds> timeout,
             SliceVisitorFunction slice_visitor);
 
-    size_t slice_count() const {return slice_store_.slice_count();}
-    size_t ls_instructions_count() const {return ls_instructions_count_;}
+    size_t slice_count() const override {return slice_store_.slice_count();}
+    size_t ls_instructions_count() const override {return ls_instructions_count_;}
 
 private:
 
