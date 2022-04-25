@@ -264,54 +264,51 @@ namespace lsqecc
 
         auto start = lstk::now();
 
-        try
-        {
-            std::unique_ptr<PatchComputationResult> computation_result;
 
-            if(parser.exists("a") && parser.get<std::string>("a") == "sparse")
-                computation_result = std::make_unique<SparsePatchComputation>(
+        std::unique_ptr<PatchComputationResult> computation_result;
+
+        if(parser.exists("a") && parser.get<std::string>("a") == "sparse")
+            computation_result = std::make_unique<SparsePatchComputation>(
+                std::move(*instruction_stream),
+                std::move(layout),
+                std::move(router),
+                timeout,
+                visitor_with_progress,
+                parser.exists("graceful")
+            );
+        else if (!parser.exists("a") || (parser.exists("a") && parser.get<std::string>("a") == "dense"))
+        {
+            computation_result = std::make_unique<DensePatchComputationResult>(run_through_dense_slices(
                     std::move(*instruction_stream),
-                    std::move(layout),
-                    std::move(router),
+                    *layout,
+                    *router,
                     timeout,
-                    visitor_with_progress
-                );
-            else if (!parser.exists("a") || (parser.exists("a") && parser.get<std::string>("a") == "dense"))
-            {
-                computation_result = std::make_unique<DensePatchComputationResult>(run_through_dense_slices(
-                        std::move(*instruction_stream),
-                        *layout,
-                        *router,
-                        timeout,
-                        [&](const DenseSlice& s){visitor_with_progress(s);}));
-            } else
-            {
-                err_stream << "Invalid patch repr: " << parser.get<std::string>("a") << std::endl;
-                return 1;
-            }
-
-            if(output_format_mode == OutputFormatMode::Machine)
-            {
-                out_stream << computation_result->ls_instructions_count() << ","
-                           << computation_result->slice_count() << ","
-                           << lstk::seconds_since(start) << std::endl;
-            }
-            else if (output_format_mode == OutputFormatMode::Progress)
-            {
-                out_stream << "LS Instructions read  " << computation_result->ls_instructions_count() << std::endl;
-                out_stream << "Slices " << computation_result->slice_count() << std::endl;
-                out_stream << "Made patch computation. Took " << lstk::seconds_since(start) << "s." << std::endl;
-            }
-
-            if(is_writing_slices)
-                write_slices_stream.get() << "]" <<std::endl;
-
-        }
-        catch (const std::exception& e)
+                    [&](const DenseSlice& s){visitor_with_progress(s);},
+                    parser.exists("graceful")
+            ));
+        } else
         {
-            err_stream << "Compiler exception: " << e.what() << std::endl;
-            return -1;
+            err_stream << "Invalid patch repr: " << parser.get<std::string>("a") << std::endl;
+            return 1;
         }
+
+        if(output_format_mode == OutputFormatMode::Machine)
+        {
+            out_stream << computation_result->ls_instructions_count() << ","
+                       << computation_result->slice_count() << ","
+                       << lstk::seconds_since(start) << std::endl;
+        }
+        else if (output_format_mode == OutputFormatMode::Progress)
+        {
+            out_stream << "LS Instructions read  " << computation_result->ls_instructions_count() << std::endl;
+            out_stream << "Slices " << computation_result->slice_count() << std::endl;
+            out_stream << "Made patch computation. Took " << lstk::seconds_since(start) << "s." << std::endl;
+        }
+
+        if(is_writing_slices)
+            write_slices_stream.get() << "]" <<std::endl;
+
+
 
         return 0;
     }
@@ -330,7 +327,16 @@ namespace lsqecc
         std::ostringstream output;
         std::ostringstream err;
 
-        int exit_code = run_slicer_program(static_cast<int>(c_args.size()), c_args.data(), input, output, err);
+        int exit_code;
+        try
+        {
+            exit_code = run_slicer_program(static_cast<int>(c_args.size()), c_args.data(), input, output, err);
+        }
+        catch (const std::exception& e)
+        {
+            err << "Compiler exception: " << e.what() << std::endl;
+        }
+
 
         nlohmann::json json_res = {
                 {"output", output.str()},

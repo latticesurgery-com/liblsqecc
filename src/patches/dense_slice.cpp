@@ -22,8 +22,8 @@ void DenseSlice::traverse_cells_mut(const DenseSlice::CellTraversalFunctor& f)
             c.col++;
             f(c,patch);
         }
-        c.row = 0;
-        c.col++;
+        c.row++;
+        c.col = 0;
     }
 
 }
@@ -84,10 +84,11 @@ std::vector<Cell> DenseSlice::get_neigbours_within_slice(const Cell& cell) const
 
 DenseSlice::DenseSlice(const Layout& layout)
 : cells(std::vector<RowStore>(
-        layout.furthest_cell().col+1,
-        RowStore(layout.furthest_cell().row+1, std::nullopt))),
+        layout.furthest_cell().row+1,
+        RowStore(layout.furthest_cell().col+1, std::nullopt))),
   layout(std::cref(layout))
-{}
+{
+}
 
 bool DenseSlice::is_cell_free(const Cell& cell) const
 {
@@ -115,12 +116,13 @@ bool DenseSlice::has_patch(PatchId id) const
 std::optional<std::reference_wrapper<Boundary>> DenseSlice::get_boundary_between(
         const Cell& target, const Cell& neighbour)
 {
-    auto& target_patch = patch_at(target).value();
+    auto& target_patch = patch_at(target);
+    if(!target_patch) return std::nullopt;
 
-    if(neighbour == Cell{target.row-1, target.col})   return target_patch.boundaries.top;
-    if(neighbour == Cell{target.row+1, target.col})   return target_patch.boundaries.bottom;
-    if(neighbour == Cell{target.row,   target.col-1}) return target_patch.boundaries.left;
-    if(neighbour == Cell{target.row,   target.col+1}) return target_patch.boundaries.right;
+    if(neighbour == Cell{target.row-1, target.col})   return target_patch->boundaries.top;
+    if(neighbour == Cell{target.row+1, target.col})   return target_patch->boundaries.bottom;
+    if(neighbour == Cell{target.row,   target.col-1}) return target_patch->boundaries.left;
+    if(neighbour == Cell{target.row,   target.col+1}) return target_patch->boundaries.right;
 
     return std::nullopt;
 
@@ -131,7 +133,7 @@ std::optional<std::reference_wrapper<const Boundary>> DenseSlice::get_boundary_b
 {
     std::optional<std::reference_wrapper<Boundary>> r
         = const_cast<DenseSlice*>(this)->get_boundary_between(target,neighbour);
-    return std::cref(r->get());
+    return r ? std::make_optional(std::cref(r->get())) : std::nullopt;
 }
 
 bool DenseSlice::have_boundary_of_type_with(const Cell& target, const Cell& neighbour, PauliOperator op) const

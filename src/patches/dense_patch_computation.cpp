@@ -309,14 +309,14 @@ DensePatchComputationResult run_through_dense_slices(
         const Layout& layout,
         Router& router,
         std::optional<std::chrono::seconds> timeout,
-        const DenseSliceVisitor& slice_visitor)
+        const DenseSliceVisitor& slice_visitor,
+        bool graceful)
 {
 
     DensePatchComputationResult res;
 
-    try
+    auto run = [&]()
     {
-
         DenseSlice slice = first_dense_slice_from_layout(layout, instruction_stream.core_qubits());
 
         auto start = std::chrono::steady_clock::now();
@@ -358,12 +358,22 @@ DensePatchComputationResult run_through_dense_slices(
                 throw std::runtime_error{timeout_str};
             }
         }
-    }
-    catch (const std::exception& e)
+    };
+
+    if(graceful)
     {
-        std::cout << "Encountered exception: " << e.what() << std::endl;
-        std::cout << "Halting slicing" << std::endl;
+        try{
+            run();
+        }
+        catch (const std::exception& e)
+        {
+
+            std::cout << "Encountered exception: " << e.what() << std::endl;
+            std::cout << "Halting slicing" << std::endl;
+        }
     }
+    else
+        run();
 
     return res;
 }

@@ -48,7 +48,8 @@ public:
             std::unique_ptr<Layout>&& layout,
             std::unique_ptr<Router>&& router,
             std::optional<std::chrono::seconds> timeout,
-            SliceVisitorFunction slice_visitor);
+            SliceVisitorFunction slice_visitor,
+            bool graceful);
 
     size_t slice_count() const override {return slice_store_.slice_count();}
     size_t ls_instructions_count() const override {return ls_instructions_count_;}

@@ -448,7 +448,8 @@ SparsePatchComputation::SparsePatchComputation(
         std::unique_ptr<Layout>&& layout,
         std::unique_ptr<Router>&& router,
         std::optional<std::chrono::seconds> timeout,
-        SliceVisitorFunction slice_visitor)
+        SliceVisitorFunction slice_visitor,
+        bool graceful)
         :slice_store_(*layout), slice_visitor_(slice_visitor)
         {
     layout_ = std::move(layout);
@@ -457,15 +458,25 @@ SparsePatchComputation::SparsePatchComputation(
     for(Cell::CoordinateType row = 0; row<=layout_->furthest_cell().row; row++ )
         is_cell_free_.push_back(std::vector<lstk::bool8>(static_cast<size_t>(layout_->furthest_cell().col+1), false));
 
-    try
+
+    if(graceful)
     {
+        try
+        {
+            make_slices(std::move(instruction_stream), timeout);
+        }
+        catch (const std::exception& e)
+        {
+            if (graceful)
+            {
+                std::cout << "Encountered exception: " << e.what() << std::endl;
+                std::cout << "Halting slicing" << std::endl;
+            }
+            else throw e;
+        }
+    }
+    else
         make_slices(std::move(instruction_stream), timeout);
-    }
-    catch (const std::exception& e)
-    {
-        std::cout << "Encountered exception: " << e.what() << std::endl;
-        std::cout << "Halting slicing" << std::endl;
-    }
 
 }
 
