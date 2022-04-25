@@ -5,8 +5,10 @@
 #include <lsqecc/layout/ascii_layout_spec.hpp>
 #include <lsqecc/layout/router.hpp>
 #include <lsqecc/patches/slices_to_json.hpp>
+#include <lsqecc/patches/slice.hpp>
 #include <lsqecc/patches/sparse_patch_computation.hpp>
 #include <lsqecc/patches/dense_patch_computation.hpp>
+#include <lsqecc/patches/slice_variant.hpp>
 
 #include <lstk/lstk.hpp>
 
@@ -21,8 +23,10 @@
 #include <fstream>
 #include <chrono>
 
+
 namespace lsqecc
 {
+
 
 
     std::string file_to_string(std::string fname)
@@ -89,6 +93,9 @@ namespace lsqecc
                 .names({"-a", "--slice-repr"})
                 .description("Set how slices are represented: dense (default), sparse")
                 .required(false);
+        parser.add_argument()
+                .names({"--graceful"})
+                .description("If there is an error when slicing, print the error and terminate");
         parser.enable_help();
 
         auto err = parser.parse(argc, argv);
@@ -214,32 +221,36 @@ namespace lsqecc
         }
 
 
-        auto no_op_visitor = [](const SparseSlice& s) -> void {LSTK_UNUSED(s);};
+        using SliceVisitorFunction = std::function<void(const SliceVariant & slice)>;
+
+        auto no_op_visitor = [](const SliceVariant& s) -> void {LSTK_UNUSED(s);};
 
 
-        SparsePatchComputation::SliceVisitorFunction slice_printing_visitor{no_op_visitor};
+        SliceVisitorFunction slice_printing_visitor{no_op_visitor};
         bool is_first_slice = true;
         if(is_writing_slices)
         {
-            slice_printing_visitor = [&write_slices_stream, &is_first_slice](const SparseSlice& s){
+            slice_printing_visitor = [&write_slices_stream, &is_first_slice](const SliceVariant & s){
                 if(is_first_slice)
                 {
-                    write_slices_stream.get() << "[\n" << slice_to_json(s).dump(3);
+                    write_slices_stream.get() << "[\n" << std::visit(
+                            [&](const auto& slice){ return slice_to_json(slice).dump(3);}, s);
                     is_first_slice = false;
                 }
                 else
-                    write_slices_stream.get() << ",\n" << slice_to_json(s).dump(3);
+                    write_slices_stream.get() << ",\n" << std::visit(
+                            [&](const auto& slice){ return slice_to_json(slice).dump(3);},s);
             };
         }
 
         size_t slice_counter = 0;
 
-        SparsePatchComputation::SliceVisitorFunction visitor_with_progress{slice_printing_visitor};;
+        SliceVisitorFunction visitor_with_progress{slice_printing_visitor};;
 
         auto gave_update_at = lstk::now();
         if(output_format_mode == OutputFormatMode::Progress)
         {
-            visitor_with_progress = [&](const SparseSlice& s)
+            visitor_with_progress = [&](const SliceVariant & s)
             {
                 slice_printing_visitor(s);
                 slice_counter++;
@@ -272,7 +283,7 @@ namespace lsqecc
                         *layout,
                         *router,
                         timeout,
-                        visitor_with_progress));
+                        [&](const DenseSlice& s){visitor_with_progress(s);}));
             } else
             {
                 err_stream << "Invalid patch repr: " << parser.get<std::string>("a") << std::endl;

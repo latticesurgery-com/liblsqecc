@@ -4,7 +4,7 @@ namespace lsqecc
 {
 
 
-DenseSlice first_slice_from_layout(const Layout& layout, const tsl::ordered_set<PatchId>& core_qubit_ids)
+DenseSlice first_dense_slice_from_layout(const Layout& layout, const tsl::ordered_set<PatchId>& core_qubit_ids)
 {
     DenseSlice slice(layout);
 
@@ -317,7 +317,7 @@ DensePatchComputationResult run_through_dense_slices(
     try
     {
 
-        DenseSlice slice = first_slice_from_layout(layout, instruction_stream.core_qubits());
+        DenseSlice slice = first_dense_slice_from_layout(layout, instruction_stream.core_qubits());
 
         auto start = std::chrono::steady_clock::now();
 

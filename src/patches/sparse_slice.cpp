@@ -6,6 +6,11 @@
 namespace lsqecc{
 
 
+const Layout& SparseSlice::get_layout() const
+{
+    return layout.get();
+}
+
 bool SparseSlice::has_patch(PatchId id) const
 {
     for(auto& p: qubit_patches)
@@ -110,17 +115,17 @@ std::optional<Cell> SparseSlice::get_cell_by_id(PatchId id) const
 }
 
 
-Cell SparseSlice::furthest_cell() const
-{
-    return layout.get().furthest_cell();
-}
-
 bool SparseSlice::have_boundary_of_type_with(const Cell& target, const Cell& neighbour,
         PauliOperator op) const
 {
     const auto* occupied_cell = std::get_if<SingleCellOccupiedByPatch>(&get_qubit_patch_on_cell(target).value().get().cells);
     if(!occupied_cell) return false;
     return occupied_cell->have_boundary_of_type_with(op, neighbour);
+}
+
+SurfaceCodeTimestep SparseSlice::time_to_next_magic_state(size_t distillation_region_id) const
+{
+    return time_to_next_magic_state_by_distillation_region[distillation_region_id];
 }
 
 }

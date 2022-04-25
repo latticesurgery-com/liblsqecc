@@ -2,7 +2,7 @@
 #define LSQECC_SPARSE_SLICE_HPP
 
 #include <lsqecc/layout/layout.hpp>
-#include <lsqecc/layout/searchable_slice.hpp>
+#include <lsqecc/patches/slice.hpp>
 
 #include <queue>
 #include <functional>
@@ -10,7 +10,7 @@
 namespace lsqecc {
 
 
-struct SparseSlice : public SearchableSlice{
+struct SparseSlice : public Slice{
 
     SparseSlice(std::vector<SparsePatch> _qubit_patches,
     std::vector<RoutingRegion> _routing_regions,
@@ -30,6 +30,7 @@ struct SparseSlice : public SearchableSlice{
     std::reference_wrapper<const Layout> layout; // reference_wrapper Keeps the slice copyable
     std::vector<SurfaceCodeTimestep> time_to_next_magic_state_by_distillation_region;
 
+    virtual const Layout& get_layout() const override;
 
     bool has_patch(PatchId id) const override;
     SparsePatch& get_patch_by_id_mut(PatchId id);
@@ -47,8 +48,7 @@ struct SparseSlice : public SearchableSlice{
     std::vector<Cell> get_neigbours_within_slice(const Cell& cell) const override;
     bool have_boundary_of_type_with(const Cell& target, const Cell& neighbour, PauliOperator op) const override;
 
-
-    Cell furthest_cell() const override;
+    SurfaceCodeTimestep time_to_next_magic_state(size_t distillation_region_id) const override;
 
     static SparseSlice make_blank_slice(const Layout& layout);
 

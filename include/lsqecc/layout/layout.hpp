@@ -10,7 +10,7 @@
 namespace lsqecc {
 
 using SurfaceCodeTimestep = uint32_t;
-
+using DistillationTimeMap = std::vector<SurfaceCodeTimestep>;
 
 struct Layout {
 
@@ -18,7 +18,7 @@ struct Layout {
     virtual Cell furthest_cell() const = 0;
     virtual const std::vector<MultipleCellsOccupiedByPatch>& distillation_regions() const = 0;
     virtual const std::vector<Cell>& distilled_state_locations(size_t distillation_region_idx) const = 0;
-    virtual const std::vector<SurfaceCodeTimestep>& distillation_times() const = 0;
+    virtual const DistillationTimeMap& distillation_times() const = 0;
     virtual const std::vector<Cell>& ancilla_location() const = 0;
 
     template<class F> void for_each_cell(F f) const;

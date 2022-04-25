@@ -2,7 +2,7 @@
 #define LSQECC_ROUTER_HPP
 
 #include <lsqecc/patches/sparse_slice.hpp>
-#include <lsqecc/layout/searchable_slice.hpp>
+#include <lsqecc/patches/slice.hpp>
 
 #include <unordered_map>
 
@@ -17,7 +17,7 @@ enum class GraphSearchProvider
 
 struct Router {
     virtual std::optional<RoutingRegion> find_routing_ancilla(
-                const SearchableSlice& slice,
+                const Slice& slice,
                 PatchId source,
                 PauliOperator source_op,
                 PatchId target,
@@ -33,7 +33,7 @@ struct Router {
 struct NaiveDijkstraRouter : public Router
 {
     std::optional<RoutingRegion> find_routing_ancilla(
-            const SearchableSlice& slice,
+            const Slice& slice,
             PatchId source,
             PauliOperator source_op,
             PatchId target,
@@ -59,7 +59,7 @@ struct CachedNaiveDijkstraRouter : public Router
 {
 
     std::optional<RoutingRegion> find_routing_ancilla(
-            const SearchableSlice& slice,
+            const Slice& slice,
             PatchId source,
             PauliOperator source_op,
             PatchId target,

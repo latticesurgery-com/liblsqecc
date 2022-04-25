@@ -4,6 +4,14 @@ namespace lsqecc
 {
 
 
+
+
+const Layout& DenseSlice::get_layout() const
+{
+    return layout.get();
+}
+
+
 void DenseSlice::traverse_cells_mut(const DenseSlice::CellTraversalFunctor& f)
 {
     Cell c {0,0};
@@ -24,8 +32,6 @@ void DenseSlice::traverse_cells(const CellTraversalConstFunctor& f) const
 {
     const_cast<DenseSlice*>(this)->traverse_cells_mut(f);
 }
-
-
 
 std::optional<std::reference_wrapper<DensePatch>> DenseSlice::get_patch_by_id(PatchId id)
 {
@@ -56,14 +62,7 @@ std::optional<Cell> DenseSlice::get_cell_by_id(PatchId id) const
 
 std::optional<DensePatch>& DenseSlice::patch_at(const Cell& cell)
 {
-    using MaybeDensePatch = std::optional<DensePatch>;
-    std::optional<std::reference_wrapper<MaybeDensePatch>>ret;
-    traverse_cells_mut([&](const Cell& c, std::optional<DensePatch>& p) {
-        if(c == cell) ret = std::ref(p);
-    });
-
-    if(!ret) throw std::logic_error(lstk::cat("Cell (", cell.row, ", ", cell.col, ") out of bounds"));
-    return ret->get();
+    return cells.at(cell.row).at(cell.col);
 }
 
 const std::optional<DensePatch>& DenseSlice::patch_at(const Cell& cell) const
@@ -80,13 +79,14 @@ void DenseSlice::delete_patch_by_id(PatchId id)
 
 std::vector<Cell> DenseSlice::get_neigbours_within_slice(const Cell& cell) const
 {
-    return cell.get_neigbours_within_bounding_box_inclusive({0,0}, furthest_cell());
+    return cell.get_neigbours_within_bounding_box_inclusive({0,0}, get_layout().furthest_cell());
 }
 
 DenseSlice::DenseSlice(const Layout& layout)
 : cells(std::vector<RowStore>(
         layout.furthest_cell().col+1,
-        RowStore(layout.furthest_cell().row+1, std::nullopt)))
+        RowStore(layout.furthest_cell().row+1, std::nullopt))),
+  layout(std::cref(layout))
 {}
 
 bool DenseSlice::is_cell_free(const Cell& cell) const
@@ -140,4 +140,11 @@ bool DenseSlice::have_boundary_of_type_with(const Cell& target, const Cell& neig
     return b ? b->get().boundary_type== boundary_for_operator(op) : false;
 }
 
+
+SurfaceCodeTimestep DenseSlice::time_to_next_magic_state(size_t distillation_region_id) const
+{
+    return time_to_next_magic_state_by_distillation_region[distillation_region_id];
 }
+
+}
+

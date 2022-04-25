@@ -3,7 +3,7 @@
 
 #include <lsqecc/patches/patches.hpp>
 #include <lsqecc/layout/layout.hpp>
-#include <lsqecc/layout/searchable_slice.hpp>
+#include <lsqecc/patches/slice.hpp>
 
 #include <functional>
 #include <unordered_map>
@@ -13,23 +13,19 @@ namespace lsqecc
 
 
 
-struct DenseSlice : public SearchableSlice
+struct DenseSlice : public Slice
 {
-    using SearchableSlice::SearchableSlice;
+    using Slice::Slice;
 
     using RowStore = std::vector<std::optional<DensePatch>>;
     std::vector<RowStore> cells;
-
     std::queue<Cell> magic_state_queue;
-    std::vector<size_t> time_to_next_magic_state_by_distillation_region;
+    DistillationTimeMap time_to_next_magic_state_by_distillation_region;
+    std::reference_wrapper<const Layout> layout;
 
     explicit DenseSlice(const Layout& layout);
 
-    size_t rows() const {return cells.size();};
-    size_t cols() const  {return cells.at(0).size();};
-    Cell furthest_cell() const override { return {
-        static_cast<Cell::CoordinateType>(rows()-1),
-        static_cast<Cell::CoordinateType>(cols()-1)};};
+    virtual const Layout& get_layout() const override;
 
     using CellTraversalFunctor
         = std::function<void(const Cell&, std::optional<DensePatch>&)>;
@@ -57,6 +53,8 @@ struct DenseSlice : public SearchableSlice
     bool is_cell_free(const Cell& cell) const override;
 
     std::vector<Cell> get_neigbours_within_slice(const Cell& cell) const override;
+
+    SurfaceCodeTimestep time_to_next_magic_state(size_t distillation_region_id) const override;
 };
 
 }

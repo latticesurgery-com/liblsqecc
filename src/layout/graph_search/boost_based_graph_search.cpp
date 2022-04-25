@@ -17,7 +17,7 @@ namespace boost_graph_search {
 #ifdef ENABLE_BOOST_GRAPH_SEARCH
 
 std::optional<RoutingRegion> graph_search_route_ancilla(
-        const SearchableSlice& slice,
+        const Slice& slice,
         PatchId source,
         PauliOperator source_op,
         PatchId target,
@@ -39,7 +39,7 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
     std::vector<Vertex> vertices;
     std::vector<Edge> edges;
 
-    Cell furthest_cell = slice.furthest_cell();
+    Cell furthest_cell = slice.get_layout().furthest_cell();
 
     auto make_vertex = [&furthest_cell](const Cell& cell) -> Vertex
     {
@@ -170,7 +170,7 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
 
 #endif
 
-std::optional<RoutingRegion> cycle_routing(SearchableSlice& slice, PatchId target)
+std::optional<RoutingRegion> cycle_routing(Slice& slice, PatchId target)
 {
     return graph_search_route_ancilla(
             slice,

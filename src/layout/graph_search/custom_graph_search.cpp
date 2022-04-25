@@ -32,7 +32,7 @@ struct PredecessorData {
 
 template<bool want_cycle>
 std::optional<RoutingRegion> do_graph_search_route_ancilla(
-        const SearchableSlice& slice,
+        const Slice& slice,
         PatchId source,
         PauliOperator source_op,
         PatchId target,
@@ -43,7 +43,7 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
     const Cell source_cell = slice.get_cell_by_id(source).value();
     const Cell target_cell = slice.get_cell_by_id(target).value();
 
-    Cell furthest_cell = slice.furthest_cell();
+    Cell furthest_cell = slice.get_layout().furthest_cell();
 
 
     auto make_vertex = [&furthest_cell](const Cell& cell) -> Vertex
@@ -201,7 +201,7 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
 }
 
 std::optional<RoutingRegion> graph_search_route_ancilla(
-        const SearchableSlice& slice,
+        const Slice& slice,
         PatchId source,
         PauliOperator source_op,
         PatchId target,
