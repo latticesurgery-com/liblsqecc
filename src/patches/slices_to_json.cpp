@@ -81,13 +81,19 @@ json dense_patch_to_json(const DensePatch& p)
                         case PatchActivity::None: return json();
                         case PatchActivity::Measurement: return json("Measurement");
                         case PatchActivity::Unitary: return json("Unitary");
+                        case PatchActivity::Distillation: return json();
                         }
                         LSTK_UNREACHABLE;
                     }()
             }
     };
 
-    visual_array_cell["text"] = p.id ? std::string{"Id: "} + std::to_string(*p.id) : "Not bound";
+    if(p.id)
+        visual_array_cell["text"] = std::string{"Id: "} + std::to_string(*p.id);
+    else if(p.type ==PatchType::Distillation & p.activity == PatchActivity::Distillation)
+        visual_array_cell["text"] = "";
+    else
+        visual_array_cell["text"] = "Not bound";
     return visual_array_cell;
 }
 

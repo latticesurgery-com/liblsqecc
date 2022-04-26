@@ -18,6 +18,16 @@ DenseSlice first_dense_slice_from_layout(const Layout& layout, const tsl::ordere
         slice.patch_at(cell)->id = *core_qubit_ids_itr++;
     }
 
+    for(const MultipleCellsOccupiedByPatch& distillation_region: layout.distillation_regions())
+    {
+        for (const SingleCellOccupiedByPatch& cell: distillation_region.sub_cells)
+        {
+            slice.patch_at(cell.cell) = DensePatch{
+                Patch{PatchType::Distillation,PatchActivity::Distillation,std::nullopt},
+                static_cast<CellBoundaries>(cell)};
+        }
+    }
+
     size_t distillation_time_offset = 0;
     for(auto t : layout.distillation_times())
         slice.time_to_next_magic_state_by_distillation_region.push_back(t+distillation_time_offset++);
@@ -47,15 +57,13 @@ void advance_slice(DenseSlice& slice, const Layout& layout)
 {
     slice.traverse_cells_mut([&](const Cell& c, std::optional<DensePatch>& p) {
         if(!p) return;
-
-        if( p->activity == PatchActivity::Unitary)
-        {
+        if(p->activity == PatchActivity::Unitary)
             p->activity = PatchActivity::None;
-            p->boundaries.top.is_active = false;
-            p->boundaries.bottom.is_active = false;
-            p->boundaries.left.is_active = false;
-            p->boundaries.right.is_active = false;
-        }
+
+        p->boundaries.top.is_active = false;
+        p->boundaries.bottom.is_active = false;
+        p->boundaries.left.is_active = false;
+        p->boundaries.right.is_active = false;
 
         if(p->type == PatchType::Routing || p->activity == PatchActivity::Measurement)
         {
@@ -130,7 +138,6 @@ bool merge_patches(
     auto routing_region = router.find_routing_ancilla(slice, source, source_op, target, target_op);
     if(!routing_region)
         return false;
-
 
     stitch_boundaries(slice, *slice.get_cell_by_id(source), *slice.get_cell_by_id(target), *routing_region);
     apply_routing_region(slice, *routing_region);
@@ -342,8 +349,10 @@ DensePatchComputationResult run_through_dense_slices(
 
                 application_result = try_apply_instruction(slice, instruction, layout, router);
                 if (application_result.maybe_error)
+                {
+                    slice_visitor(slice);
                     throw std::runtime_error{application_result.maybe_error->what()};
-
+                }
             }
 
             for (auto&& i: application_result.followup_instructions)

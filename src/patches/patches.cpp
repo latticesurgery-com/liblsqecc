@@ -56,6 +56,12 @@ const Cell& SparsePatch::get_a_cell() const
     }
 }
 
+
+std::ostream& operator<<(std::ostream& os, const Cell& c)
+{
+    return os << "(" << c.row << "," << c.col << ")" << std::endl;
+}
+
 void SparsePatch::visit_individual_cells_mut(std::function<void (SingleCellOccupiedByPatch&)> f)
 {
     if(SingleCellOccupiedByPatch* patch = std::get_if<SingleCellOccupiedByPatch>(&cells))
@@ -138,12 +144,6 @@ std::optional<std::reference_wrapper<Boundary>> SingleCellOccupiedByPatch::get_m
 bool CellBoundaries::has_active_boundary() const
 {
     return top.is_active || bottom.is_active || left.is_active || right.is_active;
-}
-
-
-std::ostream& operator<<(std::ostream& os, const Cell& c)
-{
-    return os << "("<<c.row<<", "<<c.col <<")";
 }
 
 SparsePatch DensePatch::to_sparse_patch(const Cell& c) const

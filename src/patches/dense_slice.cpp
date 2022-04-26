@@ -15,12 +15,12 @@ const Layout& DenseSlice::get_layout() const
 void DenseSlice::traverse_cells_mut(const DenseSlice::CellTraversalFunctor& f)
 {
     Cell c {0,0};
-    for(auto& row: cells)
+    for(std::vector<std::optional<DensePatch>>& row: cells)
     {
         for (std::optional<DensePatch>& patch: row)
         {
-            c.col++;
             f(c,patch);
+            c.col++;
         }
         c.row++;
         c.col = 0;
@@ -92,7 +92,7 @@ DenseSlice::DenseSlice(const Layout& layout)
 
 bool DenseSlice::is_cell_free(const Cell& cell) const
 {
-    return patch_at(cell).has_value();
+    return !patch_at(cell).has_value();
 }
 
 

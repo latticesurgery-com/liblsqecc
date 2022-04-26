@@ -40,6 +40,8 @@ struct Cell {
     bool operator==(const Cell&) const = default;
 };
 
+std::ostream& operator<<(std::ostream& os, const Cell& c);
+
 enum class PatchType : uint8_t {
     Distillation,
     PreparedState,
@@ -51,7 +53,8 @@ enum class PatchActivity : uint8_t
 {
     None,
     Measurement,
-    Unitary
+    Unitary,
+    Distillation
 };
 
 
@@ -136,8 +139,6 @@ struct RoutingRegion
 
 
 PatchId make_new_patch_id();
-
-std::ostream& operator<<(std::ostream& os, const Cell& c);
 
 }
 
