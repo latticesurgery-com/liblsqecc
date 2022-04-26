@@ -85,6 +85,7 @@ void advance_slice(DenseSlice& slice, const Layout& layout)
                 SparsePatch magic_state_patch = LayoutHelpers::basic_square_patch(*magic_state_cell);
                 magic_state_patch.type = PatchType::PreparedState;
                 slice.place_sparse_patch(magic_state_patch);
+                slice.magic_state_queue.push(*magic_state_cell);
             }
             time_to_magic_state_here = layout.distillation_times()[distillation_region_index];
         }
@@ -138,6 +139,8 @@ bool merge_patches(
     auto routing_region = router.find_routing_ancilla(slice, source, source_op, target, target_op);
     if(!routing_region)
         return false;
+
+    // TODO check that the path is actually free when caching
 
     stitch_boundaries(slice, *slice.get_cell_by_id(source), *slice.get_cell_by_id(target), *routing_region);
     apply_routing_region(slice, *routing_region);
@@ -262,6 +265,7 @@ InstructionApplicationResult try_apply_instruction(
             auto& newly_bound_magic_state = slice.patch_at(newly_bound_magic_state_cell).value();
             newly_bound_magic_state.id = mr->target;
             newly_bound_magic_state.type = PatchType::Qubit;
+            newly_bound_magic_state.activity = PatchActivity::None;
             return {nullptr, {}};
         }
         else if (mr->wait_at_most_for<=0)
@@ -367,6 +371,7 @@ DensePatchComputationResult run_through_dense_slices(
                 throw std::runtime_error{timeout_str};
             }
         }
+        slice_visitor(slice);
     };
 
     if(graceful)

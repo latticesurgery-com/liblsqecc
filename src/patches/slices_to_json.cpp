@@ -90,10 +90,10 @@ json dense_patch_to_json(const DensePatch& p)
 
     if(p.id)
         visual_array_cell["text"] = std::string{"Id: "} + std::to_string(*p.id);
-    else if(p.type ==PatchType::Distillation & p.activity == PatchActivity::Distillation)
-        visual_array_cell["text"] = "";
-    else
+    else if ((p.type==PatchType::Distillation && p.activity == PatchActivity::None) ||  p.type ==PatchType::Qubit)
         visual_array_cell["text"] = "Not bound";
+    else
+        visual_array_cell["text"] = "";
     return visual_array_cell;
 }
 

@@ -101,8 +101,9 @@ Cell DenseSlice::place_sparse_patch(const SparsePatch& sparse_patch)
     auto* occupied_cell = std::get_if<SingleCellOccupiedByPatch>(&sparse_patch.cells);
     if(!occupied_cell)
         throw std::logic_error("Placing Multi Patch cell not yet supported");
-    if(patch_at(occupied_cell->cell))
-        throw std::logic_error("Double patch occupation");
+    if(!is_cell_free(occupied_cell->cell))
+        throw std::logic_error(lstk::cat("Double patch occupation at ",occupied_cell->cell, "\n",
+                "Found patch: ", patch_at(occupied_cell->cell)->id.value_or(-1)));
 
     patch_at(occupied_cell->cell) = DensePatch::from_sparse_patch(sparse_patch);
     return occupied_cell->cell;
