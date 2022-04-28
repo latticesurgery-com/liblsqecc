@@ -3,7 +3,6 @@
 
 
 #include <lsqecc/patches/slice.hpp>
-#include <lsqecc/patches/patches.hpp>
 
 namespace lsqecc {
 

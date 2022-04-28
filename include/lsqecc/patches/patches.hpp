@@ -9,6 +9,7 @@
 #include <vector>
 #include <variant>
 #include <stdexcept>
+#include <iostream>
 
 namespace lsqecc {
 
@@ -39,6 +40,8 @@ struct Cell {
     bool operator==(const Cell&) const = default;
 };
 
+std::ostream& operator<<(std::ostream& os, const Cell& c);
+
 enum class PatchType : uint8_t {
     Distillation,
     PreparedState,
@@ -50,7 +53,8 @@ enum class PatchActivity : uint8_t
 {
     None,
     Measurement,
-    Unitary
+    Unitary,
+    Distillation
 };
 
 
@@ -62,18 +66,26 @@ struct Boundary {
 };
 
 
-struct SingleCellOccupiedByPatch{
+
+struct CellBoundaries {
     Boundary top;
     Boundary bottom;
     Boundary left;
     Boundary right;
 
-    std::optional<Boundary> get_boundary_with(const Cell& neighbour) const;
-    bool have_boundary_of_type_with(PauliOperator op, const Cell& neighbour) const;
     bool has_active_boundary() const;
-    std::optional<std::reference_wrapper<Boundary>> get_mut_boundary_with(const Cell& neighbour);
+
+    bool operator==(const CellBoundaries&) const = default;
+};
+
+struct SingleCellOccupiedByPatch : public CellBoundaries {
 
     Cell cell;
+
+    std::optional<Boundary> get_boundary_with(const Cell& neighbour) const;
+    bool have_boundary_of_type_with(PauliOperator op, const Cell& neighbour) const;
+    std::optional<std::reference_wrapper<Boundary>> get_mut_boundary_with(const Cell& neighbour);
+
     bool operator==(const SingleCellOccupiedByPatch&) const = default;
 };
 
@@ -86,21 +98,38 @@ struct MultipleCellsOccupiedByPatch {
 
 using PatchId = uint32_t;
 
-struct Patch{
-    // TODO perhaps this should be region?
-    std::variant<SingleCellOccupiedByPatch, MultipleCellsOccupiedByPatch> cells;
+struct Patch {
     PatchType type;
     PatchActivity activity;
-
     std::optional<PatchId> id;
+
+    bool operator==(const Patch&) const = default;
+};
+
+
+struct SparsePatch : public Patch {
+    // TODO perhaps this should be region?
+    std::variant<SingleCellOccupiedByPatch, MultipleCellsOccupiedByPatch> cells;
 
     std::vector<Cell> get_cells() const;
     const Cell& get_a_cell() const;
-    bool operator==(const Patch&) const = default;
+    bool operator==(const SparsePatch&) const = default;
     void visit_individual_cells_mut(std::function<void (SingleCellOccupiedByPatch&)> f);
     void visit_individual_cells(std::function<void (const SingleCellOccupiedByPatch&)> f) const;
     bool is_active() const;
 };
+
+
+struct DensePatch : public Patch {
+
+    CellBoundaries boundaries;
+
+    SparsePatch to_sparse_patch(const Cell& c) const;
+    static DensePatch from_sparse_patch(const SparsePatch& p);
+
+    bool is_active() const;
+};
+
 
 struct RoutingRegion
 {
@@ -110,7 +139,6 @@ struct RoutingRegion
 
 
 PatchId make_new_patch_id();
-
 
 }
 

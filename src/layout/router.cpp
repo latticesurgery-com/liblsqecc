@@ -14,8 +14,8 @@ CachedNaiveDijkstraRouter::PathIdentifier path_identifier_from_ids(
         PatchId target,
         PauliOperator target_op)
 {
-    Cell source_cell = slice.get_patch_by_id(source).get_a_cell();
-    Cell target_cell = slice.get_patch_by_id(source).get_a_cell();
+    Cell source_cell = slice.get_cell_by_id(source).value();
+    Cell target_cell = slice.get_cell_by_id(target).value();
     return CachedNaiveDijkstraRouter::PathIdentifier{source_cell, source_op, target_cell, target_op};
 }
 

@@ -10,15 +10,15 @@
 namespace lsqecc {
 
 using SurfaceCodeTimestep = uint32_t;
-
+using DistillationTimeMap = std::vector<SurfaceCodeTimestep>;
 
 struct Layout {
 
-    virtual const std::vector<Patch>& core_patches() const = 0;
+    virtual const std::vector<SparsePatch>& core_patches() const = 0;
     virtual Cell furthest_cell() const = 0;
     virtual const std::vector<MultipleCellsOccupiedByPatch>& distillation_regions() const = 0;
     virtual const std::vector<Cell>& distilled_state_locations(size_t distillation_region_idx) const = 0;
-    virtual const std::vector<SurfaceCodeTimestep>& distillation_times() const = 0;
+    virtual const DistillationTimeMap& distillation_times() const = 0;
     virtual const std::vector<Cell>& ancilla_location() const = 0;
 
     template<class F> void for_each_cell(F f) const;
@@ -28,7 +28,7 @@ struct Layout {
 
 
 namespace LayoutHelpers{
-    Patch basic_square_patch(Cell placement);
+    SparsePatch basic_square_patch(Cell placement);
     SingleCellOccupiedByPatch make_distillation_region_cell(Cell placement);
 
 
@@ -36,10 +36,10 @@ namespace LayoutHelpers{
     {
         RoutingRegion stage_1;
         RoutingRegion stage_2;
-        Patch final_state;
+        SparsePatch final_state;
     };
     SinglePatchRotationALaLitinskiStages single_patch_rotation_a_la_litinski(
-            const Patch& target_patch, const Cell& free_neighbour);
+            const SparsePatch& target_patch, const Cell& free_neighbour);
 
 }
 
@@ -90,7 +90,7 @@ public:
         }
     }
 
-    const std::vector<Patch>& core_patches() const override
+    const std::vector<SparsePatch>& core_patches() const override
     {
         return core_patches_;
     }
@@ -121,7 +121,7 @@ public:
 private:
     size_t num_qubits_;
     std::vector<SurfaceCodeTimestep> distillation_times_;
-    std::vector<Patch> core_patches_;
+    std::vector<SparsePatch> core_patches_;
     std::vector<MultipleCellsOccupiedByPatch> distillation_regions_;
     std::vector<Cell> ancilla_locations_;
     std::vector<std::vector<Cell>> distilled_state_locations_;

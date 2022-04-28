@@ -1,16 +1,31 @@
 #ifndef LSQECC_SLICES_TO_JSON_HPP
 #define LSQECC_SLICES_TO_JSON_HPP
 
-#include <lsqecc/patches/patch_computation.hpp>
+#include <lsqecc/patches/dense_slice.hpp>
+#include <lsqecc/patches/sparse_slice.hpp>
 #include <nlohmann/json.hpp>
 
 namespace lsqecc {
 
 
-nlohmann::json cell_patch_to_visual_array_edges_json(const SingleCellOccupiedByPatch& boundary);
+nlohmann::json slice_to_json(const SparseSlice& slices);
+nlohmann::json slice_to_json(const DenseSlice& slices);
 
-nlohmann::json slice_to_json(const Slice& slices);
-nlohmann::json slices_to_json(const std::vector<Slice>& slices);
+
+template<class SliceType>
+nlohmann::json slices_to_json(const std::vector<SliceType>& slices)
+{
+    static_assert(std::is_same_v<SliceType, SparseSlice> || std::is_same_v<SliceType, DenseSlice>);
+
+    nlohmann::json out_slices = nlohmann::json::array();
+
+    for(const SparseSlice& slice : slices)
+        out_slices.push_back(slice_to_json(slice));
+
+
+    return out_slices;
+}
+
 
 }
 

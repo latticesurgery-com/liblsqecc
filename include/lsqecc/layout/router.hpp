@@ -1,6 +1,7 @@
 #ifndef LSQECC_ROUTER_HPP
 #define LSQECC_ROUTER_HPP
 
+#include <lsqecc/patches/sparse_slice.hpp>
 #include <lsqecc/patches/slice.hpp>
 
 #include <unordered_map>
@@ -12,6 +13,7 @@ enum class GraphSearchProvider
     Boost,
     Custom
 };
+
 
 struct Router {
     virtual std::optional<RoutingRegion> find_routing_ancilla(

@@ -5,7 +5,10 @@
 #include <lsqecc/layout/ascii_layout_spec.hpp>
 #include <lsqecc/layout/router.hpp>
 #include <lsqecc/patches/slices_to_json.hpp>
-#include <lsqecc/patches/patch_computation.hpp>
+#include <lsqecc/patches/slice.hpp>
+#include <lsqecc/patches/sparse_patch_computation.hpp>
+#include <lsqecc/patches/dense_patch_computation.hpp>
+#include <lsqecc/patches/slice_variant.hpp>
 
 #include <lstk/lstk.hpp>
 
@@ -20,8 +23,10 @@
 #include <fstream>
 #include <chrono>
 
+
 namespace lsqecc
 {
+
 
 
     std::string file_to_string(std::string fname)
@@ -78,12 +83,19 @@ namespace lsqecc
                 .required(false);
         parser.add_argument()
                 .names({"-r", "--router"})
-                .description("Set a router: naive_cached (default), naive")
+                .description("Set a router: graph_search (default), graph_search_cached")
                 .required(false);
         parser.add_argument()
                 .names({"-g", "--graph-search"})
                 .description("Set a graph search provider: custom (default), boost (not allways available)")
                 .required(false);
+        parser.add_argument()
+                .names({"-a", "--slice-repr"})
+                .description("Set how slices are represented: dense (default), sparse")
+                .required(false);
+        parser.add_argument()
+                .names({"--graceful"})
+                .description("If there is an error when slicing, print the error and terminate");
         parser.enable_help();
 
         auto err = parser.parse(argc, argv);
@@ -176,14 +188,14 @@ namespace lsqecc
                                           : std::nullopt;
 
 
-        std::unique_ptr<Router> router = std::make_unique<CachedNaiveDijkstraRouter>();
+        std::unique_ptr<Router> router = std::make_unique<NaiveDijkstraRouter>();
         if(parser.exists("r"))
         {
             auto router_name = parser.get<std::string>("r");
-            if(router_name =="naive_cached") //TODO change to djikstra
+            if(router_name =="graph_search") //TODO change to djikstra
                 LSTK_NOOP;// Already set
-            else if(router_name=="naive")
-                router = std::make_unique<NaiveDijkstraRouter>();
+            else if(router_name=="graph_search_cached")
+                router = std::make_unique<CachedNaiveDijkstraRouter>();
             else
             {
                 err_stream <<"Unknown router: "<< router_name << std::endl;
@@ -209,29 +221,36 @@ namespace lsqecc
         }
 
 
-        auto no_op_visitor = [](const Slice& s) -> void {LSTK_UNUSED(s);};
+        using SliceVisitorFunction = std::function<void(const SliceVariant & slice)>;
 
-        PatchComputation::SliceVisitorFunction slice_printing_visitor{no_op_visitor};
+        auto no_op_visitor = [](const SliceVariant& s) -> void {LSTK_UNUSED(s);};
+
+
+        SliceVisitorFunction slice_printing_visitor{no_op_visitor};
         bool is_first_slice = true;
         if(is_writing_slices)
         {
-            slice_printing_visitor = [&write_slices_stream, &is_first_slice](const Slice& s){
+            slice_printing_visitor = [&write_slices_stream, &is_first_slice](const SliceVariant & s){
                 if(is_first_slice)
                 {
-                    write_slices_stream.get() << "[\n" << slice_to_json(s).dump(3);
+                    write_slices_stream.get() << "[\n" << std::visit(
+                            [&](const auto& slice){ return slice_to_json(slice).dump(3);}, s);
                     is_first_slice = false;
                 }
                 else
-                    write_slices_stream.get() << ",\n" << slice_to_json(s).dump(3);
+                    write_slices_stream.get() << ",\n" << std::visit(
+                            [&](const auto& slice){ return slice_to_json(slice).dump(3);},s);
             };
         }
 
         size_t slice_counter = 0;
-        PatchComputation::SliceVisitorFunction visitor_with_progress{slice_printing_visitor};
+
+        SliceVisitorFunction visitor_with_progress{slice_printing_visitor};;
+
         auto gave_update_at = lstk::now();
         if(output_format_mode == OutputFormatMode::Progress)
         {
-            visitor_with_progress = [&](const Slice& s)
+            visitor_with_progress = [&](const SliceVariant & s)
             {
                 slice_printing_visitor(s);
                 slice_counter++;
@@ -245,38 +264,51 @@ namespace lsqecc
 
         auto start = lstk::now();
 
-        try
+
+        std::unique_ptr<PatchComputationResult> computation_result;
+
+        if(parser.exists("a") && parser.get<std::string>("a") == "sparse")
+            computation_result = std::make_unique<SparsePatchComputation>(
+                std::move(*instruction_stream),
+                std::move(layout),
+                std::move(router),
+                timeout,
+                visitor_with_progress,
+                parser.exists("graceful")
+            );
+        else if (!parser.exists("a") || (parser.exists("a") && parser.get<std::string>("a") == "dense"))
         {
-            PatchComputation patch_computation{
+            computation_result = std::make_unique<DensePatchComputationResult>(run_through_dense_slices(
                     std::move(*instruction_stream),
-                    std::move(layout),
-                    std::move(router),
+                    *layout,
+                    *router,
                     timeout,
-                    visitor_with_progress
-            };
-
-            if(output_format_mode == OutputFormatMode::Machine)
-            {
-                out_stream << patch_computation.ls_instructions_count() << ","
-                           << patch_computation.slice_count() << ","
-                           << lstk::seconds_since(start) << std::endl;
-            }
-            else if (output_format_mode == OutputFormatMode::Progress)
-            {
-                out_stream << "LS Instructions read  " << patch_computation.ls_instructions_count() << std::endl;
-                out_stream << "Slices " << patch_computation.slice_count() << std::endl;
-                out_stream << "Made patch computation. Took " << lstk::seconds_since(start) << "s." << std::endl;
-            }
-
-            if(is_writing_slices)
-                write_slices_stream.get() << "]" <<std::endl;
-
-        }
-        catch (const std::exception& e)
+                    [&](const DenseSlice& s){visitor_with_progress(s);},
+                    parser.exists("graceful")
+            ));
+        } else
         {
-            err_stream << "Compiler exception: " << e.what() << std::endl;
-            return -1;
+            err_stream << "Invalid patch repr: " << parser.get<std::string>("a") << std::endl;
+            return 1;
         }
+
+        if(output_format_mode == OutputFormatMode::Machine)
+        {
+            out_stream << computation_result->ls_instructions_count() << ","
+                       << computation_result->slice_count() << ","
+                       << lstk::seconds_since(start) << std::endl;
+        }
+        else if (output_format_mode == OutputFormatMode::Progress)
+        {
+            out_stream << "LS Instructions read  " << computation_result->ls_instructions_count() << std::endl;
+            out_stream << "Slices " << computation_result->slice_count() << std::endl;
+            out_stream << "Made patch computation. Took " << lstk::seconds_since(start) << "s." << std::endl;
+        }
+
+        if(is_writing_slices)
+            write_slices_stream.get() << "]" <<std::endl;
+
+
 
         return 0;
     }
@@ -295,7 +327,16 @@ namespace lsqecc
         std::ostringstream output;
         std::ostringstream err;
 
-        int exit_code = run_slicer_program(static_cast<int>(c_args.size()), c_args.data(), input, output, err);
+        int exit_code;
+        try
+        {
+            exit_code = run_slicer_program(static_cast<int>(c_args.size()), c_args.data(), input, output, err);
+        }
+        catch (const std::exception& e)
+        {
+            err << "Compiler exception: " << e.what() << std::endl;
+        }
+
 
         nlohmann::json json_res = {
                 {"output", output.str()},

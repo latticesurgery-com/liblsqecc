@@ -19,15 +19,19 @@ Where:
 
 Full usage:
 ```
-Usage: lsqecc_slicer [options...]
+Usage: cmake-build-debug/lsqecc_slicer [options...]
 Options:
-    -i, --instructions     File name of file with LS Instructions. If not provided will read from stdin
+    -i, --instructions     File name of file with LS Instructions. If not provided will read LS Instructions from stdin
+    -q, --qasm             File name of file with QASM. If not provided will read LS Instructions (not QASM) from stdin
     -l, --layout           File name of file with layout spec. Defaults to simple layout if none is provided
-    -o, --output           File name of output file to which write a latticesurgery.com JSON of the slices
+    -o, --output           File name of output file to which write a latticesurgery.com JSON of the slices. By default outputs to stdout
+    -f, --output-format    Requires, STDOUT output format: slices (default), progress , noprogress, machine,
     -t, --timeout          Set a timeout in seconds after which stop producing slices
-    -r, --router           Set a router: naive_cached (default), naive
-    -f, --output-format    How to format output: progress (default), noprogres, machine
-    -h, --help             Shows this page 
+    -r, --router           Set a router: graph_search (default), graph_search_cached
+    -g, --graph-search     Set a graph search provider: custom (default), boost (not allways available)
+    -a, --slice-repr       Set how slices are represented: dense (default), sparse
+    --graceful             If there is an error when slicing, print the error and terminate
+    -h, --help             Shows this page   
 ```
 
 #### The `liblsqecc` library

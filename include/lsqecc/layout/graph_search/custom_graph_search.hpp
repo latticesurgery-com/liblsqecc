@@ -2,8 +2,6 @@
 #define LSQECC_CUSTOM_GRAPH_SEARCH_HPP
 
 #include <lsqecc/patches/slice.hpp>
-#include <lsqecc/patches/patches.hpp>
-
 namespace lsqecc {
 
 namespace custom_graph_search {

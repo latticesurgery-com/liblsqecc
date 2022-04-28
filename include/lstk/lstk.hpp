@@ -17,6 +17,7 @@
 #include <optional>
 #include <stdexcept>
 #include <chrono>
+#include <sstream>
 
 #define LSTK_UNREACHABLE throw std::logic_error(std::string{"Meant to be unreachable: "}+__FILE__+":"+std::to_string(__LINE__))
 
@@ -106,11 +107,24 @@ static inline bool contains(std::string_view s, char target)
 
 // String manipulation
 
+template <typename, typename = void>
+struct has_ostream_operator : std::false_type {};
+
+template <typename T>
+struct has_ostream_operator<T, decltype(void(std::declval<std::ostream&>() << std::declval<const T&>()))>
+        : std::true_type {};
+
 template<class Stringifyable>
 std::string cat(Stringifyable &&s)
 {
     if constexpr (std::is_arithmetic_v<std::remove_reference_t<Stringifyable>>)
         return std::to_string(s);
+    else if constexpr(has_ostream_operator<Stringifyable>::value)
+    {
+        std::stringstream ss;
+        ss << s;
+        return ss.str();
+    }
     else
         return std::string{s};
 }

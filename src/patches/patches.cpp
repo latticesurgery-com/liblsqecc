@@ -24,7 +24,7 @@ PatchId make_new_patch_id(){
     return global_patch_id_counter++;
 }
 
-std::vector<Cell> Patch::get_cells() const
+std::vector<Cell> SparsePatch::get_cells() const
 {
     if(auto single_cell_patch = std::get_if<SingleCellOccupiedByPatch>(&cells))
     {
@@ -43,7 +43,7 @@ std::vector<Cell> Patch::get_cells() const
 }
 
 
-const Cell& Patch::get_a_cell() const
+const Cell& SparsePatch::get_a_cell() const
 {
     if(auto single_cell_patch = std::get_if<SingleCellOccupiedByPatch>(&cells))
     {
@@ -56,7 +56,13 @@ const Cell& Patch::get_a_cell() const
     }
 }
 
-void Patch::visit_individual_cells_mut(std::function<void (SingleCellOccupiedByPatch&)> f)
+
+std::ostream& operator<<(std::ostream& os, const Cell& c)
+{
+    return os << "(" << c.row << "," << c.col << ")" << std::endl;
+}
+
+void SparsePatch::visit_individual_cells_mut(std::function<void (SingleCellOccupiedByPatch&)> f)
 {
     if(SingleCellOccupiedByPatch* patch = std::get_if<SingleCellOccupiedByPatch>(&cells))
     {
@@ -69,12 +75,12 @@ void Patch::visit_individual_cells_mut(std::function<void (SingleCellOccupiedByP
     }
 }
 
-void Patch::visit_individual_cells(std::function<void (const SingleCellOccupiedByPatch&)> f) const
+void SparsePatch::visit_individual_cells(std::function<void (const SingleCellOccupiedByPatch&)> f) const
 {
-    const_cast<Patch*>(this)->visit_individual_cells_mut(f);
+    const_cast<SparsePatch*>(this)->visit_individual_cells_mut(f);
 }
 
-bool Patch::is_active() const
+bool SparsePatch::is_active() const
 {
     if(activity!=PatchActivity::None) return true;
 
@@ -135,11 +141,29 @@ std::optional<std::reference_wrapper<Boundary>> SingleCellOccupiedByPatch::get_m
 
     return std::nullopt;
 }
-bool SingleCellOccupiedByPatch::has_active_boundary() const
+bool CellBoundaries::has_active_boundary() const
 {
-    auto neighbours = cell.get_neigbours();
-    return std::any_of(neighbours.begin(), neighbours.end(), [&](auto n){return get_boundary_with(n)->is_active;});
+    return top.is_active || bottom.is_active || left.is_active || right.is_active;
+}
 
+SparsePatch DensePatch::to_sparse_patch(const Cell& c) const
+{
+    return SparsePatch{{type, activity, id}, SingleCellOccupiedByPatch{{boundaries}, c}};
+}
+DensePatch DensePatch::from_sparse_patch(const SparsePatch& sp)
+{
+    auto* occupied_cell = std::get_if<SingleCellOccupiedByPatch>(&sp.cells);
+
+    return DensePatch{static_cast<Patch>(sp),
+                      {.top=occupied_cell->top,
+                       .bottom=occupied_cell->bottom,
+                        .left=occupied_cell->left,
+                       .right=occupied_cell->right}};
+}
+bool DensePatch::is_active() const
+{
+    if(activity!=PatchActivity::None) return true;
+    return boundaries.has_active_boundary();
 }
 
 }
