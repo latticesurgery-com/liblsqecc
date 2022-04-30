@@ -1,0 +1,7 @@
+DeclareLogicalQubitPatches 0
+Init 999 |+>
+MeasureSinglePatch 999 Z
+Init 1000 |+>
+MeasureSinglePatch 1000 Z
+Init 1001 |+>
+MultiBodyMeasure 0:Z,1001:X
