@@ -10,6 +10,7 @@ namespace lsqecc {
 namespace custom_graph_search {
 
 
+
 // Index in the data structure storing the list of vertices
 using Vertex = size_t;
 
@@ -29,6 +30,118 @@ struct PredecessorData {
 };
 
 
+template<bool want_cycle>
+class SliceSearchAdaptor
+{
+public:
+    explicit SliceSearchAdaptor(
+            const Slice& slice,
+            Cell source_cell,
+            Cell target_cell,
+            PauliOperator source_op,
+            PauliOperator target_op)
+            : slice_(slice),
+              source_cell_(source_cell),
+              target_cell_(target_cell),
+              source_vertex_(make_vertex(source_cell)),
+              target_vertex_(make_vertex(target_cell)),
+              source_op_(source_op),
+              target_op_(target_op)
+    {
+        if constexpr(want_cycle)
+        {
+            simulated_source_ = make_vertex(furthest_cell())+1;
+        }
+    };
+
+    Cell furthest_cell() const
+    {
+        return slice_.get_layout().furthest_cell();
+    }
+
+    size_t num_vertices_on_lattice() const
+    {
+        return make_vertex(furthest_cell()) + 1;
+    }
+
+    Vertex source_vertex() const
+    {
+        return source_vertex_;
+    }
+
+    Vertex target_vertex() const
+    {
+        return target_vertex_;
+    }
+
+    template<bool _want_cycle = want_cycle>
+    typename std::enable_if<_want_cycle, Vertex>::type simulated_source() const
+    {
+        return simulated_source_;
+    }
+
+    bool have_directed_edge(const Cell& a, const Cell& b) const
+    {
+        if(slice_.is_cell_free(a) && slice_.is_cell_free(b)) return true;
+
+        if(a == cell_from_vertex(source_vertex_) && b == cell_from_vertex(target_vertex_))
+            return slice_.have_boundary_of_type_with(source_cell_, b, source_op_)
+                    && slice_.have_boundary_of_type_with(target_cell_, a, target_op_);
+
+
+        if(a == cell_from_vertex(source_vertex_) && slice_.is_cell_free(b))
+            return slice_.have_boundary_of_type_with(source_cell_, b, source_op_);
+
+        if(slice_.is_cell_free(a) && b == cell_from_vertex(target_vertex_))
+            return slice_.have_boundary_of_type_with(target_cell_, a, target_op_);
+
+        return false;
+    };
+
+    Vertex make_vertex(const Cell& cell) const
+    {
+        return cell.row*(furthest_cell().col+1)+cell.col;
+    }
+
+
+    Cell cell_from_vertex(Vertex vertex) const
+    {
+        if constexpr (want_cycle)
+        {
+            // In this case we add a simulated source at the end of the list of vertices
+            if(vertex == simulated_source_)
+                return target_cell_;
+        }
+
+        auto v = static_cast<Cell::CoordinateType>(vertex);
+        auto col = v%(furthest_cell().col+1);
+        return Cell{(v-col)/(furthest_cell().col+1), col};
+    };
+
+    std::vector<Cell> get_neighbours(Vertex v) const
+    {
+        return get_neighbours(cell_from_vertex(v));
+    }
+
+    std::vector<Cell> get_neighbours(Cell cell) const
+    {
+        return cell.get_neigbours_within_bounding_box_inclusive({0, 0}, furthest_cell());
+    }
+
+private:
+
+    Vertex simulated_source_ = 0;
+
+    const Slice& slice_;
+    const Cell source_cell_;
+    const Cell target_cell_;
+    const Vertex source_vertex_;
+    const Vertex target_vertex_;
+    const PauliOperator source_op_;
+    const PauliOperator target_op_;
+};
+
+
 
 template<bool want_cycle>
 std::optional<RoutingRegion> do_graph_search_route_ancilla(
@@ -43,54 +156,10 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
     const Cell source_cell = slice.get_cell_by_id(source).value();
     const Cell target_cell = slice.get_cell_by_id(target).value();
 
-    Cell furthest_cell = slice.get_layout().furthest_cell();
+    const SliceSearchAdaptor<want_cycle> slice_searcher(slice, source_cell, target_cell, source_op, target_op);
 
 
-    auto make_vertex = [&furthest_cell](const Cell& cell) -> Vertex
-    {
-        return cell.row*(furthest_cell.col+1)+cell.col;
-    };
-
-    // Only used when want_cycle
-    Vertex simulated_source = make_vertex(furthest_cell)+1;
-
-    auto cell_from_vertex = [&](Vertex vertex) -> Cell
-    {
-        if constexpr (want_cycle)
-        {
-            // In this case we add a simulate source at the end of the list of vertices
-            if(vertex == simulated_source)
-                return target_cell;
-        }
-
-        auto v = static_cast<Cell::CoordinateType>(vertex);
-        auto col = v%(furthest_cell.col+1);
-        return Cell{(v-col)/(furthest_cell.col+1), col};
-    };
-
-
-    Vertex source_vertex = make_vertex(source_cell);
-    Vertex target_vertex = make_vertex(target_cell);
-
-
-    auto have_directed_edge = [&](const Cell& a, const Cell& b) -> bool{
-        if(slice.is_cell_free(a) && slice.is_cell_free(b)) return true;
-
-        if(a == cell_from_vertex(source_vertex) && b == cell_from_vertex(target_vertex))
-            return slice.have_boundary_of_type_with(source_cell, b, source_op)
-                && slice.have_boundary_of_type_with(target_cell, a, target_op);
-
-
-        if(a == cell_from_vertex(source_vertex) && slice.is_cell_free(b))
-            return slice.have_boundary_of_type_with(source_cell, b, source_op);
-
-        if(slice.is_cell_free(a) && b == cell_from_vertex(target_vertex))
-            return slice.have_boundary_of_type_with(target_cell, a, target_op);
-
-        return false;
-    };
-
-    size_t num_vertices_on_lattice = make_vertex(furthest_cell) + 1;
+    size_t num_vertices_on_lattice = slice_searcher.num_vertices_on_lattice();
     std::vector<PredecessorData> predecessor_map(num_vertices_on_lattice);
     for (size_t i = 0; i<predecessor_map.size(); ++i)
         predecessor_map[i] = PredecessorData{std::nullopt, i};
@@ -103,19 +172,20 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
 
     if constexpr (!want_cycle)
     {
-        predecessor_map[source_vertex] = {0, source_vertex};
-        frontier.push(source_vertex);
+        predecessor_map[slice_searcher.source_vertex()] = {0, slice_searcher.source_vertex()};
+        frontier.push(slice_searcher.source_vertex());
     }
     else // Simulated double source to force a cycle case
     {
-        predecessor_map.push_back({0,simulated_source});
+        Vertex simulated_source = slice_searcher.simulated_source();
+        predecessor_map.push_back(PredecessorData{0,simulated_source});
 
-        auto neighbours = slice.get_neigbours_within_slice(source_cell);
+        auto neighbours = slice_searcher.get_neighbours(source_cell);
         for(const Cell& neighbour_cell : neighbours)
         {
-            if(have_directed_edge(source_cell, neighbour_cell))
+            if(slice_searcher.have_directed_edge(source_cell, neighbour_cell))
             {
-                Vertex neighbour = make_vertex(neighbour_cell);
+                Vertex neighbour = slice_searcher.make_vertex(neighbour_cell);
                 predecessor_map[neighbour] = {1, simulated_source};
                 frontier.push(neighbour);
             }
@@ -128,13 +198,13 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
         Vertex curr = frontier.top(); frontier.pop();
         size_t distance_to_curr = *predecessor_map[curr].distance;
 
-        auto neighbours = slice.get_neigbours_within_slice(cell_from_vertex(curr));
+        auto neighbours = slice_searcher.get_neighbours(curr);
         for(const Cell& neighbour_cell : neighbours)
         {
-            if(!have_directed_edge(cell_from_vertex(curr), neighbour_cell))
+            if(!slice_searcher.have_directed_edge(slice_searcher.cell_from_vertex(curr), neighbour_cell))
                 continue;
 
-            Vertex neighbour = make_vertex(neighbour_cell);
+            Vertex neighbour = slice_searcher.make_vertex(neighbour_cell);
             if(!predecessor_map[neighbour].distance)
             {
                 predecessor_map[neighbour] = {distance_to_curr+1, curr};
@@ -161,15 +231,15 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
     // TODO refactor this to be shared with the boost implementation
     RoutingRegion ret;
 
-    Vertex prec = make_vertex(*slice.get_cell_by_id(target));
-    Vertex curr = predecessor_map[target_vertex].predecessor;
+    Vertex prec = slice_searcher.target_vertex();
+    Vertex curr = predecessor_map[slice_searcher.target_vertex()].predecessor;
     Vertex next = predecessor_map[curr].predecessor;
 
     while (curr!=next)
     {
-        Cell prec_cell = cell_from_vertex(prec);
-        Cell curr_cell = cell_from_vertex(curr);
-        Cell next_cell = cell_from_vertex(next);
+        Cell prec_cell = slice_searcher.cell_from_vertex(prec);
+        Cell curr_cell = slice_searcher.cell_from_vertex(curr);
+        Cell next_cell = slice_searcher.cell_from_vertex(next);
 
         ret.cells.push_back(SingleCellOccupiedByPatch{
                 {.top=   {BoundaryType::None, false},
@@ -179,7 +249,7 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
                 curr_cell
         });
 
-        for (const Cell& neighbour: curr_cell.get_neigbours_within_bounding_box_inclusive({0, 0}, furthest_cell))
+        for (const Cell& neighbour: slice_searcher.get_neighbours(curr_cell))
         {
             if (prec_cell==neighbour || next_cell==neighbour)
             {
@@ -195,8 +265,8 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
 
     // Check if out path reached the source
 
-    bool reached_source = curr==source_vertex;
-    if constexpr (want_cycle) reached_source = curr == simulated_source;
+    bool reached_source = curr== slice_searcher.source_vertex();
+    if constexpr (want_cycle) reached_source = curr == slice_searcher.simulated_source();
     return reached_source ? std::make_optional(ret) : std::nullopt;
 }
 
