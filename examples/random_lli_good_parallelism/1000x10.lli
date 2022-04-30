@@ -1,0 +1,1001 @@
+DeclareLogicalQubitPatches 0,1,2,3,4,5,6,7,8,9
+MultiBodyMeasure 5:Z,2:Z
+MultiBodyMeasure 5:Z,2:Z
+MultiBodyMeasure 2:Z,7:Z
+MultiBodyMeasure 6:Z,1:Z
+LogicalPauli 6 Z
+LogicalPauli 0 X
+LogicalPauli 1 Z
+MultiBodyMeasure 5:Z,9:X
+MultiBodyMeasure 0:X,3:Z
+HGate 0
+MultiBodyMeasure 2:X,4:Z
+MultiBodyMeasure 8:Z,3:Z
+LogicalPauli 6 Z
+HGate 9
+MultiBodyMeasure 2:X,7:X
+HGate 1
+LogicalPauli 3 X
+LogicalPauli 3 X
+HGate 1
+LogicalPauli 6 Z
+MultiBodyMeasure 0:Z,7:Z
+LogicalPauli 9 X
+HGate 2
+LogicalPauli 8 X
+HGate 3
+HGate 1
+MultiBodyMeasure 7:Z,1:Z
+HGate 0
+MultiBodyMeasure 0:X,6:Z
+MultiBodyMeasure 2:X,7:X
+MultiBodyMeasure 9:Z,0:X
+MultiBodyMeasure 2:X,3:Z
+MultiBodyMeasure 1:X,2:Z
+MultiBodyMeasure 4:X,6:X
+HGate 0
+HGate 8
+HGate 9
+LogicalPauli 8 X
+HGate 1
+MultiBodyMeasure 7:X,1:Z
+HGate 2
+LogicalPauli 2 Z
+MultiBodyMeasure 5:Z,1:Z
+LogicalPauli 3 Z
+MultiBodyMeasure 7:X,6:Z
+LogicalPauli 9 X
+LogicalPauli 5 Z
+HGate 1
+LogicalPauli 1 X
+HGate 1
+MultiBodyMeasure 0:X,9:X
+HGate 6
+MultiBodyMeasure 0:X,9:X
+LogicalPauli 4 Z
+LogicalPauli 8 Z
+LogicalPauli 5 X
+MultiBodyMeasure 3:X,6:Z
+HGate 8
+HGate 0
+MultiBodyMeasure 9:X,1:X
+MultiBodyMeasure 0:Z,8:X
+LogicalPauli 9 X
+LogicalPauli 0 Z
+MultiBodyMeasure 7:X,1:X
+LogicalPauli 8 Z
+HGate 4
+LogicalPauli 3 Z
+HGate 3
+HGate 2
+LogicalPauli 9 X
+LogicalPauli 4 X
+MultiBodyMeasure 9:X,6:Z
+MultiBodyMeasure 6:Z,9:Z
+MultiBodyMeasure 9:Z,2:Z
+HGate 1
+HGate 6
+MultiBodyMeasure 5:X,9:Z
+HGate 7
+LogicalPauli 6 Z
+MultiBodyMeasure 7:X,8:X
+LogicalPauli 0 Z
+HGate 5
+MultiBodyMeasure 8:Z,3:X
+LogicalPauli 6 Z
+LogicalPauli 9 X
+MultiBodyMeasure 5:Z,6:Z
+MultiBodyMeasure 3:Z,4:Z
+LogicalPauli 2 Z
+HGate 1
+HGate 9
+HGate 3
+LogicalPauli 1 X
+LogicalPauli 5 Z
+MultiBodyMeasure 9:X,2:Z
+HGate 6
+MultiBodyMeasure 8:X,0:Z
+MultiBodyMeasure 0:Z,8:X
+HGate 9
+LogicalPauli 9 X
+LogicalPauli 6 Z
+MultiBodyMeasure 4:X,1:Z
+HGate 7
+MultiBodyMeasure 8:X,5:Z
+LogicalPauli 4 Z
+HGate 0
+LogicalPauli 8 X
+LogicalPauli 6 X
+MultiBodyMeasure 6:X,5:X
+HGate 2
+LogicalPauli 1 X
+HGate 4
+MultiBodyMeasure 1:X,2:X
+LogicalPauli 8 X
+MultiBodyMeasure 7:X,4:Z
+MultiBodyMeasure 2:X,3:Z
+MultiBodyMeasure 7:Z,1:Z
+LogicalPauli 3 X
+MultiBodyMeasure 9:X,7:Z
+LogicalPauli 3 X
+HGate 6
+HGate 5
+LogicalPauli 6 Z
+MultiBodyMeasure 8:Z,3:Z
+MultiBodyMeasure 8:X,2:X
+MultiBodyMeasure 5:X,0:X
+LogicalPauli 0 X
+HGate 4
+HGate 3
+HGate 4
+MultiBodyMeasure 9:X,4:X
+HGate 3
+MultiBodyMeasure 1:Z,3:Z
+LogicalPauli 7 Z
+MultiBodyMeasure 1:Z,3:X
+MultiBodyMeasure 9:X,7:Z
+LogicalPauli 1 X
+MultiBodyMeasure 8:X,9:X
+LogicalPauli 6 X
+MultiBodyMeasure 4:Z,3:Z
+MultiBodyMeasure 0:X,8:Z
+HGate 9
+MultiBodyMeasure 0:Z,5:Z
+LogicalPauli 7 X
+MultiBodyMeasure 9:Z,7:Z
+LogicalPauli 7 Z
+HGate 7
+HGate 7
+HGate 4
+HGate 0
+LogicalPauli 1 X
+HGate 9
+MultiBodyMeasure 0:X,3:Z
+HGate 4
+MultiBodyMeasure 7:Z,4:X
+HGate 3
+HGate 9
+HGate 3
+MultiBodyMeasure 6:Z,5:X
+LogicalPauli 2 X
+LogicalPauli 8 X
+LogicalPauli 7 Z
+LogicalPauli 9 X
+HGate 0
+MultiBodyMeasure 0:Z,5:Z
+LogicalPauli 9 X
+LogicalPauli 3 Z
+MultiBodyMeasure 9:Z,2:X
+MultiBodyMeasure 8:X,2:Z
+HGate 4
+HGate 5
+HGate 3
+MultiBodyMeasure 0:Z,6:X
+LogicalPauli 2 X
+LogicalPauli 1 X
+MultiBodyMeasure 4:X,1:Z
+HGate 0
+LogicalPauli 2 X
+HGate 1
+LogicalPauli 9 Z
+HGate 8
+HGate 8
+LogicalPauli 6 X
+MultiBodyMeasure 3:Z,6:X
+MultiBodyMeasure 6:X,4:Z
+MultiBodyMeasure 0:X,5:X
+HGate 5
+HGate 0
+HGate 7
+HGate 2
+HGate 8
+HGate 4
+HGate 6
+MultiBodyMeasure 3:X,4:Z
+MultiBodyMeasure 5:Z,0:X
+LogicalPauli 0 X
+LogicalPauli 2 X
+LogicalPauli 4 X
+MultiBodyMeasure 7:Z,5:Z
+LogicalPauli 3 Z
+MultiBodyMeasure 5:X,2:Z
+LogicalPauli 0 X
+LogicalPauli 2 X
+LogicalPauli 1 Z
+MultiBodyMeasure 2:X,3:Z
+LogicalPauli 8 Z
+HGate 8
+LogicalPauli 3 Z
+LogicalPauli 3 Z
+HGate 3
+LogicalPauli 3 X
+HGate 1
+HGate 3
+MultiBodyMeasure 4:Z,6:X
+MultiBodyMeasure 1:Z,8:X
+HGate 2
+LogicalPauli 3 Z
+HGate 2
+MultiBodyMeasure 9:Z,8:Z
+LogicalPauli 8 X
+HGate 4
+MultiBodyMeasure 5:Z,9:X
+LogicalPauli 7 Z
+LogicalPauli 0 X
+LogicalPauli 7 X
+LogicalPauli 9 X
+HGate 9
+MultiBodyMeasure 9:X,3:Z
+LogicalPauli 6 X
+HGate 7
+LogicalPauli 3 X
+LogicalPauli 0 X
+LogicalPauli 0 Z
+MultiBodyMeasure 3:X,6:X
+HGate 7
+MultiBodyMeasure 5:Z,6:Z
+MultiBodyMeasure 9:X,8:X
+LogicalPauli 6 X
+LogicalPauli 3 X
+HGate 5
+MultiBodyMeasure 6:X,3:X
+LogicalPauli 9 X
+LogicalPauli 6 Z
+MultiBodyMeasure 4:Z,1:Z
+LogicalPauli 1 X
+HGate 7
+MultiBodyMeasure 3:X,8:X
+MultiBodyMeasure 9:Z,7:X
+LogicalPauli 7 Z
+MultiBodyMeasure 8:Z,7:Z
+MultiBodyMeasure 0:Z,8:Z
+HGate 4
+HGate 8
+LogicalPauli 0 Z
+LogicalPauli 5 Z
+HGate 6
+HGate 0
+LogicalPauli 3 X
+LogicalPauli 3 X
+MultiBodyMeasure 0:Z,6:Z
+MultiBodyMeasure 6:X,0:Z
+MultiBodyMeasure 3:X,1:Z
+LogicalPauli 7 Z
+MultiBodyMeasure 9:Z,5:X
+MultiBodyMeasure 1:Z,6:X
+HGate 9
+MultiBodyMeasure 9:X,6:X
+LogicalPauli 7 X
+LogicalPauli 2 X
+LogicalPauli 3 Z
+HGate 3
+HGate 5
+MultiBodyMeasure 0:Z,4:X
+HGate 3
+HGate 8
+HGate 1
+LogicalPauli 8 Z
+HGate 1
+MultiBodyMeasure 3:X,4:Z
+LogicalPauli 5 X
+LogicalPauli 8 Z
+LogicalPauli 1 Z
+LogicalPauli 6 Z
+LogicalPauli 4 Z
+HGate 3
+HGate 2
+HGate 9
+LogicalPauli 6 Z
+MultiBodyMeasure 0:X,5:X
+MultiBodyMeasure 1:Z,4:X
+LogicalPauli 0 Z
+LogicalPauli 1 X
+LogicalPauli 1 X
+LogicalPauli 4 Z
+LogicalPauli 8 X
+HGate 2
+HGate 6
+LogicalPauli 0 X
+MultiBodyMeasure 7:X,6:Z
+MultiBodyMeasure 7:X,3:Z
+LogicalPauli 5 Z
+LogicalPauli 2 Z
+LogicalPauli 7 Z
+MultiBodyMeasure 4:Z,2:Z
+LogicalPauli 8 X
+HGate 6
+LogicalPauli 7 X
+MultiBodyMeasure 9:X,1:Z
+MultiBodyMeasure 4:X,9:X
+HGate 3
+HGate 6
+MultiBodyMeasure 7:X,4:X
+LogicalPauli 8 X
+LogicalPauli 0 Z
+LogicalPauli 8 X
+MultiBodyMeasure 6:Z,9:Z
+MultiBodyMeasure 4:Z,3:Z
+MultiBodyMeasure 3:Z,9:X
+LogicalPauli 0 X
+LogicalPauli 4 Z
+LogicalPauli 1 Z
+MultiBodyMeasure 9:X,0:X
+MultiBodyMeasure 5:X,2:Z
+MultiBodyMeasure 1:X,9:Z
+HGate 6
+MultiBodyMeasure 8:Z,6:X
+MultiBodyMeasure 7:Z,9:X
+MultiBodyMeasure 7:X,5:X
+LogicalPauli 9 X
+MultiBodyMeasure 1:X,6:Z
+HGate 1
+LogicalPauli 8 X
+MultiBodyMeasure 2:Z,1:Z
+HGate 3
+MultiBodyMeasure 1:Z,4:Z
+HGate 8
+MultiBodyMeasure 6:X,3:X
+MultiBodyMeasure 4:X,2:X
+MultiBodyMeasure 5:X,2:X
+HGate 5
+HGate 5
+HGate 8
+HGate 7
+HGate 6
+MultiBodyMeasure 4:Z,2:Z
+HGate 3
+HGate 5
+MultiBodyMeasure 5:Z,0:Z
+HGate 0
+LogicalPauli 4 X
+MultiBodyMeasure 2:X,9:X
+HGate 4
+LogicalPauli 4 X
+MultiBodyMeasure 3:Z,2:Z
+HGate 8
+HGate 1
+HGate 3
+MultiBodyMeasure 0:X,2:Z
+HGate 2
+MultiBodyMeasure 7:X,8:X
+MultiBodyMeasure 0:Z,3:X
+LogicalPauli 2 Z
+HGate 4
+HGate 6
+LogicalPauli 9 Z
+LogicalPauli 1 Z
+MultiBodyMeasure 2:X,4:X
+HGate 0
+HGate 3
+MultiBodyMeasure 8:X,7:Z
+HGate 7
+LogicalPauli 6 Z
+LogicalPauli 4 Z
+HGate 9
+MultiBodyMeasure 0:X,1:X
+MultiBodyMeasure 2:X,8:X
+LogicalPauli 6 Z
+HGate 6
+HGate 8
+HGate 8
+HGate 9
+MultiBodyMeasure 9:X,4:X
+LogicalPauli 3 Z
+MultiBodyMeasure 7:X,6:X
+HGate 4
+HGate 0
+HGate 5
+MultiBodyMeasure 3:X,7:Z
+HGate 9
+HGate 9
+LogicalPauli 5 Z
+LogicalPauli 6 X
+MultiBodyMeasure 8:X,5:X
+HGate 9
+HGate 6
+MultiBodyMeasure 3:X,6:X
+HGate 7
+LogicalPauli 9 X
+MultiBodyMeasure 5:X,0:X
+HGate 7
+HGate 9
+LogicalPauli 3 X
+HGate 3
+LogicalPauli 2 X
+HGate 0
+MultiBodyMeasure 8:Z,7:Z
+MultiBodyMeasure 0:X,3:Z
+MultiBodyMeasure 7:X,3:X
+LogicalPauli 4 X
+MultiBodyMeasure 4:Z,7:Z
+LogicalPauli 0 Z
+HGate 8
+LogicalPauli 6 X
+MultiBodyMeasure 9:Z,4:X
+HGate 8
+HGate 8
+MultiBodyMeasure 5:X,4:Z
+HGate 1
+LogicalPauli 6 Z
+LogicalPauli 4 X
+MultiBodyMeasure 9:X,3:X
+MultiBodyMeasure 4:X,5:Z
+HGate 8
+LogicalPauli 8 X
+MultiBodyMeasure 3:Z,2:Z
+MultiBodyMeasure 9:X,8:X
+HGate 5
+MultiBodyMeasure 2:Z,6:Z
+MultiBodyMeasure 6:Z,2:Z
+HGate 2
+MultiBodyMeasure 4:Z,0:X
+LogicalPauli 5 X
+MultiBodyMeasure 0:X,9:X
+HGate 2
+LogicalPauli 3 X
+LogicalPauli 2 X
+MultiBodyMeasure 9:X,3:Z
+HGate 8
+HGate 2
+MultiBodyMeasure 9:X,4:Z
+HGate 8
+MultiBodyMeasure 3:X,1:X
+MultiBodyMeasure 6:X,0:Z
+MultiBodyMeasure 3:Z,5:Z
+MultiBodyMeasure 9:Z,3:Z
+HGate 4
+MultiBodyMeasure 2:Z,1:X
+MultiBodyMeasure 7:Z,8:Z
+LogicalPauli 8 X
+MultiBodyMeasure 5:Z,3:Z
+LogicalPauli 8 Z
+LogicalPauli 6 X
+MultiBodyMeasure 8:X,7:Z
+HGate 6
+HGate 6
+MultiBodyMeasure 8:X,9:X
+MultiBodyMeasure 6:X,3:Z
+MultiBodyMeasure 7:Z,9:Z
+HGate 8
+LogicalPauli 3 X
+HGate 2
+MultiBodyMeasure 0:Z,9:Z
+HGate 0
+MultiBodyMeasure 2:Z,5:Z
+HGate 9
+MultiBodyMeasure 1:X,6:X
+HGate 2
+HGate 5
+MultiBodyMeasure 5:Z,7:X
+HGate 7
+MultiBodyMeasure 6:Z,0:Z
+HGate 7
+HGate 0
+HGate 5
+HGate 2
+HGate 3
+MultiBodyMeasure 4:Z,0:X
+HGate 7
+LogicalPauli 4 Z
+LogicalPauli 2 Z
+MultiBodyMeasure 1:X,3:Z
+HGate 3
+MultiBodyMeasure 4:Z,7:Z
+LogicalPauli 7 X
+HGate 5
+HGate 3
+MultiBodyMeasure 7:Z,1:X
+HGate 4
+LogicalPauli 3 Z
+LogicalPauli 3 X
+HGate 6
+HGate 0
+MultiBodyMeasure 9:X,0:Z
+MultiBodyMeasure 3:X,7:Z
+MultiBodyMeasure 5:X,8:Z
+LogicalPauli 4 Z
+LogicalPauli 5 X
+MultiBodyMeasure 5:Z,1:Z
+LogicalPauli 1 Z
+MultiBodyMeasure 9:X,5:Z
+HGate 9
+HGate 7
+LogicalPauli 4 Z
+LogicalPauli 9 Z
+MultiBodyMeasure 8:X,5:Z
+HGate 0
+LogicalPauli 7 Z
+MultiBodyMeasure 5:X,2:X
+HGate 4
+LogicalPauli 7 Z
+MultiBodyMeasure 3:Z,1:Z
+LogicalPauli 6 Z
+HGate 5
+HGate 6
+MultiBodyMeasure 6:Z,8:Z
+LogicalPauli 8 Z
+MultiBodyMeasure 1:X,4:Z
+LogicalPauli 4 Z
+HGate 0
+MultiBodyMeasure 1:Z,4:Z
+LogicalPauli 2 Z
+HGate 1
+MultiBodyMeasure 9:X,4:X
+MultiBodyMeasure 1:Z,6:Z
+MultiBodyMeasure 8:Z,5:X
+HGate 3
+HGate 1
+LogicalPauli 3 Z
+MultiBodyMeasure 3:X,8:Z
+MultiBodyMeasure 8:X,9:Z
+MultiBodyMeasure 2:Z,0:X
+HGate 1
+LogicalPauli 5 Z
+HGate 5
+LogicalPauli 3 X
+HGate 8
+LogicalPauli 6 X
+MultiBodyMeasure 3:Z,9:Z
+HGate 3
+MultiBodyMeasure 2:Z,3:X
+MultiBodyMeasure 3:X,7:X
+MultiBodyMeasure 0:X,6:X
+LogicalPauli 5 X
+MultiBodyMeasure 9:X,0:X
+MultiBodyMeasure 8:X,0:Z
+LogicalPauli 7 X
+HGate 3
+MultiBodyMeasure 4:X,9:X
+MultiBodyMeasure 0:X,3:X
+HGate 0
+LogicalPauli 7 Z
+MultiBodyMeasure 2:X,7:X
+MultiBodyMeasure 0:Z,8:X
+HGate 8
+MultiBodyMeasure 7:X,5:X
+HGate 9
+HGate 5
+LogicalPauli 4 X
+LogicalPauli 0 X
+HGate 4
+MultiBodyMeasure 6:Z,1:Z
+MultiBodyMeasure 6:Z,7:Z
+LogicalPauli 4 Z
+MultiBodyMeasure 7:X,5:Z
+LogicalPauli 6 X
+LogicalPauli 6 X
+HGate 2
+MultiBodyMeasure 2:X,7:Z
+LogicalPauli 9 Z
+MultiBodyMeasure 2:Z,7:X
+LogicalPauli 3 Z
+LogicalPauli 6 Z
+MultiBodyMeasure 4:X,7:Z
+MultiBodyMeasure 5:X,2:X
+LogicalPauli 0 Z
+MultiBodyMeasure 3:X,6:X
+LogicalPauli 5 X
+MultiBodyMeasure 7:X,2:X
+LogicalPauli 1 X
+HGate 4
+HGate 1
+HGate 0
+HGate 9
+MultiBodyMeasure 3:Z,1:X
+HGate 8
+LogicalPauli 1 X
+MultiBodyMeasure 2:Z,3:X
+LogicalPauli 4 X
+LogicalPauli 0 X
+HGate 2
+HGate 1
+HGate 4
+HGate 6
+LogicalPauli 0 X
+LogicalPauli 0 X
+MultiBodyMeasure 1:X,9:Z
+LogicalPauli 7 Z
+MultiBodyMeasure 1:X,4:X
+MultiBodyMeasure 3:X,8:Z
+MultiBodyMeasure 0:X,6:X
+HGate 1
+LogicalPauli 6 Z
+MultiBodyMeasure 5:X,7:X
+HGate 4
+HGate 9
+HGate 9
+LogicalPauli 0 Z
+MultiBodyMeasure 6:X,9:X
+MultiBodyMeasure 9:X,1:Z
+MultiBodyMeasure 1:X,5:X
+MultiBodyMeasure 6:Z,0:X
+HGate 5
+LogicalPauli 0 X
+MultiBodyMeasure 1:X,7:X
+MultiBodyMeasure 1:Z,6:X
+LogicalPauli 6 X
+HGate 4
+MultiBodyMeasure 5:X,8:Z
+LogicalPauli 4 Z
+HGate 2
+MultiBodyMeasure 1:Z,2:Z
+MultiBodyMeasure 4:X,8:X
+MultiBodyMeasure 5:X,6:Z
+MultiBodyMeasure 0:Z,1:Z
+HGate 8
+MultiBodyMeasure 1:Z,0:X
+LogicalPauli 3 X
+MultiBodyMeasure 1:X,7:Z
+LogicalPauli 5 X
+HGate 5
+HGate 2
+MultiBodyMeasure 1:Z,3:X
+MultiBodyMeasure 0:X,3:X
+HGate 2
+HGate 7
+LogicalPauli 2 X
+MultiBodyMeasure 9:Z,1:X
+LogicalPauli 5 Z
+MultiBodyMeasure 3:X,6:X
+MultiBodyMeasure 0:X,4:Z
+MultiBodyMeasure 1:X,0:X
+LogicalPauli 5 Z
+MultiBodyMeasure 4:X,3:Z
+LogicalPauli 7 Z
+MultiBodyMeasure 7:X,0:Z
+HGate 8
+HGate 8
+MultiBodyMeasure 9:X,1:Z
+MultiBodyMeasure 2:X,8:X
+LogicalPauli 3 Z
+HGate 7
+MultiBodyMeasure 7:Z,6:X
+MultiBodyMeasure 7:X,2:Z
+MultiBodyMeasure 5:Z,9:Z
+MultiBodyMeasure 3:X,8:X
+HGate 0
+MultiBodyMeasure 0:Z,3:X
+MultiBodyMeasure 3:Z,7:Z
+HGate 8
+MultiBodyMeasure 8:X,6:X
+HGate 5
+MultiBodyMeasure 5:X,1:X
+HGate 7
+HGate 0
+MultiBodyMeasure 4:X,9:Z
+MultiBodyMeasure 4:X,9:X
+MultiBodyMeasure 1:X,5:Z
+HGate 7
+MultiBodyMeasure 0:X,4:Z
+LogicalPauli 9 X
+HGate 6
+MultiBodyMeasure 0:X,5:X
+MultiBodyMeasure 1:Z,3:X
+HGate 0
+HGate 3
+LogicalPauli 3 Z
+HGate 9
+LogicalPauli 6 X
+HGate 9
+LogicalPauli 3 X
+HGate 8
+MultiBodyMeasure 6:Z,8:Z
+LogicalPauli 9 Z
+HGate 0
+HGate 5
+HGate 1
+HGate 9
+MultiBodyMeasure 7:Z,9:Z
+MultiBodyMeasure 5:X,6:X
+MultiBodyMeasure 1:Z,9:X
+HGate 8
+MultiBodyMeasure 3:X,0:Z
+LogicalPauli 0 Z
+HGate 0
+MultiBodyMeasure 0:Z,5:X
+HGate 9
+LogicalPauli 2 X
+MultiBodyMeasure 2:Z,6:X
+HGate 5
+MultiBodyMeasure 0:X,8:Z
+HGate 9
+HGate 8
+MultiBodyMeasure 8:Z,9:X
+LogicalPauli 9 X
+HGate 0
+MultiBodyMeasure 2:X,3:Z
+HGate 0
+LogicalPauli 5 X
+LogicalPauli 6 X
+HGate 1
+MultiBodyMeasure 9:X,0:Z
+HGate 5
+MultiBodyMeasure 7:X,6:X
+LogicalPauli 9 X
+HGate 3
+LogicalPauli 1 X
+MultiBodyMeasure 7:Z,0:X
+HGate 0
+MultiBodyMeasure 6:Z,4:X
+LogicalPauli 1 Z
+LogicalPauli 9 Z
+MultiBodyMeasure 0:Z,9:X
+HGate 7
+MultiBodyMeasure 4:X,9:X
+HGate 1
+MultiBodyMeasure 3:Z,4:X
+HGate 7
+HGate 5
+MultiBodyMeasure 8:Z,0:X
+LogicalPauli 0 X
+MultiBodyMeasure 4:X,5:X
+HGate 7
+HGate 9
+MultiBodyMeasure 6:Z,2:Z
+LogicalPauli 1 X
+HGate 6
+HGate 2
+HGate 9
+LogicalPauli 9 Z
+MultiBodyMeasure 5:Z,8:Z
+HGate 5
+MultiBodyMeasure 9:Z,3:X
+HGate 9
+LogicalPauli 9 X
+HGate 8
+LogicalPauli 0 X
+LogicalPauli 5 X
+LogicalPauli 4 X
+MultiBodyMeasure 4:Z,2:X
+MultiBodyMeasure 5:Z,4:X
+HGate 4
+HGate 9
+HGate 7
+MultiBodyMeasure 9:Z,8:X
+HGate 2
+LogicalPauli 8 Z
+LogicalPauli 9 Z
+LogicalPauli 5 X
+HGate 5
+HGate 2
+HGate 4
+HGate 2
+LogicalPauli 7 X
+MultiBodyMeasure 8:Z,9:Z
+HGate 2
+HGate 2
+MultiBodyMeasure 6:Z,8:X
+LogicalPauli 4 Z
+MultiBodyMeasure 8:Z,5:Z
+LogicalPauli 6 Z
+LogicalPauli 9 X
+LogicalPauli 3 Z
+LogicalPauli 7 X
+HGate 6
+MultiBodyMeasure 6:Z,2:X
+HGate 2
+MultiBodyMeasure 8:X,4:Z
+HGate 0
+LogicalPauli 8 Z
+MultiBodyMeasure 7:X,6:Z
+LogicalPauli 2 Z
+HGate 2
+HGate 7
+LogicalPauli 5 X
+HGate 6
+MultiBodyMeasure 9:X,3:X
+HGate 3
+HGate 9
+HGate 6
+MultiBodyMeasure 3:X,8:Z
+HGate 3
+LogicalPauli 1 Z
+MultiBodyMeasure 9:X,2:Z
+LogicalPauli 9 X
+MultiBodyMeasure 9:Z,3:X
+MultiBodyMeasure 1:X,9:X
+LogicalPauli 0 Z
+MultiBodyMeasure 4:X,0:Z
+MultiBodyMeasure 5:X,4:Z
+MultiBodyMeasure 5:X,6:X
+LogicalPauli 1 Z
+HGate 1
+LogicalPauli 1 X
+MultiBodyMeasure 0:Z,9:Z
+LogicalPauli 0 X
+HGate 4
+HGate 4
+MultiBodyMeasure 0:X,3:Z
+LogicalPauli 9 Z
+MultiBodyMeasure 1:X,6:Z
+LogicalPauli 5 Z
+HGate 9
+MultiBodyMeasure 2:X,6:X
+MultiBodyMeasure 1:X,8:Z
+HGate 2
+LogicalPauli 5 Z
+MultiBodyMeasure 5:Z,4:X
+MultiBodyMeasure 3:Z,1:Z
+MultiBodyMeasure 9:Z,8:X
+MultiBodyMeasure 6:X,4:X
+MultiBodyMeasure 1:Z,5:X
+HGate 9
+MultiBodyMeasure 7:X,3:Z
+LogicalPauli 3 Z
+LogicalPauli 9 X
+MultiBodyMeasure 3:Z,7:X
+MultiBodyMeasure 1:Z,9:X
+MultiBodyMeasure 7:X,1:X
+MultiBodyMeasure 8:X,4:Z
+MultiBodyMeasure 3:X,6:Z
+HGate 3
+LogicalPauli 3 Z
+HGate 9
+HGate 4
+MultiBodyMeasure 5:Z,6:X
+MultiBodyMeasure 0:Z,8:X
+LogicalPauli 1 Z
+MultiBodyMeasure 5:X,1:X
+LogicalPauli 6 X
+LogicalPauli 8 Z
+MultiBodyMeasure 1:Z,8:X
+HGate 7
+HGate 3
+MultiBodyMeasure 2:X,6:X
+LogicalPauli 3 X
+HGate 5
+MultiBodyMeasure 2:X,7:X
+HGate 8
+LogicalPauli 7 X
+LogicalPauli 9 Z
+LogicalPauli 6 Z
+LogicalPauli 7 X
+MultiBodyMeasure 9:Z,7:X
+LogicalPauli 7 X
+MultiBodyMeasure 2:Z,4:Z
+HGate 8
+LogicalPauli 8 X
+MultiBodyMeasure 3:X,5:Z
+MultiBodyMeasure 9:Z,7:X
+LogicalPauli 8 Z
+LogicalPauli 4 X
+MultiBodyMeasure 3:Z,6:Z
+MultiBodyMeasure 2:Z,9:X
+HGate 8
+MultiBodyMeasure 7:X,5:X
+HGate 5
+HGate 8
+LogicalPauli 0 Z
+HGate 5
+HGate 8
+HGate 8
+MultiBodyMeasure 0:X,8:Z
+LogicalPauli 4 X
+LogicalPauli 6 X
+MultiBodyMeasure 0:X,5:Z
+LogicalPauli 1 X
+MultiBodyMeasure 1:X,8:X
+MultiBodyMeasure 2:Z,4:Z
+LogicalPauli 2 Z
+HGate 1
+HGate 2
+LogicalPauli 4 X
+MultiBodyMeasure 3:Z,2:X
+HGate 7
+HGate 8
+HGate 5
+MultiBodyMeasure 7:X,1:X
+LogicalPauli 5 X
+MultiBodyMeasure 3:X,1:X
+MultiBodyMeasure 3:X,6:Z
+MultiBodyMeasure 3:X,2:X
+LogicalPauli 6 X
+LogicalPauli 1 X
+LogicalPauli 6 Z
+MultiBodyMeasure 8:X,5:Z
+LogicalPauli 4 Z
+HGate 5
+HGate 8
+HGate 3
+MultiBodyMeasure 2:Z,3:X
+LogicalPauli 5 X
+HGate 5
+HGate 8
+MultiBodyMeasure 5:X,2:Z
+HGate 1
+MultiBodyMeasure 5:X,0:X
+LogicalPauli 1 Z
+MultiBodyMeasure 0:X,7:Z
+LogicalPauli 8 Z
+HGate 5
+HGate 0
+HGate 0
+HGate 4
+MultiBodyMeasure 1:X,8:X
+HGate 7
+HGate 4
+LogicalPauli 0 X
+MultiBodyMeasure 4:X,7:Z
+HGate 1
+LogicalPauli 0 X
+HGate 6
+MultiBodyMeasure 0:Z,1:X
+MultiBodyMeasure 5:X,7:X
+MultiBodyMeasure 9:Z,2:Z
+HGate 1
+MultiBodyMeasure 1:Z,4:Z
+LogicalPauli 5 Z
+LogicalPauli 1 Z
+MultiBodyMeasure 2:X,7:Z
+LogicalPauli 2 X
+MultiBodyMeasure 4:X,0:X
+HGate 3
+LogicalPauli 5 X
+MultiBodyMeasure 4:Z,0:X
+MultiBodyMeasure 4:Z,3:Z
+MultiBodyMeasure 1:Z,7:X
+HGate 0
+MultiBodyMeasure 3:Z,6:Z
+LogicalPauli 6 X
+LogicalPauli 4 X
+LogicalPauli 2 X
+MultiBodyMeasure 9:Z,1:Z
+LogicalPauli 8 Z
+HGate 9
+LogicalPauli 3 X
+HGate 1
+LogicalPauli 0 X
+LogicalPauli 3 Z
+LogicalPauli 5 X
+MultiBodyMeasure 1:X,5:X
+LogicalPauli 3 Z
+LogicalPauli 2 X
+LogicalPauli 0 X
+LogicalPauli 3 Z
+LogicalPauli 9 X
+LogicalPauli 7 X
+HGate 8
+MultiBodyMeasure 3:X,7:Z
+HGate 4
+HGate 1
+MultiBodyMeasure 3:X,8:Z
+LogicalPauli 1 X
+MultiBodyMeasure 9:X,3:X
+LogicalPauli 7 Z
+LogicalPauli 6 Z
+LogicalPauli 1 X
+MultiBodyMeasure 9:Z,0:Z
+HGate 9
+MultiBodyMeasure 2:X,8:Z
+LogicalPauli 4 X
+HGate 5
+LogicalPauli 2 Z
+LogicalPauli 7 Z
+LogicalPauli 5 Z
+MultiBodyMeasure 4:X,6:X
+LogicalPauli 0 X
+MultiBodyMeasure 2:Z,3:X
+LogicalPauli 6 Z
+MultiBodyMeasure 6:X,8:Z
+MultiBodyMeasure 2:X,6:X
+HGate 5
+LogicalPauli 7 Z
+HGate 8
+HGate 6
+LogicalPauli 0 X
+HGate 0
+LogicalPauli 7 X
+LogicalPauli 3 Z
+MultiBodyMeasure 9:X,7:X
+HGate 9
+HGate 9
+MultiBodyMeasure 6:X,7:X
+HGate 7
+MultiBodyMeasure 9:X,1:Z
+HGate 0
+MultiBodyMeasure 1:X,2:X
+MultiBodyMeasure 3:X,4:Z
+MultiBodyMeasure 8:Z,5:Z
+HGate 9
+HGate 3
+LogicalPauli 7 X
