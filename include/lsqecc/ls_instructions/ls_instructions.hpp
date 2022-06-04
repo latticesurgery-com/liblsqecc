@@ -63,6 +63,7 @@ struct RotateSingleCellPatch {
     bool operator==(const RotateSingleCellPatch&) const = default;
 };
 
+// TODO rename to transversal?
 struct SingleQubitOp {
     PatchId target;
 

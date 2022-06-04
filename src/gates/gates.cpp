@@ -59,7 +59,7 @@ std::vector<gates::Gate> decompose_CRZ_gate(const gates::ControlledGate& crz_gat
 
 std::vector<gates::Gate> to_clifford_plus_t(const gates::Gate& gate)
 {
-    if(const auto* basic_gate = std::get_if<gates::BasicGate>(&gate))
+    if(const auto* basic_gate = std::get_if<gates::BasicSingleQubitGate>(&gate))
         return {*basic_gate};
     else if (const auto* rz_gate = std::get_if<gates::RZ>(&gate))
         throw std::runtime_error{"Not implemented: rz to clifford+T"};
