@@ -61,7 +61,7 @@ namespace lsqecc
                 .description("File name of file with LS Instructions. If not provided will read LS Instructions from stdin")
                 .required(false);
         parser.add_argument()
-                .names({"-q", "--qasm"})
+                .names({"-q", "--qasm"}) // TODO remove and use extension
                 .description("File name of file with QASM. If not provided will read LS Instructions (not QASM) from stdin")
                 .required(false);
         parser.add_argument()
@@ -169,11 +169,12 @@ namespace lsqecc
         {
             file_stream = std::ifstream(parser.get<std::string>("q"));
             if(file_stream.fail()){
-                err_stream << "Could not open instruction file: " << parser.get<std::string>("q") <<std::endl;
+                err_stream << "Could not open instruc`tion file: " << parser.get<std::string>("q") <<std::endl;
                 return -1;
             }
 
             gate_stream = std::make_unique<GateStreamFromFile>(file_stream);
+            instruction_stream = std::make_unique<LSInstructionStreamFromGateStream>(*gate_stream);
         }
 
 

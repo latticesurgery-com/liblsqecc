@@ -18,13 +18,13 @@ struct Fraction{
 };
 
 
-using QubitNum = size_t;
+using QubitNum = uint32_t;
 
 
 namespace gates
 {
 
-struct BasicGate{
+struct BasicSingleQubitGate{
     enum class Type : uint8_t
     {
         X = static_cast<uint8_t>(PauliOperator::X),
@@ -47,7 +47,7 @@ struct RZ
 };
 
 
-using SingleQubitGate = std::variant<BasicGate, RZ>;
+using SingleQubitGate = std::variant<BasicSingleQubitGate, RZ>;
 
 struct ControlledGate
 {
@@ -59,8 +59,8 @@ struct ControlledGate
 
 
 #define MAKE_BASIC_GATE(G)\
-inline constexpr BasicGate G(QubitNum target_qubit){\
-    return BasicGate{target_qubit, BasicGate::Type::G};\
+inline constexpr BasicSingleQubitGate G(QubitNum target_qubit){\
+    return BasicSingleQubitGate{target_qubit, BasicSingleQubitGate::Type::G};\
 }
 
 MAKE_BASIC_GATE(X);
@@ -80,7 +80,7 @@ inline constexpr ControlledGate CRZ(QubitNum target_qubit, QubitNum control_qubi
     return {target_qubit, RZ{target_qubit, pi_fraction}};
 }
 
-using Gate = std::variant<BasicGate, RZ, ControlledGate>;
+using Gate = std::variant<BasicSingleQubitGate, RZ, ControlledGate>;
 
 } // gates namespace
 
