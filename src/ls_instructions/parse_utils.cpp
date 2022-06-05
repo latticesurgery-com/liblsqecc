@@ -2,7 +2,6 @@
 #include <lsqecc/patches/patches.hpp>
 
 #include <vector>
-#include <ranges>
 #include <charconv>
 #include <lstk/lstk.hpp>
 

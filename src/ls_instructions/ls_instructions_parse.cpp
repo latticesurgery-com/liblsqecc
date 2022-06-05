@@ -5,7 +5,7 @@
 
 #include <tsl/ordered_set.h>
 
-#include <ranges>
+
 #include <stdexcept>
 
 namespace lsqecc {
