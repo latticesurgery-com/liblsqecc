@@ -1,6 +1,5 @@
 #include <lsqecc/ls_instructions/ls_instructions.hpp>
 
-#include <ranges>
 
 
 namespace lsqecc {

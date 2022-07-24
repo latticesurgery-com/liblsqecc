@@ -32,7 +32,7 @@ std::vector<gates::Gate> decompose_CRZ_gate(const gates::ControlledGate& crz_gat
     const auto& rz_gate = std::get<gates::RZ>(crz_gate.target_gate);
 
     /*
-     * Use the follwing identity:
+     * Use the following identity:
      *                                 ┌───────────┐
      * q_0: ─────■─────           q_0: ┤ Rz(π/(2n))├──■──────────────────■──
      *      ┌────┴────┐     =          ├───────────┤┌─┴─┐┌────────────┐┌─┴─┐
