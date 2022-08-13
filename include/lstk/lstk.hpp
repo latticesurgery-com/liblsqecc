@@ -153,6 +153,13 @@ T queue_pop(std::queue<T>& queue)
     return v;
 }
 
+// Leaves source empty
+template<class T>
+void queue_extend(std::queue<T>& target, std::queue<T>& source)
+{
+    while(!source.empty()) target.push(queue_pop(source));
+}
+
 }
 
 #define LSTK_THROW(exception_name, args) \

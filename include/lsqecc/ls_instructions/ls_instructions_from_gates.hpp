@@ -11,12 +11,12 @@ class LSIinstructionFromGatesGenerator
 {
 public:
     explicit LSIinstructionFromGatesGenerator(PatchId magic_state_id_start);
-private:
-    PatchId get_next_magic_state_id();
 
     std::queue<LSInstruction> make_t_gate_instructions(PatchId target_id);
     std::queue<LSInstruction> make_cnot_instructions(PatchId source_id, PatchId target_id);
 
+private:
+    PatchId get_next_magic_state_id();
     PatchId magic_state_id_counter_;
 };
 

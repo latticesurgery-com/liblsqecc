@@ -15,7 +15,7 @@ PatchId LSIinstructionFromGatesGenerator::get_next_magic_state_id()
 
 std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_t_gate_instructions(PatchId target_id)
 {
-    std::queue<LSInstruction> next_instructions;
+    std::queue<LSInstruction>   next_instructions;
     PatchId new_magic_state_id = get_next_magic_state_id();
     next_instructions.push({.operation={MagicStateRequest{new_magic_state_id, MagicStateRequest::DEFAULT_WAIT}}});
     next_instructions.push({.operation={

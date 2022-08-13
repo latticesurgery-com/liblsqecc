@@ -83,7 +83,8 @@ LSInstruction LSInstructionStreamFromGateStream::get_next_instruction()
                 SINGLE_QUBIT_OP_CASE(S)
 #undef SINGLE_QUBIT_OP_CASE
                 case gates::BasicSingleQubitGate::Type::T:
-                    make_t_gate_instructions( sq_gate->target_qubit);
+                    auto instructions = instruction_generator_.make_t_gate_instructions( sq_gate->target_qubit);
+                    lstk::queue_extend(next_instructions_, instructions);
                     break;
             }
         }
@@ -94,7 +95,11 @@ LSInstruction LSInstructionStreamFromGateStream::get_next_instruction()
             else if(rz_gate->pi_fraction.num == 1 && rz_gate->pi_fraction.den == 2)
                 next_instructions_.push({.operation={SingleQubitOp{rz_gate->target_qubit,SingleQubitOp::Operator::S}}});
             else if(rz_gate->pi_fraction.num == 1 && rz_gate->pi_fraction.den == 4)
-                make_t_gate_instructions(rz_gate->target_qubit);
+            {
+                auto instructions = instruction_generator_.make_t_gate_instructions(rz_gate->target_qubit);
+                lstk::queue_extend(next_instructions_, instructions);
+            }
+
             else
                 throw std::runtime_error(lstk::cat(
                         "Cannot approximate R_z(",rz_gate->pi_fraction.num,",",rz_gate->pi_fraction.den,")"));
