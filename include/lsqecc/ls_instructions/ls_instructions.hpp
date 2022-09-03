@@ -71,7 +71,7 @@ struct SingleQubitOp {
         X = static_cast<uint8_t>(PauliOperator::X),
         Z = static_cast<uint8_t>(PauliOperator::Z),
         H,
-        S,
+        S
     };
 
     Operator op;
@@ -98,7 +98,8 @@ struct LSInstruction {
             MagicStateRequest,
             SingleQubitOp,
             RotateSingleCellPatch,
-            BusyRegion> operation;
+            BusyRegion
+            > operation;
 
     std::vector<PatchId> get_operating_patches() const;
     bool operator==(const LSInstruction&) const = default;
@@ -112,6 +113,92 @@ struct InMemoryLogicalLatticeComputation
 
 
 std::ostream& operator<<(std::ostream& os, const LSInstruction& instruction);
+
+std::ostream& operator<<(std::ostream& os, const DeclareLogicalQubitPatches& instruction);
+std::ostream& operator<<(std::ostream& os, const SinglePatchMeasurement& instruction);
+std::ostream& operator<<(std::ostream& os, const MultiPatchMeasurement& instruction);
+std::ostream& operator<<(std::ostream& os, const PatchInit& instruction);
+std::ostream& operator<<(std::ostream& os, const MagicStateRequest& instruction);
+std::ostream& operator<<(std::ostream& os, const SingleQubitOp& instruction);
+std::ostream& operator<<(std::ostream& os, const RotateSingleCellPatch& instruction);
+std::ostream& operator<<(std::ostream& os, const BusyRegion& instruction);
+
+template <class T>
+struct LSInstructionPrint{static constexpr std::string_view name = "<LSInstruction>";};
+
+
+// TODO this mapping is not consistent, go through the codebase and make it so
+template<>
+struct LSInstructionPrint<DeclareLogicalQubitPatches>{
+    static constexpr std::string_view name = "DeclareLogicalQubitPatches";
+};
+
+template<>
+struct LSInstructionPrint<SinglePatchMeasurement>{
+    static constexpr std::string_view name = "MeasureSinglePatch";
+};
+
+template<>
+struct LSInstructionPrint<MultiPatchMeasurement>{
+    static constexpr std::string_view name = "MeasureSinglePatch";
+};
+
+template<>
+struct LSInstructionPrint<PatchInit>{
+    static constexpr std::string_view name = "Init";
+};
+
+template<>
+struct LSInstructionPrint<MagicStateRequest>{
+    static constexpr std::string_view name = "RequestMagicState";
+};
+
+template<>
+struct LSInstructionPrint<SingleQubitOp>{
+    static constexpr std::string_view name = "Gate";
+};
+
+template<>
+struct LSInstructionPrint<RotateSingleCellPatch>
+{
+    static constexpr std::string_view name = "RotateSingleCellPatch";
+};
+
+template<>
+struct LSInstructionPrint<BusyRegion>{
+    static constexpr std::string_view name = "BusyRegion";
+};
+
+
+
+template <PatchInit::InitializeableStates State>
+struct InitializeableStatePrint{static constexpr std::string_view name = "<PatchInit::InitializeableState";};
+
+static inline std::string_view InitializeableStates_to_string(PatchInit::InitializeableStates state)
+{
+    using namespace std::string_view_literals;
+    switch(state)
+    {
+        case PatchInit::InitializeableStates::Zero:
+            return "|0>"sv;
+        case PatchInit::InitializeableStates::Plus:
+            return "|+>"sv;
+    }
+}
+
+
+static inline std::string_view SingleQuibitOperatorName_to_string(SingleQubitOp::Operator op)
+{
+    using namespace std::string_view_literals;
+    switch(op)
+    {
+        case SingleQubitOp::Operator::X: return "X"sv;
+        case SingleQubitOp::Operator::Z: return "Z"sv;
+        case SingleQubitOp::Operator::H: return "H"sv;
+        case SingleQubitOp::Operator::S: return "S"sv;
+    }
+}
+
 
 }
 
