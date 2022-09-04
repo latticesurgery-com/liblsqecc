@@ -157,14 +157,14 @@ namespace lsqecc
             }
 
             file_stream = std::ifstream(parser.get<std::string>("i"));
-            if(file_stream.fail()){
+            if(file_stream.fail() || !std::filesystem::exists(parser.get<std::string>("i"))){
                 err_stream << "Could not open instruction file: " << parser.get<std::string>("i") <<std::endl;
                 return -1;
             }
 
             instruction_stream = std::make_unique<LSInstructionStreamFromFile>(file_stream);
         }
-        if(!instruction_stream)
+        if(!instruction_stream && !parser.exists("q"))
             instruction_stream = std::make_unique<LSInstructionStreamFromFile>(in_stream);
 
 
@@ -172,8 +172,8 @@ namespace lsqecc
         if(parser.exists("q"))
         {
             file_stream = std::ifstream(parser.get<std::string>("q"));
-            if(file_stream.fail()){
-                err_stream << "Could not open instruc`tion file: " << parser.get<std::string>("q") <<std::endl;
+            if(file_stream.fail() || !std::filesystem::exists(parser.get<std::string>("q"))){
+                err_stream << "Could not open instruction file: " << parser.get<std::string>("q") <<std::endl;
                 return -1;
             }
 

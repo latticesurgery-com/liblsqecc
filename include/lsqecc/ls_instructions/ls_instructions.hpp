@@ -124,7 +124,7 @@ std::ostream& operator<<(std::ostream& os, const RotateSingleCellPatch& instruct
 std::ostream& operator<<(std::ostream& os, const BusyRegion& instruction);
 
 template <class T>
-struct LSInstructionPrint{static constexpr std::string_view name = "<LSInstruction>";};
+struct LSInstructionPrint{};
 
 
 // TODO this mapping is not consistent, go through the codebase and make it so
@@ -172,7 +172,7 @@ struct LSInstructionPrint<BusyRegion>{
 
 
 template <PatchInit::InitializeableStates State>
-struct InitializeableStatePrint{static constexpr std::string_view name = "<PatchInit::InitializeableState";};
+struct InitializeableStatePrint{};
 
 static inline std::string_view InitializeableStates_to_string(PatchInit::InitializeableStates state)
 {

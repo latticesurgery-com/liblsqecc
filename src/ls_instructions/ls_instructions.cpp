@@ -36,8 +36,8 @@ std::vector<PatchId> LSInstruction::get_operating_patches() const
 
 std::ostream& operator<<(std::ostream& os, const LSInstruction& instruction)
 {
-
-    return os << "<An LS Instruction>";
+    std::visit([&os](auto&& op){ os << op;}, instruction.operation);
+    return os;
 }
 
 std::ostream& operator<<(std::ostream& os, const DeclareLogicalQubitPatches& instruction)

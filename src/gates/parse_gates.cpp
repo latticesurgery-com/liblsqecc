@@ -60,11 +60,11 @@ QubitNum get_index_arg(std::string_view s)
 
 gates::Gate parse_qasm_gate(const Line& line)
 {
-    if(line.instruction == "x") return gates::X(try_parse_int<QubitNum>(line.args[0]));
-    if(line.instruction == "z") return gates::Z(try_parse_int<QubitNum>(line.args[0]));
-    if(line.instruction == "s") return gates::S(try_parse_int<QubitNum>(line.args[0]));
-    if(line.instruction == "t") return gates::T(try_parse_int<QubitNum>(line.args[0]));
-    if(line.instruction == "h") return gates::H(try_parse_int<QubitNum>(line.args[0]));
+    if(line.instruction == "x") return gates::X(get_index_arg(line.args[0]));
+    if(line.instruction == "z") return gates::Z(get_index_arg(line.args[0]));
+    if(line.instruction == "s") return gates::S(get_index_arg(line.args[0]));
+    if(line.instruction == "t") return gates::T(get_index_arg(line.args[0]));
+    if(line.instruction == "h") return gates::H(get_index_arg(line.args[0]));
 
     if(line.instruction.substr(0,2) == "rz")
     {
