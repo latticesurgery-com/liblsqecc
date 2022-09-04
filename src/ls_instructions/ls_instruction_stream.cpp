@@ -161,5 +161,13 @@ const tsl::ordered_set<PatchId>& LSInstructionStreamFromGateStream::core_qubits(
     return core_qubits_;
 }
 
+std::ostream& print_all_ls_instructions_to_string(std::ostream& os, std::unique_ptr<LSInstructionStream>&& ls_instruction_stream)
+{
+    while(ls_instruction_stream->has_next_instruction())
+        os << ls_instruction_stream->get_next_instruction() << "\n";
+    return os;
+}
+
+
 
 }

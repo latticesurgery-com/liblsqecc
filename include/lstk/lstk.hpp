@@ -160,6 +160,21 @@ void queue_extend(std::queue<T>& target, std::queue<T>& source)
     while(!source.empty()) target.push(queue_pop(source));
 }
 
+
+template<class IterableOfStringifiables>
+std::string join(IterableOfStringifiables iterable_of_stringifiables, std::string_view separator)
+{
+    std::string acc;
+    bool begin = true;
+    for(const auto& v: iterable_of_stringifiables)
+    {
+        if(begin) acc = v;
+        else acc = lstk::cat(acc, separator, v);
+        begin = false;
+    }
+    return acc;
+}
+
 }
 
 #define LSTK_THROW(exception_name, args) \

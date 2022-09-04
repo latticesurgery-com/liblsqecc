@@ -64,6 +64,8 @@ private:
 };
 
 
+std::ostream& print_all_ls_instructions_to_string(std::ostream& os, std::unique_ptr<LSInstructionStream>&& ls_instruction_stream);
+
 
 }
 

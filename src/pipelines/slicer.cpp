@@ -95,7 +95,12 @@ namespace lsqecc
                 .required(false);
         parser.add_argument()
                 .names({"--graceful"})
-                .description("If there is an error when slicing, print the error and terminate");
+                .description("If there is an error when slicing, print the error and terminate")
+                .required(false);
+        parser.add_argument()
+                .names({"--lli"})
+                .description("Output LLI instead of JSONs")
+                .required(false);
         parser.enable_help();
 
         auto err = parser.parse(argc, argv);
@@ -110,7 +115,6 @@ namespace lsqecc
             parser.print_help();
             return 0;
         }
-
 
         std::reference_wrapper<std::ostream> write_slices_stream = std::ref(std::cout);
         std::unique_ptr<std::ostream> _ofstream_store;
@@ -161,7 +165,7 @@ namespace lsqecc
             instruction_stream = std::make_unique<LSInstructionStreamFromFile>(file_stream);
         }
         if(!instruction_stream)
-            instruction_stream = std::make_unique<LSInstructionStreamFromFile>(std::cin);
+            instruction_stream = std::make_unique<LSInstructionStreamFromFile>(in_stream);
 
 
         std::unique_ptr<GateStream> gate_stream;
@@ -177,6 +181,11 @@ namespace lsqecc
             instruction_stream = std::make_unique<LSInstructionStreamFromGateStream>(*gate_stream);
         }
 
+        if(parser.exists("lli"))
+        {
+            print_all_ls_instructions_to_string(out_stream, std::move(instruction_stream));
+            return 0;
+        }
 
         std::unique_ptr<Layout> layout;
         if(parser.exists("l"))
