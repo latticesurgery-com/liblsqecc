@@ -60,11 +60,17 @@ QubitNum get_index_arg(std::string_view s)
 
 gates::Gate parse_qasm_gate(const Line& line)
 {
-    if(line.instruction == "x") return gates::X(get_index_arg(line.args[0]));
-    if(line.instruction == "z") return gates::Z(get_index_arg(line.args[0]));
-    if(line.instruction == "s") return gates::S(get_index_arg(line.args[0]));
-    if(line.instruction == "t") return gates::T(get_index_arg(line.args[0]));
-    if(line.instruction == "h") return gates::H(get_index_arg(line.args[0]));
+    if(line.instruction == "x") return gates::X(get_index_arg(line.args.at(0)));
+    if(line.instruction == "z") return gates::Z(get_index_arg(line.args.at(0)));
+    if(line.instruction == "s") return gates::S(get_index_arg(line.args.at(0)));
+    if(line.instruction == "t") return gates::T(get_index_arg(line.args.at(0)));
+    if(line.instruction == "h") return gates::H(get_index_arg(line.args.at(0)));
+
+    if(line.instruction == "cx")
+    {
+        if(line.args.size() != 2) throw GateParseException{lstk::cat("cx gate must have 2 args")};
+        return gates::CNOT(get_index_arg(line.args.at(1)), get_index_arg(line.args.at(0)));
+    }
 
     if(line.instruction.substr(0,2) == "rz")
     {
