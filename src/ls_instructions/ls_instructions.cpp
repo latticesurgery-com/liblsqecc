@@ -1,6 +1,7 @@
 #include <lsqecc/ls_instructions/ls_instructions.hpp>
 
 #include <sstream>
+#include <vector>
 
 
 namespace lsqecc {
@@ -58,9 +59,10 @@ std::ostream& operator<<(std::ostream& os, const MultiPatchMeasurement& instruct
     os << LSInstructionPrint<MultiPatchMeasurement>::name << " ";
     if(instruction.is_negative) os << "-";
 
+    std::vector<std::string> op_patch_mapping;
     for(const auto& [patch_id, local_observable] : instruction.observable)
-        os << patch_id << "," << PauliOperator_to_string(local_observable);
-    return os;
+        op_patch_mapping.push_back(lstk::cat(patch_id, ":", PauliOperator_to_string(local_observable));
+    return os << lstk::join(op_patch_mapping,",");
 }
 
 
