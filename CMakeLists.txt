@@ -14,7 +14,9 @@ set(CMAKE_CXX_STANDARD 20)
 #set(CMAKE_BUILD_TYPE Debug)
 
 if (${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
+    message("Setting stdlib=libc++")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++ -lc++abi")
 endif ()
 
 
@@ -60,7 +62,10 @@ add_library(
         src/layout/ascii_layout_spec.cpp
         src/layout/layout.cpp
         src/pipelines/slicer.cpp
-        src/gates/gates.cpp src/patches/dense_slice.cpp src/patches/dense_patch_computation.cpp)
+        src/gates/gates.cpp
+        src/patches/dense_slice.cpp
+        src/patches/dense_patch_computation.cpp
+        src/ls_instructions/ls_instructions_from_gates.cpp)
 
 set(LSQECCLIB_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/include")
 

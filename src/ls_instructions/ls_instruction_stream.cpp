@@ -1,4 +1,3 @@
-
 #include <lstk/lstk.hpp>
 
 #include <lsqecc/ls_instructions/ls_instruction_stream.hpp>
@@ -10,7 +9,6 @@
 
 namespace lsqecc {
 using namespace std::string_literals;
-
 
 void LSInstructionStreamFromFile::advance_instruction()
 {
@@ -60,6 +58,8 @@ LSInstruction LSInstructionStreamFromFile::get_next_instruction()
     return instruction;
 }
 
+
+
 LSInstruction LSInstructionStreamFromGateStream::get_next_instruction()
 {
     if(next_instructions_.empty())
@@ -67,7 +67,69 @@ LSInstruction LSInstructionStreamFromGateStream::get_next_instruction()
         if(!gate_stream_.has_next_gate())
             throw std::logic_error{"LSInstructionStreamFromGateStream: No more gates but requesting instructions"};
 
-        // RESUME HERE BREAKING INSTRUCIONS DOWN AND PUSHING THEM TO next_instructions_
+        gates::Gate next_gate = gate_stream_.get_next_gate();
+
+        if(const auto* sq_gate = std::get_if<gates::BasicSingleQubitGate>(&next_gate))
+        {
+            switch(sq_gate->gate_type)
+            {
+#define SINGLE_QUBIT_OP_CASE(Op)\
+                case gates::BasicSingleQubitGate::Type::Op: \
+                    next_instructions_.push({.operation={SingleQubitOp{sq_gate->target_qubit,SingleQubitOp::Operator::Op}}});\
+                    break;
+                SINGLE_QUBIT_OP_CASE(Z)
+                SINGLE_QUBIT_OP_CASE(X)
+                SINGLE_QUBIT_OP_CASE(H)
+                SINGLE_QUBIT_OP_CASE(S)
+#undef SINGLE_QUBIT_OP_CASE
+                case gates::BasicSingleQubitGate::Type::T:
+                    auto instructions = instruction_generator_.make_t_gate_instructions( sq_gate->target_qubit);
+                    lstk::queue_extend(next_instructions_, instructions);
+                    break;
+            }
+        }
+        else if(const auto* rz_gate = std::get_if<gates::RZ>(&next_gate))
+        {
+            if(rz_gate->pi_fraction.num == 1 && rz_gate->pi_fraction.den == 1)
+                next_instructions_.push({.operation={SingleQubitOp{rz_gate->target_qubit,SingleQubitOp::Operator::Z}}});
+            else if(rz_gate->pi_fraction.num == 1 && rz_gate->pi_fraction.den == 2)
+                next_instructions_.push({.operation={SingleQubitOp{rz_gate->target_qubit,SingleQubitOp::Operator::S}}});
+            else if(rz_gate->pi_fraction.num == 1 && rz_gate->pi_fraction.den == 4)
+            {
+                auto instructions = instruction_generator_.make_t_gate_instructions(rz_gate->target_qubit);
+                lstk::queue_extend(next_instructions_, instructions);
+            }
+
+            else
+                throw std::runtime_error(lstk::cat(
+                        "Cannot approximate R_z(",rz_gate->pi_fraction.num,",",rz_gate->pi_fraction.den,")"));
+        }
+        else if(const auto* controlled_gate = std::get_if<gates::ControlledGate>(&next_gate))
+        {
+            if(const auto* target_gate = std::get_if<gates::BasicSingleQubitGate>(&controlled_gate->target_gate))
+            {
+                if(target_gate->gate_type == gates::BasicSingleQubitGate::Type::X)
+                {
+                    LSTK_NOT_IMPLEMENTED;
+                }
+                else if (target_gate->gate_type == gates::BasicSingleQubitGate::Type::Z)
+                {
+                    LSTK_NOT_IMPLEMENTED;
+                }
+                else
+                    throw std::runtime_error{lstk::cat(
+                            "Gate type of index ", static_cast<size_t>(target_gate->gate_type), "Not supported for control")};
+            }
+            else if(const auto* target_gate = std::get_if<gates::BasicSingleQubitGate>(&controlled_gate->target_gate))
+            {
+                LSTK_NOT_IMPLEMENTED;
+            }
+
+        }
+        else
+        {
+            LSTK_UNREACHABLE;
+        }
 
     }
 
@@ -76,16 +138,36 @@ LSInstruction LSInstructionStreamFromGateStream::get_next_instruction()
 
 
 
-LSInstructionStreamFromGateStream::LSInstructionStreamFromGateStream(GateStream& gate_stream)
-: gate_stream_(gate_stream)
+tsl::ordered_set<PatchId> core_qubits_from_gate_stream(GateStream& gate_stream)
 {
-    for(PatchId id = 0; id <gate_stream_.get_qreg().size; id++)
-        core_qubits_.insert(id);
+    tsl::ordered_set<PatchId> core_qubits;
+    for(PatchId id = 0; id <gate_stream.get_qreg().size; id++)
+        core_qubits.insert(id);
+    assert(core_qubits.size());
+    return core_qubits;
 }
+
+
+LSInstructionStreamFromGateStream::LSInstructionStreamFromGateStream(GateStream& gate_stream)
+: gate_stream_(gate_stream),
+  next_instructions_(),
+  core_qubits_(core_qubits_from_gate_stream(gate_stream)),
+  instruction_generator_(*std::max_element(core_qubits_.begin(), core_qubits_.end())+1)
+{
+}
+
 const tsl::ordered_set<PatchId>& LSInstructionStreamFromGateStream::core_qubits() const
 {
     return core_qubits_;
 }
 
+std::ostream& print_all_ls_instructions_to_string(std::ostream& os, std::unique_ptr<LSInstructionStream>&& ls_instruction_stream)
+{
+    while(ls_instruction_stream->has_next_instruction())
+        os << ls_instruction_stream->get_next_instruction() << "\n";
+    return os;
 }
 
+
+
+}

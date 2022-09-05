@@ -2,6 +2,7 @@
 #define LSQECC_LS_INSTRUCTION_STREAM_HPP
 
 #include <lsqecc/ls_instructions/ls_instructions.hpp>
+#include <lsqecc/ls_instructions/ls_instructions_from_gates.hpp>
 #include <lsqecc/gates/parse_gates.hpp>
 
 
@@ -54,12 +55,16 @@ public:
     const tsl::ordered_set<PatchId>& core_qubits() const override;
 
 private:
+
     GateStream& gate_stream_;
     std::queue<LSInstruction> next_instructions_;
     tsl::ordered_set<PatchId> core_qubits_;
+    LSIinstructionFromGatesGenerator instruction_generator_;
     size_t line_number_ = 0;
 };
 
+
+std::ostream& print_all_ls_instructions_to_string(std::ostream& os, std::unique_ptr<LSInstructionStream>&& ls_instruction_stream);
 
 
 }

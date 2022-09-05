@@ -61,7 +61,7 @@ namespace lsqecc
                 .description("File name of file with LS Instructions. If not provided will read LS Instructions from stdin")
                 .required(false);
         parser.add_argument()
-                .names({"-q", "--qasm"})
+                .names({"-q", "--qasm"}) // TODO remove and use extension
                 .description("File name of file with QASM. If not provided will read LS Instructions (not QASM) from stdin")
                 .required(false);
         parser.add_argument()
@@ -95,7 +95,12 @@ namespace lsqecc
                 .required(false);
         parser.add_argument()
                 .names({"--graceful"})
-                .description("If there is an error when slicing, print the error and terminate");
+                .description("If there is an error when slicing, print the error and terminate")
+                .required(false);
+        parser.add_argument()
+                .names({"--lli"})
+                .description("Output LLI instead of JSONs")
+                .required(false);
         parser.enable_help();
 
         auto err = parser.parse(argc, argv);
@@ -110,7 +115,6 @@ namespace lsqecc
             parser.print_help();
             return 0;
         }
-
 
         std::reference_wrapper<std::ostream> write_slices_stream = std::ref(std::cout);
         std::unique_ptr<std::ostream> _ofstream_store;
@@ -153,29 +157,35 @@ namespace lsqecc
             }
 
             file_stream = std::ifstream(parser.get<std::string>("i"));
-            if(file_stream.fail()){
+            if(file_stream.fail() || !std::filesystem::exists(parser.get<std::string>("i"))){
                 err_stream << "Could not open instruction file: " << parser.get<std::string>("i") <<std::endl;
                 return -1;
             }
 
             instruction_stream = std::make_unique<LSInstructionStreamFromFile>(file_stream);
         }
-        if(!instruction_stream)
-            instruction_stream = std::make_unique<LSInstructionStreamFromFile>(std::cin);
+        if(!instruction_stream && !parser.exists("q"))
+            instruction_stream = std::make_unique<LSInstructionStreamFromFile>(in_stream);
 
 
         std::unique_ptr<GateStream> gate_stream;
         if(parser.exists("q"))
         {
             file_stream = std::ifstream(parser.get<std::string>("q"));
-            if(file_stream.fail()){
+            if(file_stream.fail() || !std::filesystem::exists(parser.get<std::string>("q"))){
                 err_stream << "Could not open instruction file: " << parser.get<std::string>("q") <<std::endl;
                 return -1;
             }
 
             gate_stream = std::make_unique<GateStreamFromFile>(file_stream);
+            instruction_stream = std::make_unique<LSInstructionStreamFromGateStream>(*gate_stream);
         }
 
+        if(parser.exists("lli"))
+        {
+            print_all_ls_instructions_to_string(out_stream, std::move(instruction_stream));
+            return 0;
+        }
 
         std::unique_ptr<Layout> layout;
         if(parser.exists("l"))

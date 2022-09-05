@@ -20,6 +20,7 @@
 #include <sstream>
 
 #define LSTK_UNREACHABLE throw std::logic_error(std::string{"Meant to be unreachable: "}+__FILE__+":"+std::to_string(__LINE__))
+#define LSTK_NOT_IMPLEMENTED throw std::logic_error(std::string{"Not implemented: "}+__FILE__+":"+std::to_string(__LINE__))
 
 namespace lstk
 {
@@ -152,7 +153,31 @@ T queue_pop(std::queue<T>& queue)
     return v;
 }
 
+// Leaves source empty
+template<class T>
+void queue_extend(std::queue<T>& target, std::queue<T>& source)
+{
+    while(!source.empty()) target.push(queue_pop(source));
+}
+
+
+template<class IterableOfStringifiables>
+std::string join(IterableOfStringifiables iterable_of_stringifiables, std::string_view separator)
+{
+    std::string acc;
+    bool begin = true;
+    for(const auto& v: iterable_of_stringifiables)
+    {
+        if(begin) acc = v;
+        else acc = lstk::cat(acc, separator, v);
+        begin = false;
+    }
+    return acc;
+}
 
 }
+
+#define LSTK_THROW(exception_name, args) \
+throw exception_name{lstk::cat("Exception at ",__FILE__,":",__LINE__,args)}
 
 #endif //LSQECC_LSTK_HPP
