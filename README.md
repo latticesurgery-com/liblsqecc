@@ -31,14 +31,16 @@ Options:
     -g, --graph-search     Set a graph search provider: custom (default), boost (not allways available)
     -a, --slice-repr       Set how slices are represented: dense (default), sparse
     --graceful             If there is an error when slicing, print the error and terminate
+    --lli                  Output LLI instead of JSONs
     -h, --help             Shows this page   
 ```
-#### QASM Support
+#### QASM Support (Highly experimental)
 LibLSQECC can parse a small subset of QASM 2.0 instead of LLI, with the following restrictions:
  * Only one register is allowed (whether the names match will not be checked)
- * Single qubit gates must be in the form `g q[n]` where `g` is one of `h,x,z,s,t` and `n` is a non-negative integer
- * CNOTs must be in the form `cx q[n],q[m]` where `n,m` are non-negative
+ * Single qubit gates must be in the form `g q[n]` where `g` is one of `h`,`x`,`z`,`s`,`t` and `n` is a non-negative integer
+ * CNOTs must be in the form `cx q[n],q[m]` where `n` and `m` are non-negative. Target comes first, as per [OpenQASM convention (Fig 2)](https://arxiv.org/pdf/1707.03429.pdf).
 
+Working on adding support for `rz` and `crz`. Needs integration with a Solovay-Kitaev decomposer.
 
 ### The `liblsqecc` library
 
