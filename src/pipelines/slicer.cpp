@@ -87,7 +87,7 @@ namespace lsqecc
                 .required(false);
         parser.add_argument()
                 .names({"-g", "--graph-search"})
-                .description("Set a graph search provider: custom (default), boost (not allways available)")
+                .description("Set a graph search provider: custom (default), boost (not always available)")
                 .required(false);
         parser.add_argument()
                 .names({"-a", "--slice-repr"})

@@ -2,7 +2,6 @@
 
 #include <lsqecc/ls_instructions/ls_instruction_stream.hpp>
 #include <lsqecc/ls_instructions/ls_instructions_parse.hpp>
-#include <lsqecc/ls_instructions/from_gates.hpp>
 
 
 
@@ -110,19 +109,22 @@ LSInstruction LSInstructionStreamFromGateStream::get_next_instruction()
             {
                 if(target_gate->gate_type == gates::BasicSingleQubitGate::Type::X)
                 {
-                    LSTK_NOT_IMPLEMENTED;
+                    auto instructions = instruction_generator_.make_cnot_instructions(
+                            controlled_gate->control_qubit, target_gate->target_qubit, controlled_gate->cnot_type, controlled_gate->cnot_ancilla_placement);
+                    lstk::queue_extend(next_instructions_, instructions);
                 }
                 else if (target_gate->gate_type == gates::BasicSingleQubitGate::Type::Z)
                 {
-                    LSTK_NOT_IMPLEMENTED;
+                    LSTK_NOT_IMPLEMENTED; // See RZ below, as CZ = CRZ(pi)
                 }
                 else
                     throw std::runtime_error{lstk::cat(
                             "Gate type of index ", static_cast<size_t>(target_gate->gate_type), "Not supported for control")};
             }
-            else if(const auto* target_gate = std::get_if<gates::BasicSingleQubitGate>(&controlled_gate->target_gate))
+            else if(const auto* target_gate = std::get_if<gates::RZ>(&controlled_gate->target_gate))
             {
                 LSTK_NOT_IMPLEMENTED;
+                // TODO implement with decompose_CRZ_gate and approximate_RZ_gate
             }
 
         }

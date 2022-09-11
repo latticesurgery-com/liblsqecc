@@ -61,15 +61,20 @@ std::ostream& operator<<(std::ostream& os, const MultiPatchMeasurement& instruct
 
     std::vector<std::string> op_patch_mapping;
     for(const auto& [patch_id, local_observable] : instruction.observable)
-        op_patch_mapping.push_back(lstk::cat(patch_id, ":", PauliOperator_to_string(local_observable));
+        op_patch_mapping.push_back(lstk::cat(patch_id, ":", PauliOperator_to_string(local_observable)));
     return os << lstk::join(op_patch_mapping,",");
 }
 
 
 std::ostream& operator<<(std::ostream& os, const PatchInit& instruction)
 {
-    return os << LSInstructionPrint<PatchInit>::name
+    os << LSInstructionPrint<PatchInit>::name
         << " " << instruction.target << " " << InitializeableStates_to_string(instruction.state);
+
+    if (instruction.place_next_to)
+        os << " " << instruction.place_next_to->first << ":" << PauliOperator_to_string(instruction.place_next_to->second);
+
+    return os;
 }
 
 std::ostream& operator<<(std::ostream& os, const MagicStateRequest& instruction)

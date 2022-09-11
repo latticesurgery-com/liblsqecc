@@ -52,6 +52,17 @@ std::optional<Cell> find_free_ancilla_location(const Layout& layout, const Dense
     return std::nullopt;
 }
 
+std::optional<Cell> place_ancilla_next_to(const DenseSlice& slice, PatchId target, PauliOperator boundary_op)
+{
+    Cell target_cell = slice.get_cell_by_id(target).value();
+    for(const Cell& possible_ancilla_location : slice.get_neigbours_within_slice(target_cell))
+    {
+        auto boundary = slice.get_boundary_between(target_cell, possible_ancilla_location);
+        if(boundary && boundary->get().boundary_type == boundary_for_operator(boundary_op) && slice.is_cell_free(possible_ancilla_location))
+            return possible_ancilla_location;
+    }
+    return std::nullopt;
+}
 
 void advance_slice(DenseSlice& slice, const Layout& layout)
 {
@@ -221,7 +232,9 @@ InstructionApplicationResult try_apply_instruction(
     }
     else if (const auto* init = std::get_if<PatchInit>(&instruction.operation))
     {
-        auto location = find_free_ancilla_location(layout, slice);
+        auto location= init->place_next_to ?
+                  place_ancilla_next_to(slice, init->place_next_to->first, init->place_next_to->second)
+                : find_free_ancilla_location(layout, slice);
         if (!location) return {std::make_unique<std::runtime_error>("Could not allocate ancilla"), {}};
 
         slice.patch_at(*location);

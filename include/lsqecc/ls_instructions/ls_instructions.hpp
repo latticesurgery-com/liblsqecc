@@ -44,6 +44,8 @@ struct PatchInit {
     };
 
     InitializeableStates state;
+    using PlaceNexTo = std::pair<PatchId,PauliOperator>;
+    std::optional<PlaceNexTo> place_next_to = std::nullopt;
 
     bool operator==(const PatchInit&) const = default;
 };
@@ -140,7 +142,7 @@ struct LSInstructionPrint<SinglePatchMeasurement>{
 
 template<>
 struct LSInstructionPrint<MultiPatchMeasurement>{
-    static constexpr std::string_view name = "MeasureSinglePatch";
+    static constexpr std::string_view name = "MultiBodyMeasure";
 };
 
 template<>

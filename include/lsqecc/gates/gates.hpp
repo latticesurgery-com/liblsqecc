@@ -49,11 +49,36 @@ struct RZ
 
 using SingleQubitGate = std::variant<BasicSingleQubitGate, RZ>;
 
+enum class CNOTType
+{
+    ZX_WITH_MBM_CONTROL_FIRST,
+    ZX_WITH_MBM_TARGET_FIRST
+};
+
+std::string_view CNOTType_toString(CNOTType cnot_type);
+std::optional<CNOTType> CNOTType_fromString(std::string_view s);
+
+
+enum class CNOTAncillaPlacement
+{
+    ANCILLA_FREE_PLACEMENT,
+    ANCILLA_NEXT_TO_CONTROL,
+    ANCILLA_NEXT_TO_TARGET
+};
+
+std::string_view CNOTAncillaPlacement_toString(CNOTAncillaPlacement v);
+std::optional<CNOTAncillaPlacement> CNOTAncillaPlacement_fromString(std::string_view s);
+
+
 struct ControlledGate
 {
     QubitNum control_qubit;
     SingleQubitGate target_gate;
+    CNOTType cnot_type;
+    CNOTAncillaPlacement cnot_ancilla_placement;
 
+    static constexpr CNOTType default_cnot_type = CNOTType::ZX_WITH_MBM_CONTROL_FIRST;
+    static constexpr CNOTAncillaPlacement default_ancilla_placement = CNOTAncillaPlacement::ANCILLA_FREE_PLACEMENT;
 };
 
 
@@ -72,19 +97,21 @@ MAKE_BASIC_GATE(H)
 #undef MAKE_BASIC_GATE
 
 
-inline constexpr ControlledGate CNOT(QubitNum target_qubit, QubitNum control_qubit){
-    return {target_qubit, X(target_qubit)};
+inline constexpr ControlledGate CNOT(
+        QubitNum target_qubit, QubitNum control_qubit, CNOTType cnot_type, CNOTAncillaPlacement cnot_ancilla_placement){
+    return {control_qubit, X(target_qubit), cnot_type, cnot_ancilla_placement};
 }
 
-inline constexpr ControlledGate CRZ(QubitNum target_qubit, QubitNum control_qubit, Fraction pi_fraction){
-    return {target_qubit, RZ{target_qubit, pi_fraction}};
+inline constexpr ControlledGate CRZ(
+        QubitNum target_qubit, QubitNum control_qubit, Fraction pi_fraction, CNOTType cnot_type, CNOTAncillaPlacement cnot_ancilla_placement){
+    return {control_qubit, RZ{target_qubit, pi_fraction}, cnot_type, cnot_ancilla_placement};
 }
 
 using Gate = std::variant<BasicSingleQubitGate, RZ, ControlledGate>;
 
-} // gates namespace
+std::vector<Gate> to_clifford_plus_t(const Gate& gate);
 
-std::vector<gates::Gate> to_clifford_plus_t(gates::Gate gate);
+} // gates namespace
 
 }
 

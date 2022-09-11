@@ -22,7 +22,7 @@ Full usage:
 Usage: cmake-build-debug/lsqecc_slicer [options...]
 Options:
     -i, --instructions     File name of file with LS Instructions. If not provided will read LS Instructions from stdin
-    -q, --qasm             File name of file with QASM. If not provided will read LS Instructions (not QASM) from stdin
+    -q, --qasm             File name of file with OpenQASM--. If not provided will read LS Instructions from stdin
     -l, --layout           File name of file with layout spec. Defaults to simple layout if none is provided
     -o, --output           File name of output file to which write a latticesurgery.com JSON of the slices. By default outputs to stdout
     -f, --output-format    Requires, STDOUT output format: slices (default), progress , noprogress, machine,
@@ -35,12 +35,15 @@ Options:
     -h, --help             Shows this page   
 ```
 #### QASM Support (Highly experimental)
-LibLSQECC can parse a small subset of QASM 2.0 instead of LLI, with the following restrictions:
+LibLSQECC can parse a small subset of OpenQASM 2.0 instead of LLI, with restrictions below. We call this type of assembly OpenQASM--. In general OpenQASM-- should be valid OpenQASM, up to implementation defects. The rules are 
+ * No classical control
  * Only one register is allowed (whether the names match will not be checked)
- * Single qubit gates must be in the form `g q[n]` where `g` is one of `h`,`x`,`z`,`s`,`t` and `n` is a non-negative integer
- * CNOTs must be in the form `cx q[n],q[m]` where `n` and `m` are non-negative. Target comes first, as per [OpenQASM convention (Fig 2)](https://arxiv.org/pdf/1707.03429.pdf).
+ * Max one gate per line, with only inline comments
+ * Single qubit gates must be in the form `g q[n];` where `g` is one of `h`,`x`,`z`,`s`,`t` and `n` is a non-negative integer
+ * CNOTs must be in the form `cx q[n],q[m];` where `n` and `m` are non-negative. Target comes first, as per [OpenQASM convention (Fig 2)](https://arxiv.org/pdf/1707.03429.pdf).
+ * Supports some basic annotations such as: `cx q[0],q[7]; // %ZXWithMBMTargetFirst,AncillaNextToTarget`
 
-Working on adding support for `rz` and `crz`. Needs integration with a Solovay-Kitaev decomposer.
+ * Working on adding support for `rz` and `crz`. Needs integration with a Solovay-Kitaev decomposer.
 
 ### The `liblsqecc` library
 
