@@ -49,11 +49,37 @@ struct RZ
 
 using SingleQubitGate = std::variant<BasicSingleQubitGate, RZ>;
 
+enum class CNOTType
+{
+    ZX_WITH_MBM_CONTROL_FIRST,
+    ZX_WITH_MBM_TARGET_FIRST
+};
+
+
+static inline std::string_view CNOTType_toString(CNOTType cnot_type)
+{
+    using namespace std::string_view_literals;
+    switch(cnot_type){
+        case CNOTType::ZX_WITH_MBM_CONTROL_FIRST: return "ZXWithMBMControlFirst"sv;
+        case CNOTType::ZX_WITH_MBM_TARGET_FIRST: return "ZXWithMBMTargetFirst"sv;
+    }
+}
+
+static inline std::optional<CNOTType> CNOTType_fromString(std::string_view s)
+{
+    if(s == CNOTType_toString(CNOTType::ZX_WITH_MBM_CONTROL_FIRST)) return CNOTType::ZX_WITH_MBM_CONTROL_FIRST;
+    if(s == CNOTType_toString(CNOTType::ZX_WITH_MBM_TARGET_FIRST)) return CNOTType::ZX_WITH_MBM_TARGET_FIRST;
+    else return std::nullopt;
+}
+
+
 struct ControlledGate
 {
     QubitNum control_qubit;
     SingleQubitGate target_gate;
+    CNOTType cnot_type;
 
+    static constexpr CNOTType default_cnot_type = CNOTType::ZX_WITH_MBM_CONTROL_FIRST;
 };
 
 
@@ -72,12 +98,12 @@ MAKE_BASIC_GATE(H)
 #undef MAKE_BASIC_GATE
 
 
-inline constexpr ControlledGate CNOT(QubitNum target_qubit, QubitNum control_qubit){
-    return {target_qubit, X(target_qubit)};
+inline constexpr ControlledGate CNOT(QubitNum target_qubit, QubitNum control_qubit, CNOTType cnot_type){
+    return {target_qubit, X(target_qubit), cnot_type};
 }
 
-inline constexpr ControlledGate CRZ(QubitNum target_qubit, QubitNum control_qubit, Fraction pi_fraction){
-    return {target_qubit, RZ{target_qubit, pi_fraction}};
+inline constexpr ControlledGate CRZ(QubitNum target_qubit, QubitNum control_qubit, Fraction pi_fraction, CNOTType cnot_type){
+    return {target_qubit, RZ{target_qubit, pi_fraction}, cnot_type};
 }
 
 using Gate = std::variant<BasicSingleQubitGate, RZ, ControlledGate>;

@@ -47,11 +47,11 @@ std::vector<gates::Gate> decompose_CRZ_gate(const gates::ControlledGate& crz_gat
     lstk::vector_extend(res, to_clifford_plus_t(
             gates::RZ{rz_gate.target_qubit,Fraction{rz_gate.pi_fraction.num,
                                                     rz_gate.pi_fraction.den*2}}));
-    res.emplace_back(gates::CNOT(rz_gate.target_qubit, crz_gate.control_qubit));
+    res.emplace_back(gates::CNOT(rz_gate.target_qubit, crz_gate.control_qubit,crz_gate.cnot_type));
     lstk::vector_extend(res, to_clifford_plus_t(
             gates::RZ{rz_gate.target_qubit,Fraction{-rz_gate.pi_fraction.num,
                                                     rz_gate.pi_fraction.den*2}}));
-    res.emplace_back(gates::CNOT(rz_gate.target_qubit, crz_gate.control_qubit));
+    res.emplace_back(gates::CNOT(rz_gate.target_qubit, crz_gate.control_qubit,crz_gate.cnot_type));
 
     return res;
 }

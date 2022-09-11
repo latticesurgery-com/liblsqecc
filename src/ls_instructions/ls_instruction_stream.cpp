@@ -110,7 +110,7 @@ LSInstruction LSInstructionStreamFromGateStream::get_next_instruction()
                 if(target_gate->gate_type == gates::BasicSingleQubitGate::Type::X)
                 {
                     auto instructions = instruction_generator_.make_cnot_instructions(
-                            controlled_gate->control_qubit, target_gate->target_qubit, CNOTType::ZX_WITH_MBM_CONTROL_FIRST);
+                            controlled_gate->control_qubit, target_gate->target_qubit, controlled_gate->cnot_type);
                     lstk::queue_extend(next_instructions_, instructions);
                 }
                 else if (target_gate->gate_type == gates::BasicSingleQubitGate::Type::Z)
@@ -124,8 +124,7 @@ LSInstruction LSInstructionStreamFromGateStream::get_next_instruction()
             else if(const auto* target_gate = std::get_if<gates::RZ>(&controlled_gate->target_gate))
             {
                 LSTK_NOT_IMPLEMENTED;
-                // Only implement if there is a way of making the CRZ more efficient than just making it an RZ with
-                // CNOTs, because in that case it's best to leave it to a pre-processing pass
+                // TODO implement with decompose_CRZ_gate and approximate_RZ_gate
             }
 
         }
