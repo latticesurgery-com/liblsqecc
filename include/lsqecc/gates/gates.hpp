@@ -99,12 +99,12 @@ MAKE_BASIC_GATE(H)
 
 inline constexpr ControlledGate CNOT(
         QubitNum target_qubit, QubitNum control_qubit, CNOTType cnot_type, CNOTAncillaPlacement cnot_ancilla_placement){
-    return {target_qubit, X(target_qubit), cnot_type, cnot_ancilla_placement};
+    return {control_qubit, X(target_qubit), cnot_type, cnot_ancilla_placement};
 }
 
 inline constexpr ControlledGate CRZ(
         QubitNum target_qubit, QubitNum control_qubit, Fraction pi_fraction, CNOTType cnot_type, CNOTAncillaPlacement cnot_ancilla_placement){
-    return {target_qubit, RZ{target_qubit, pi_fraction}, cnot_type, cnot_ancilla_placement};
+    return {control_qubit, RZ{target_qubit, pi_fraction}, cnot_type, cnot_ancilla_placement};
 }
 
 using Gate = std::variant<BasicSingleQubitGate, RZ, ControlledGate>;
