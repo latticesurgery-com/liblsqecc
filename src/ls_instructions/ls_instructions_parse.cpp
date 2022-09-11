@@ -60,7 +60,14 @@ LSInstruction parse_ls_instruction(std::string_view line)
     {
         auto patch_id = parse_patch_id(get_next_arg());
         auto state = parse_init_state(get_next_arg());
-        return {PatchInit{patch_id, state}};
+        std::optional<PatchInit::PlaceNexTo> place_next_to;
+        if(has_next_arg())
+        {
+            auto placement_info = lstk::split_on(get_next_arg(),':');
+            place_next_to = std::make_pair(parse_patch_id(placement_info.at(0)), PauliOperator_from_string(placement_info.at(1)));
+        }
+
+        return {PatchInit{patch_id, state, place_next_to}};
     }
     else if(instruction == "MeasureSinglePatch" || instruction == "1")
     {

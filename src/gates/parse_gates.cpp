@@ -82,6 +82,16 @@ gates::CNOTType determine_cnot_type(const std::vector<std::string_view>& annotat
     return gates::ControlledGate::default_cnot_type;
 }
 
+gates::CNOTAncillaPlacement determine_cnot_ancilla_placement(const std::vector<std::string_view>& annotations)
+{
+    for(const auto& annotation : annotations)
+    {
+        auto t = gates::CNOTAncillaPlacement_fromString(annotation);
+        if(t) return * t;
+    }
+    return gates::ControlledGate::default_ancilla_placement;
+}
+
 gates::Gate parse_qasm_gate(const Line& line)
 {
     if(line.instruction == "x") return gates::X(get_index_arg(line.args.at(0)));
@@ -96,7 +106,8 @@ gates::Gate parse_qasm_gate(const Line& line)
         return gates::CNOT(
                 get_index_arg(line.args.at(1)),
                 get_index_arg(line.args.at(0)),
-                determine_cnot_type(line.annotations));
+                determine_cnot_type(line.annotations),
+                determine_cnot_ancilla_placement(line.annotations));
     }
 
     if(line.instruction.substr(0,2) == "rz")
@@ -124,7 +135,8 @@ gates::Gate parse_qasm_gate(const Line& line)
                 get_index_arg(line.args[1]),
                 get_index_arg(line.args[0]),
                 Fraction{1,pi_frac_den},
-                determine_cnot_type(line.annotations));
+                determine_cnot_type(line.annotations),
+                determine_cnot_ancilla_placement(line.annotations));
         }
         else {
             throw GateParseException{lstk::cat(

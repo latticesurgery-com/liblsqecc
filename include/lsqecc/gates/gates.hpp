@@ -55,22 +55,19 @@ enum class CNOTType
     ZX_WITH_MBM_TARGET_FIRST
 };
 
+std::string_view CNOTType_toString(CNOTType cnot_type);
+std::optional<CNOTType> CNOTType_fromString(std::string_view s);
 
-static inline std::string_view CNOTType_toString(CNOTType cnot_type)
-{
-    using namespace std::string_view_literals;
-    switch(cnot_type){
-        case CNOTType::ZX_WITH_MBM_CONTROL_FIRST: return "ZXWithMBMControlFirst"sv;
-        case CNOTType::ZX_WITH_MBM_TARGET_FIRST: return "ZXWithMBMTargetFirst"sv;
-    }
-}
 
-static inline std::optional<CNOTType> CNOTType_fromString(std::string_view s)
+enum class CNOTAncillaPlacement
 {
-    if(s == CNOTType_toString(CNOTType::ZX_WITH_MBM_CONTROL_FIRST)) return CNOTType::ZX_WITH_MBM_CONTROL_FIRST;
-    if(s == CNOTType_toString(CNOTType::ZX_WITH_MBM_TARGET_FIRST)) return CNOTType::ZX_WITH_MBM_TARGET_FIRST;
-    else return std::nullopt;
-}
+    ANCILLA_FREE_PLACEMENT,
+    ANCILLA_NEXT_TO_CONTROL,
+    ANCILLA_NEXT_TO_TARGET
+};
+
+std::string_view CNOTAncillaPlacement_toString(CNOTAncillaPlacement v);
+std::optional<CNOTAncillaPlacement> CNOTAncillaPlacement_fromString(std::string_view s);
 
 
 struct ControlledGate
@@ -78,8 +75,10 @@ struct ControlledGate
     QubitNum control_qubit;
     SingleQubitGate target_gate;
     CNOTType cnot_type;
+    CNOTAncillaPlacement cnot_ancilla_placement;
 
     static constexpr CNOTType default_cnot_type = CNOTType::ZX_WITH_MBM_CONTROL_FIRST;
+    static constexpr CNOTAncillaPlacement default_ancilla_placement = CNOTAncillaPlacement::ANCILLA_FREE_PLACEMENT;
 };
 
 
@@ -98,19 +97,21 @@ MAKE_BASIC_GATE(H)
 #undef MAKE_BASIC_GATE
 
 
-inline constexpr ControlledGate CNOT(QubitNum target_qubit, QubitNum control_qubit, CNOTType cnot_type){
-    return {target_qubit, X(target_qubit), cnot_type};
+inline constexpr ControlledGate CNOT(
+        QubitNum target_qubit, QubitNum control_qubit, CNOTType cnot_type, CNOTAncillaPlacement cnot_ancilla_placement){
+    return {target_qubit, X(target_qubit), cnot_type, cnot_ancilla_placement};
 }
 
-inline constexpr ControlledGate CRZ(QubitNum target_qubit, QubitNum control_qubit, Fraction pi_fraction, CNOTType cnot_type){
-    return {target_qubit, RZ{target_qubit, pi_fraction}, cnot_type};
+inline constexpr ControlledGate CRZ(
+        QubitNum target_qubit, QubitNum control_qubit, Fraction pi_fraction, CNOTType cnot_type, CNOTAncillaPlacement cnot_ancilla_placement){
+    return {target_qubit, RZ{target_qubit, pi_fraction}, cnot_type, cnot_ancilla_placement};
 }
 
 using Gate = std::variant<BasicSingleQubitGate, RZ, ControlledGate>;
 
-} // gates namespace
+std::vector<Gate> to_clifford_plus_t(const Gate& gate);
 
-std::vector<gates::Gate> to_clifford_plus_t(gates::Gate gate);
+} // gates namespace
 
 }
 

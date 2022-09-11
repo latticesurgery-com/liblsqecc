@@ -44,6 +44,8 @@ struct PatchInit {
     };
 
     InitializeableStates state;
+    using PlaceNexTo = std::pair<PatchId,PauliOperator>;
+    std::optional<PlaceNexTo> place_next_to = std::nullopt;
 
     bool operator==(const PatchInit&) const = default;
 };

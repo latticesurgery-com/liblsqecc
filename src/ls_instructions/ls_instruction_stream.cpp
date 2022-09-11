@@ -110,7 +110,7 @@ LSInstruction LSInstructionStreamFromGateStream::get_next_instruction()
                 if(target_gate->gate_type == gates::BasicSingleQubitGate::Type::X)
                 {
                     auto instructions = instruction_generator_.make_cnot_instructions(
-                            controlled_gate->control_qubit, target_gate->target_qubit, controlled_gate->cnot_type);
+                            controlled_gate->control_qubit, target_gate->target_qubit, controlled_gate->cnot_type, controlled_gate->cnot_ancilla_placement);
                     lstk::queue_extend(next_instructions_, instructions);
                 }
                 else if (target_gate->gate_type == gates::BasicSingleQubitGate::Type::Z)
