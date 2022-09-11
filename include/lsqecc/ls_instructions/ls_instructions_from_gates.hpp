@@ -7,17 +7,23 @@
 namespace lsqecc
 {
 
+enum class CNOTType
+{
+    ZX_WITH_MBM_CONTROL_FIRST,
+    ZX_WITH_MBM_TARGET_FIRST
+};
+
 class LSIinstructionFromGatesGenerator
 {
 public:
-    explicit LSIinstructionFromGatesGenerator(PatchId magic_state_id_start);
+    explicit LSIinstructionFromGatesGenerator(PatchId ancilla_state_id_start);
 
     std::queue<LSInstruction> make_t_gate_instructions(PatchId target_id);
-    std::queue<LSInstruction> make_cnot_instructions(PatchId source_id, PatchId target_id);
+    std::queue<LSInstruction> make_cnot_instructions(PatchId control_id, PatchId target_id, CNOTType cnot_type);
 
 private:
-    PatchId get_next_magic_state_id();
-    PatchId magic_state_id_counter_;
+    PatchId get_next_ancilla_state_id();
+    PatchId ancilla_state_id_counter_;
 };
 
 }

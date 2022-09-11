@@ -110,19 +110,23 @@ LSInstruction LSInstructionStreamFromGateStream::get_next_instruction()
             {
                 if(target_gate->gate_type == gates::BasicSingleQubitGate::Type::X)
                 {
-                    LSTK_NOT_IMPLEMENTED;
+                    auto instructions = instruction_generator_.make_cnot_instructions(
+                            controlled_gate->control_qubit, target_gate->target_qubit, CNOTType::ZX_WITH_MBM_CONTROL_FIRST);
+                    lstk::queue_extend(next_instructions_, instructions);
                 }
                 else if (target_gate->gate_type == gates::BasicSingleQubitGate::Type::Z)
                 {
-                    LSTK_NOT_IMPLEMENTED;
+                    LSTK_NOT_IMPLEMENTED; // See RZ below, as CZ = CRZ(pi)
                 }
                 else
                     throw std::runtime_error{lstk::cat(
                             "Gate type of index ", static_cast<size_t>(target_gate->gate_type), "Not supported for control")};
             }
-            else if(const auto* target_gate = std::get_if<gates::BasicSingleQubitGate>(&controlled_gate->target_gate))
+            else if(const auto* target_gate = std::get_if<gates::RZ>(&controlled_gate->target_gate))
             {
                 LSTK_NOT_IMPLEMENTED;
+                // Only implement if there is a way of making the CRZ more efficient than just making it an RZ with
+                // CNOTs, because in that case it's best to leave it to a pre-processing pass
             }
 
         }
