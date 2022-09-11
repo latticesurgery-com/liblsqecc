@@ -31,13 +31,13 @@ std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_t_gate_instruct
 }
 
 std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_cnot_instructions(
-        PatchId control_id, PatchId target_id, CNOTType cnot_type)
+        PatchId control_id, PatchId target_id, gates::CNOTType cnot_type)
 {
     // Control is green -> smooth -> measures X otimes X
     // Target is red -> rough -> measures Z otimes Z
 
     std::queue<LSInstruction> next_instructions;
-    if(cnot_type == CNOTType::ZX_WITH_MBM_CONTROL_FIRST){
+    if(cnot_type == gates::CNOTType::ZX_WITH_MBM_CONTROL_FIRST){
         PatchId ancilla_id = get_next_ancilla_state_id();
         next_instructions.push({.operation={PatchInit{ancilla_id, PatchInit::InitializeableStates::Plus}}});
         next_instructions.push({.operation={
@@ -52,10 +52,22 @@ std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_cnot_instructio
                 },.is_negative=false}}});
         next_instructions.push({.operation={SinglePatchMeasurement{ancilla_id, PauliOperator::X, false}}});
     }
-    else
-    {
-        LSTK_NOT_IMPLEMENTED;
+    else if(cnot_type == gates::CNOTType::ZX_WITH_MBM_TARGET_FIRST){
+        PatchId ancilla_id = get_next_ancilla_state_id();
+        next_instructions.push({.operation={PatchInit{ancilla_id, PatchInit::InitializeableStates::Plus}}});
+        next_instructions.push({.operation={
+                MultiPatchMeasurement{.observable={
+                        {ancilla_id,PauliOperator::Z},
+                        {target_id,PauliOperator::Z},
+                },.is_negative=false}}});
+        next_instructions.push({.operation={
+                MultiPatchMeasurement{.observable={
+                        {control_id, PauliOperator::X},
+                        {ancilla_id, PauliOperator::X},
+                },.is_negative=false}}});
+        next_instructions.push({.operation={SinglePatchMeasurement{ancilla_id, PauliOperator::X, false}}});
     }
+    else LSTK_UNREACHABLE;
 
     return next_instructions;
 }

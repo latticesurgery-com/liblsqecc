@@ -140,7 +140,7 @@ struct LSInstructionPrint<SinglePatchMeasurement>{
 
 template<>
 struct LSInstructionPrint<MultiPatchMeasurement>{
-    static constexpr std::string_view name = "MeasureSinglePatch";
+    static constexpr std::string_view name = "MultiBodyMeasure";
 };
 
 template<>

@@ -11,6 +11,7 @@ struct Line
 {
     // The parser assumes a line is formed by the following components
     // instruction_name <space> comma_separated_args [; // %comma_separated_annotations]
+    // NOTE the two spaces in the "; // %" group
     // Otherwise, what follows a semicolon is treated as a comment
 
     std::string_view instruction;
@@ -49,13 +50,13 @@ Line split_instruction_and_args(std::string_view gate_str)
 
     auto instr_split = lstk::split_on(gate_str,' ');
     auto instruction = instr_split.at(0);
-    auto semicolon_split = lstk::split_on(instr_split.at(1),';');
-    auto args =  lstk::split_on(semicolon_split.at(0), ',');
-    auto annotation_line = semicolon_split.at(0);
+    auto args = lstk::split_on(instr_split.at(1), ',');
+    auto semicolon_split = lstk::split_on(gate_str,';');
+    auto annotation_line = semicolon_split.at(1);
 
     std::vector<std::string_view> annotations;
     if (annotation_line.starts_with(" // %"))
-            annotations = lstk::split_on(annotation_line.substr(3),',');
+            annotations = lstk::split_on(annotation_line.substr(5),',');
 
     return Line{instruction, args, annotations};
 
@@ -71,6 +72,16 @@ QubitNum get_index_arg(std::string_view s)
 }
 
 
+gates::CNOTType determine_cnot_type(const std::vector<std::string_view>& annotations)
+{
+    for(const auto& annotation : annotations)
+    {
+        auto t = gates::CNOTType_fromString(annotation);
+        if(t) return * t;
+    }
+    return gates::ControlledGate::default_cnot_type;
+}
+
 gates::Gate parse_qasm_gate(const Line& line)
 {
     if(line.instruction == "x") return gates::X(get_index_arg(line.args.at(0)));
@@ -82,7 +93,10 @@ gates::Gate parse_qasm_gate(const Line& line)
     if(line.instruction == "cx")
     {
         if(line.args.size() != 2) throw GateParseException{lstk::cat("cx gate must have 2 args")};
-        return gates::CNOT(get_index_arg(line.args.at(1)), get_index_arg(line.args.at(0)));
+        return gates::CNOT(
+                get_index_arg(line.args.at(1)),
+                get_index_arg(line.args.at(0)),
+                determine_cnot_type(line.annotations));
     }
 
     if(line.instruction.substr(0,2) == "rz")
@@ -109,7 +123,8 @@ gates::Gate parse_qasm_gate(const Line& line)
             return gates::CRZ(
                 get_index_arg(line.args[1]),
                 get_index_arg(line.args[0]),
-                Fraction{1,pi_frac_den});
+                Fraction{1,pi_frac_den},
+                determine_cnot_type(line.annotations));
         }
         else {
             throw GateParseException{lstk::cat(

@@ -89,6 +89,9 @@ static inline std::vector<std::string_view> split_on(std::string_view s, char de
     if (accum_begin != accum_end)
         push_accum_to_ret();
 
+    // Add a trailing empty string when finishing on a delimiter
+    else if(accum_begin > s.begin() && *(accum_end-1)== delim) ret.push_back("");
+
     return ret;
 }
 
