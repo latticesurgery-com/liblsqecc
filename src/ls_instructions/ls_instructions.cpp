@@ -68,8 +68,13 @@ std::ostream& operator<<(std::ostream& os, const MultiPatchMeasurement& instruct
 
 std::ostream& operator<<(std::ostream& os, const PatchInit& instruction)
 {
-    return os << LSInstructionPrint<PatchInit>::name
+    os << LSInstructionPrint<PatchInit>::name
         << " " << instruction.target << " " << InitializeableStates_to_string(instruction.state);
+
+    if (instruction.place_next_to)
+        os << " " << instruction.place_next_to->first << ":" << PauliOperator_to_string(instruction.place_next_to->second);
+
+    return os;
 }
 
 std::ostream& operator<<(std::ostream& os, const MagicStateRequest& instruction)
