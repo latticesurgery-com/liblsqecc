@@ -9,8 +9,13 @@ namespace lsqecc {
 
 struct Line
 {
+    // The parser assumes a line is formed by the following components
+    // instruction_name <space> comma_separated_args [; // %comma_separated_annotations]
+    // Otherwise, what follows a semicolon is treated as a comment
+
     std::string_view instruction;
     std::vector<std::string_view> args;
+    std::vector<std::string_view> annotations;
 };
 
 
@@ -43,8 +48,16 @@ Line split_instruction_and_args(std::string_view gate_str)
         return {gate_str, {}};
 
     auto instr_split = lstk::split_on(gate_str,' ');
+    auto instruction = instr_split.at(0);
+    auto semicolon_split = lstk::split_on(instr_split.at(1),';');
+    auto args =  lstk::split_on(semicolon_split.at(0), ',');
+    auto annotation_line = semicolon_split.at(0);
 
-    return {instr_split[0], lstk::split_on(instr_split[1], ',')};
+    std::vector<std::string_view> annotations;
+    if (annotation_line.starts_with(" // %"))
+            annotations = lstk::split_on(annotation_line.substr(3),',');
+
+    return Line{instruction, args, annotations};
 
 }
 
