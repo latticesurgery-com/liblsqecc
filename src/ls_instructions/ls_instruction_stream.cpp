@@ -2,7 +2,6 @@
 
 #include <lsqecc/ls_instructions/ls_instruction_stream.hpp>
 #include <lsqecc/ls_instructions/ls_instructions_parse.hpp>
-#include <lsqecc/ls_instructions/from_gates.hpp>
 
 
 
