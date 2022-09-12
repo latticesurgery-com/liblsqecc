@@ -110,7 +110,11 @@ LSInstruction LSInstructionStreamFromGateStream::get_next_instruction()
                 if(target_gate->gate_type == gates::BasicSingleQubitGate::Type::X)
                 {
                     auto instructions = instruction_generator_.make_cnot_instructions(
-                            controlled_gate->control_qubit, target_gate->target_qubit, controlled_gate->cnot_type, controlled_gate->cnot_ancilla_placement);
+                            controlled_gate->control_qubit,
+                            target_gate->target_qubit,
+                            controlled_gate->cnot_type,
+                            controlled_gate->cnot_ancilla_placement,
+                            cnot_correction_mode_);
                     lstk::queue_extend(next_instructions_, instructions);
                 }
                 else if (target_gate->gate_type == gates::BasicSingleQubitGate::Type::Z)
@@ -150,11 +154,12 @@ tsl::ordered_set<PatchId> core_qubits_from_gate_stream(GateStream& gate_stream)
 }
 
 
-LSInstructionStreamFromGateStream::LSInstructionStreamFromGateStream(GateStream& gate_stream)
+LSInstructionStreamFromGateStream::LSInstructionStreamFromGateStream(GateStream& gate_stream, CNOTCorrectionMode cnot_correction_mode)
 : gate_stream_(gate_stream),
   next_instructions_(),
   core_qubits_(core_qubits_from_gate_stream(gate_stream)),
-  instruction_generator_(*std::max_element(core_qubits_.begin(), core_qubits_.end())+1)
+  instruction_generator_(*std::max_element(core_qubits_.begin(), core_qubits_.end())+1),
+  cnot_correction_mode_(cnot_correction_mode)
 {
 }
 

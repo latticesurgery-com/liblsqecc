@@ -101,6 +101,10 @@ namespace lsqecc
                 .names({"--lli"})
                 .description("Output LLI instead of JSONs")
                 .required(false);
+        parser.add_argument()
+                .names({"--cnotcorrections"})
+                .description("Add Xs and Zs to correct the the negative outcomes: never (default), always") // TODO add random
+                .required(false);
         parser.enable_help();
 
         auto err = parser.parse(argc, argv);
@@ -178,7 +182,21 @@ namespace lsqecc
             }
 
             gate_stream = std::make_unique<GateStreamFromFile>(file_stream);
-            instruction_stream = std::make_unique<LSInstructionStreamFromGateStream>(*gate_stream);
+
+            CNOTCorrectionMode cnot_correction_mode = CNOTCorrectionMode::NEVER;
+            if(parser.exists("cnotcorrections"))
+            {
+                if(parser.get<std::string>("cnotcorrections") == "always")
+                    cnot_correction_mode = CNOTCorrectionMode::ALWAYS;
+                else if(parser.get<std::string>("cnotcorrections") == "never")
+                    cnot_correction_mode = CNOTCorrectionMode::NEVER;
+                else
+                {
+                    err_stream << "Unknown CNOT correction mode: " << parser.get<std::string>("cnotcorrections") <<std::endl;
+                    return -1;
+                }
+            }
+            instruction_stream = std::make_unique<LSInstructionStreamFromGateStream>(*gate_stream, cnot_correction_mode);
         }
 
         if(parser.exists("lli"))

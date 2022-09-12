@@ -8,6 +8,11 @@
 namespace lsqecc
 {
 
+enum class CNOTCorrectionMode {
+    NEVER,
+    ALWAYS
+    // TODO add RANDOMIZED
+};
 
 class LSIinstructionFromGatesGenerator
 {
@@ -16,7 +21,11 @@ public:
 
     std::queue<LSInstruction> make_t_gate_instructions(PatchId target_id);
     std::queue<LSInstruction> make_cnot_instructions(
-            PatchId control_id, PatchId target_id, gates::CNOTType cnot_type, gates::CNOTAncillaPlacement cnot_ancilla_placement);
+            PatchId control_id,
+            PatchId target_id,
+            gates::CNOTType cnot_type,
+            gates::CNOTAncillaPlacement cnot_ancilla_placement,
+            CNOTCorrectionMode cnot_correction_mode);
 
 private:
     PatchId get_next_ancilla_state_id();

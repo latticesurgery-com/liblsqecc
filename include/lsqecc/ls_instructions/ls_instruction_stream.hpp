@@ -48,7 +48,7 @@ private:
 
 class LSInstructionStreamFromGateStream : public LSInstructionStream {
 public:
-    explicit LSInstructionStreamFromGateStream(GateStream& gate_stream);
+    LSInstructionStreamFromGateStream(GateStream& gate_stream, CNOTCorrectionMode cnot_correction_mode);
 
     LSInstruction get_next_instruction() override;
     bool has_next_instruction() const override {return next_instructions_.size() || gate_stream_.has_next_gate();};
@@ -60,7 +60,7 @@ private:
     std::queue<LSInstruction> next_instructions_;
     tsl::ordered_set<PatchId> core_qubits_;
     LSIinstructionFromGatesGenerator instruction_generator_;
-    size_t line_number_ = 0;
+    CNOTCorrectionMode cnot_correction_mode_;
 };
 
 
