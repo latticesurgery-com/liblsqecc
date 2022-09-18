@@ -65,7 +65,7 @@ add_library(
         src/gates/gates.cpp
         src/patches/dense_slice.cpp
         src/patches/dense_patch_computation.cpp
-        src/ls_instructions/ls_instructions_from_gates.cpp)
+        src/ls_instructions/ls_instructions_from_gates.cpp src/layout/dynamic_layouts/compact_layout.cpp)
 
 set(LSQECCLIB_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/include")
 

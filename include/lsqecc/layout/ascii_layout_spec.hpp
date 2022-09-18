@@ -18,6 +18,7 @@ public:
         RoutingAncilla = 'r',
         LogicalComputationQubit_StandardBorderOrientation = 'Q',
         LogicalComputationQubit_RotatedBorderOrientation = 'T',
+        LogicalComputationQubit_DynamicAllocation = 'D',
         AncillaQubitLocation = 'A',
         DistillationRegion_0 = '0',
         DistillationRegion_1 = '1',
@@ -50,6 +51,8 @@ public:
         {
         case 'r':
         case 'Q':
+        case 'T':
+        case 'D':
         case 'A':
         case '0':
         case '1':
@@ -67,12 +70,18 @@ public:
         }
     }
 
-    using CellGrid = std::vector<std::vector<AsciiLayoutSpec::CellType>> ;
+    using CellRow = std::vector<AsciiLayoutSpec::CellType> ;
+    using CellGrid = std::vector<CellRow> ;
     static CellGrid parse_grid(const std::string_view input);
 
     explicit AsciiLayoutSpec(const std::string_view input)
     : grid_spec_(parse_grid(input))
     {}
+
+    explicit AsciiLayoutSpec(const CellGrid& grid_spec)
+            : grid_spec_(grid_spec)
+    {}
+
 
     std::optional<Cell> find_a_cell_of_type(AsciiLayoutSpec::CellType target) const;
     std::vector<Cell> find_all_cells_of_type(AsciiLayoutSpec::CellType target) const;
@@ -91,9 +100,14 @@ private:
 class LayoutFromSpec : public Layout{
 public:
 
-    LayoutFromSpec(const std::string_view spec_text)
+    explicit LayoutFromSpec(const std::string_view spec_text)
     {
         init_cache(AsciiLayoutSpec{spec_text});
+    }
+
+    explicit LayoutFromSpec(const AsciiLayoutSpec::CellGrid& grid_spec)
+    {
+        init_cache(AsciiLayoutSpec{grid_spec});
     }
 
 

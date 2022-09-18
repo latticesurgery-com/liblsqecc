@@ -4,6 +4,7 @@
 #include <lsqecc/ls_instructions/ls_instruction_stream.hpp>
 #include <lsqecc/layout/ascii_layout_spec.hpp>
 #include <lsqecc/layout/router.hpp>
+#include <lsqecc/layout/dynamic_layouts/compact_layout.hpp>
 #include <lsqecc/patches/slices_to_json.hpp>
 #include <lsqecc/patches/slice.hpp>
 #include <lsqecc/patches/sparse_patch_computation.hpp>
@@ -104,6 +105,10 @@ namespace lsqecc
         parser.add_argument()
                 .names({"--cnotcorrections"})
                 .description("Add Xs and Zs to correct the the negative outcomes: never (default), always") // TODO add random
+                .required(false);
+        parser.add_argument()
+                .names({"--compactlayout"})
+                .description("Uses Litinski's compact layout, incompatible with -l")
                 .required(false);
         parser.enable_help();
 
@@ -206,7 +211,9 @@ namespace lsqecc
         }
 
         std::unique_ptr<Layout> layout;
-        if(parser.exists("l"))
+        if (parser.exists("compactlayout"))
+            layout = make_compact_layout(instruction_stream->core_qubits().size());
+        else if(parser.exists("l"))
             layout = std::make_unique<LayoutFromSpec>(file_to_string(parser.get<std::string>("l")));
         else
             layout = std::make_unique<SimpleLayout>(instruction_stream->core_qubits().size());
