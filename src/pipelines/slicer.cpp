@@ -17,7 +17,6 @@
 #include <nlohmann/json.hpp>
 
 #include <iostream>
-#include <ostream>
 #include <string_view>
 #include <sstream>
 #include <stdexcept>
@@ -28,21 +27,6 @@
 
 namespace lsqecc
 {
-
-    class NullStream : public std::ostream
-    {
-    public:
-        NullStream()
-        : std::ostream(&null_buffer) {}
-
-        static NullStream instance;
-    private:
-        struct NullBuffer : public std::streambuf
-        {
-            int overflow(int c) override { return c; }
-        };
-        NullBuffer null_buffer;
-    };
 
 
 
@@ -111,10 +95,6 @@ namespace lsqecc
                 .description("Set how slices are represented: dense (default), sparse")
                 .required(false);
         parser.add_argument()
-                .names({"--computation_logging"})
-                .description("Enables logging during the creation of the patch computation")
-                .required(false);
-        parser.add_argument()
                 .names({"--graceful"})
                 .description("If there is an error when slicing, print the error and terminate")
                 .required(false);
@@ -123,11 +103,11 @@ namespace lsqecc
                 .description("Output LLI instead of JSONs")
                 .required(false);
         parser.add_argument()
-                .names({"--cnot_corrections"})
+                .names({"--cnotcorrections"})
                 .description("Add Xs and Zs to correct the the negative outcomes: never (default), always") // TODO add random
                 .required(false);
         parser.add_argument()
-                .names({"--compact_layout"})
+                .names({"--compactlayout"})
                 .description("Uses Litinski's compact layout, incompatible with -l")
                 .required(false);
         parser.enable_help();
@@ -209,15 +189,15 @@ namespace lsqecc
             gate_stream = std::make_unique<GateStreamFromFile>(file_stream);
 
             CNOTCorrectionMode cnot_correction_mode = CNOTCorrectionMode::NEVER;
-            if(parser.exists("cnot_corrections"))
+            if(parser.exists("cnotcorrections"))
             {
-                if(parser.get<std::string>("cnot_corrections") == "always")
+                if(parser.get<std::string>("cnotcorrections") == "always")
                     cnot_correction_mode = CNOTCorrectionMode::ALWAYS;
-                else if(parser.get<std::string>("cnot_corrections") == "never")
+                else if(parser.get<std::string>("cnotcorrections") == "never")
                     cnot_correction_mode = CNOTCorrectionMode::NEVER;
                 else
                 {
-                    err_stream << "Unknown CNOT correction mode: " << parser.get<std::string>("cnot_corrections") <<std::endl;
+                    err_stream << "Unknown CNOT correction mode: " << parser.get<std::string>("cnotcorrections") <<std::endl;
                     return -1;
                 }
             }
@@ -231,7 +211,7 @@ namespace lsqecc
         }
 
         std::unique_ptr<Layout> layout;
-        if (parser.exists("compact_layout"))
+        if (parser.exists("compactlayout"))
             layout = make_compact_layout(instruction_stream->core_qubits().size());
         else if(parser.exists("l"))
             layout = std::make_unique<LayoutFromSpec>(file_to_string(parser.get<std::string>("l")));
@@ -319,21 +299,18 @@ namespace lsqecc
 
         auto start = lstk::now();
 
+
         std::unique_ptr<PatchComputationResult> computation_result;
 
         if(parser.exists("a") && parser.get<std::string>("a") == "sparse")
-        {
-            err_stream << "Sparse patch representation is not supported at the moment" << std::endl;
-            return 1;
-        }
-//            computation_result = std::make_unique<SparsePatchComputation>(
-//                std::move(*instruction_stream),
-//                std::move(layout),
-//                std::move(router),
-//                timeout,
-//                visitor_with_progress,
-//                parser.exists("graceful")
-//            );
+            computation_result = std::make_unique<SparsePatchComputation>(
+                std::move(*instruction_stream),
+                std::move(layout),
+                std::move(router),
+                timeout,
+                visitor_with_progress,
+                parser.exists("graceful")
+            );
         else if (!parser.exists("a") || (parser.exists("a") && parser.get<std::string>("a") == "dense"))
         {
             computation_result = std::make_unique<DensePatchComputationResult>(run_through_dense_slices(
@@ -342,8 +319,7 @@ namespace lsqecc
                     *router,
                     timeout,
                     [&](const DenseSlice& s){visitor_with_progress(s);},
-                    parser.exists("graceful"),
-                    parser.exists("computation_logging") ? out_stream : NullStream::instance
+                    parser.exists("graceful")
             ));
         } else
         {
