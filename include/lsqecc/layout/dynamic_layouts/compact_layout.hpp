@@ -1,6 +1,7 @@
 #ifndef LSQECC_COMPACT_LAYOUT_HPP
 #define LSQECC_COMPACT_LAYOUT_HPP
 
+#include <memory>
 #include <lsqecc/layout/ascii_layout_spec.hpp>
 
 

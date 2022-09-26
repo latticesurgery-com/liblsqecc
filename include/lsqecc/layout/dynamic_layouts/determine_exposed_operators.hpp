@@ -6,6 +6,7 @@
 #include <lsqecc/patches/slice.hpp>
 #include <lsqecc/layout/layout.hpp>
 #include <tsl/ordered_map.h>
+#include <tsl/ordered_set.h>
 
 namespace lsqecc
 {
@@ -19,9 +20,11 @@ struct RotatableSingleQubitPatchExposedOperators
     void rotate();
 };
 
-tsl::ordered_map<PatchId, RotatableSingleQubitPatchExposedOperators> determine_exposed_core_operators(const Layout& layout);
+tsl::ordered_map<PatchId, RotatableSingleQubitPatchExposedOperators> determine_exposed_core_operators(
+        const Layout& layout, const tsl::ordered_set<PatchId>& core_qubit_ids);
 
-RotatableSingleQubitPatchExposedOperators determine_operators_exposed_for_patch(const SparsePatch& patch, const Slice& slice);
+RotatableSingleQubitPatchExposedOperators determine_operators_exposed_for_patch(
+        const SparsePatch& patch, const Slice& slice);
 
 }
 

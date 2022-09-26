@@ -17,18 +17,17 @@ void RotatableSingleQubitPatchExposedOperators::rotate()
     z_exposed = !z_exposed;
 }
 
-tsl::ordered_map<PatchId, RotatableSingleQubitPatchExposedOperators> determine_exposed_core_operators(const Layout& layout)
+tsl::ordered_map<PatchId, RotatableSingleQubitPatchExposedOperators> determine_exposed_core_operators(
+        const Layout& layout, const tsl::ordered_set<PatchId>& core_qubit_ids)
 {
     tsl::ordered_map<PatchId, RotatableSingleQubitPatchExposedOperators> out;
 
 
-    DenseSlice first_slice{layout};
+    DenseSlice first_slice{layout, core_qubit_ids};
 
-    for(const SparsePatch& patch : layout.core_patches())
+    for(const PatchId& patch_id : core_qubit_ids)
     {
-        if(!patch.id) continue;
-
-        out[*patch.id] = determine_operators_exposed_for_patch(patch, first_slice);
+        out[patch_id] = determine_operators_exposed_for_patch(first_slice.get_sparse_patch_by_id(patch_id).value(), first_slice);
     }
     return out;
 }

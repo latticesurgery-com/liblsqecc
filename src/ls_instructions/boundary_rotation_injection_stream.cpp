@@ -14,7 +14,7 @@ BoundaryRotationInjectionStream::BoundaryRotationInjectionStream(std::unique_ptr
                                                                  const lsqecc::Layout &layout)
 : BoundaryRotationInjectionStream(
         std::move(source),
-        std::move(determine_exposed_core_operators(layout)))
+        determine_exposed_core_operators(layout, source->core_qubits()))
 {}
 
 
@@ -47,12 +47,9 @@ LSInstruction BoundaryRotationInjectionStream::get_next_instruction()
             }
         }
     }
+    next_instructions_.push(new_instruction);
 
-    // Resume by figuring out what to do with the ancillas that arise from CNOTs
-    // idea: add one more cnot annotation to place the ancilla
-    // risk: might need to be able to wait 2 steps for a T state distillation to free up
-
-    return new_instruction;
+    return lstk::queue_pop(next_instructions_);
 }
 
 }

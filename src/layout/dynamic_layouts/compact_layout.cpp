@@ -1,5 +1,6 @@
 #include <lsqecc/layout/dynamic_layouts/compact_layout.hpp>
 
+#include <cmath>
 
 namespace lsqecc
 {

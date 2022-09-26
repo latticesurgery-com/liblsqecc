@@ -50,6 +50,21 @@ std::optional<std::reference_wrapper<DensePatch const>> DenseSlice::get_patch_by
     return maybe_patch ? std::make_optional(std::cref(maybe_patch->get())) : std::nullopt;
 }
 
+std::optional<SparsePatch> DenseSlice::get_sparse_patch_by_id(lsqecc::PatchId id) const
+{
+    auto dense_patch = get_patch_by_id(id);
+    if(!dense_patch) return std::nullopt;
+    const DensePatch& dense_patch_ref = dense_patch->get();
+
+    return SparsePatch{
+            {static_cast<Patch>(dense_patch_ref)},
+            SingleCellOccupiedByPatch{
+                    {dense_patch_ref.boundaries},
+                    get_cell_by_id(id).value()
+            },
+    };
+}
+
 std::optional<Cell> DenseSlice::get_cell_by_id(PatchId id) const
 {
     std::optional<Cell> ret;
@@ -88,6 +103,35 @@ DenseSlice::DenseSlice(const Layout& layout)
         RowStore(layout.furthest_cell().col+1, std::nullopt))),
   layout(std::cref(layout))
 {
+}
+
+
+DenseSlice::DenseSlice(const lsqecc::Layout &layout, const tsl::ordered_set<PatchId> &core_qubit_ids)
+ : DenseSlice(layout)
+{
+    if (layout.core_patches().size()<core_qubit_ids.size())
+        throw std::runtime_error("Not enough Init patches for all ids");
+
+    auto core_qubit_ids_itr = core_qubit_ids.begin();
+    for (const SparsePatch& p : layout.core_patches())
+    {
+        Cell cell = place_sparse_patch(p);
+        patch_at(cell)->id = *core_qubit_ids_itr++;
+    }
+
+    for(const MultipleCellsOccupiedByPatch& distillation_region: layout.distillation_regions())
+    {
+        for (const SingleCellOccupiedByPatch& cell: distillation_region.sub_cells)
+        {
+            patch_at(cell.cell) = DensePatch{
+                    Patch{PatchType::Distillation,PatchActivity::Distillation,std::nullopt},
+                    static_cast<CellBoundaries>(cell)};
+        }
+    }
+
+    size_t distillation_time_offset = 0;
+    for(auto t : layout.distillation_times())
+        time_to_next_magic_state_by_distillation_region.push_back(t+distillation_time_offset++);
 }
 
 bool DenseSlice::is_cell_free(const Cell& cell) const
