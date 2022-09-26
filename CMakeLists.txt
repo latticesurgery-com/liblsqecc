@@ -42,6 +42,9 @@ include_directories(external/json/include)
 # Packages that have their headers at the top level
 include_directories(external/include)
 
+add_subdirectory(external/googletest)
+
+
 ###################################################
 # Library setup
 
@@ -65,7 +68,7 @@ add_library(
         src/gates/gates.cpp
         src/patches/dense_slice.cpp
         src/patches/dense_patch_computation.cpp
-        src/ls_instructions/ls_instructions_from_gates.cpp src/layout/dynamic_layouts/compact_layout.cpp)
+        src/ls_instructions/ls_instructions_from_gates.cpp src/layout/dynamic_layouts/compact_layout.cpp include/lsqecc/ls_instructions/boundary_rotation_injection_stream.hpp src/ls_instructions/boundary_rotation_injection_stream.cpp src/layout/dynamic_layouts/determine_exposed_operators.cpp)
 
 set(LSQECCLIB_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/include")
 
@@ -129,19 +132,19 @@ endif()
 
 
 if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
-    add_subdirectory(external/pybind11)
-
-    pybind11_add_module(lsqecclib_bybind ${PROJECT_SOURCE_DIR}/src/lsqecclib_pybind.cpp)
-
-    target_include_directories(
-            lsqecclib_bybind
-            PUBLIC
-            ${INCLUDE_DIRS}
-    )
-
-    target_link_libraries(
-            lsqecclib_bybind PUBLIC lsqecclib
-    )
+#    add_subdirectory(external/pybind11)
+#
+#    pybind11_add_module(lsqecclib_bybind ${PROJECT_SOURCE_DIR}/src/lsqecclib_pybind.cpp)
+#
+#    target_include_directories(
+#            lsqecclib_bybind
+#            PUBLIC
+#            ${INCLUDE_DIRS}
+#    )
+#
+#    target_link_libraries(
+#            lsqecclib_bybind PUBLIC lsqecclib
+#    )
 
 
     ###################################################
@@ -154,9 +157,7 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
     add_executable(
             lsqecc_tests
             tests/main.cpp
-            tests/patches/fast_patch_computation.cpp
-            tests/logical_lattice_ops/ls_instructions.cpp
-            tests/logical_lattice_ops/ls_instructions_parse.cpp)
+            tests/lstk/lstk.cpp)
     target_link_libraries(
             lsqecc_tests
             lsqecclib
