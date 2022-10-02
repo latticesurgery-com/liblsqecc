@@ -48,24 +48,28 @@ include_directories(external/include)
 add_library(
         lsqecclib
         src/gates/parse_gates.cpp
-        src/patches/sparse_patch_computation.cpp
-        src/ls_instructions/ls_instructions.cpp
-        src/ls_instructions/ls_instructions_parse.cpp
-        src/ls_instructions/ls_instruction_stream.cpp
-        src/ls_instructions/parse_utils.cpp
+        src/gates/gates.cpp
+        src/patches/dense_slice.cpp
+        src/patches/dense_patch_computation.cpp
         src/patches/patches.cpp
         src/patches/sparse_slice.cpp
         src/patches/slices_to_json.cpp
+        src/patches/sparse_patch_computation.cpp
+        src/pipelines/slicer.cpp
+        src/layout/dynamic_layouts/compact_layout.cpp
+        src/layout/dynamic_layouts/determine_exposed_operators.cpp
         src/layout/graph_search/boost_based_graph_search.cpp
         src/layout/graph_search/custom_graph_search.cpp
         src/layout/router.cpp
         src/layout/ascii_layout_spec.cpp
         src/layout/layout.cpp
-        src/pipelines/slicer.cpp
-        src/gates/gates.cpp
-        src/patches/dense_slice.cpp
-        src/patches/dense_patch_computation.cpp
-        src/ls_instructions/ls_instructions_from_gates.cpp)
+        src/ls_instructions/boundary_rotation_injection_stream.cpp
+        src/ls_instructions/ls_instructions_from_gates.cpp
+        src/ls_instructions/ls_instructions_parse.cpp
+        src/ls_instructions/ls_instruction_stream.cpp
+        src/ls_instructions/ls_instructions.cpp
+        src/ls_instructions/parse_utils.cpp
+       )
 
 set(LSQECCLIB_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/include")
 

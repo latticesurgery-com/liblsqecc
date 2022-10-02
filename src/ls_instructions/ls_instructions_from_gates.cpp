@@ -4,19 +4,14 @@ namespace lsqecc
 {
 
 
-LSIinstructionFromGatesGenerator::LSIinstructionFromGatesGenerator(PatchId ancilla_state_id_start)
-: ancilla_state_id_counter_(ancilla_state_id_start)
+LSIinstructionFromGatesGenerator::LSIinstructionFromGatesGenerator(IdGenerator& id_generator)
+: id_generator_(id_generator)
 {}
-
-PatchId LSIinstructionFromGatesGenerator::get_next_ancilla_state_id()
-{
-    return ancilla_state_id_counter_++;
-}
 
 std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_t_gate_instructions(PatchId target_id)
 {
     std::queue<LSInstruction> next_instructions;
-    PatchId new_magic_state_id = get_next_ancilla_state_id();
+    PatchId new_magic_state_id = id_generator_.new_id();
     next_instructions.push({.operation={MagicStateRequest{new_magic_state_id, MagicStateRequest::DEFAULT_WAIT}}});
     next_instructions.push({.operation={
             MultiPatchMeasurement{.observable={
@@ -47,7 +42,7 @@ std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_cnot_instructio
         place_ancilla_next_to = std::make_pair(target_id, PauliOperator::Z);
 
     std::queue<LSInstruction> next_instructions;
-    PatchId ancilla_id = get_next_ancilla_state_id();
+    PatchId ancilla_id = id_generator_.new_id();
     next_instructions.push({.operation={PatchInit{
             ancilla_id, PatchInit::InitializeableStates::Plus, place_ancilla_next_to}}});
 

@@ -13,9 +13,11 @@
 #include <deque>
 
 namespace lsqecc{
-std::vector<std::vector<AsciiLayoutSpec::CellType>> AsciiLayoutSpec::parse_grid(const std::string_view input)
+
+
+AsciiLayoutSpec::CellGrid AsciiLayoutSpec::parse_grid(const std::string_view input)
 {
-    std::vector<std::vector<AsciiLayoutSpec::CellType>> rows;
+    AsciiLayoutSpec::CellGrid rows;
     for(const std::string_view& row: lstk::split_on(input,'\n'))
     {
         if(row.length() == 0) continue;

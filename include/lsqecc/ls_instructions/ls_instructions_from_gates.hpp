@@ -4,6 +4,7 @@
 #include <lsqecc/patches/patches.hpp>
 #include <lsqecc/gates/gates.hpp>
 #include <lsqecc/ls_instructions/ls_instructions.hpp>
+#include <lsqecc/ls_instructions/id_generator.hpp>
 
 namespace lsqecc
 {
@@ -17,7 +18,7 @@ enum class CNOTCorrectionMode {
 class LSIinstructionFromGatesGenerator
 {
 public:
-    explicit LSIinstructionFromGatesGenerator(PatchId ancilla_state_id_start);
+    explicit LSIinstructionFromGatesGenerator(IdGenerator& id_generator);
 
     std::queue<LSInstruction> make_t_gate_instructions(PatchId target_id);
     std::queue<LSInstruction> make_cnot_instructions(
@@ -28,8 +29,7 @@ public:
             CNOTCorrectionMode cnot_correction_mode);
 
 private:
-    PatchId get_next_ancilla_state_id();
-    PatchId ancilla_state_id_counter_;
+    IdGenerator& id_generator_;
 };
 
 }

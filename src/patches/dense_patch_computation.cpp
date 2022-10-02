@@ -4,37 +4,6 @@ namespace lsqecc
 {
 
 
-DenseSlice first_dense_slice_from_layout(const Layout& layout, const tsl::ordered_set<PatchId>& core_qubit_ids)
-{
-    DenseSlice slice(layout);
-
-    if (layout.core_patches().size()<core_qubit_ids.size())
-        throw std::runtime_error("Not enough Init patches for all ids");
-
-    auto core_qubit_ids_itr = core_qubit_ids.begin();
-    for (const SparsePatch& p : layout.core_patches())
-    {
-        Cell cell = slice.place_sparse_patch(p);
-        slice.patch_at(cell)->id = *core_qubit_ids_itr++;
-    }
-
-    for(const MultipleCellsOccupiedByPatch& distillation_region: layout.distillation_regions())
-    {
-        for (const SingleCellOccupiedByPatch& cell: distillation_region.sub_cells)
-        {
-            slice.patch_at(cell.cell) = DensePatch{
-                Patch{PatchType::Distillation,PatchActivity::Distillation,std::nullopt},
-                static_cast<CellBoundaries>(cell)};
-        }
-    }
-
-    size_t distillation_time_offset = 0;
-    for(auto t : layout.distillation_times())
-        slice.time_to_next_magic_state_by_distillation_region.push_back(t+distillation_time_offset++);
-
-    return slice;
-}
-
 std::optional<Cell> find_place_for_magic_state(const DenseSlice& slice, const Layout& layout, size_t distillation_region_idx)
 {
     for(const auto& cell: layout.distilled_state_locations(distillation_region_idx))
@@ -323,7 +292,9 @@ InstructionApplicationResult try_apply_instruction(
 
     }
 
-    return {std::make_unique<std::runtime_error>("Unhandled LS instruction in PatchComputation"),{}};
+    std::stringstream s;
+    s << "Unhandled LS instruction in PatchComputation: " << instruction;
+    return {std::make_unique<std::runtime_error>(s.str()),{}};
 }
 
 
@@ -341,7 +312,7 @@ DensePatchComputationResult run_through_dense_slices(
 
     auto run = [&]()
     {
-        DenseSlice slice = first_dense_slice_from_layout(layout, instruction_stream.core_qubits());
+        DenseSlice slice{layout, instruction_stream.core_qubits()};
 
         auto start = std::chrono::steady_clock::now();
 

@@ -43,7 +43,7 @@ namespace LayoutHelpers{
 
 }
 
-
+// Plan to deprecate in favour of compact or fast layouts
 class SimpleLayout : public Layout {
 public:
 

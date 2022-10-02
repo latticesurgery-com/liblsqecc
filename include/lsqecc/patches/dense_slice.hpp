@@ -7,6 +7,7 @@
 
 #include <functional>
 #include <unordered_map>
+#include <tsl/ordered_set.h>
 
 namespace lsqecc
 {
@@ -24,6 +25,7 @@ struct DenseSlice : public Slice
     std::reference_wrapper<const Layout> layout;
 
     explicit DenseSlice(const Layout& layout);
+    DenseSlice(const Layout& layout, const tsl::ordered_set<PatchId>& core_qubit_ids);
 
     virtual const Layout& get_layout() const override;
 
@@ -36,6 +38,7 @@ struct DenseSlice : public Slice
 
     std::optional<std::reference_wrapper<DensePatch>> get_patch_by_id(PatchId id);
     std::optional<std::reference_wrapper<const DensePatch>> get_patch_by_id(PatchId id) const;
+    std::optional<SparsePatch> get_sparse_patch_by_id(PatchId id) const;
     std::optional<Cell> get_cell_by_id(PatchId id) const override;
     bool has_patch(PatchId id) const override;
     std::optional<DensePatch>& patch_at(const Cell& cell);

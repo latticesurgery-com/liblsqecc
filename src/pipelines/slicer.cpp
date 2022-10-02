@@ -2,8 +2,11 @@
 
 #include <lsqecc/gates/parse_gates.hpp>
 #include <lsqecc/ls_instructions/ls_instruction_stream.hpp>
+#include <lsqecc/ls_instructions/boundary_rotation_injection_stream.hpp>
+#include <lsqecc/ls_instructions/teleported_s_gate_injection_stream.hpp>
 #include <lsqecc/layout/ascii_layout_spec.hpp>
 #include <lsqecc/layout/router.hpp>
+#include <lsqecc/layout/dynamic_layouts/compact_layout.hpp>
 #include <lsqecc/patches/slices_to_json.hpp>
 #include <lsqecc/patches/slice.hpp>
 #include <lsqecc/patches/sparse_patch_computation.hpp>
@@ -105,6 +108,10 @@ namespace lsqecc
                 .names({"--cnotcorrections"})
                 .description("Add Xs and Zs to correct the the negative outcomes: never (default), always") // TODO add random
                 .required(false);
+        parser.add_argument()
+                .names({"--compactlayout"})
+                .description("Uses Litinski's compact layout, incompatible with -l")
+                .required(false);
         parser.enable_help();
 
         auto err = parser.parse(argc, argv);
@@ -153,6 +160,8 @@ namespace lsqecc
 
         std::ifstream file_stream;
         std::unique_ptr<LSInstructionStream> instruction_stream;
+        IdGenerator id_generator;
+
         if(parser.exists("i"))
         {
             if(parser.exists("q")){
@@ -169,8 +178,11 @@ namespace lsqecc
             instruction_stream = std::make_unique<LSInstructionStreamFromFile>(file_stream);
         }
         if(!instruction_stream && !parser.exists("q"))
+        {
             instruction_stream = std::make_unique<LSInstructionStreamFromFile>(in_stream);
-
+            id_generator.set_start(*std::max(instruction_stream->core_qubits().begin(),
+                                             instruction_stream->core_qubits().end()));
+        }
 
         std::unique_ptr<GateStream> gate_stream;
         if(parser.exists("q"))
@@ -196,7 +208,8 @@ namespace lsqecc
                     return -1;
                 }
             }
-            instruction_stream = std::make_unique<LSInstructionStreamFromGateStream>(*gate_stream, cnot_correction_mode);
+            id_generator.set_start(gate_stream->get_qreg().size);
+            instruction_stream = std::make_unique<LSInstructionStreamFromGateStream>(*gate_stream, cnot_correction_mode, id_generator);
         }
 
         if(parser.exists("lli"))
@@ -206,7 +219,14 @@ namespace lsqecc
         }
 
         std::unique_ptr<Layout> layout;
-        if(parser.exists("l"))
+        if (parser.exists("compactlayout"))
+        {
+            layout = make_compact_layout(instruction_stream->core_qubits().size());
+            instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
+            instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
+
+        }
+        else if(parser.exists("l"))
             layout = std::make_unique<LayoutFromSpec>(file_to_string(parser.get<std::string>("l")));
         else
             layout = std::make_unique<SimpleLayout>(instruction_stream->core_qubits().size());

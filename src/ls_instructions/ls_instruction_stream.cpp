@@ -43,7 +43,8 @@ LSInstructionStreamFromFile::LSInstructionStreamFromFile(std::istream& instructi
     if(!next_instruction_)
         throw std::runtime_error("No instructions");
 
-    LSInstruction first_instruction = get_next_instruction();
+    LSInstruction first_instruction = next_instruction_.value();
+    advance_instruction();
     if(!std::holds_alternative<DeclareLogicalQubitPatches>(first_instruction.operation))
         throw std::runtime_error("First instruction must be qubit declaration");
 
@@ -154,11 +155,14 @@ tsl::ordered_set<PatchId> core_qubits_from_gate_stream(GateStream& gate_stream)
 }
 
 
-LSInstructionStreamFromGateStream::LSInstructionStreamFromGateStream(GateStream& gate_stream, CNOTCorrectionMode cnot_correction_mode)
+LSInstructionStreamFromGateStream::LSInstructionStreamFromGateStream(
+        GateStream& gate_stream,
+        CNOTCorrectionMode cnot_correction_mode,
+        IdGenerator& id_generator)
 : gate_stream_(gate_stream),
   next_instructions_(),
   core_qubits_(core_qubits_from_gate_stream(gate_stream)),
-  instruction_generator_(*std::max_element(core_qubits_.begin(), core_qubits_.end())+1),
+  instruction_generator_(id_generator),
   cnot_correction_mode_(cnot_correction_mode)
 {
 }
