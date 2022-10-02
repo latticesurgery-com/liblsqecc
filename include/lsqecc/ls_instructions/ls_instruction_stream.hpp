@@ -17,6 +17,8 @@
 
 namespace lsqecc {
 
+
+
 class LSInstructionStream
 {
 public:

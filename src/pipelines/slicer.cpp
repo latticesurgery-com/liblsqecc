@@ -3,6 +3,7 @@
 #include <lsqecc/gates/parse_gates.hpp>
 #include <lsqecc/ls_instructions/ls_instruction_stream.hpp>
 #include <lsqecc/ls_instructions/boundary_rotation_injection_stream.hpp>
+#include <lsqecc/ls_instructions/teleported_s_gate_injection_stream.hpp>
 #include <lsqecc/layout/ascii_layout_spec.hpp>
 #include <lsqecc/layout/router.hpp>
 #include <lsqecc/layout/dynamic_layouts/compact_layout.hpp>
@@ -221,7 +222,9 @@ namespace lsqecc
         if (parser.exists("compactlayout"))
         {
             layout = make_compact_layout(instruction_stream->core_qubits().size());
+            instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
             instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
+
         }
         else if(parser.exists("l"))
             layout = std::make_unique<LayoutFromSpec>(file_to_string(parser.get<std::string>("l")));
