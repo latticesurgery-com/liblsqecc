@@ -3,6 +3,7 @@
 
 #include <lsqecc/ls_instructions/ls_instructions.hpp>
 #include <lsqecc/ls_instructions/ls_instructions_from_gates.hpp>
+#include <lsqecc/ls_instructions/id_generator.hpp>
 #include <lsqecc/gates/parse_gates.hpp>
 
 
@@ -48,7 +49,11 @@ private:
 
 class LSInstructionStreamFromGateStream : public LSInstructionStream {
 public:
-    LSInstructionStreamFromGateStream(GateStream& gate_stream, CNOTCorrectionMode cnot_correction_mode);
+    LSInstructionStreamFromGateStream(
+            GateStream& gate_stream, // TODO why is this not rvalue ref?
+            CNOTCorrectionMode cnot_correction_mode,
+            IdGenerator& id_generator
+            );
 
     LSInstruction get_next_instruction() override;
     bool has_next_instruction() const override {return next_instructions_.size() || gate_stream_.has_next_gate();};

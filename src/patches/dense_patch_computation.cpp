@@ -292,7 +292,9 @@ InstructionApplicationResult try_apply_instruction(
 
     }
 
-    return {std::make_unique<std::runtime_error>("Unhandled LS instruction in PatchComputation"),{}};
+    std::stringstream s;
+    s << "Unhandled LS instruction in PatchComputation: " << instruction;
+    return {std::make_unique<std::runtime_error>(s.str()),{}};
 }
 
 

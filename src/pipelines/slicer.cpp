@@ -159,6 +159,8 @@ namespace lsqecc
 
         std::ifstream file_stream;
         std::unique_ptr<LSInstructionStream> instruction_stream;
+        IdGenerator id_generator;
+
         if(parser.exists("i"))
         {
             if(parser.exists("q")){
@@ -175,8 +177,11 @@ namespace lsqecc
             instruction_stream = std::make_unique<LSInstructionStreamFromFile>(file_stream);
         }
         if(!instruction_stream && !parser.exists("q"))
+        {
             instruction_stream = std::make_unique<LSInstructionStreamFromFile>(in_stream);
-
+            id_generator.set_start(*std::max(instruction_stream->core_qubits().begin(),
+                                             instruction_stream->core_qubits().end()));
+        }
 
         std::unique_ptr<GateStream> gate_stream;
         if(parser.exists("q"))
@@ -202,7 +207,8 @@ namespace lsqecc
                     return -1;
                 }
             }
-            instruction_stream = std::make_unique<LSInstructionStreamFromGateStream>(*gate_stream, cnot_correction_mode);
+            id_generator.set_start(gate_stream->get_qreg().size);
+            instruction_stream = std::make_unique<LSInstructionStreamFromGateStream>(*gate_stream, cnot_correction_mode, id_generator);
         }
 
         if(parser.exists("lli"))
