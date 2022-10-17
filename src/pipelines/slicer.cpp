@@ -47,8 +47,11 @@ namespace lsqecc
 
     enum class OutputFormatMode
     {
-        Progress, NoProgress, Machine, Slices
+        Progress, NoProgress, Machine
     };
+
+
+    // TODO: Resume by getting the slicer to accept stdin as input
 
 
     int run_slicer_program(
@@ -60,12 +63,12 @@ namespace lsqecc
         std::string prog_name{argv[0]};
         argparse::ArgumentParser parser(prog_name, "Slice LS-Instructions");
         parser.add_argument()
-                .names({"-i", "--instructions"})
-                .description("File name of file with LS Instructions. If not provided will read LS Instructions from stdin")
+                .names({"-i", "--input"})
+                .description("File with input. If not provided will read LS Instructions from stdin")
                 .required(false);
         parser.add_argument()
-                .names({"-q", "--qasm"}) // TODO remove and use extension
-                .description("File name of file with QASM. If not provided will read LS Instructions (not QASM) from stdin")
+                .names({"-q", "--qasm"})
+                .description("File name of file with QASM. When not provided will read as LLI (not QASM)")
                 .required(false);
         parser.add_argument()
                 .names({"-l", "--layout"})
@@ -73,12 +76,11 @@ namespace lsqecc
                 .required(false);
         parser.add_argument()
                 .names({"-o", "--output"})
-                .description("File name of output file to which write a latticesurgery.com JSON of the slices."
-                             " By default outputs to stdout")
+                .description("File name of output. When not provided outputs to stdout")
                 .required(false);
         parser.add_argument()
                 .names({"-f", "--output-format"})
-                .description("Requires, STDOUT output format: slices (default), progress , noprogress, machine,")
+                .description("Requires -o, STDOUT output format: progress, noprogress, machine")
                 .required(false);
         parser.add_argument()
                 .names({"-t", "--timeout"})
@@ -101,8 +103,12 @@ namespace lsqecc
                 .description("If there is an error when slicing, print the error and terminate")
                 .required(false);
         parser.add_argument()
-                .names({"--lli"})
+                .names({"--printlli"})
                 .description("Output LLI instead of JSONs")
+                .required(false);
+        parser.add_argument()
+                .names({"--noslices"})
+                .description("Do the slicing but don't write the slices out")
                 .required(false);
         parser.add_argument()
                 .names({"--cnotcorrections"})
@@ -135,13 +141,11 @@ namespace lsqecc
             write_slices_stream = std::ref(*_ofstream_store);
         }
 
-        auto output_format_mode = parser.exists("o") ? OutputFormatMode::Progress : OutputFormatMode::Slices;
+        auto output_format_mode = OutputFormatMode::Progress;
         if(parser.exists("f"))
         {
             auto mode_arg = parser.get<std::string>("f");
-            if (mode_arg=="slices")
-                output_format_mode = OutputFormatMode::Slices;
-            else if (mode_arg=="progress")
+            if (mode_arg=="progress")
                 output_format_mode = OutputFormatMode::Progress;
             else if (mode_arg=="noprogres")
                 output_format_mode = OutputFormatMode::NoProgress;
@@ -153,47 +157,38 @@ namespace lsqecc
                 return -1;
             }
 
-        }
-        bool is_writing_slices = parser.exists("o") || output_format_mode == OutputFormatMode::Slices;
-
-
-
-        std::ifstream file_stream;
-        std::unique_ptr<LSInstructionStream> instruction_stream;
-        IdGenerator id_generator;
-
-        if(parser.exists("i"))
-        {
-            if(parser.exists("q")){
-                err_stream << "Can only allow one of -i and -q at once" <<std::endl;
+            if(!parser.exists("f"))
+            {
+                err_stream << "-f requires -o" << std::endl;
                 return -1;
             }
+        }
 
-            file_stream = std::ifstream(parser.get<std::string>("i"));
-            if(file_stream.fail() || !std::filesystem::exists(parser.get<std::string>("i"))){
+        std::reference_wrapper<std::istream> input_file_stream = std::ref(in_stream);
+        std::unique_ptr<std::ifstream> _file_to_read_store;
+        if(parser.exists("i"))
+        {
+            _file_to_read_store = std::make_unique<std::ifstream>(parser.get<std::string>("i"));
+            if(!std::filesystem::exists(parser.get<std::string>("i")) || _file_to_read_store->fail()){
                 err_stream << "Could not open instruction file: " << parser.get<std::string>("i") <<std::endl;
                 return -1;
             }
-
-            instruction_stream = std::make_unique<LSInstructionStreamFromFile>(file_stream);
+            input_file_stream = std::ref(*_file_to_read_store);
         }
-        if(!instruction_stream && !parser.exists("q"))
+
+        IdGenerator id_generator;
+        std::unique_ptr<LSInstructionStream> instruction_stream;
+        std::unique_ptr<GateStream> gate_stream;
+
+        if(!parser.exists("q"))
         {
-            instruction_stream = std::make_unique<LSInstructionStreamFromFile>(in_stream);
+            instruction_stream = std::make_unique<LSInstructionStreamFromFile>(input_file_stream.get());
             id_generator.set_start(*std::max(instruction_stream->core_qubits().begin(),
                                              instruction_stream->core_qubits().end()));
         }
-
-        std::unique_ptr<GateStream> gate_stream;
         if(parser.exists("q"))
         {
-            file_stream = std::ifstream(parser.get<std::string>("q"));
-            if(file_stream.fail() || !std::filesystem::exists(parser.get<std::string>("q"))){
-                err_stream << "Could not open instruction file: " << parser.get<std::string>("q") <<std::endl;
-                return -1;
-            }
-
-            gate_stream = std::make_unique<GateStreamFromFile>(file_stream);
+            gate_stream = std::make_unique<GateStreamFromFile>(input_file_stream.get());
 
             CNOTCorrectionMode cnot_correction_mode = CNOTCorrectionMode::NEVER;
             if(parser.exists("cnotcorrections"))
@@ -212,7 +207,7 @@ namespace lsqecc
             instruction_stream = std::make_unique<LSInstructionStreamFromGateStream>(*gate_stream, cnot_correction_mode, id_generator);
         }
 
-        if(parser.exists("lli"))
+        if(parser.exists("printlli"))
         {
             print_all_ls_instructions_to_string(out_stream, std::move(instruction_stream));
             return 0;
@@ -273,10 +268,9 @@ namespace lsqecc
 
         auto no_op_visitor = [](const SliceVariant& s) -> void {LSTK_UNUSED(s);};
 
-
         SliceVisitorFunction slice_printing_visitor{no_op_visitor};
         bool is_first_slice = true;
-        if(is_writing_slices)
+        if(!parser.exists("noslices"))
         {
             slice_printing_visitor = [&write_slices_stream, &is_first_slice](const SliceVariant & s){
                 if(is_first_slice)
@@ -293,7 +287,7 @@ namespace lsqecc
 
         size_t slice_counter = 0;
 
-        SliceVisitorFunction visitor_with_progress{slice_printing_visitor};;
+        SliceVisitorFunction visitor_with_progress{slice_printing_visitor};
 
         auto gave_update_at = lstk::now();
         if(output_format_mode == OutputFormatMode::Progress)
@@ -311,7 +305,6 @@ namespace lsqecc
         }
 
         auto start = lstk::now();
-
 
         std::unique_ptr<PatchComputationResult> computation_result;
 
@@ -340,23 +333,23 @@ namespace lsqecc
             return 1;
         }
 
-        if(output_format_mode == OutputFormatMode::Machine)
-        {
-            out_stream << computation_result->ls_instructions_count() << ","
-                       << computation_result->slice_count() << ","
-                       << lstk::seconds_since(start) << std::endl;
-        }
-        else if (output_format_mode == OutputFormatMode::Progress)
-        {
-            out_stream << "LS Instructions read  " << computation_result->ls_instructions_count() << std::endl;
-            out_stream << "Slices " << computation_result->slice_count() << std::endl;
-            out_stream << "Made patch computation. Took " << lstk::seconds_since(start) << "s." << std::endl;
-        }
 
-        if(is_writing_slices)
+        if(parser.exists("o"))
+        {
+            if (output_format_mode == OutputFormatMode::Machine)
+            {
+                out_stream << computation_result->ls_instructions_count() << ","
+                           << computation_result->slice_count() << ","
+                           << lstk::seconds_since(start) << std::endl;
+            } else if (output_format_mode == OutputFormatMode::Progress)
+            {
+                out_stream << "LS Instructions read  " << computation_result->ls_instructions_count() << std::endl;
+                out_stream << "Slices " << computation_result->slice_count() << std::endl;
+                out_stream << "Made patch computation. Took " << lstk::seconds_since(start) << "s." << std::endl;
+            }
+        }
+        if(!parser.exists("noslices"))
             write_slices_stream.get() << "]" <<std::endl;
-
-
 
         return 0;
     }
