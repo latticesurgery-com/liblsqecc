@@ -69,6 +69,7 @@ add_library(
         src/ls_instructions/ls_instruction_stream.cpp
         src/ls_instructions/ls_instructions.cpp
         src/ls_instructions/parse_utils.cpp
+        src/ls_instructions/teleported_s_gate_injection_stream.cpp
        )
 
 set(LSQECCLIB_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/include")
