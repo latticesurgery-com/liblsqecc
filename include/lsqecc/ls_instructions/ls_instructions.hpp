@@ -58,6 +58,13 @@ struct MagicStateRequest {
     bool operator==(const MagicStateRequest&) const = default;
 };
 
+struct WaitForSlices {
+    size_t slices_to_wait_for=1;
+
+    bool operator==(const WaitForSlices&) const = default;
+};
+
+
 
 struct RotateSingleCellPatch {
     PatchId target;
@@ -100,7 +107,8 @@ struct LSInstruction {
             MagicStateRequest,
             SingleQubitOp,
             RotateSingleCellPatch,
-            BusyRegion
+            BusyRegion,
+            WaitForSlices
             > operation;
 
     std::vector<PatchId> get_operating_patches() const;
@@ -121,6 +129,7 @@ std::ostream& operator<<(std::ostream& os, const SinglePatchMeasurement& instruc
 std::ostream& operator<<(std::ostream& os, const MultiPatchMeasurement& instruction);
 std::ostream& operator<<(std::ostream& os, const PatchInit& instruction);
 std::ostream& operator<<(std::ostream& os, const MagicStateRequest& instruction);
+std::ostream& operator<<(std::ostream& os, const WaitForSlices& instruction);
 std::ostream& operator<<(std::ostream& os, const SingleQubitOp& instruction);
 std::ostream& operator<<(std::ostream& os, const RotateSingleCellPatch& instruction);
 std::ostream& operator<<(std::ostream& os, const BusyRegion& instruction);
@@ -153,6 +162,11 @@ struct LSInstructionPrint<PatchInit>{
 template<>
 struct LSInstructionPrint<MagicStateRequest>{
     static constexpr std::string_view name = "RequestMagicState";
+};
+
+template<>
+struct LSInstructionPrint<WaitForSlices>{
+    static constexpr std::string_view name = "WaitForSlices";
 };
 
 template<>

@@ -84,6 +84,11 @@ std::ostream& operator<<(std::ostream& os, const MagicStateRequest& instruction)
         << " #WaitAtMostFor " << instruction.wait_at_most_for;
 }
 
+std::ostream& operator<<(std::ostream& os, const WaitForSlices& instruction)
+{
+    return os << LSInstructionPrint<WaitForSlices>::name << " " << instruction.slices_to_wait_for;
+}
+
 std::ostream& operator<<(std::ostream& os, const SingleQubitOp& instruction)
 {
     return os << SingleQuibitOperatorName_to_string(instruction.op)

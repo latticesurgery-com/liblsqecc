@@ -207,12 +207,6 @@ namespace lsqecc
             instruction_stream = std::make_unique<LSInstructionStreamFromGateStream>(*gate_stream, cnot_correction_mode, id_generator);
         }
 
-        if(parser.exists("printlli"))
-        {
-            print_all_ls_instructions_to_string(out_stream, std::move(instruction_stream));
-            return 0;
-        }
-
         std::unique_ptr<Layout> layout;
         if (parser.exists("compactlayout"))
         {
@@ -230,6 +224,12 @@ namespace lsqecc
                        std::make_optional(std::chrono::seconds{parser.get<uint32_t>("t")})
                                           : std::nullopt;
 
+
+        if(parser.exists("printlli"))
+        {
+            print_all_ls_instructions_to_string(out_stream, std::move(instruction_stream));
+            return 0;
+        }
 
         std::unique_ptr<Router> router = std::make_unique<NaiveDijkstraRouter>();
         if(parser.exists("r"))
