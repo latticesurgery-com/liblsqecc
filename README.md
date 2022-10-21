@@ -64,7 +64,7 @@ Clone:
 $ git clone --recursive git@github.com:latticesurgery-com/liblsqecc.git 
 ```
 
-Install the [Boost](https://www.boost.org/) development headers for your platform.
+Install the [Boost](https://www.boost.org/) development headers for your platform. (optional, used for faster path finding in some cases)
 
 Standard CMake build:
 ```shell
