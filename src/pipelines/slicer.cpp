@@ -152,9 +152,9 @@ namespace lsqecc
                 return -1;
             }
 
-            if(!parser.exists("f"))
+            if(!parser.exists("o") && !parser.exists("noslices"))
             {
-                err_stream << "-f requires -o" << std::endl;
+                err_stream << "-f requires -o or --noslices" << std::endl;
                 return -1;
             }
         }
@@ -320,7 +320,7 @@ namespace lsqecc
         }
 
 
-        if(parser.exists("o"))
+        if(parser.exists("o") || parser.exists("noslices"))
         {
             if (output_format_mode == OutputFormatMode::Machine)
             {
