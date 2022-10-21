@@ -147,13 +147,11 @@ InstructionApplicationResult try_apply_instruction(
 
         auto maybe_target_patch = slice.get_patch_by_id(s->target);
         if(!maybe_target_patch)
-            return {std::make_unique<std::runtime_error>(
-                    lstk::cat("SinglePatchMeasurement: patch ", s->target, " not on lattice")), {}};
+            return {std::make_unique<std::runtime_error>(lstk::cat("Patch ", s->target, " not on lattice")), {}};
         auto& target_patch = maybe_target_patch->get();
 
         if (target_patch.is_active())
-            return {std::make_unique<std::runtime_error>(lstk::cat("Patch ", s->target, " is active")),
-                    {{WaitForSlices{.slices_to_wait_for=1}}}};
+            return {std::make_unique<std::runtime_error>(lstk::cat("Patch ", s->target, " is active")), {}};
         target_patch.activity = PatchActivity::Measurement;
         return {nullptr, {}};
     }
@@ -161,9 +159,7 @@ InstructionApplicationResult try_apply_instruction(
     {
         auto maybe_target_patch = slice.get_patch_by_id(p->target);
         if (!maybe_target_patch)
-            return {std::make_unique<std::runtime_error>(
-                    lstk::cat("SingleQubitOp: Patch ", p->target, " not on lattice")),
-                    {{WaitForSlices{.slices_to_wait_for=1}}}};
+            return {std::make_unique<std::runtime_error>(lstk::cat("Patch ", p->target, " not on lattice")), {}};
         auto& target_patch = maybe_target_patch->get();
 
         if (p->op==SingleQubitOp::Operator::S)
@@ -193,17 +189,14 @@ InstructionApplicationResult try_apply_instruction(
         const auto&[target_id, target_op] = *pairs;
 
         if (!slice.has_patch(source_id))
-            return {std::make_unique<std::runtime_error>(
-                    lstk::cat("MultiPatchMeasurementPatch, source: patch ", source_id, " not on lattice")), {}};
+            return {std::make_unique<std::runtime_error>(lstk::cat("Patch ", source_id, " not on lattice")), {}};
         if (!slice.has_patch(target_id))
-            return {std::make_unique<std::runtime_error>(
-                    lstk::cat("MultiPatchMeasurementPatch, target: patch ", target_id, " not on lattice")), {}};
+            return {std::make_unique<std::runtime_error>(lstk::cat("Patch ", target_id, " not on lattice")), {}};
 
         if (!merge_patches(slice, router, source_id, source_op, target_id, target_op))
             return {std::make_unique<std::runtime_error>(lstk::cat("Couldn't find room to route: ",
-                        source_id, ":", PauliOperator_to_string(source_op), ",",
-                        target_id, ":", PauliOperator_to_string(target_op))),
-                    {{WaitForSlices{.slices_to_wait_for=1}}}};
+                    source_id, ":", PauliOperator_to_string(source_op), ",",
+                    target_id, ":", PauliOperator_to_string(target_op))), {}};
         return {nullptr, {}};
     }
     else if (const auto* init = std::get_if<PatchInit>(&instruction.operation))
@@ -211,7 +204,7 @@ InstructionApplicationResult try_apply_instruction(
         auto location= init->place_next_to ?
                   place_ancilla_next_to(slice, init->place_next_to->first, init->place_next_to->second)
                 : find_free_ancilla_location(layout, slice);
-        if (!location) return {std::make_unique<std::runtime_error>("Could not allocate ancilla"), {{WaitForSlices{.slices_to_wait_for=1}}}};
+        if (!location) return {std::make_unique<std::runtime_error>("Could not allocate ancilla"), {}};
 
         slice.patch_at(*location);
         slice.place_sparse_patch(LayoutHelpers::basic_square_patch(*location));
@@ -222,8 +215,7 @@ InstructionApplicationResult try_apply_instruction(
     else if (const auto* rotation = std::get_if<RotateSingleCellPatch>(&instruction.operation))
     {
         if (!slice.has_patch(rotation->target))
-            return {std::make_unique<std::runtime_error>(
-                    lstk::cat("RotateSingleCellPatch: patch ", rotation->target, " not on lattice")), {{WaitForSlices{.slices_to_wait_for=1}}}};
+            return {std::make_unique<std::runtime_error>(lstk::cat("Patch ", rotation->target, " not on lattice")), {}};
         const Cell target_cell = *slice.get_cell_by_id(rotation->target);
 
         std::optional<Cell> free_neighbour;
@@ -234,7 +226,7 @@ InstructionApplicationResult try_apply_instruction(
 
         if (!free_neighbour)
             return {std::make_unique<std::runtime_error>(lstk::cat(
-                    "Cannot rotate patch ", rotation->target, ": has no free neighbour")), {{WaitForSlices{.slices_to_wait_for=1}}}};
+                    "Cannot rotate patch ", rotation->target, ": has no free neighbour")), {}};
 
         auto stages{LayoutHelpers::single_patch_rotation_a_la_litinski(
                 slice.patch_at(target_cell)->to_sparse_patch(target_cell), *free_neighbour)};
@@ -264,14 +256,6 @@ InstructionApplicationResult try_apply_instruction(
 
         else
             return {nullptr, {{MagicStateRequest{mr->target, mr->wait_at_most_for-1}}}};
-
-    }
-    else if (auto* wfs = std::get_if<WaitForSlices>(&instruction.operation))
-    {
-       if (wfs->slices_to_wait_for <=0)
-           return {nullptr, {}};
-       else
-           return {nullptr, {{WaitForSlices{.slices_to_wait_for=wfs->slices_to_wait_for-1}}}};
 
     }
     else if (auto* busy_region = std::get_if<BusyRegion>(&instruction.operation))
@@ -345,20 +329,22 @@ DensePatchComputationResult run_through_dense_slices(
             }();
 
             auto application_result = try_apply_instruction(slice, instruction, layout, router);
-
-            if (!application_result.followup_instructions.empty())
+            if (application_result.maybe_error)
             {
                 slice_visitor(slice);
                 advance_slice(slice, layout);
                 res.slice_count_++;
 
-                for (auto &&i: application_result.followup_instructions)
-                    future_instructions.push(i);
+                application_result = try_apply_instruction(slice, instruction, layout, router);
+                if (application_result.maybe_error)
+                {
+                    slice_visitor(slice);
+                    throw std::runtime_error{application_result.maybe_error->what()};
+                }
             }
-            else if (application_result.maybe_error)
-                throw std::runtime_error{application_result.maybe_error->what()};
 
-
+            for (auto&& i: application_result.followup_instructions)
+                future_instructions.push(i);
 
             if (timeout && lstk::since(start)>*timeout)
             {
