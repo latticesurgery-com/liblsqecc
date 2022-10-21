@@ -19,3 +19,6 @@
 [submodule "external/include/infint"]
 	path = external/include/infint
 	url = git@github.com:sercantutar/infint.git
+[submodule "external/crystalmountain"]
+	path = external/crystalmountain
+	url = git@github.com:gwwatkin/crystalmountain.git

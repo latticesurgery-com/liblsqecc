@@ -235,7 +235,7 @@ GateStreamFromFile::GateStreamFromFile(std::istream& gate_file)
     advance_gate();
 
     if(!qreg_)
-        throw std::runtime_error{"A single qreg must precede instructions"};
+        throw std::runtime_error{"qreg not found. A single qreg must precede instructions"};
 }
 
 gates::Gate GateStreamFromFile::get_next_gate()
