@@ -52,7 +52,6 @@ struct PatchInit {
 
 struct MagicStateRequest {
     PatchId target;
-    size_t wait_at_most_for;
 
     static const size_t DEFAULT_WAIT = 10;
     bool operator==(const MagicStateRequest&) const = default;
@@ -92,6 +91,9 @@ struct BusyRegion{
 
 
 struct LSInstruction {
+
+    static constexpr size_t DEFAULT_MAX_WAIT = 3; // Allows for rotations to finish
+
     std::variant<
             DeclareLogicalQubitPatches,
             SinglePatchMeasurement,
@@ -102,6 +104,8 @@ struct LSInstruction {
             RotateSingleCellPatch,
             BusyRegion
             > operation;
+
+    size_t wait_at_most_for = DEFAULT_MAX_WAIT;
 
     std::vector<PatchId> get_operating_patches() const;
     bool operator==(const LSInstruction&) const = default;

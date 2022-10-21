@@ -129,6 +129,15 @@ bool merge_patches(
 }
 
 
+std::vector<LSInstruction> followup_next_attempt(const LSInstruction& instruction)
+{
+    LSInstruction followup{instruction};
+    if(instruction.wait_at_most_for == 0) return {};
+    followup.wait_at_most_for--;
+    return {followup};
+}
+
+
 // TODO replace with a variant
 struct InstructionApplicationResult
 {
@@ -136,7 +145,10 @@ struct InstructionApplicationResult
     std::vector<LSInstruction> followup_instructions;
 };
 
-InstructionApplicationResult try_apply_instruction(
+
+
+
+InstructionApplicationResult try_apply_instruction_direct_followup(
         DenseSlice& slice,
         LSInstruction instruction,
         const Layout& layout,
@@ -250,12 +262,9 @@ InstructionApplicationResult try_apply_instruction(
             newly_bound_magic_state.activity = PatchActivity::None;
             return {nullptr, {}};
         }
-        else if (mr->wait_at_most_for<=0)
-            return {std::make_unique<std::runtime_error>(
-                    std::string{"Could not get magic state after waiting"}), {}};
-
         else
-            return {nullptr, {{MagicStateRequest{mr->target, mr->wait_at_most_for-1}}}};
+            return {std::make_unique<std::runtime_error>(
+                    std::string{"Could not get magic state"}), {}};
 
     }
     else if (auto* busy_region = std::get_if<BusyRegion>(&instruction.operation))
@@ -298,6 +307,18 @@ InstructionApplicationResult try_apply_instruction(
 }
 
 
+InstructionApplicationResult try_apply_instruction_with_followup_attempts(
+        DenseSlice& slice,
+        const LSInstruction& instruction,
+        const Layout& layout,
+        Router& router)
+{
+    InstructionApplicationResult r = try_apply_instruction_direct_followup(slice, instruction, layout, router);
+    if (r.maybe_error && r.followup_instructions.empty())
+        return InstructionApplicationResult{nullptr, followup_next_attempt(instruction)};
+    return r;
+}
+
 
 DensePatchComputationResult run_through_dense_slices(
         LSInstructionStream&& instruction_stream,
@@ -328,23 +349,22 @@ DensePatchComputationResult run_through_dense_slices(
                 return instruction_stream.get_next_instruction();
             }();
 
-            auto application_result = try_apply_instruction(slice, instruction, layout, router);
-            if (application_result.maybe_error)
+            auto application_result = try_apply_instruction_with_followup_attempts(slice, instruction, layout, router);
+            if (!application_result.followup_instructions.empty())
             {
                 slice_visitor(slice);
                 advance_slice(slice, layout);
                 res.slice_count_++;
 
-                application_result = try_apply_instruction(slice, instruction, layout, router);
-                if (application_result.maybe_error)
-                {
-                    slice_visitor(slice);
-                    throw std::runtime_error{application_result.maybe_error->what()};
-                }
+                for (auto&& i: application_result.followup_instructions)
+                    future_instructions.push(i);
+            }
+            else if (application_result.maybe_error)
+            {
+                slice_visitor(slice);
+                throw std::runtime_error{application_result.maybe_error->what()};
             }
 
-            for (auto&& i: application_result.followup_instructions)
-                future_instructions.push(i);
 
             if (timeout && lstk::since(start)>*timeout)
             {
