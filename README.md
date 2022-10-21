@@ -16,7 +16,7 @@ Example usage:
 lsqecc_slicer -i instructions.txt -l 10_by_10_layout.txt -o output.json
 
 # Litinski's compact layout
-lsqecc_slicer -q examples/qasm/compact_layout_demo.qasm -o out.json --compactlayout --graceful
+lsqecc_slicer -q -i examples/qasm/compact_layout_demo.qasm -o out.json --compactlayout --graceful
 ```
 Where:
  * `instructions.txt` contains [LS Instructions](https://github.com/latticesurgery-com/lattice-surgery-compiler/issues/246)
