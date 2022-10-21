@@ -35,13 +35,12 @@ Options:
     -t, --timeout          Set a timeout in seconds after which stop producing slices
     -r, --router           Set a router: graph_search (default), graph_search_cached
     -g, --graph-search     Set a graph search provider: custom (default), boost (not always available)
-    -a, --slice-repr       Set how slices are represented: dense (default), sparse
     --graceful             If there is an error when slicing, print the error and terminate
     --printlli             Output LLI instead of JSONs
     --noslices             Do the slicing but don't write the slices out
     --cnotcorrections      Add Xs and Zs to correct the the negative outcomes: never (default), always
     --compactlayout        Uses Litinski's compact layout, incompatible with -l
-    -h, --help             Shows this page      
+    -h, --help             Shows this page           
 ```
 #### QASM Support (Highly experimental)
 LibLSQECC can parse a small subset of OpenQASM 2.0 instead of LLI, with restrictions below. We call this type of assembly OpenQASM--. In general OpenQASM-- should be valid OpenQASM, up to implementation defects. The rules are 

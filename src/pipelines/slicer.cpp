@@ -9,7 +9,6 @@
 #include <lsqecc/layout/dynamic_layouts/compact_layout.hpp>
 #include <lsqecc/patches/slices_to_json.hpp>
 #include <lsqecc/patches/slice.hpp>
-#include <lsqecc/patches/sparse_patch_computation.hpp>
 #include <lsqecc/patches/dense_patch_computation.hpp>
 #include <lsqecc/patches/slice_variant.hpp>
 
@@ -93,10 +92,6 @@ namespace lsqecc
         parser.add_argument()
                 .names({"-g", "--graph-search"})
                 .description("Set a graph search provider: custom (default), boost (not always available)")
-                .required(false);
-        parser.add_argument()
-                .names({"-a", "--slice-repr"})
-                .description("Set how slices are represented: dense (default), sparse")
                 .required(false);
         parser.add_argument()
                 .names({"--graceful"})
@@ -308,16 +303,7 @@ namespace lsqecc
 
         std::unique_ptr<PatchComputationResult> computation_result;
 
-        if(parser.exists("a") && parser.get<std::string>("a") == "sparse")
-            computation_result = std::make_unique<SparsePatchComputation>(
-                std::move(*instruction_stream),
-                std::move(layout),
-                std::move(router),
-                timeout,
-                visitor_with_progress,
-                parser.exists("graceful")
-            );
-        else if (!parser.exists("a") || (parser.exists("a") && parser.get<std::string>("a") == "dense"))
+        if (!parser.exists("a") || (parser.exists("a") && parser.get<std::string>("a") == "dense"))
         {
             computation_result = std::make_unique<DensePatchComputationResult>(run_through_dense_slices(
                     std::move(*instruction_stream),

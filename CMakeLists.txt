@@ -54,7 +54,6 @@ add_library(
         src/patches/patches.cpp
         src/patches/sparse_slice.cpp
         src/patches/slices_to_json.cpp
-        src/patches/sparse_patch_computation.cpp
         src/pipelines/slicer.cpp
         src/layout/dynamic_layouts/compact_layout.cpp
         src/layout/dynamic_layouts/determine_exposed_operators.cpp
