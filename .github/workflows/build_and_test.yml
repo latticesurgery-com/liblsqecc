@@ -34,6 +34,7 @@ jobs:
   unit-test:
     name: Run unit tests
     runs-on: ubuntu-22.04
+    needs: [build]
     steps:
       - name: Download Build Artifact
         uses: actions/download-artifact@v3.0.0
@@ -46,6 +47,7 @@ jobs:
   regression-test:
     name: Run regression tests
     runs-on: ubuntu-22.04
+    needs: [build]
     steps:
       - name: Download Build Artifact
         uses: actions/download-artifact@v3.0.0
