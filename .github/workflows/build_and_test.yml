@@ -28,4 +28,6 @@ jobs:
       - name: Unit tests
         run: build/lsqecc_tests --gtest_filter=*
       - name: Regression tests
-        run: suite.py
+        run: |
+          cd regression_tests
+          suite.py
