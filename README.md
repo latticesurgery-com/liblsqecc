@@ -1,5 +1,8 @@
 # Liblsqecc
 
+[![Build & Tests](https://github.com/latticesurgery-com/liblsqecc/actions/workflows/build_and_test.yml/badge.svg)](https://github.com/latticesurgery-com/liblsqecc/actions/workflows/build_and_test.yml)
+[![Unitary Fund](https://img.shields.io/badge/Supported%20By-Unitary%20Fund-FFFF00.svg)](https://unitary.fund)
+
 Home of a set of fast tools for compiling lattice surgery instructions. Part of the [Lattice Surgery Compiler](https://github.com/latticesurgery-com/lattice-surgery-compiler) family.
 
 ![](https://user-images.githubusercontent.com/36427091/193476068-eddfea28-3d91-4398-8de4-3a55bb43faa7.gif)
