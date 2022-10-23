@@ -129,25 +129,7 @@ endif()
 
 
 
-###################################################
-# Python Interface
-
-
 if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
-    add_subdirectory(external/pybind11)
-
-    pybind11_add_module(lsqecclib_bybind ${PROJECT_SOURCE_DIR}/src/lsqecclib_pybind.cpp)
-
-    target_include_directories(
-            lsqecclib_bybind
-            PUBLIC
-            ${INCLUDE_DIRS}
-    )
-
-    target_link_libraries(
-            lsqecclib_bybind PUBLIC lsqecclib
-    )
-
 
     ###################################################
     # Tests
@@ -172,6 +154,7 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
             NAME unit
             COMMAND ${PROJECT_BINARY_DIR}/lsqecc_tests
     )
+
     #add_custom_command(
     #        TARGET lsqecc_tests
     #        COMMENT "Run lsqecc_tests"
