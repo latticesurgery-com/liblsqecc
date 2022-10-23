@@ -59,14 +59,12 @@ LibLSQECC can parse a small subset of OpenQASM 2.0 instead of LLI, with restrict
 Contains the functionality used by the `lsqecc_slicer` executable. We are working on exposing its functionality as a Python API in the [Lattice Surgery Compiler](https://github.com/latticesurgery-com/lattice-surgery-compiler) package.
 
 ### Build
-Clone:
+1 .Clone:
 ```shell
 $ git clone --recursive git@github.com:latticesurgery-com/liblsqecc.git 
 ```
 
-Install the [Boost](https://www.boost.org/) development headers for your platform.
-
-Standard CMake build:
+1. Standard CMake build:
 ```shell
 $ mkdir build
 $ cd build
@@ -74,3 +72,9 @@ $ cmake ..
 ```
 
 The `lsqecc_slicer` executable will be at the top level of the `build` directory.
+
+#### Dependencies
+ * CMake >= 3.24
+ * C++ compiler:
+   * GNU GCC 11.2.0
+ * (Optional) Install [Boost](https://www.boost.org/) for your platform for experimental path finding improvements.
