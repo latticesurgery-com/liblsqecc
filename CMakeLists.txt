@@ -142,7 +142,9 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
     # lib
     add_executable(
             lsqecc_tests
-            tests/main.cpp)
+            tests/main.cpp
+            tests/lstk/lstk.cpp
+    )
 
     target_link_libraries(
             lsqecc_tests
