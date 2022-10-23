@@ -2,8 +2,14 @@ name: build and run tests
 on:
   push:
     branches: [ main ]
+    paths-ignore:
+      - '**.md'
+
   pull_request:
     branches: [ main ]
+    paths-ignore:
+      - '**.md'
+
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -28,7 +34,10 @@ jobs:
         uses: actions/upload-artifact@v3.1.0
         with:
           name: build-artifact
-          path: build
+          retention-days: 7
+          path: |
+            build/lsqecc_slicer
+            build/lsqecc_tests
 
   unit-test:
     name: Run unit tests
@@ -40,6 +49,7 @@ jobs:
         uses: actions/download-artifact@v3.0.0
         with:
           name: build-artifact
+          path: build
 
       - name: Unit tests
         run: build/lsqecc_tests --gtest_filter=*
@@ -57,6 +67,7 @@ jobs:
         uses: actions/download-artifact@v3.0.0
         with:
           name: build-artifact
+          path: build
 
       - name: Regression tests
         shell: bash
