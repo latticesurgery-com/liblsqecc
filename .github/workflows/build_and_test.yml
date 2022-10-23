@@ -30,4 +30,4 @@ jobs:
       - name: Regression tests
         run: |
           cd regression_tests
-          suite.py
+          ./suite.py
