@@ -12,7 +12,7 @@ std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_t_gate_instruct
 {
     std::queue<LSInstruction> next_instructions;
     PatchId new_magic_state_id = id_generator_.new_id();
-    next_instructions.push({.operation={MagicStateRequest{new_magic_state_id, MagicStateRequest::DEFAULT_WAIT}}});
+    next_instructions.push({.operation={MagicStateRequest{new_magic_state_id}}, .wait_at_most_for=MagicStateRequest::DEFAULT_WAIT});
     next_instructions.push({.operation={
             MultiPatchMeasurement{.observable={
                     {target_id,PauliOperator::Z},

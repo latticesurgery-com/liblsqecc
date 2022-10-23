@@ -8,7 +8,6 @@ Options:
     -t, --timeout          Set a timeout in seconds after which stop producing slices
     -r, --router           Set a router: graph_search (default), graph_search_cached
     -g, --graph-search     Set a graph search provider: custom (default), boost (not always available)
-    -a, --slice-repr       Set how slices are represented: dense (default), sparse
     --graceful             If there is an error when slicing, print the error and terminate
     --printlli             Output LLI instead of JSONs
     --noslices             Do the slicing but don't write the slices out
