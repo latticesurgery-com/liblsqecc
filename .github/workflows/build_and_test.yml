@@ -1,0 +1,83 @@
+name: Build & Tests
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - '**.md'
+
+  pull_request:
+    branches: [ main ]
+    paths-ignore:
+      - '**.md'
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    env:
+      CC: gcc-11
+      CXX: g++-11
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: mkdir
+        run: mkdir build
+
+      - name: cmake configure
+        run: cmake -Bbuild -H.
+
+      - name: cmake build
+        run: cmake --build build/ --target all
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: build-artifact
+          retention-days: 7
+          path: |
+            build/lsqecc_slicer
+            build/lsqecc_tests
+
+  unit-test:
+    name: Run unit tests
+    runs-on: ubuntu-22.04
+    needs: [build]
+    steps:
+
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v3.0.0
+        with:
+          name: build-artifact
+          path: build
+
+      - name: Mark the tests as executable
+        run: chmod +x build/lsqecc_tests
+
+      - name: Unit tests
+        run: build/lsqecc_tests --gtest_filter=*
+
+
+  regression-test:
+    name: Run regression tests
+    runs-on: ubuntu-22.04
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v3.0.0
+        with:
+          name: build-artifact
+          path: build
+
+      - name: Mark the slicer as executable
+        run: chmod +x build/lsqecc_slicer
+
+      - name: Regression tests
+        shell: bash
+        run: |
+          cd regression_tests
+          ./suite.py
