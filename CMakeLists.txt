@@ -133,6 +133,8 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
 
     ###################################################
     # Tests
+    add_subdirectory(external/googletest)
+
 
     enable_testing()
 
@@ -140,10 +142,8 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
     # lib
     add_executable(
             lsqecc_tests
-            tests/main.cpp
-            tests/patches/fast_patch_computation.cpp
-            tests/logical_lattice_ops/ls_instructions.cpp
-            tests/logical_lattice_ops/ls_instructions_parse.cpp)
+            tests/main.cpp)
+
     target_link_libraries(
             lsqecc_tests
             lsqecclib

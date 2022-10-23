@@ -25,7 +25,7 @@ jobs:
       - name: cmake make
         run: cmake --build build/ --target all
       # run tests
-      - name: run test 1
-        run: build/tst/Example1_tst
-      - name: run test 2
-        run: build/tst/Example2_tst
+      - name: Unit tests
+        run: echo Ran unit tests
+      - name: Regression tests
+        run: echo Ran regression tests

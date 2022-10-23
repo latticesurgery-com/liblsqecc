@@ -16,3 +16,6 @@
 [submodule "external/crystalmountain"]
 	path = external/crystalmountain
 	url = git@github.com:gwwatkin/crystalmountain.git
+[submodule "external/googletest"]
+	path = external/googletest
+	url = https://github.com/google/googletest
