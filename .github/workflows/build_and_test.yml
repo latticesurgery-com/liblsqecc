@@ -24,10 +24,10 @@ jobs:
       - name: mkdir
         run: mkdir build
 
-      - name: cmake build
+      - name: cmake configure
         run: cmake -Bbuild -H.
 
-      - name: cmake make
+      - name: cmake build
         run: cmake --build build/ --target all
 
       - name: Upload Build Artifact
