@@ -34,4 +34,4 @@ print(f"Using lsqecc_slicer from {slicer_location}")
 
 os.environ["PATH"] += f":{slicer_location}"
 
-exit(crystalmountain.main())
+exit(crystalmountain.main().value)
