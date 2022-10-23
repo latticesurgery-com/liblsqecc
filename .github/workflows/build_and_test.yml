@@ -9,7 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      # install dependencies
+        with:
+          submodules: recursive
+      # # install dependencies
       #- name: boost
       #  run: sudo apt-get update && sudo apt-get install -yq libboost1.65-dev
       # build project
