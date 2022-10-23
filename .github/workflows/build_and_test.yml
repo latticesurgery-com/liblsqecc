@@ -28,14 +28,14 @@ jobs:
         uses: actions/upload-artifact@v3.1.0
         with:
           name: build-artifact
-          path: .
-
+          path: build
 
   unit-test:
     name: Run unit tests
     runs-on: ubuntu-22.04
     needs: [build]
     steps:
+
       - name: Download Build Artifact
         uses: actions/download-artifact@v3.0.0
         with:
@@ -49,6 +49,10 @@ jobs:
     runs-on: ubuntu-22.04
     needs: [build]
     steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
       - name: Download Build Artifact
         uses: actions/download-artifact@v3.0.0
         with:
