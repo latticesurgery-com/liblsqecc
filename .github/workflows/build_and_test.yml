@@ -51,8 +51,12 @@ jobs:
           name: build-artifact
           path: build
 
+      - name: Mark the tests as executable
+        run: chmod +x build/lsqecc_tests
+
       - name: Unit tests
         run: build/lsqecc_tests --gtest_filter=*
+
 
   regression-test:
     name: Run regression tests
@@ -68,6 +72,9 @@ jobs:
         with:
           name: build-artifact
           path: build
+
+      - name: Mark the slicer as executable
+        run: chmod +x build/lsqecc_slicer
 
       - name: Regression tests
         shell: bash
