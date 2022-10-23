@@ -29,6 +29,8 @@ jobs:
         run: build/lsqecc_tests --gtest_filter=*
       - name: Regression tests
         shell: bash
+        env:
+          SHELL: /bin/bash
         run: |
           cd regression_tests
           ./suite.py
