@@ -1,47 +1,0 @@
-]0;george@ex-celeron:~/projects/latticesurgery-com/liblsqecc/regression_tests]0;george@ex-celeron:~/projects/latticesurgery-com/liblsqecc/regression_tests]0;george@ex-celeron:~/projects/latticesurgery-com/liblsqecc/regression_tests]0;george@ex-celeron:~/projects/latticesurgery-com/liblsqecc/regression_testsUsing lsqecc_slicer from /home/george/projects/latticesurgery-com/liblsqecc/cmake-build-debug
-[36m[RUNNING][0m cases/help.case.sh]0;george@ex-celeron:~/projects/latticesurgery-com/liblsqecc/regression_tests]0;george@ex-celeron:~/projects/latticesurgery-com/liblsqecc/regression_testsUsing lsqecc_slicer from /home/george/projects/latticesurgery-com/liblsqecc/cmake-build-debug
-[36m[RUNNING][0m cases/help.case.sh                                                                                [32m[PASSED][0m cases/help.case.sh
-[36m[RUNNING][0m cases/qasm/empty.case.sh                                                                                [32m[PASSED][0m cases/qasm/empty.case.sh
-[36m[RUNNING][0m cases/pipeline/to_file.case.sh                                                                                [32m[PASSED][0m cases/pipeline/to_file.case.sh
-[36m[RUNNING][0m cases/pipeline/from_stdin.case.sh                                                                                [32m[PASSED][0m cases/pipeline/from_stdin.case.sh
-[36m[RUNNING][0m cases/pipeline/from_file.case.sh                                                                                [32m[PASSED][0m cases/pipeline/from_file.case.sh
-[36m[RUNNING][0m cases/pipeline/noslices.case.sh                                                                                [32m[PASSED][0m cases/pipeline/noslices.case.sh
-[36m[RUNNING][0m cases/layouts/varuns_layout.case.sh                                                                                [32m[PASSED][0m cases/layouts/varuns_layout.case.sh
-[36m[RUNNING][0m cases/end_to_end/compact_demo_1.case.sh                                                                                [32m[PASSED][0m cases/end_to_end/compact_demo_1.case.sh
-[36m[RUNNING][0m cases/slicing_features/parallelism_1.case.sh                                                                                [32m[PASSED][0m cases/slicing_features/parallelism_1.case.sh
-]0;george@ex-celeron:~/projects/latticesurgery-com/liblsqecc/regression_testsUsing lsqecc_slicer from /home/george/projects/latticesurgery-com/liblsqecc/cmake-build-debug
-[36m[RUNNING][0m cases/help.case.sh                                                                                [32m[PASSED][0m cases/help.case.sh
-[36m[RUNNING][0m cases/qasm/empty.case.sh                                                                                [32m[PASSED][0m cases/qasm/empty.case.sh
-[36m[RUNNING][0m cases/pipeline/to_file.case.sh                                                                                [32m[PASSED][0m cases/pipeline/to_file.case.sh
-[36m[RUNNING][0m cases/pipeline/from_stdin.case.sh                                                                                [32m[PASSED][0m cases/pipeline/from_stdin.case.sh
-[36m[RUNNING][0m cases/pipeline/from_file.case.sh                                                                                [32m[PASSED][0m cases/pipeline/from_file.case.sh
-[36m[RUNNING][0m cases/pipeline/noslices.case.sh                                                                                [32m[PASSED][0m cases/pipeline/noslices.case.sh
-[36m[RUNNING][0m cases/layouts/varuns_layout.case.sh                                                                                [32m[PASSED][0m cases/layouts/varuns_layout.case.sh
-[36m[RUNNING][0m cases/end_to_end/compact_demo_1.case.sh                                                                                [32m[PASSED][0m cases/end_to_end/compact_demo_1.case.sh
-[36m[RUNNING][0m cases/slicing_features/parallelism_1.case.sh                                                                                [32m[PASSED][0m cases/slicing_features/parallelism_1.case.sh
-]0;george@ex-celeron:~/projects/latticesurgery-com/liblsqecc/regression_tests]0;george@ex-celeron:~/projects/latticesurgery-com/liblsqecc/regression_testscases
-README.md
-suite.py
-]0;george@ex-celeron:~/projects/latticesurgery-com/liblsqecc/regression_tests]0;george@ex-celeron:~/projects/latticesurgery-com/liblsqecc]0;george@ex-celeron:~/projects/latticesurgery-com/liblsqecc/regression_testscases
-README.md
-suite.py
-]0;george@ex-celeron:~/projects/latticesurgery-com/liblsqecc/regression_testsOn branch start-ci
-Your branch and 'origin/main' have diverged,
-and have 22 and 2 different commits each, respectively.
-  (use "git pull" to merge the remote branch into yours)
-
-Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-  (use "git restore <file>..." to discard changes in working directory)
-  (commit or discard the untracked or modified content in submodules)
-	modified:   ../external/crystalmountain (modified content, untracked content)
-
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-	../examples/qasm/one_t_gate.qasm
-	../examples/varuns_layout.txt
-	../out.json
-	cases/slicing_features/parallelism_1.spec.new
-
-no changes added to commit (use "git add" and/or "git commit -a")
-]0;george@ex-celeron:~/projects/latticesurgery-com/liblsqecc/regression_tests

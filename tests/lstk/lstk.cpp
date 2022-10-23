@@ -18,7 +18,7 @@ TEST(split_on, single_qubit_gate_split)
 
 TEST(split_on, no_trailing_separator)
 {
-    std::string input = "a,b,z";
+    std::string input = "a,b,c";
     std::vector<std::string_view> splits1 = lstk::split_on(input,',');
     ASSERT_EQ(3,splits1.size());
     ASSERT_EQ("a",splits1.at(0));
