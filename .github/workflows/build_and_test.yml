@@ -46,7 +46,7 @@ jobs:
     steps:
 
       - name: Download Build Artifact
-        uses: actions/download-artifact@v3.0.0
+        uses: actions/download-artifact@v3.0.1
         with:
           name: build-artifact
           path: build
@@ -68,7 +68,7 @@ jobs:
           submodules: recursive
 
       - name: Download Build Artifact
-        uses: actions/download-artifact@v3.0.0
+        uses: actions/download-artifact@v3.0.1
         with:
           name: build-artifact
           path: build
