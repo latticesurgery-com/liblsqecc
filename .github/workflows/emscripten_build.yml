@@ -1,0 +1,34 @@
+name: Emscripten build
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - '**.md'
+
+  pull_request:
+    branches: [ main ]
+    paths-ignore:
+      - '**.md'
+
+# Follows https://gist.github.com/WesThorburn/00c47b267a0e8c8431e06b14997778e4
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: prepare emsdk
+        run: |
+          cd external/emsdk
+          ./emsdk install latest
+          ./emsdk activate latest
+          cd ../..
+
+      - name: Build project
+        run: |
+          source ./external/emsdk/emsdk_env.sh
+          mkdir build
+          emcmake cmake -Bbuild -H.
+          make -Cbuild

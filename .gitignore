@@ -1,6 +1,6 @@
 CMake*
 *.cmake
 Makefile
-cmake-build-debug
+*-build*
 .idea
 *.a
