@@ -19,6 +19,3 @@
 [submodule "external/googletest"]
 	path = external/googletest
 	url = https://github.com/google/googletest
-[submodule "external/emsdk"]
-	path = external/emsdk
-	url = https://github.com/emscripten-core/emsdk.git
