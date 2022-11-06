@@ -9,9 +9,11 @@ on:
     branches: [ main ]
     paths-ignore:
       - '**.md'
+      
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-22.04
     env:
       CC: gcc-11
@@ -83,24 +85,32 @@ jobs:
 
 
   emscripten-build:
-    name: Create Emscripten Build
+    name: Create emscripten build
     runs-on: ubuntu-22.04
     needs: [unit-test, regression-test]
+    env:
+      EM_VERSION: 3.1.24
+      EM_CACHE_FOLDER: 'emsdk-cache'
+
     steps:
       - uses: actions/checkout@v3
         with:
           submodules: recursive
     
-      - name: Prepare emsdk
-        run: |
-          cd external/emsdk
-          ./emsdk install latest
-          ./emsdk activate latest
-          cd ../..
+      - name: Setup system libraries cache
+        uses: actions/cache@v2
+        with:
+          path: ${{env.EM_CACHE_FOLDER}}
+          key: ${{env.EM_VERSION}}-${{ runner.os }}
+
+      - name: Setup emsdk
+        uses: mymindstorm/setup-emsdk@v11
+        with:
+          version: ${{env.EM_VERSION}}
+          actions-cache-folder: ${{env.EM_CACHE_FOLDER}}
           
-      - name: Create Emscripten Build
+      - name: Create emscripten build
         run: |
-          source ./external/emsdk/emsdk_env.sh
           mkdir build
           emcmake cmake -Bbuild -H.
           make -Cbuild
