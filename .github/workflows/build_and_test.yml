@@ -9,9 +9,11 @@ on:
     branches: [ main ]
     paths-ignore:
       - '**.md'
+      
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-22.04
     env:
       CC: gcc-11
@@ -44,7 +46,6 @@ jobs:
     runs-on: ubuntu-22.04
     needs: [build]
     steps:
-
       - name: Download Build Artifact
         uses: actions/download-artifact@v3.0.1
         with:
@@ -81,3 +82,44 @@ jobs:
         run: |
           cd regression_tests
           ./suite.py
+
+
+  emscripten-build:
+    name: Create emscripten build
+    runs-on: ubuntu-22.04
+    needs: [unit-test, regression-test]
+    env:
+      EM_VERSION: 3.1.24
+      EM_CACHE_FOLDER: 'emsdk-cache'
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+    
+      - name: Setup system libraries cache
+        uses: actions/cache@v3
+        with:
+          path: ${{env.EM_CACHE_FOLDER}}
+          key: ${{env.EM_VERSION}}-${{ runner.os }}
+
+      - name: Setup emsdk
+        uses: mymindstorm/setup-emsdk@v11
+        with:
+          version: ${{env.EM_VERSION}}
+          actions-cache-folder: ${{env.EM_CACHE_FOLDER}}
+          
+      - name: Create emscripten build
+        run: |
+          mkdir build
+          emcmake cmake -Bbuild -H.
+          make -Cbuild
+          
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: emscripten-build-artifact
+          retention-days: 7
+          path: |
+            build/lsqecc_emscripten.js
+            build/lsqecc_emscripten.wasm
