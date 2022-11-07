@@ -136,7 +136,7 @@ namespace lsqecc
             write_slices_stream = std::ref(*_ofstream_store);
         }
 
-        auto output_format_mode = parser.exists("o") ? OutputFormatMode::Progress : OutputFormatMode::NoProgress;
+        auto output_format_mode = (parser.exists("o") || parser.exists("noslices")) ? OutputFormatMode::Progress : OutputFormatMode::NoProgress;
         if(parser.exists("f"))
         {
             auto mode_arg = parser.get<std::string>("f");
@@ -366,7 +366,6 @@ namespace lsqecc
         {
             err << "Compiler exception: " << e.what() << std::endl;
         }
-
 
         nlohmann::json json_res = {
                 {"output", output.str()},
