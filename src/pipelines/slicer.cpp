@@ -128,7 +128,7 @@ namespace lsqecc
             return 0;
         }
 
-        std::reference_wrapper<std::ostream> write_slices_stream = std::ref(std::cout);
+        std::reference_wrapper<std::ostream> write_slices_stream = std::ref(out_stream);
         std::unique_ptr<std::ostream> _ofstream_store;
         if(parser.exists("o"))
         {
@@ -136,7 +136,7 @@ namespace lsqecc
             write_slices_stream = std::ref(*_ofstream_store);
         }
 
-        auto output_format_mode = OutputFormatMode::Progress;
+        auto output_format_mode = (parser.exists("o") || parser.exists("noslices")) ? OutputFormatMode::Progress : OutputFormatMode::NoProgress;
         if(parser.exists("f"))
         {
             auto mode_arg = parser.get<std::string>("f");
@@ -347,14 +347,17 @@ namespace lsqecc
         std::vector<std::string> args = lstk::split_on_get_strings(command_line, ' ');
         std::vector<const char*> c_args;
 
+        c_args.push_back("slicer_from_strings"); // Placeholder name to occupy the program name's place in argv
         for (const auto &arg : args)
+        {
             c_args.push_back(arg.c_str());
+        }
 
         std::istringstream input{standard_input};
         std::ostringstream output;
         std::ostringstream err;
 
-        int exit_code;
+        int exit_code = 100;
         try
         {
             exit_code = run_slicer_program(static_cast<int>(c_args.size()), c_args.data(), input, output, err);
@@ -363,7 +366,6 @@ namespace lsqecc
         {
             err << "Compiler exception: " << e.what() << std::endl;
         }
-
 
         nlohmann::json json_res = {
                 {"output", output.str()},
