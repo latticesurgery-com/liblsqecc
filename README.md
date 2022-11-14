@@ -45,7 +45,7 @@ Options:
     --compactlayout        Uses Litinski's compact layout, incompatible with -l
     -h, --help             Shows this page           
 ```
-#### QASM Support (Highly experimental)
+#### QASM Support (Experimental)
 LibLSQECC can parse a small subset of OpenQASM 2.0 instead of LLI, with restrictions below. We call this type of assembly OpenQASM--. In general OpenQASM-- should be valid OpenQASM, up to implementation defects. The rules are 
  * No classical control
  * Only one register is allowed (whether the names match will not be checked)
@@ -53,7 +53,9 @@ LibLSQECC can parse a small subset of OpenQASM 2.0 instead of LLI, with restrict
  * Single qubit gates must be in the form `g q[n];` where `g` is one of `h`,`x`,`z`,`s`,`t` and `n` is a non-negative integer
  * CNOTs must be in the form `cx q[n],q[m];` where `n` and `m` are non-negative. Target comes first, as per [OpenQASM convention (Fig 2)](https://arxiv.org/pdf/1707.03429.pdf).
  * Supports some basic annotations such as: `cx q[0],q[7]; // %ZXWithMBMTargetFirst,AncillaNextToTarget`
-
+ * Program must begin with `OPENQASM 2.0;` in the first line
+ 
+In progress:
  * Working on adding support for `rz` and `crz`. Needs integration with a Solovay-Kitaev decomposer.
 
 ### The `liblsqecc` library
