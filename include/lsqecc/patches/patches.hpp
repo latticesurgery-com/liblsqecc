@@ -76,6 +76,8 @@ struct CellBoundaries {
     bool has_active_boundary() const;
 
     bool operator==(const CellBoundaries&) const = default;
+
+    void instant_rotate();
 };
 
 struct SingleCellOccupiedByPatch : public CellBoundaries {
