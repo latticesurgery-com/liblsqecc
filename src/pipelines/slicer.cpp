@@ -1,5 +1,6 @@
 #include <lsqecc/pipelines/slicer.hpp>
 
+#include <lsqecc/dependency_dag/lli_dag.hpp>
 #include <lsqecc/gates/parse_gates.hpp>
 #include <lsqecc/ls_instructions/ls_instruction_stream.hpp>
 #include <lsqecc/ls_instructions/boundary_rotation_injection_stream.hpp>
@@ -100,6 +101,10 @@ namespace lsqecc
         parser.add_argument()
                 .names({"--printlli"})
                 .description("Output LLI instead of JSONs")
+                .required(false);
+        parser.add_argument()
+                .names({"--printdag"})
+                .description("Output a dependency DAG instead of JSONs (experimental)")
                 .required(false);
         parser.add_argument()
                 .names({"--noslices"})
@@ -205,6 +210,12 @@ namespace lsqecc
         if(parser.exists("printlli"))
         {
             print_all_ls_instructions_to_string(out_stream, std::move(instruction_stream));
+            return 0;
+        }
+        
+        if(parser.exists("printdag"))
+        {
+            to_graph_viz(out_stream, make_dag_from_lli_stream(std::move(instruction_stream)));
             return 0;
         }
 
