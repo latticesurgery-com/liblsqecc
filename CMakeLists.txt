@@ -7,7 +7,7 @@ project(lsqecc)
 ####################################################
 # General configuration
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wfatal-errors -Wall -pedantic")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wfatal-errors -g -Wall -pedantic")
 set(CMAKE_CXX_FLAGS_DEBUG_INIT "-O0 -g3 -DNDEBUG -D_LIBCPP_DEBUG=1 ")
 set(CMAKE_CXX_FLAGS_RELEASE_INIT  "-O3")
 set(CMAKE_CXX_STANDARD 20)
@@ -47,6 +47,8 @@ include_directories(external/include)
 
 add_library(
         lsqecclib
+        src/dependency_dag/lli_dag.cpp
+        src/dependency_dag/gates_dag.cpp
         src/gates/parse_gates.cpp
         src/gates/gates.cpp
         src/patches/dense_slice.cpp
