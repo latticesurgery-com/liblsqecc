@@ -10,4 +10,4 @@ cx q[1],q[3];
 cx q[5],q[7];
 t q[2];
 "
-echo "$INPUT" | lsqecc_slicer -l ../examples/varuns_layout.txt -q --compactlayout
+echo "$INPUT" | lsqecc_slicer -l ../examples/varuns_layout.txt -q
