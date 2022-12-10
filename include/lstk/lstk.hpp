@@ -22,6 +22,8 @@
 #define LSTK_UNREACHABLE throw std::logic_error(std::string{"Meant to be unreachable: "}+__FILE__+":"+std::to_string(__LINE__))
 #define LSTK_NOT_IMPLEMENTED throw std::logic_error(std::string{"Not implemented: "}+__FILE__+":"+std::to_string(__LINE__))
 
+#define LSTK_RANGE(container) std::begin(container), std::end(container)
+
 namespace lstk
 {
 

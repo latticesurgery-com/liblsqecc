@@ -190,6 +190,7 @@ static inline std::string_view InitializeableStates_to_string(PatchInit::Initial
         case PatchInit::InitializeableStates::Plus:
             return "|+>"sv;
     }
+    LSTK_UNREACHABLE;
 }
 
 
@@ -203,6 +204,7 @@ static inline std::string_view SingleQuibitOperatorName_to_string(SingleQubitOp:
         case SingleQubitOp::Operator::H: return "H"sv;
         case SingleQubitOp::Operator::S: return "S"sv;
     }
+    LSTK_UNREACHABLE;
 }
 
 

@@ -107,9 +107,14 @@ inline constexpr ControlledGate CRZ(
     return {control_qubit, RZ{target_qubit, pi_fraction}, cnot_type, cnot_ancilla_placement};
 }
 
+// TODO replace BasicSingleQubitGate, RZ with SingleQubitGate
 using Gate = std::variant<BasicSingleQubitGate, RZ, ControlledGate>;
 
 std::vector<Gate> to_clifford_plus_t(const Gate& gate);
+
+
+QubitNum get_target_gate(const Gate& gate);
+
 
 } // gates namespace
 
