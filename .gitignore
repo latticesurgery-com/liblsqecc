@@ -1,6 +1,7 @@
 CMake*
 *.cmake
+.vscode
 Makefile
-*-build*
+*build*
 .idea
 *.a

@@ -48,6 +48,7 @@ include_directories(external/include)
 add_library(
         lsqecclib
         src/dependency_dag/lli_dag.cpp
+        src/dependency_dag/dependency_dag.cpp
         src/dependency_dag/gates_dag.cpp
         src/gates/parse_gates.cpp
         src/gates/gates.cpp
