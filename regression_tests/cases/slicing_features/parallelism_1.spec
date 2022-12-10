@@ -2439,10 +2439,10 @@
             "activity_type": "Unitary"
          },
          "edges": {
-            "Bottom": "Dashed",
-            "Left": "Solid",
-            "Right": "Solid",
-            "Top": "Dashed"
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
          },
          "patch_type": "Qubit",
          "text": "Id: 1"
