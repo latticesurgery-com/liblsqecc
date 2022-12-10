@@ -12,7 +12,7 @@ std::ostream& to_graph_viz(std::ostream& os, const DependencyDag<InstructionType
 {
     os << "Digraph D {\n\n";
 
-    dag.traverse_into_the_past([&os](Node<InstructionType>& node){
+    dag.traverse_into_the_past([&os](const Node<InstructionType>& node){
         for(const auto& past_node: node.past)
             os << "  " << past_node.get().instruction << " -> "<< node.instruction << ";\n";
     });

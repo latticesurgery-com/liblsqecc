@@ -60,7 +60,7 @@ std::vector<Gate> to_clifford_plus_t(const Gate &gate)
 {
     if (const auto *basic_gate = std::get_if<BasicSingleQubitGate>(&gate))
         return {*basic_gate};
-    else if (const auto *rz_gate = std::get_if<RZ>(&gate))
+    else if (std::holds_alternative<RZ>(gate))
         throw std::runtime_error{"Not implemented: rz to clifford+T"};
     else
     {
@@ -82,6 +82,7 @@ std::string_view CNOTType_toString(CNOTType cnot_type)
         case CNOTType::ZX_WITH_MBM_TARGET_FIRST:
             return "ZXWithMBMTargetFirst"sv;
     }
+    LSTK_UNREACHABLE;
 }
 
 
@@ -105,6 +106,7 @@ std::string_view CNOTAncillaPlacement_toString(CNOTAncillaPlacement v)
         case CNOTAncillaPlacement::ANCILLA_NEXT_TO_TARGET:
             return "AncillaNextToTarget"sv;
     }
+    LSTK_UNREACHABLE;
 }
 
 std::optional<CNOTAncillaPlacement> CNOTAncillaPlacement_fromString(std::string_view s)
@@ -116,6 +118,25 @@ std::optional<CNOTAncillaPlacement> CNOTAncillaPlacement_fromString(std::string_
     if (s == CNOTAncillaPlacement_toString(CNOTAncillaPlacement::ANCILLA_NEXT_TO_TARGET))
         return CNOTAncillaPlacement::ANCILLA_NEXT_TO_TARGET;
     else return std::nullopt;
+}
+
+QubitNum get_target_gate(const Gate& gate){
+
+    if (const auto* basic_single_qubit_gate = std::get_if<gates::BasicSingleQubitGate>(&gate))
+    {
+        return basic_single_qubit_gate->target_qubit;
+    } else if (const auto* rz_gate = std::get_if<gates::RZ>(&gate))
+    {
+        return rz_gate->target_qubit;
+    } else if (const auto* controlled_gate = std::get_if<gates::ControlledGate>(&gate))
+    {
+        if (const auto* inner_basic_single_qubit_gate = std::get_if<gates::BasicSingleQubitGate>(&controlled_gate->target_gate))
+            return get_target_gate(Gate{*inner_basic_single_qubit_gate});
+        else if (const auto* inner_rz_gate = std::get_if<gates::RZ>(&controlled_gate->target_gate))
+            return get_target_gate(Gate{*inner_rz_gate});
+    }
+    
+    LSTK_UNREACHABLE;
 }
 
 
