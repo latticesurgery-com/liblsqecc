@@ -146,6 +146,15 @@ bool CellBoundaries::has_active_boundary() const
     return top.is_active || bottom.is_active || left.is_active || right.is_active;
 }
 
+void CellBoundaries::instant_rotate() 
+{
+    Boundary old_right{right};
+    right = top;
+    top = left;
+    left = bottom;
+    bottom = old_right;
+}
+
 SparsePatch DensePatch::to_sparse_patch(const Cell& c) const
 {
     return SparsePatch{{type, activity, id}, SingleCellOccupiedByPatch{{boundaries}, c}};

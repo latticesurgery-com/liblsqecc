@@ -57,24 +57,8 @@ LayoutHelpers::SinglePatchRotationALaLitinskiStages LayoutHelpers::single_patch_
         ->get() = {.boundary_type=BoundaryType::Connected, .is_active=true};
 
 
-   SingleCellOccupiedByPatch rotated_first_patch = target;
-   for(const auto cell : target.cell.get_neigbours())
-   {
-       const BoundaryType& original_boundary_type = target.get_boundary_with(cell)->boundary_type;
-       Boundary& new_boundary = rotated_first_patch.get_mut_boundary_with(cell)->get();
-       if(original_boundary_type==BoundaryType::Rough)
-           new_boundary.boundary_type = BoundaryType::Smooth;
-       else if(original_boundary_type==BoundaryType::Smooth)
-           new_boundary.boundary_type = BoundaryType::Rough;
-       else
-           throw std::logic_error(lstk::cat("Trying to rotate patch at ",target.cell.row,", ",target.cell.col,
-                   " with unexpected boundary type ", static_cast<int64_t>(original_boundary_type)));
-
-       new_boundary.is_active = false;
-   }
-
    SparsePatch new_patch{target_patch};
-   new_patch.cells = rotated_first_patch;
+   std::get<SingleCellOccupiedByPatch>(new_patch.cells).instant_rotate();
 
    return {.stage_1 = occupied_space, .stage_2 = occupied_space, .final_state = new_patch};
 }
