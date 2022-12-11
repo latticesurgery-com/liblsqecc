@@ -120,6 +120,7 @@ std::optional<CNOTAncillaPlacement> CNOTAncillaPlacement_fromString(std::string_
     else return std::nullopt;
 }
 
+
 QubitNum get_target_gate(const Gate& gate){
 
     if (const auto* basic_single_qubit_gate = std::get_if<gates::BasicSingleQubitGate>(&gate))
@@ -136,6 +137,57 @@ QubitNum get_target_gate(const Gate& gate){
             return get_target_gate(Gate{*inner_rz_gate});
     }
     
+    LSTK_UNREACHABLE;
+}
+
+
+
+std::ostream& operator<<(std::ostream& os, const Gate& gate)
+{
+    // TODO replace with overloaded type
+
+    if(const auto* bsqg = std::get_if<BasicSingleQubitGate>(&gate))
+    {
+        return os << [&]() -> std::string {
+            switch (bsqg->gate_type)
+            {
+                case BasicSingleQubitGate::Type::X: return "x";
+                case BasicSingleQubitGate::Type::Z: return "z";
+                case BasicSingleQubitGate::Type::S: return "s";
+                case BasicSingleQubitGate::Type::T: return "t";
+                case BasicSingleQubitGate::Type::H: return "h";
+            }
+            LSTK_UNREACHABLE;
+        }() << " reg[" << bsqg->target_qubit << "];";
+    }
+    else if (const auto* rz = std::get_if<RZ>(&gate))
+    {
+        return os << "rz("<<rz->pi_fraction.num<<"pi/"<<rz->pi_fraction.den<<") reg["<<rz->target_qubit<<"];";
+    }
+    else if (const auto* ctrld = std::get_if<ControlledGate>(&gate))
+    {
+        if(const auto* target_bsqg = std::get_if<BasicSingleQubitGate>(&ctrld->target_gate))
+        {
+            return os << [&]() -> std::string {
+                switch (target_bsqg->gate_type)
+                {
+                    case BasicSingleQubitGate::Type::X: return "cx";
+                    case BasicSingleQubitGate::Type::Z: return "cz";
+                    case BasicSingleQubitGate::Type::S:
+                    case BasicSingleQubitGate::Type::T:
+                    case BasicSingleQubitGate::Type::H:
+                    LSTK_NOT_IMPLEMENTED;
+                }
+                LSTK_UNREACHABLE;
+            }() << " reg[" << ctrld->control_qubit << "," << target_bsqg->target_qubit << "];";
+        }
+        else if(const auto* target_rz = std::get_if<RZ>(&ctrld->target_gate))
+        {
+            return os << "crz("<<target_rz->pi_fraction.num<<"pi/"<<target_rz->pi_fraction.den
+              << ") reg[" << ctrld->control_qubit << "," << target_rz->target_qubit << "];";
+        }
+        LSTK_UNREACHABLE;
+    }
     LSTK_UNREACHABLE;
 }
 
