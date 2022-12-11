@@ -18,9 +18,13 @@ std::vector<PatchId> LSInstruction::get_operating_patches() const
     {
         ret.push_back(p->target);
     }
-    else if (const auto* m = std::get_if<MultiPatchMeasurement>(&operation))
+    else if (const auto* i = std::get_if<PatchInit>(&operation))
     {
-        for(auto pair : m->observable)
+        ret.push_back(i->target);
+    }
+    else if (const auto* mm = std::get_if<MultiPatchMeasurement>(&operation))
+    {
+        for(auto pair : mm->observable)
         {
             ret.push_back(pair.first);
         }
@@ -28,10 +32,19 @@ std::vector<PatchId> LSInstruction::get_operating_patches() const
     else if (const auto* rotation = std::get_if<RotateSingleCellPatch>(&operation)) {
         ret.push_back(rotation->target);
     }
-    else {
-        const auto& mr = std::get<MagicStateRequest>(operation);
-        ret.push_back(mr.target);
+    else if (const auto* mr = std::get_if<MagicStateRequest>(&operation))
+    {
+        ret.push_back(mr->target);
     }
+    else if (const auto* rspc = std::get_if<RotateSingleCellPatch>(&operation))
+    {
+        ret.push_back(rspc->target);
+    }
+    else if (const auto* br = std::get_if<BusyRegion>(&operation))
+    {
+        if(br->state_after_clearing.id) ret.push_back(*br->state_after_clearing.id);
+    }
+    else LSTK_NOT_IMPLEMENTED;
     return ret;
 }
 
