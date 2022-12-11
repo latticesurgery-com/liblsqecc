@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include <functional>
+#include <iostream>
 
 namespace lsqecc
 {
@@ -73,19 +74,23 @@ struct DependencyDag
         bool found_a_dependency = false;
         auto new_node = std::make_shared<NodeT>(std::move(instruction), NodeCounterStruct::get_next_id());
 
-        heads.push_back(std::ref(*new_node));
+        std::cout<<"Inserting " << new_node->id << ": " << new_node->instruction << std::endl;
 
-        traverse_into_the_past([&](NodeT& node)
+        traverse_into_the_past([&](NodeT& old_node)
         {
-            if(!CommutationTrait<InstructionType>::may_not_commute(node.instruction, instruction))
+            std::cout<<"  Traversing " << old_node.id << ": " << old_node.instruction << std::endl;
+            if(CommutationTrait<InstructionType>::may_not_commute(old_node.instruction, instruction))
             {
                 found_a_dependency = true;
-                node.future.push_back(new_node);
-                release_node_from_heads(node.id);
-                new_node->past.push_back(std::ref(node));
+                old_node.future.push_back(new_node);
+                std::cout<<"   may not commute. Added to future and releasing from heads" << std::endl; 
+                release_node_from_heads(old_node.id);
+                std::cout<<"   pushing back" << std::endl; 
+                new_node->past.push_back(std::ref(old_node));
             }
         });
 
+        heads.push_back(std::ref(*new_node));
         if(!found_a_dependency)
             tails.push_back(new_node);
     }

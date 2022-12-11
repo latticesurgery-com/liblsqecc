@@ -1,6 +1,7 @@
 #include <lsqecc/pipelines/slicer.hpp>
 
 #include <lsqecc/dependency_dag/lli_dag.hpp>
+#include <lsqecc/dependency_dag/gates_dag.hpp>
 #include <lsqecc/gates/parse_gates.hpp>
 #include <lsqecc/ls_instructions/ls_instruction_stream.hpp>
 #include <lsqecc/ls_instructions/boundary_rotation_injection_stream.hpp>
@@ -104,7 +105,7 @@ namespace lsqecc
                 .required(false);
         parser.add_argument()
                 .names({"--printdag"})
-                .description("Output a dependency DAG instead of JSONs (experimental)")
+                .description("Output a dependency DAG (experimental), level: lli, qasm")
                 .required(false);
         parser.add_argument()
                 .names({"--noslices"})
@@ -215,8 +216,27 @@ namespace lsqecc
         
         if(parser.exists("printdag"))
         {
-            to_graph_viz(out_stream, make_dag_from_lli_stream(std::move(instruction_stream)));
-            return 0;
+            
+            if(parser.get<std::string>("printdag")=="lli")
+            {
+                to_graph_viz(out_stream, make_dag_from_instruction_stream(std::move(instruction_stream)));
+                return 0;
+            }
+            else if(parser.get<std::string>("printdag")=="qasm")
+            {
+                if(!gate_stream)
+                {
+                    err_stream << "Must have qasm to print qasm DAG" << std::endl;
+                    return 1;
+                }
+                to_graph_viz(out_stream, make_dag_from_instruction_stream(std::move(gate_stream)));
+                return 0;
+            }
+            else
+            {
+                err_stream << "printdag option value not implemented: " << parser.get<std::string>("printdag") << std::endl;
+                return 1;
+            }
         }
 
         std::unique_ptr<Layout> layout;

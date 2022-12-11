@@ -3,7 +3,7 @@
 
 namespace lsqecc {
 
-LLIDag make_dag_from_lli_stream(std::unique_ptr<LSInstructionStream>&& lli_stream)
+LLIDag make_dag_from_instruction_stream(std::unique_ptr<LSInstructionStream>&& lli_stream)
 {
     LLIDag lli_dag;
 
