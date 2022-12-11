@@ -112,7 +112,7 @@ using Gate = std::variant<BasicSingleQubitGate, RZ, ControlledGate>;
 
 std::vector<Gate> to_clifford_plus_t(const Gate& gate);
 
-QubitNum get_target_gate(const Gate& gate);
+QubitNum get_target_qubit(const Gate& gate);
 
 
 std::ostream& operator<<(std::ostream& os, const Gate& gate);

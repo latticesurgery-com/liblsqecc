@@ -4,7 +4,7 @@
 #include <vector>
 #include <memory>
 #include <functional>
-#include <iostream>
+#include <unordered_set>
 
 namespace lsqecc
 {
@@ -39,16 +39,38 @@ struct CommutationTrait {
     static bool may_not_commute(const InstructionType& lhs, const InstructionType& rhs);
 };
 
+
+namespace detail 
+{
+
+template<class InstructionType>
+void traverse_nodes_into_the_past_with_visited(
+    std::vector<std::reference_wrapper<Node<InstructionType>>>& past,
+    const std::function<void(Node<InstructionType>&)>& visitor,
+    std::unordered_set<NodeIdType>& visited)
+{
+    for(auto& node_ref: past)
+    {
+        auto& node = node_ref.get();
+        if (!visited.contains(node.id))
+        {
+            visitor(node);
+            visited.insert(node.id);
+            traverse_nodes_into_the_past_with_visited(node.past, visitor, visited);
+        }
+    }
+}
+
+}
+
+
 template<class InstructionType>
 void traverse_nodes_into_the_past(
     std::vector<std::reference_wrapper<Node<InstructionType>>>& past,
     const std::function<void(Node<InstructionType>&)>& visitor)
 {
-    for(auto& node: past)
-    {
-        visitor(node.get());
-        traverse_nodes_into_the_past(node.get().past, visitor);
-    }
+    std::unordered_set<NodeIdType> visited;
+    return detail::traverse_nodes_into_the_past_with_visited(past, visitor, visited);
 }
 
 
@@ -74,18 +96,13 @@ struct DependencyDag
         bool found_a_dependency = false;
         auto new_node = std::make_shared<NodeT>(std::move(instruction), NodeCounterStruct::get_next_id());
 
-        std::cout<<"Inserting " << new_node->id << ": " << new_node->instruction << std::endl;
-
         traverse_into_the_past([&](NodeT& old_node)
         {
-            std::cout<<"  Traversing " << old_node.id << ": " << old_node.instruction << std::endl;
-            if(CommutationTrait<InstructionType>::may_not_commute(old_node.instruction, instruction))
+            if(CommutationTrait<InstructionType>::may_not_commute(old_node.instruction, new_node->instruction))
             {
                 found_a_dependency = true;
                 old_node.future.push_back(new_node);
-                std::cout<<"   may not commute. Added to future and releasing from heads" << std::endl; 
                 release_node_from_heads(old_node.id);
-                std::cout<<"   pushing back" << std::endl; 
                 new_node->past.push_back(std::ref(old_node));
             }
         });

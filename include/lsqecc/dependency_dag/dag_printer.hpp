@@ -16,13 +16,12 @@ std::string node_style(const Node<InstructionType>& node)
 {
     std::stringstream instruction_text;
     instruction_text << node.instruction;
-
     return lstk::cat(
         "[shape=\"plaintext\",",
          "label=<",
             "<table border=\"1\" cellborder=\"0\" cellspacing=\"1\">",
-                "<tr><td><b>", instruction_text.str(), "</b></td></tr>",
-                "<tr><td><b>", node.id, "</b></td></tr>",
+                "<tr><td><b>", lstk::str_replace(instruction_text.str(),'>',"&gt;"), "</b></td></tr>",
+                "<tr><td><font color=\"darkgray\">node: ", node.id, "</font></td></tr>",
             "</table>"
         ">]"
     );
@@ -35,10 +34,10 @@ std::ostream& to_graph_viz(std::ostream& os, const DependencyDag<InstructionType
     os << "digraph D {\n\n";
 
     dag.traverse_into_the_past([&os](const Node<InstructionType>& node){
-        os << " i" << node.id << ' ' << node_style(node) << ";\n";
+        os << " n" << node.id << ' ' << node_style(node) << ";\n";
         
         for(const auto& past_node: node.past)
-            os << " i" << node.id << " -> i"<< past_node.get().id << ";\n";
+            os << " n" << node.id << " -> n"<< past_node.get().id << ";\n";
     });
 
     return os << "\n}" << std::endl;   

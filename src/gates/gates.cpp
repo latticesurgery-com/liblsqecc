@@ -2,6 +2,7 @@
 # include <lsqecc/gates/pi_over_2_to_the_n_rz_gate_approximations.hpp>
 
 #include <array>
+#include <unordered_set>
 
 namespace lsqecc::gates {
 
@@ -121,7 +122,7 @@ std::optional<CNOTAncillaPlacement> CNOTAncillaPlacement_fromString(std::string_
 }
 
 
-QubitNum get_target_gate(const Gate& gate){
+QubitNum get_target_qubit(const Gate& gate){
 
     if (const auto* basic_single_qubit_gate = std::get_if<gates::BasicSingleQubitGate>(&gate))
     {
@@ -132,9 +133,26 @@ QubitNum get_target_gate(const Gate& gate){
     } else if (const auto* controlled_gate = std::get_if<gates::ControlledGate>(&gate))
     {
         if (const auto* inner_basic_single_qubit_gate = std::get_if<gates::BasicSingleQubitGate>(&controlled_gate->target_gate))
-            return get_target_gate(Gate{*inner_basic_single_qubit_gate});
+            return get_target_qubit(Gate{*inner_basic_single_qubit_gate});
         else if (const auto* inner_rz_gate = std::get_if<gates::RZ>(&controlled_gate->target_gate))
-            return get_target_gate(Gate{*inner_rz_gate});
+            return get_target_qubit(Gate{*inner_rz_gate});
+    }
+    
+    LSTK_UNREACHABLE;
+}
+
+
+std::unordered_set<QubitNum> get_opersting_qubits(Gate& gate){
+
+    if (const auto* basic_single_qubit_gate = std::get_if<gates::BasicSingleQubitGate>(&gate))
+    {
+        return std::unordered_set<QubitNum>{basic_single_qubit_gate->target_qubit};
+    } else if (const auto* rz_gate = std::get_if<gates::RZ>(&gate))
+    {
+        return std::unordered_set<QubitNum>{rz_gate->target_qubit};
+    } else if (const auto* controlled_gate = std::get_if<gates::ControlledGate>(&gate))
+    {
+        return std::unordered_set<QubitNum>{get_target_qubit(gate), controlled_gate->control_qubit};
     }
     
     LSTK_UNREACHABLE;
@@ -158,11 +176,11 @@ std::ostream& operator<<(std::ostream& os, const Gate& gate)
                 case BasicSingleQubitGate::Type::H: return "h";
             }
             LSTK_UNREACHABLE;
-        }() << " reg[" << bsqg->target_qubit << "];";
+        }() << " q[" << bsqg->target_qubit << "];";
     }
     else if (const auto* rz = std::get_if<RZ>(&gate))
     {
-        return os << "rz("<<rz->pi_fraction.num<<"pi/"<<rz->pi_fraction.den<<") reg["<<rz->target_qubit<<"];";
+        return os << "rz("<<rz->pi_fraction.num<<"pi/"<<rz->pi_fraction.den<<") q["<<rz->target_qubit<<"];";
     }
     else if (const auto* ctrld = std::get_if<ControlledGate>(&gate))
     {
@@ -179,12 +197,12 @@ std::ostream& operator<<(std::ostream& os, const Gate& gate)
                     LSTK_NOT_IMPLEMENTED;
                 }
                 LSTK_UNREACHABLE;
-            }() << " reg[" << ctrld->control_qubit << "," << target_bsqg->target_qubit << "];";
+            }() << " q[" << ctrld->control_qubit << "],q[" << target_bsqg->target_qubit << "];";
         }
         else if(const auto* target_rz = std::get_if<RZ>(&ctrld->target_gate))
         {
             return os << "crz("<<target_rz->pi_fraction.num<<"pi/"<<target_rz->pi_fraction.den
-              << ") reg[" << ctrld->control_qubit << "," << target_rz->target_qubit << "];";
+              << ") q[" << ctrld->control_qubit << "," << target_rz->target_qubit << "];";
         }
         LSTK_UNREACHABLE;
     }
