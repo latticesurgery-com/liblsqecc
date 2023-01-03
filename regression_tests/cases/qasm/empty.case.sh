@@ -4,4 +4,4 @@ include \"qelib1.inc\";
 
 qreg q[15];
 "
-echo "$INPUT" | lsqecc_slicer --compactlayout
+echo "$INPUT" | lsqecc_slicer -q --compactlayout
