@@ -1,28 +1,10 @@
 # include <lsqecc/gates/gates.hpp>
 # include <lsqecc/gates/pi_over_2_to_the_n_rz_gate_approximations.hpp>
+# include <lsqecc/gates/gate_approximator.hpp>
 
 #include <array>
 
 namespace lsqecc::gates {
-
-
-bool is_power_of_two(ArbitraryPrecisionInteger n)
-{
-    return (n & (n - 1)) == 0 && n != 0;
-}
-
-
-std::vector<Gate> approximate_RZ_gate(const RZ rz_gate)
-{
-    std::vector<Gate> res;
-    if ((rz_gate.pi_fraction.num == 1 || rz_gate.pi_fraction.num == -1) && is_power_of_two(rz_gate.pi_fraction.den))
-    {
-        // TODO Do the approximation
-    }
-    throw std::runtime_error{lstk::cat("Can only approximate pi/2^n phase gates, got rz(pi*",
-                                       rz_gate.pi_fraction.num, "/", rz_gate.pi_fraction.num, ") ")};
-
-}
 
 
 std::vector<Gate> decompose_CRZ_gate(const ControlledGate &crz_gate)
@@ -61,14 +43,16 @@ std::vector<Gate> to_clifford_plus_t(const Gate &gate)
     if (const auto *basic_gate = std::get_if<BasicSingleQubitGate>(&gate))
         return {*basic_gate};
     else if (const auto *rz_gate = std::get_if<RZ>(&gate))
-        throw std::runtime_error{"Not implemented: rz to clifford+T"};
+        return approximate_RZ_gate(*rz_gate);
     else
     {
         const auto controlled_gate = std::get<ControlledGate>(gate);
         if (std::holds_alternative<RZ>(controlled_gate.target_gate))
             return decompose_CRZ_gate(controlled_gate);
-
-        throw std::runtime_error{"Not implemented: non crz controlled gate to clifford + T"};
+        else if (std::holds_alternative<BasicSingleQubitGate>(controlled_gate.target_gate))
+            return {gate};
+        else
+            LSTK_NOT_IMPLEMENTED;
     }
 }
 
@@ -82,6 +66,7 @@ std::string_view CNOTType_toString(CNOTType cnot_type)
         case CNOTType::ZX_WITH_MBM_TARGET_FIRST:
             return "ZXWithMBMTargetFirst"sv;
     }
+    LSTK_UNREACHABLE;
 }
 
 
@@ -105,6 +90,7 @@ std::string_view CNOTAncillaPlacement_toString(CNOTAncillaPlacement v)
         case CNOTAncillaPlacement::ANCILLA_NEXT_TO_TARGET:
             return "AncillaNextToTarget"sv;
     }
+    LSTK_UNREACHABLE;
 }
 
 std::optional<CNOTAncillaPlacement> CNOTAncillaPlacement_fromString(std::string_view s)
