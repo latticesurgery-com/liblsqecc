@@ -13,4 +13,5 @@ Options:
     --noslices             Do the slicing but don't write the slices out
     --cnotcorrections      Add Xs and Zs to correct the the negative outcomes: never (default), always
     --compactlayout        Uses Litinski's compact layout, incompatible with -l
+    --edpclayout           Uses a layout specified in the EDPC paper by Beverland et. al., incompatible with -l
     -h, --help             Shows this page        

@@ -4,3 +4,4 @@ Makefile
 *-build*
 .idea
 *.a
+tests_tyler/
