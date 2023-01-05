@@ -58,6 +58,7 @@ add_library(
         src/patches/slices_to_json.cpp
         src/pipelines/slicer.cpp
         src/layout/dynamic_layouts/compact_layout.cpp
+	src/layout/dynamic_layouts/edpc_layout.cpp
         src/layout/dynamic_layouts/determine_exposed_operators.cpp
         src/layout/graph_search/boost_based_graph_search.cpp
         src/layout/graph_search/custom_graph_search.cpp
