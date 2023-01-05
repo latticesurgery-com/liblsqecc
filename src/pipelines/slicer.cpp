@@ -8,6 +8,7 @@
 #include <lsqecc/layout/ascii_layout_spec.hpp>
 #include <lsqecc/layout/router.hpp>
 #include <lsqecc/layout/dynamic_layouts/compact_layout.hpp>
+#include <lsqecc/layout/dynamic_layouts/edpc_layout.hpp>
 #include <lsqecc/patches/slices_to_json.hpp>
 #include <lsqecc/patches/slice.hpp>
 #include <lsqecc/patches/dense_patch_computation.hpp>
@@ -124,7 +125,14 @@ namespace lsqecc
                              "negative power of ten of this value (I.e. precision=10^(-rzprecision)). Defaults to 10.")
                 .required(false);
         #endif // USE_GRIDSYNTH
-        
+        parser.add_argument()
+                .names({"--edpclayout"})
+                .description("Uses a layout specified in the EDPC paper by Beverland et. al., incompatible with -l")
+                .required(false);
+        parser.add_argument()
+                .names({"--nostagger"})
+                .description("Turns off staggered distillation block timing")
+                .required(false);
         parser.enable_help();
 
         auto err = parser.parse(argc, argv);
@@ -232,6 +240,12 @@ namespace lsqecc
             instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
 
         }
+        else if (parser.exists("edpclayout"))
+        {
+            layout = make_edpc_layout(instruction_stream->core_qubits().size());
+            instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
+            instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
+        }
         else if(parser.exists("l"))
             layout = std::make_unique<LayoutFromSpec>(file_to_string(parser.get<std::string>("l")));
         else
@@ -327,7 +341,8 @@ namespace lsqecc
                     *router,
                     timeout,
                     [&](const DenseSlice& s){visitor_with_progress(s);},
-                    parser.exists("graceful")
+                    parser.exists("graceful"),
+                    parser.exists("nostagger")
             ));
         } else
         {

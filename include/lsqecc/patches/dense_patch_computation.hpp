@@ -38,7 +38,8 @@ DensePatchComputationResult run_through_dense_slices(
         Router& router,
         std::optional<std::chrono::seconds> timeout,
         const DenseSliceVisitor& slice_visitor,
-        bool graceful);
+        bool graceful,
+        bool nostagger);
 
 }
 

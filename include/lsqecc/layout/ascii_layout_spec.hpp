@@ -30,6 +30,8 @@ public:
         DistillationRegion_7 = '7',
         DistillationRegion_8 = '8',
         DistillationRegion_9 = '9',
+        ReservedForMagicState = 'M',
+        DeadCell = 'X',
     };
 
     static constexpr std::array<CellType,10> k_distillation_region_types = {
@@ -131,8 +133,6 @@ private:
     void init_cache(const AsciiLayoutSpec& spec);
 
 };
-
-
 
 }
 

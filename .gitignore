@@ -6,3 +6,5 @@ build
 .idea
 *.a
 *.vscode
+tests_*
+.DS_Store
