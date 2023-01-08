@@ -129,6 +129,12 @@ std::optional<CNOTAncillaPlacement> CNOTAncillaPlacement_fromString(std::string_
 
 namespace lsqecc {
 
+
+std::string print_pi_fraction(const Fraction& fraction)
+{
+    return lstk::cat(fraction.num,"*pi/",fraction.den);
+}
+
 std::ostream& operator<<(std::ostream& os, const gates::BasicSingleQubitGate& gate)
 {
     using namespace gates;

@@ -115,6 +115,7 @@ bool is_clifford_plus_t(const Gate& gate);
 } // gates namespace
 
 
+std::string print_pi_fraction(const Fraction& fraction);
 std::ostream& operator<<(std::ostream& os, const gates::BasicSingleQubitGate& gate);
 std::ostream& operator<<(std::ostream& os, const gates::Gate& gate);
 

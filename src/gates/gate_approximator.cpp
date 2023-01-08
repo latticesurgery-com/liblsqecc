@@ -2,21 +2,22 @@
 
 #include <algorithm>
 
-#include <HsFFI.h>
 
-#include <gridsynth_ccals.h>
-
-namespace lsqecc
-{
-
-using namespace gates;
-
-
-bool is_power_of_two(ArbitraryPrecisionInteger n)
+bool is_power_of_two(lsqecc::ArbitraryPrecisionInteger n)
 {
     return (n & (n - 1)) == 0 && n != 0;
 }
 
+
+
+#ifdef USE_GRIDSYNTH
+
+#include <HsFFI.h>
+#include <gridsynth_ccals.h>
+
+namespace lsqecc {
+
+ using namespace gates;
 
 std::vector<char> do_gridsynth_call(double precision, const std::string& angle)
 {
@@ -72,6 +73,18 @@ std::vector<Gate> approximate_RZ_gate_gridsynth(const RZ rz_gate)
     return out;
 }
 
+}
+
+
+#endif // USE_GRIDSYNTH
+
+
+namespace lsqecc
+{
+
+using namespace gates;
+
+
 
 std::vector<Gate> approximate_RZ_gate_cached(const RZ rz_gate)
 {
@@ -81,8 +94,7 @@ std::vector<Gate> approximate_RZ_gate_cached(const RZ rz_gate)
         // TODO Do the approximation
         LSTK_NOT_IMPLEMENTED;
     }
-    throw std::runtime_error{lstk::cat("Can only approximate pi/2^n phase gates in cached mode, got rz(pi*",
-                                       rz_gate.pi_fraction.num, "/", rz_gate.pi_fraction.num, ")\n"
+    throw std::runtime_error{lstk::cat("Can only approximate pi/2^n phase gates in cached mode, got rz(", print_pi_fraction(rz_gate.pi_fraction),")\n"
                                        "If you really need non pi/2^n gates consider enabling the gridsynth integration"
                                        )};
 
@@ -98,5 +110,6 @@ std::vector<Gate> approximate_RZ_gate(const RZ rz_gate)
 #endif // USE_GRIDSYNTH
 }
 
-
 }
+
+
