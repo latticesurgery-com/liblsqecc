@@ -50,6 +50,7 @@ add_library(
         src/gates/parse_gates.cpp
         src/gates/gates.cpp
         src/gates/gate_approximator.cpp
+        src/gates/clifford_plus_t_conversion_stream.cpp
         src/patches/dense_slice.cpp
         src/patches/dense_patch_computation.cpp
         src/patches/patches.cpp
@@ -88,12 +89,15 @@ set(HASKELL_RTS_VERSION 1.0.2)
 
 
 execute_process(COMMAND $ENV{HOME}/.ghcup/bin/ghc --print-libdir OUTPUT_VARIABLE GHC_LIB_DIR OUTPUT_STRIP_TRAILING_WHITESPACE)
-message("GHC_LIB_DIR: ${GHC_LIB_DIR}")
+message(GHC_LIB_DIR: ${GHC_LIB_DIR})
 
 add_compile_definitions(USE_GRIDSYNTH)
 
+set(RTS_LIBS_DIR ${GHC_LIB_DIR}/x86_64-linux-ghc-${GHC_VERSION}/)
+message(RTS_LIBS_DIR: ${RTS_LIBS_DIR})
 
 set(GRIDSYNTH_LIBS_DIR ${PROJECT_SOURCE_DIR}/external/rotation-decomposer/newsynth/)
+message(GRIDSYNTH_LIBS_DIR: ${GRIDSYNTH_LIBS_DIR})
 
 target_include_directories(
         lsqecclib
@@ -106,6 +110,8 @@ target_include_directories(
 target_link_options(lsqecclib INTERFACE
         -L${GRIDSYNTH_LIBS_DIR} -lgridsynth_ccals -lHSnewsynth-0.4.0.0-inplace-ghc${GHC_VERSION}
         -L${GHC_LIB_DIR}/x86_64-linux-ghc-${GHC_VERSION}/ -lHSrts-${HASKELL_RTS_VERSION}_debug-ghc${GHC_VERSION}
+        -Wl,-rpath,${GRIDSYNTH_LIBS_DIR}
+        -Wl,-rpath,${RTS_LIBS_DIR}
 )
 
 

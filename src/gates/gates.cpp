@@ -56,6 +56,26 @@ std::vector<Gate> to_clifford_plus_t(const Gate &gate)
     }
 }
 
+
+bool is_clifford_plus_t(const Gate& gate)
+{
+    if (std::holds_alternative<BasicSingleQubitGate>(gate))
+        return true;
+    else if (std::holds_alternative<RZ>(gate))
+        return false;
+    else
+    {
+        const auto controlled_gate = std::get<ControlledGate>(gate);
+        if (std::holds_alternative<RZ>(controlled_gate.target_gate))
+            return false;
+        else if (std::holds_alternative<BasicSingleQubitGate>(controlled_gate.target_gate))
+            return is_clifford_plus_t(std::visit([](const auto tg){return Gate{tg};}, controlled_gate.target_gate));
+        else
+            LSTK_NOT_IMPLEMENTED;
+    }
+}
+
+
 std::string_view CNOTType_toString(CNOTType cnot_type)
 {
     using namespace std::string_view_literals;
@@ -102,6 +122,54 @@ std::optional<CNOTAncillaPlacement> CNOTAncillaPlacement_fromString(std::string_
     if (s == CNOTAncillaPlacement_toString(CNOTAncillaPlacement::ANCILLA_NEXT_TO_TARGET))
         return CNOTAncillaPlacement::ANCILLA_NEXT_TO_TARGET;
     else return std::nullopt;
+}
+
+
+}
+
+namespace lsqecc {
+
+std::ostream& operator<<(std::ostream& os, const gates::BasicSingleQubitGate& gate)
+{
+    using namespace gates;
+    
+    return os << [&](){
+        switch (gate.gate_type)
+        {
+        case BasicSingleQubitGate::Type::X: return 'x';
+        case BasicSingleQubitGate::Type::Z: return 'z';
+        case BasicSingleQubitGate::Type::S: return 's';
+        case BasicSingleQubitGate::Type::T: return 't';
+        case BasicSingleQubitGate::Type::H: return 'h';
+        default:
+            LSTK_UNREACHABLE;
+        }
+    }() << " qreg[" << gate.target_qubit << "];";
+}
+
+
+std::ostream& operator<<(std::ostream& os, const gates::Gate& gate)
+{
+    using namespace gates;
+
+    if (const auto *basic_gate = std::get_if<BasicSingleQubitGate>(&gate))
+        return os << *basic_gate;
+    else if (const auto *rz_gate = std::get_if<RZ>(&gate))
+    {
+        LSTK_UNUSED(rz_gate);
+        LSTK_NOT_IMPLEMENTED;
+    }
+    else
+    {
+        const auto controlled_gate = std::get<ControlledGate>(gate);
+        if (std::holds_alternative<RZ>(controlled_gate.target_gate))
+            LSTK_NOT_IMPLEMENTED;
+        else if (std::holds_alternative<BasicSingleQubitGate>(controlled_gate.target_gate))
+            LSTK_NOT_IMPLEMENTED;
+        else
+            LSTK_NOT_IMPLEMENTED;
+    }
+    
 }
 
 

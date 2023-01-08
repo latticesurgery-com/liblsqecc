@@ -112,25 +112,25 @@ gates::Gate parse_qasm_gate(const Line& line)
 
     if(line.instruction.substr(0,2) == "rz")
     {
-        if(line.instruction.substr(2,6) == "(pi/")
+        if(line.instruction.substr(2,4) == "(pi/")
         {
             auto pi_frac_den = try_parse_int<ArbitraryPrecisionInteger>(
-                    lstk::split_on(line.instruction,')').at(0));
+                    lstk::split_on(lstk::split_on(line.instruction,'/').at(1),')').at(0));
             return gates::RZ{
                 get_index_arg(line.args[0]),
                 Fraction{1,pi_frac_den}};
         }
         else {
             throw GateParseException{lstk::cat(
-                    "Can only parse pi/n for n power of 2 angles as crz args, got ",line.instruction)};
+                    "Can only parse pi/n for n power of 2 angles as rz args, got ", line.instruction)};
         }
     }
     if(line.instruction.substr(0,3) == "crz")
     {
-        if(line.instruction.substr(3,7) == "(pi/")
+        if(line.instruction.substr(3,4) == "(pi/")
         {
             auto pi_frac_den = try_parse_int<ArbitraryPrecisionInteger>(
-                    lstk::split_on(line.instruction,')').at(0));
+                    lstk::split_on(lstk::split_on(line.instruction,'/').at(1),')').at(0));
             return gates::CRZ(
                 get_index_arg(line.args[1]),
                 get_index_arg(line.args[0]),

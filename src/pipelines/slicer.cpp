@@ -1,6 +1,7 @@
 #include <lsqecc/pipelines/slicer.hpp>
 
 #include <lsqecc/gates/parse_gates.hpp>
+#include <lsqecc/gates/clifford_plus_t_conversion_stream.hpp>
 #include <lsqecc/ls_instructions/ls_instruction_stream.hpp>
 #include <lsqecc/ls_instructions/boundary_rotation_injection_stream.hpp>
 #include <lsqecc/ls_instructions/teleported_s_gate_injection_stream.hpp>
@@ -184,6 +185,7 @@ namespace lsqecc
         if(parser.exists("q"))
         {
             gate_stream = std::make_unique<GateStreamFromFile>(input_file_stream.get());
+            gate_stream = std::make_unique<CliffordPlusTConversionStream>(std::move(gate_stream));
 
             CNOTCorrectionMode cnot_correction_mode = CNOTCorrectionMode::NEVER;
             if(parser.exists("cnotcorrections"))
