@@ -7,7 +7,7 @@ namespace lsqecc
 {
 
 
-std::vector<gates::Gate> approximate_RZ_gate(const gates::RZ rz_gate);
+std::vector<gates::Gate> approximate_RZ_gate(const gates::RZ rz_gate, double rz_precision_log_ten_negative);
 
 }
 

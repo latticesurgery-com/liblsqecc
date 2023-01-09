@@ -109,7 +109,7 @@ inline constexpr ControlledGate CRZ(
 
 using Gate = std::variant<BasicSingleQubitGate, RZ, ControlledGate>;
 
-std::vector<Gate> to_clifford_plus_t(const Gate& gate);
+std::vector<Gate> to_clifford_plus_t(const Gate& gate, double rz_precision_log_ten_negative);
 bool is_clifford_plus_t(const Gate& gate);
 
 } // gates namespace

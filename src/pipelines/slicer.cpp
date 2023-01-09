@@ -31,6 +31,7 @@ namespace lsqecc
 {
 
 
+    const inline double k_default_precision_log_ten_negative = 10;
 
     std::string file_to_string(std::string fname)
     {
@@ -114,6 +115,14 @@ namespace lsqecc
                 .names({"--compactlayout"})
                 .description("Uses Litinski's compact layout, incompatible with -l")
                 .required(false);
+        #ifdef USE_GRIDSYNTH
+        parser.add_argument()
+                .names({"--rzprecision"})
+                .description("Float to define the precision when Gridsynth is compiled. The precision is given by the "
+                             "negative power of ten of this value (I.e. precision=10^(-rzprecision)). Defaults to 10.")
+                .required(false);
+        #endif // USE_GRIDSYNTH
+        
         parser.enable_help();
 
         auto err = parser.parse(argc, argv);
@@ -185,7 +194,10 @@ namespace lsqecc
         if(parser.exists("q"))
         {
             gate_stream = std::make_unique<GateStreamFromFile>(input_file_stream.get());
-            gate_stream = std::make_unique<CliffordPlusTConversionStream>(std::move(gate_stream));
+            gate_stream = std::make_unique<CliffordPlusTConversionStream>(
+                std::move(gate_stream),
+                parser.exists("rzprecision") ? parser.get<double>("rzprecision") : k_default_precision_log_ten_negative
+            );
 
             CNOTCorrectionMode cnot_correction_mode = CNOTCorrectionMode::NEVER;
             if(parser.exists("cnotcorrections"))

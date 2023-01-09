@@ -7,7 +7,7 @@
 namespace lsqecc::gates {
 
 
-std::vector<Gate> decompose_CRZ_gate(const ControlledGate &crz_gate)
+std::vector<Gate> decompose_CRZ_gate(const ControlledGate &crz_gate, double rz_precision_log_ten_negative)
 {
     const auto &rz_gate = std::get<RZ>(crz_gate.target_gate);
     /*
@@ -22,15 +22,24 @@ std::vector<Gate> decompose_CRZ_gate(const ControlledGate &crz_gate)
     std::vector<Gate> res;
     lstk::vector_extend(res, to_clifford_plus_t(
             RZ{crz_gate.control_qubit, Fraction{rz_gate.pi_fraction.num,
-                                                rz_gate.pi_fraction.den * 2}}));
+                                                rz_gate.pi_fraction.den * 2}},
+            rz_precision_log_ten_negative
+        )
+    );
     lstk::vector_extend(res, to_clifford_plus_t(
             RZ{rz_gate.target_qubit, Fraction{rz_gate.pi_fraction.num,
-                                              rz_gate.pi_fraction.den * 2}}));
+                                              rz_gate.pi_fraction.den * 2}},
+            rz_precision_log_ten_negative
+        )
+    );
     res.emplace_back(
             CNOT(rz_gate.target_qubit, crz_gate.control_qubit, crz_gate.cnot_type, crz_gate.cnot_ancilla_placement));
     lstk::vector_extend(res, to_clifford_plus_t(
             RZ{rz_gate.target_qubit, Fraction{-rz_gate.pi_fraction.num,
-                                              rz_gate.pi_fraction.den * 2}}));
+                                              rz_gate.pi_fraction.den * 2}},
+            rz_precision_log_ten_negative
+        )
+    );
     res.emplace_back(
             CNOT(rz_gate.target_qubit, crz_gate.control_qubit, crz_gate.cnot_type, crz_gate.cnot_ancilla_placement));
 
@@ -38,17 +47,17 @@ std::vector<Gate> decompose_CRZ_gate(const ControlledGate &crz_gate)
 }
 
 
-std::vector<Gate> to_clifford_plus_t(const Gate &gate)
+std::vector<Gate> to_clifford_plus_t(const Gate &gate, double rz_precision_log_ten_negative)
 {
     if (const auto *basic_gate = std::get_if<BasicSingleQubitGate>(&gate))
         return {*basic_gate};
     else if (const auto *rz_gate = std::get_if<RZ>(&gate))
-        return approximate_RZ_gate(*rz_gate);
+        return approximate_RZ_gate(*rz_gate, rz_precision_log_ten_negative);
     else
     {
         const auto controlled_gate = std::get<ControlledGate>(gate);
         if (std::holds_alternative<RZ>(controlled_gate.target_gate))
-            return decompose_CRZ_gate(controlled_gate);
+            return decompose_CRZ_gate(controlled_gate, rz_precision_log_ten_negative);
         else if (std::holds_alternative<BasicSingleQubitGate>(controlled_gate.target_gate))
             return {gate};
         else

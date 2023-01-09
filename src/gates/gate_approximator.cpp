@@ -53,12 +53,12 @@ Gate gate_from_name(char name, QubitNum target_qubit)
     throw std::runtime_error{lstk::cat("Unsupported gate form Gridsynth: ", name)};
 }
 
-std::vector<Gate> approximate_RZ_gate_gridsynth(const RZ rz_gate)
+std::vector<Gate> approximate_RZ_gate_gridsynth(const RZ rz_gate, double rz_precision_log_ten_negative)
 {
     std::vector<Gate> out;
 
     std::string angle{lstk::cat("1*pi/16")};
-    std::vector<char> gate_names{do_gridsynth_call(100, angle)};
+    std::vector<char> gate_names{do_gridsynth_call(rz_precision_log_ten_negative, angle)};
     for (auto gate_name = gate_names.begin(); gate_name != gate_names.end(); gate_name++)
     {
         if(*gate_name == '\0')
@@ -101,10 +101,10 @@ std::vector<Gate> approximate_RZ_gate_cached(const RZ rz_gate)
 }
 
 
-std::vector<Gate> approximate_RZ_gate(const RZ rz_gate)
+std::vector<Gate> approximate_RZ_gate(const RZ rz_gate, double rz_precision_log_ten_negative)
 {
 #ifdef USE_GRIDSYNTH
-    return approximate_RZ_gate_gridsynth(rz_gate);
+    return approximate_RZ_gate_gridsynth(rz_gate, rz_precision_log_ten_negative);
 #else
     return approximate_RZ_gate_cached(rz_gate);
 #endif // USE_GRIDSYNTH
