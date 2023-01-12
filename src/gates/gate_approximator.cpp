@@ -17,21 +17,46 @@ bool is_power_of_two(lsqecc::ArbitraryPrecisionInteger n)
 
 namespace lsqecc {
 
- using namespace gates;
+using namespace gates;
+
+
+/// Singleton instance to use RAII to manage Haskell's runtime because:
+/// `hs_init_ghc: reinitializing the RTS after shutdown is not currently supported`
+struct HaskellRuntime {
+
+    static void require_init()
+    {
+        if(!instance)
+            instance = std::make_unique<HaskellRuntime>();
+    }
+
+    HaskellRuntime()
+    {
+        std::string prog_name = "lsqecc_simulated_prog_name";
+        std::vector<char*> arg_list;
+        arg_list.push_back(const_cast<char*>(prog_name.c_str()));
+        int argc = arg_list.size();
+        char** argv = arg_list.data();
+        hs_init(&argc, &argv);
+    }
+
+    ~HaskellRuntime()
+    {
+        hs_exit();
+    }
+
+    inline static std::unique_ptr<HaskellRuntime> instance;
+
+};
+
+
 
 std::vector<char> do_gridsynth_call(double precision, const std::string& angle)
 {
     std::vector<char> buffer(2048, '\0');
 
-
-    std::string prog_name = "lsqecc_simulated_prog_name";
-    std::vector<char*> arg_list;
-    arg_list.push_back(const_cast<char*>(prog_name.c_str()));
-    int argc = arg_list.size();
-    char** argv = arg_list.data();
-    hs_init(&argc, &argv);
+    HaskellRuntime::require_init();
     const int result = gridsynth_angle_to_seq_with_precision_hs(precision, angle.c_str(), buffer.data(), buffer.size());
-    hs_exit();
     
     if(result != 0)
         throw std::logic_error{lstk::cat("Call to Gridsynth C Call returned ", result)};
