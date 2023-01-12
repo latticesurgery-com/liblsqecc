@@ -27,6 +27,8 @@
 #include <chrono>
 
 
+#define CONSOLE_HELP_NEWLINE_ALIGN "\n                           "
+
 namespace lsqecc
 {
 
@@ -118,7 +120,7 @@ namespace lsqecc
         #ifdef USE_GRIDSYNTH
         parser.add_argument()
                 .names({"--rzprecision"})
-                .description("Float to define the precision when Gridsynth is compiled. The precision is given by the "
+                .description("Float to define the precision when Gridsynth is compiled. The precision is given by the " CONSOLE_HELP_NEWLINE_ALIGN
                              "negative power of ten of this value (I.e. precision=10^(-rzprecision)). Defaults to 10.")
                 .required(false);
         #endif // USE_GRIDSYNTH

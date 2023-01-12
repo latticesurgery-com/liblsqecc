@@ -1,11 +1,10 @@
-#include <lsqecc/gates/gate_approximator.hpp>
 
+#include <sstream>
 
 #include <gtest/gtest.h>
 
 #include <lsqecc/gates/gate_approximator.hpp>
 
-#include <sstream>
 
 using namespace lsqecc;
 
@@ -27,7 +26,7 @@ TEST(gate_approximator, approximate_RZ_gate)
             "\nt qreg[1];\nh qreg[1];\ns qreg[1];\nt qreg[1];\nh qreg[1];\ns qreg[1];\nt qreg[1];\nh qreg[1];"
             "\ns qreg[1];\nt qreg[1];\nh qreg[1];\nt qreg[1];\nh qreg[1];\ns qreg[1];\nt qreg[1];\nh qreg[1];"
             "\ns qreg[1];\nt qreg[1];\nh qreg[1];\nt qreg[1];\nh qreg[1];\ns qreg[1];\nt qreg[1];\nh qreg[1];"
-            "\nt qreg[1];\nh qreg[1];\ns qreg[1];\nt qreg[1];\nh qreg[1];\ns qreg[1];\nt qreg[1];\nh qreg[1];",
+            "\nt qreg[1];\nh qreg[1];\ns qreg[1];\nt qreg[1];\nh qreg[1];\ns qreg[1];\nt qreg[1];\nh qreg[1];\n",
         ss.str()
     );
 

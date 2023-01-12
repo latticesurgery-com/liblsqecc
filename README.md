@@ -52,12 +52,9 @@ LibLSQECC can parse a small subset of OpenQASM 2.0 instead of LLI, with restrict
  * Max one gate per line, with only inline comments
  * Single qubit gates must be in the form `g q[n];` where `g` is one of `h`,`x`,`z`,`s`,`t` and `n` is a non-negative integer
  * CNOTs must be in the form `cx q[n],q[m];` where `n` and `m` are non-negative. Target comes first, as per [OpenQASM convention (Fig 2)](https://arxiv.org/pdf/1707.03429.pdf).
- * 
+ * `rz(expr)` and `crz(expr)` where `expr` has form `pi/m` or `n*pi/m` for n,m integers. No whitespace.
  * Supports some basic annotations such as: `cx q[0],q[7]; // %ZXWithMBMTargetFirst,AncillaNextToTarget`
  * Program must begin with `OPENQASM 2.0;` in the first line
- 
-In progress:
- * Working on adding support for `rz` and `crz`. Needs integration with a Solovay-Kitaev decomposer.
 
 ### The `liblsqecc` library
 

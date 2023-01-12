@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.12)
 
 
 project(lsqecc)
@@ -183,6 +183,7 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
             tests/main.cpp
             tests/lstk/lstk.cpp
             tests/gates/gate_approximator.cpp
+            tests/gates/parse_gates.cpp
     )
 
     target_link_libraries(
@@ -196,11 +197,11 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
             COMMAND ${PROJECT_BINARY_DIR}/lsqecc_tests
     )
 
-    #add_custom_command(
-    #        TARGET lsqecc_tests
-    #        COMMENT "Run lsqecc_tests"
-    #        POST_BUILD
-    #        COMMAND valgrind ${PROJECT_BINARY_DIR}/lsqecc_tests
-    #)
+    add_custom_command(
+            TARGET lsqecc_tests
+            COMMENT "Run lsqecc_tests"
+            POST_BUILD
+            COMMAND ${PROJECT_BINARY_DIR}/lsqecc_tests
+    )
 
 endif()

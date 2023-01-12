@@ -15,6 +15,8 @@ using ArbitraryPrecisionInteger = int64_t;
 struct Fraction{
     ArbitraryPrecisionInteger num;
     ArbitraryPrecisionInteger den;
+
+    bool operator==(const Fraction& other) const = default;
 };
 
 

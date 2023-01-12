@@ -72,6 +72,14 @@ QubitNum get_index_arg(std::string_view s)
 }
 
 
+std::string_view get_arg_in_brackets(std::string_view s)
+{
+    return lstk::split_on(
+            lstk::split_on(s,'(').at(1),
+            ')'
+    ).at(0);
+}
+
 gates::CNOTType determine_cnot_type(const std::vector<std::string_view>& annotations)
 {
     for(const auto& annotation : annotations)
@@ -90,6 +98,22 @@ gates::CNOTAncillaPlacement determine_cnot_ancilla_placement(const std::vector<s
         if(t) return * t;
     }
     return gates::ControlledGate::default_ancilla_placement;
+}
+
+
+Fraction parse_angle(std::string_view s)
+{
+    if(s.starts_with("pi/"))
+        return Fraction{1,try_parse_int<ArbitraryPrecisionInteger>(s.substr(3))};
+
+    // use split on with *pi/ as delimiter
+    auto split = lstk::split_on(s,"*pi/");
+    if(split.size() != 2)
+        throw GateParseException{lstk::cat("Could not parse angle ", s, " as n*pi/m")};
+
+     return Fraction{
+            try_parse_int<ArbitraryPrecisionInteger>(split.at(0)),
+            try_parse_int<ArbitraryPrecisionInteger>(split.at(1))};
 }
 
 gates::Gate parse_qasm_gate(const Line& line)
@@ -112,29 +136,18 @@ gates::Gate parse_qasm_gate(const Line& line)
 
     if(line.instruction.substr(0,2) == "rz")
     {
-        if(line.instruction.substr(2,4) == "(pi/")
-        {
-            auto pi_frac_den = try_parse_int<ArbitraryPrecisionInteger>(
-                    lstk::split_on(lstk::split_on(line.instruction,'/').at(1),')').at(0));
-            return gates::RZ{
-                get_index_arg(line.args[0]),
-                Fraction{1,pi_frac_den}};
-        }
-        else {
-            throw GateParseException{lstk::cat(
-                    "Can only parse pi/n for n power of 2 angles as rz args, got ", line.instruction)};
-        }
+        return gates::RZ{
+            get_index_arg(line.args[0]),
+            parse_angle(get_arg_in_brackets(line.instruction))};
     }
     if(line.instruction.substr(0,3) == "crz")
     {
         if(line.instruction.substr(3,4) == "(pi/")
         {
-            auto pi_frac_den = try_parse_int<ArbitraryPrecisionInteger>(
-                    lstk::split_on(lstk::split_on(line.instruction,'/').at(1),')').at(0));
             return gates::CRZ(
                 get_index_arg(line.args[1]),
                 get_index_arg(line.args[0]),
-                Fraction{1,pi_frac_den},
+                parse_angle(get_arg_in_brackets(line.instruction)),
                 determine_cnot_type(line.annotations),
                 determine_cnot_ancilla_placement(line.annotations));
         }
