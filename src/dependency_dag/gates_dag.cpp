@@ -20,7 +20,12 @@ template<> // TODO replace with concepts
 struct CommutationTrait<gates::Gate> {
     static bool may_not_commute(const gates::Gate& lhs, const gates::Gate& rhs)
     {
-        return gates::get_target_qubit(lhs) == gates::get_target_qubit(rhs);   
+        // Add an easy case that can be used for some interesting examples
+        if(gates::is_cnot(lhs) && gates::is_cnot(rhs))
+            return gates::get_target_qubit(lhs) == gates::get_target_qubit(rhs);
+
+        // A general rule that satisfies the requirement of the trait
+        return !lstk::set_intersection(gates::get_operating_qubits(lhs), gates::get_operating_qubits(rhs)).empty();
     }
 };
 

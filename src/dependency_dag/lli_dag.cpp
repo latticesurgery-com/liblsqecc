@@ -22,7 +22,7 @@ struct CommutationTrait<LSInstruction> {
         const auto rhs_operating_patches{rhs.get_operating_patches()};
         std::unordered_set<PatchId> lhs_set{LSTK_RANGE(lhs_operating_patches)};
         std::unordered_set<PatchId> rhs_set{LSTK_RANGE(rhs_operating_patches)};
-        return false;
+        return !lstk::set_intersection(lhs_set, rhs_set).empty();
     }
 };
 

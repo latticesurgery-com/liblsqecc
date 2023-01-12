@@ -32,10 +32,16 @@ struct Node
     std::vector<std::shared_ptr<Node<InstructionType>>> future = {}; // The past holds the future
     std::vector<std::reference_wrapper<Node<InstructionType>>> past = {}; // The future only talks about it
 
+    Node(InstructionType&& instruction_, const IdType id_)
+    : instruction(std::move(instruction_)), id(id_) {}
+
 };
 
 template<class InstructionType> // TODO replace with concepts
 struct CommutationTrait {
+    /// False -> They definitely don't commute
+    /// True  -> They probably don't commute
+    /// TODO make stricter rules. Idea: use a matrix check or a lookup table 
     static bool may_not_commute(const InstructionType& lhs, const InstructionType& rhs);
 };
 
@@ -78,7 +84,7 @@ template<class InstructionType>
 struct DependencyDag
 {
     using NodeT = Node<InstructionType>;
-    using NodeId = NodeT::IdType;
+    using NodeId = typename NodeT::IdType;
 
     /// Stops traversing when visitor returns false
     void traverse_into_the_past(const std::function<void(NodeT&)>& visitor)

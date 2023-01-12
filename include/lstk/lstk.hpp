@@ -13,6 +13,7 @@
 #include <string>
 #include <queue>
 #include <string_view>
+#include <unordered_set>
 #include <functional>
 #include <optional>
 #include <stdexcept>
@@ -192,6 +193,20 @@ std::string join(IterableOfStringifiables iterable_of_stringifiables, std::strin
         begin = false;
     }
     return acc;
+}
+
+// Set operations
+
+template<class T>
+std::unordered_set<T> set_intersection(const std::unordered_set<T>& lhs, const std::unordered_set<T>& rhs)
+{
+    std::unordered_set<T> res;
+    for (const auto &i : lhs)
+    {
+        if(rhs.contains(i))
+            res.insert(i);
+    }
+    return res;
 }
 
 }

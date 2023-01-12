@@ -122,6 +122,15 @@ std::optional<CNOTAncillaPlacement> CNOTAncillaPlacement_fromString(std::string_
 }
 
 
+bool is_cnot(const Gate& gate)
+{
+    const auto* controlled_gate = std::get_if<ControlledGate>(&gate);
+    if(!controlled_gate) return false;
+    const auto* basic_target_gate = std::get_if<BasicSingleQubitGate>(&gate);
+    if(!basic_target_gate) return false;
+    return basic_target_gate->gate_type == BasicSingleQubitGate::Type::X;
+}
+
 QubitNum get_target_qubit(const Gate& gate){
 
     if (const auto* basic_single_qubit_gate = std::get_if<gates::BasicSingleQubitGate>(&gate))
@@ -142,15 +151,17 @@ QubitNum get_target_qubit(const Gate& gate){
 }
 
 
-std::unordered_set<QubitNum> get_opersting_qubits(Gate& gate){
-
+std::unordered_set<QubitNum> get_operating_qubits(const Gate& gate)
+{
     if (const auto* basic_single_qubit_gate = std::get_if<gates::BasicSingleQubitGate>(&gate))
     {
         return std::unordered_set<QubitNum>{basic_single_qubit_gate->target_qubit};
-    } else if (const auto* rz_gate = std::get_if<gates::RZ>(&gate))
+    }
+    else if (const auto* rz_gate = std::get_if<gates::RZ>(&gate))
     {
         return std::unordered_set<QubitNum>{rz_gate->target_qubit};
-    } else if (const auto* controlled_gate = std::get_if<gates::ControlledGate>(&gate))
+    } 
+    else if (const auto* controlled_gate = std::get_if<gates::ControlledGate>(&gate))
     {
         return std::unordered_set<QubitNum>{get_target_qubit(gate), controlled_gate->control_qubit};
     }
