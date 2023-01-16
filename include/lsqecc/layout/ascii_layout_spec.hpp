@@ -30,6 +30,9 @@ public:
         DistillationRegion_7 = '7',
         DistillationRegion_8 = '8',
         DistillationRegion_9 = '9',
+        // TRL 01/11/23: ADDING MAGIC STATES AND DEAD CELLS
+        ReservedForMagicState = 'M',
+        DeadCell = 'X',
     };
 
     static constexpr std::array<CellType,10> k_distillation_region_types = {
@@ -131,8 +134,6 @@ private:
     void init_cache(const AsciiLayoutSpec& spec);
 
 };
-
-
 
 }
 

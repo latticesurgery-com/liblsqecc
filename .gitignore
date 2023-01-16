@@ -5,3 +5,4 @@ Makefile
 .idea
 *.a
 tests_tyler/
+build/

@@ -135,6 +135,9 @@ void LayoutFromSpec::init_cache(const AsciiLayoutSpec& spec)
 {
     cached_furthest_cell_ = spec.furthest_cell();
 
+    // TRL 01/12/23: Checking if any ReservedForMagicState Cell exists
+    auto reserved_for_magic_state_cells = spec.find_all_cells_of_type(AsciiLayoutSpec::CellType::ReservedForMagicState);
+
     for(const AsciiLayoutSpec::CellType distillation_region_char : AsciiLayoutSpec::k_distillation_region_types)
     {
 
@@ -165,10 +168,17 @@ void LayoutFromSpec::init_cache(const AsciiLayoutSpec& spec)
                 auto inside_neighbours = cell_occupied_by_patch.cell
                         .get_neigbours_within_bounding_box_inclusive({0,0},cached_furthest_cell_);
                 for(const auto& neighbour: inside_neighbours)
-                    if( spec.get_grid_spec()[neighbour.row][neighbour.col] == AsciiLayoutSpec::CellType::RoutingAncilla)
-                        queue_for_new_region.push_back(neighbour);
-
-
+                    // TRL 01/12/23: Using ReservedForMagicStates instead of RoutingAncilla if the user has specified any of them at all
+                    if (reserved_for_magic_state_cells.size() == 0) {
+                        if( spec.get_grid_spec()[neighbour.row][neighbour.col] == AsciiLayoutSpec::CellType::RoutingAncilla) {
+                            queue_for_new_region.push_back(neighbour);
+                        }
+                    }
+                    else {
+                        if( spec.get_grid_spec()[neighbour.row][neighbour.col] == AsciiLayoutSpec::CellType::ReservedForMagicState) {
+                            queue_for_new_region.push_back(neighbour);
+                        }
+                    }
             }
 
             cached_distillation_regions_.push_back(new_distillation_region);

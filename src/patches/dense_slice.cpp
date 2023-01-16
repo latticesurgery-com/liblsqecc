@@ -105,8 +105,8 @@ DenseSlice::DenseSlice(const Layout& layout)
 {
 }
 
-
-DenseSlice::DenseSlice(const lsqecc::Layout &layout, const tsl::ordered_set<PatchId> &core_qubit_ids)
+// TRL 01/16/22: We use the EDPC layout flag to influence certain choices within this function
+DenseSlice::DenseSlice(const lsqecc::Layout &layout, const tsl::ordered_set<PatchId> &core_qubit_ids, bool edpclayout)
  : DenseSlice(layout)
 {
     if (layout.core_patches().size()<core_qubit_ids.size())
@@ -128,10 +128,16 @@ DenseSlice::DenseSlice(const lsqecc::Layout &layout, const tsl::ordered_set<Patc
                     static_cast<CellBoundaries>(cell)};
         }
     }
-
+    
     size_t distillation_time_offset = 0;
     for(auto t : layout.distillation_times())
-        time_to_next_magic_state_by_distillation_region.push_back(t+distillation_time_offset++);
+        // TRL 01/16/22: Do not use a distillation time offset if edpclayout flag is provided
+        if (edpclayout) {
+            time_to_next_magic_state_by_distillation_region.push_back(t);
+        }
+        else {
+            time_to_next_magic_state_by_distillation_region.push_back(t+distillation_time_offset++);           
+        }        
 }
 
 bool DenseSlice::is_cell_free(const Cell& cell) const

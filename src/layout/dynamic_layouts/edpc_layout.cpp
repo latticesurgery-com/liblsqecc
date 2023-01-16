@@ -57,6 +57,7 @@ std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits)
             if (grid[i][j] == 'A') {
                 if (grid[i+2][j] == 'Q') {
                     if (grid[i-1][j-1] == 'r') {
+                        grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
                         for (unsigned int k=i-t_distillation_region_rows; k<i; k++) {
                             for (unsigned int l=j-1; l<j+2; l++) {
                                 grid[k][l] = AsciiLayoutSpec::CellType::DistillationRegion_0;
@@ -66,6 +67,7 @@ std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits)
                 }
                 else if (grid[i-2][j] == 'Q') {
                     if (grid[i+1][j-1] == 'r') {
+                        grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;                      
                         for (unsigned int k=i+1; k<i+t_distillation_region_rows+1; k++) {
                             for (unsigned int l=j-1; l<j+2; l++) {
                                 grid[k][l] = AsciiLayoutSpec::CellType::DistillationRegion_0;
@@ -75,6 +77,7 @@ std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits)
                 }
                 else if (grid[i][j+2] == 'Q') {
                     if (grid[i-1][j-1] == 'r') {
+                        grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
                         for (unsigned int k=i-1; k<i+2; k++) {
                             for (unsigned int l=j-t_distillation_region_cols; l<j; l++) {
                                 grid[k][l] = AsciiLayoutSpec::CellType::DistillationRegion_0;
@@ -84,6 +87,7 @@ std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits)
                 }
                 else if (grid[i][j-2] == 'Q') {
                     if (grid[i-1][j+1] == 'r') {
+                        grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
                         for (unsigned int k=i-1; k<i+2; k++) {
                             for (unsigned int l=j+1; l<j+t_distillation_region_cols+1; l++) {
                                 grid[k][l] = AsciiLayoutSpec::CellType::DistillationRegion_0;
@@ -94,6 +98,19 @@ std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits)
             }
         }
     }
+
+    // Add dead cells
+    for (unsigned int i = 0; i<grid.size(); i++) {
+        for (unsigned int j = 0; j<grid[i].size(); j++) {
+            if (i >= t_distillation_region_rows && i < grid.size() - t_distillation_region_rows && j >= t_distillation_region_cols && j < grid[i].size() - t_distillation_region_cols) {
+                continue;
+            }
+            else if (grid[i][j] == 'r') {
+                grid[i][j] = AsciiLayoutSpec::CellType::DeadCell;
+            }
+        }
+    }
+
 
     // Print out the grid for the purposes of debugging
     // std::cout << "The number of rows in the grid is: " << grid.size() << std::endl;

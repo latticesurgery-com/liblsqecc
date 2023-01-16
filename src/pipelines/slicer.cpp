@@ -325,7 +325,9 @@ namespace lsqecc
                     *router,
                     timeout,
                     [&](const DenseSlice& s){visitor_with_progress(s);},
-                    parser.exists("graceful")
+                    parser.exists("graceful"),
+                    // TRL 01/16/22: We use the EDPC layout flag to influence certain choices within this function
+                    parser.exists("edpclayout")
             ));
         } else
         {
