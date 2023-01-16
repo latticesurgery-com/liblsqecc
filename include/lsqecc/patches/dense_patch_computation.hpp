@@ -38,7 +38,9 @@ DensePatchComputationResult run_through_dense_slices(
         Router& router,
         std::optional<std::chrono::seconds> timeout,
         const DenseSliceVisitor& slice_visitor,
-        bool graceful);
+        bool graceful,
+         // TRL 01/16/22: We use the EDPC layout flag to influence certain choices within this function
+        bool edpclayout);
 
 }
 
