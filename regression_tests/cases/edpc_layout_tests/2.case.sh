@@ -21,7 +21,7 @@ t q[13];
 t q[14];
 t q[15];
 "
-echo "$INPUT" | lsqecc_slicer -q --edpclayout --graceful --printlli
+echo "$INPUT" | lsqecc_slicer -q --edpclayout --graceful
 #echo "$INPUT" | lsqecc_slicer -q --edpclayout --graceful -o ../tests_tyler/7.json
 
 

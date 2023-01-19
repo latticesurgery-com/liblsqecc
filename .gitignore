@@ -6,3 +6,5 @@ Makefile
 *.a
 tests_tyler/
 build/
+.DS_Store
+.vscode/
