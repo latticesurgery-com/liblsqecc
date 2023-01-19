@@ -22,6 +22,7 @@ tsl::ordered_map<PatchId, RotatableSingleQubitPatchExposedOperators> determine_e
 {
     tsl::ordered_map<PatchId, RotatableSingleQubitPatchExposedOperators> out;
 
+    // TRL 01/16/22: Since we haven't implemented the edpc layout flag here yet, we just pass a dummy boolean
     bool dummy = 0;
     DenseSlice first_slice{layout, core_qubit_ids, dummy};
 
