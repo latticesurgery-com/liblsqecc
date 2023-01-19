@@ -25,7 +25,6 @@ struct DenseSlice : public Slice
     std::reference_wrapper<const Layout> layout;
 
     explicit DenseSlice(const Layout& layout);
-    // TRL 01/16/22: We use the EDPC layout flag to influence certain choices within this function
     DenseSlice(const Layout& layout, const tsl::ordered_set<PatchId>& core_qubit_ids, bool edpclayout);
 
     virtual const Layout& get_layout() const override;
