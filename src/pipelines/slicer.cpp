@@ -7,7 +7,6 @@
 #include <lsqecc/layout/ascii_layout_spec.hpp>
 #include <lsqecc/layout/router.hpp>
 #include <lsqecc/layout/dynamic_layouts/compact_layout.hpp>
-// TRL 12/22/22: ADDING EDPC LAYOUT
 #include <lsqecc/layout/dynamic_layouts/edpc_layout.hpp>
 #include <lsqecc/patches/slices_to_json.hpp>
 #include <lsqecc/patches/slice.hpp>
@@ -115,7 +114,6 @@ namespace lsqecc
                 .names({"--compactlayout"})
                 .description("Uses Litinski's compact layout, incompatible with -l")
                 .required(false);
-        // TRL 12/22/22: ADDING EDPC LAYOUT 
         parser.add_argument()
                 .names({"--edpclayout"})
                 .description("Uses a layout specified in the EDPC paper by Beverland et. al., incompatible with -l")
@@ -223,7 +221,6 @@ namespace lsqecc
             instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
 
         }
-        // TRL 12/22/22: ADDING EDPC LAYOUT
         else if (parser.exists("edpclayout"))
         {
             layout = make_edpc_layout(instruction_stream->core_qubits().size());
@@ -326,7 +323,6 @@ namespace lsqecc
                     timeout,
                     [&](const DenseSlice& s){visitor_with_progress(s);},
                     parser.exists("graceful"),
-                    // TRL 01/16/22: We use the EDPC layout flag to influence certain choices within this function
                     parser.exists("edpclayout")
             ));
         } else
