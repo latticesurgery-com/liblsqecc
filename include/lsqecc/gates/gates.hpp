@@ -15,6 +15,8 @@ using ArbitraryPrecisionInteger = int64_t;
 struct Fraction{
     ArbitraryPrecisionInteger num;
     ArbitraryPrecisionInteger den;
+
+    bool operator==(const Fraction& other) const = default;
 };
 
 
@@ -92,7 +94,7 @@ MAKE_BASIC_GATE(X);
 MAKE_BASIC_GATE(Z);
 MAKE_BASIC_GATE(S);
 MAKE_BASIC_GATE(T);
-MAKE_BASIC_GATE(H)
+MAKE_BASIC_GATE(H);
 
 #undef MAKE_BASIC_GATE
 
@@ -109,9 +111,15 @@ inline constexpr ControlledGate CRZ(
 
 using Gate = std::variant<BasicSingleQubitGate, RZ, ControlledGate>;
 
-std::vector<Gate> to_clifford_plus_t(const Gate& gate);
+std::vector<Gate> to_clifford_plus_t(const Gate& gate, double rz_precision_log_ten_negative);
+bool is_clifford_plus_t(const Gate& gate);
 
 } // gates namespace
+
+
+std::string print_pi_fraction(const Fraction& fraction);
+std::ostream& operator<<(std::ostream& os, const gates::BasicSingleQubitGate& gate);
+std::ostream& operator<<(std::ostream& os, const gates::Gate& gate);
 
 }
 

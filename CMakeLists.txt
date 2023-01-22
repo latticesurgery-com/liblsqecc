@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.12)
 
 
 project(lsqecc)
@@ -49,6 +49,8 @@ add_library(
         lsqecclib
         src/gates/parse_gates.cpp
         src/gates/gates.cpp
+        src/gates/gate_approximator.cpp
+        src/gates/clifford_plus_t_conversion_stream.cpp
         src/patches/dense_slice.cpp
         src/patches/dense_patch_computation.cpp
         src/patches/patches.cpp
@@ -74,13 +76,50 @@ add_library(
 set(LSQECCLIB_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/include")
 
 target_include_directories(
-        lsqecclib
-        PUBLIC
-        ${LSQECCLIB_INCLUDE_DIRS}
+    lsqecclib
+    PUBLIC
+    ${LSQECCLIB_INCLUDE_DIRS}
 )
 
 set_property(TARGET lsqecclib PROPERTY POSITION_INDEPENDENT_CODE ON)
 
+
+if(USE_GRIDSYNTH) 
+    message("USE_GRIDSYNTH defined, building with it")
+
+    set(GHC_VERSION 9.4.4)
+    set(CABAL_VERSION 3.8.1.0)
+    set(HASKELL_RTS_VERSION 1.0.2)
+    
+    
+    execute_process(COMMAND $ENV{HOME}/.ghcup/bin/ghc --print-libdir OUTPUT_VARIABLE GHC_LIB_DIR OUTPUT_STRIP_TRAILING_WHITESPACE)
+    message(GHC_LIB_DIR: ${GHC_LIB_DIR})
+    
+    add_compile_definitions(USE_GRIDSYNTH)
+    
+    set(RTS_LIBS_DIR ${GHC_LIB_DIR}/x86_64-linux-ghc-${GHC_VERSION}/)
+    message(RTS_LIBS_DIR: ${RTS_LIBS_DIR})
+    
+    set(GRIDSYNTH_LIBS_DIR ${PROJECT_SOURCE_DIR}/external/rotation-decomposer/newsynth/)
+    message(GRIDSYNTH_LIBS_DIR: ${GRIDSYNTH_LIBS_DIR})
+    
+    target_include_directories(
+            lsqecclib
+            PUBLIC AFTER
+            ${GRIDSYNTH_LIBS_DIR}/include
+            ${GHC_LIB_DIR}/x86_64-linux-ghc-${GHC_VERSION}/rts-${HASKELL_RTS_VERSION}/include # for HsFFI.h
+    )
+    
+    
+    target_link_options(lsqecclib INTERFACE
+            -L${GRIDSYNTH_LIBS_DIR} -lgridsynth_ccals -lHSnewsynth-0.4.0.0-inplace-ghc${GHC_VERSION}
+            -L${GHC_LIB_DIR}/x86_64-linux-ghc-${GHC_VERSION}/ -lHSrts-${HASKELL_RTS_VERSION}_debug-ghc${GHC_VERSION}
+            -Wl,-rpath,${GRIDSYNTH_LIBS_DIR}
+            -Wl,-rpath,${RTS_LIBS_DIR}
+    )
+else()
+   message("USE_GRIDSYNTH not defined, building without Gridsynth")
+endif()
 
 ###################################################
 # Command line executable
@@ -143,6 +182,8 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
             lsqecc_tests
             tests/main.cpp
             tests/lstk/lstk.cpp
+            tests/gates/gate_approximator.cpp
+            tests/gates/parse_gates.cpp
     )
 
     target_link_libraries(
@@ -156,11 +197,11 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
             COMMAND ${PROJECT_BINARY_DIR}/lsqecc_tests
     )
 
-    #add_custom_command(
-    #        TARGET lsqecc_tests
-    #        COMMENT "Run lsqecc_tests"
-    #        POST_BUILD
-    #        COMMAND valgrind ${PROJECT_BINARY_DIR}/lsqecc_tests
-    #)
+    add_custom_command(
+            TARGET lsqecc_tests
+            COMMENT "Run lsqecc_tests"
+            POST_BUILD
+            COMMAND ${PROJECT_BINARY_DIR}/lsqecc_tests
+    )
 
 endif()
