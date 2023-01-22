@@ -37,6 +37,9 @@ struct Node
 
 };
 
+template<class InstructionType>
+bool node_vector_contains(const std::vector<std::reference_wrapper<Node<InstructionType>>>& vec, NodeIdType id);
+
 template<class InstructionType> // TODO replace with concepts
 struct CommutationTrait {
     /// False -> They definitely don't commute
@@ -142,6 +145,19 @@ struct DependencyDag
 // TODO the InstructionType is frequently repeated and will have few instantiations so
 // 1. See if we can make it "global" with a class
 // 2. Move the code in a c++ file and manually instantiate there
+
+
+template<class InstructionType>
+bool node_vector_contains(const std::vector<std::reference_wrapper<Node<InstructionType>>>& vec, NodeIdType id)
+{
+    auto target = std::find_if(
+        vec.begin(), 
+        vec.end(), 
+        [&](const std::reference_wrapper<Node<InstructionType>>& node){
+            return node.get().id == id;
+        });
+    return target != vec.end();
+}
 
 
 }

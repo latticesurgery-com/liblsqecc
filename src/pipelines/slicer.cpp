@@ -2,6 +2,7 @@
 
 #include <lsqecc/dependency_dag/lli_dag.hpp>
 #include <lsqecc/dependency_dag/gates_dag.hpp>
+#include <lsqecc/dependency_dag/dag_passes.hpp>
 #include <lsqecc/gates/parse_gates.hpp>
 #include <lsqecc/ls_instructions/ls_instruction_stream.hpp>
 #include <lsqecc/ls_instructions/boundary_rotation_injection_stream.hpp>
@@ -216,10 +217,32 @@ namespace lsqecc
         
         if(parser.exists("printdag"))
         {
+            // Dag parallelizing TODO
+            // 1. Research subdividing a dag
+            // 2. Finish stiching the parents back to the new node
+            //     (Might require some kind of node mapping/lookup from the input dag)
+            // 3. Complete the subdivide function for QASM -> LLI
+            // 4. Test & debug
             
             if(parser.get<std::string>("printdag")=="lli")
             {
                 to_graph_viz(out_stream, make_dag_from_instruction_stream(std::move(instruction_stream)));
+                return 0;
+            }
+            else if(parser.get<std::string>("printdag")=="llifromqasmdag")
+            {
+                using namespace passes;
+
+                if(!gate_stream)
+                {
+                    err_stream << "Must have qasm to print qasm DAG" << std::endl;
+                    return 1;
+                }
+                const GatesDag gates_dag = make_dag_from_instruction_stream(std::move(gate_stream));
+                std::shared_ptr<DagPass<gates::Gate>> gates_pass = std::make_shared<DagForwardinngPass<gates::Gate>>(gates_dag);
+                std::shared_ptr<DagPass<LSInstruction>> lli_pass = std::make_shared<functional::GatesToLLIDagPass>(gates_pass);
+                to_graph_viz(out_stream, lli_pass->get_dag());
+
                 return 0;
             }
             else if(parser.get<std::string>("printdag")=="qasm")
