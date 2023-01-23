@@ -3,6 +3,8 @@
 #include <cmath>
 #include <iostream>
 
+//#define DEBUG_EDPC_LAYOUT_CREATION
+
 namespace lsqecc
 {
 
@@ -111,16 +113,17 @@ std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits)
         }
     }
 
-
+#ifdef DEBUG_EDPC_LAYOUT_CREATION
     // Print out the grid for the purposes of debugging
-    // std::cout << "The number of rows in the grid is: " << grid.size() << std::endl;
-    // std::cout << "The number of columns in the grid is: " << grid[grid.size()-1].size() << std::endl;
-    // for (unsigned int i=0; i<grid.size(); i++) {
-    //     for (unsigned int j=0; j<grid[i].size(); j++) {
-    //         std::cout << grid[i][j] << ' ';
-    //     }
-    //     std::cout << std::endl;
-    // }
+    std::cout << "The number of rows in the grid is: " << grid.size() << std::endl;
+    std::cout << "The number of columns in the grid is: " << grid[grid.size()-1].size() << std::endl;
+    for (unsigned int i=0; i<grid.size(); i++) {
+        for (unsigned int j=0; j<grid[i].size(); j++) {
+            std::cout << grid[i][j] << ' ';
+        }
+        std::cout << std::endl;
+    }
+#endif
 
     return std::make_unique<LayoutFromSpec>(grid);
 }

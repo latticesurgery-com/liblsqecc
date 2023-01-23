@@ -39,7 +39,7 @@ DensePatchComputationResult run_through_dense_slices(
         std::optional<std::chrono::seconds> timeout,
         const DenseSliceVisitor& slice_visitor,
         bool graceful,
-        bool edpclayout);
+        bool nostagger);
 
 }
 

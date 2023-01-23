@@ -105,7 +105,7 @@ DenseSlice::DenseSlice(const Layout& layout)
 {
 }
 
-DenseSlice::DenseSlice(const lsqecc::Layout &layout, const tsl::ordered_set<PatchId> &core_qubit_ids, bool edpclayout)
+DenseSlice::DenseSlice(const lsqecc::Layout &layout, const tsl::ordered_set<PatchId> &core_qubit_ids, bool nostagger)
  : DenseSlice(layout)
 {
     if (layout.core_patches().size()<core_qubit_ids.size())
@@ -130,7 +130,7 @@ DenseSlice::DenseSlice(const lsqecc::Layout &layout, const tsl::ordered_set<Patc
     
     size_t distillation_time_offset = 0;
     for(auto t : layout.distillation_times())
-        if (edpclayout) {
+        if (nostagger) {
             time_to_next_magic_state_by_distillation_region.push_back(t);
         }
         else {

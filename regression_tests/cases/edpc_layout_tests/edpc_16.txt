@@ -1,9 +1,0 @@
-0000rrrrrrrrrrr8888
-0000rrQrQrQrQrr8888
-0000rrrrrrrrrrr8888
-1111rrQrQrQrQrr7777
-1111rrrrrrrrrrr7777
-1111rrQrQrQrQrr7777
-2222rrrrrrrrrrr2222
-2222rrQrQrQrQrr2222
-2222rrrrrrrrrrr2222

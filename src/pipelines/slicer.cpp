@@ -117,7 +117,11 @@ namespace lsqecc
         parser.add_argument()
                 .names({"--edpclayout"})
                 .description("Uses a layout specified in the EDPC paper by Beverland et. al., incompatible with -l")
-                .required(false);                
+                .required(false);
+        parser.add_argument()
+                .names({"--nostagger"})
+                .description("Turns off staggered distillation block timing")
+                .required(false);                 
         parser.enable_help();
 
         auto err = parser.parse(argc, argv);
@@ -323,7 +327,7 @@ namespace lsqecc
                     timeout,
                     [&](const DenseSlice& s){visitor_with_progress(s);},
                     parser.exists("graceful"),
-                    parser.exists("edpclayout")
+                    parser.exists("nostagger")
             ));
         } else
         {

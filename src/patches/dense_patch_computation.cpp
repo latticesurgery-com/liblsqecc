@@ -330,14 +330,14 @@ DensePatchComputationResult run_through_dense_slices(
         std::optional<std::chrono::seconds> timeout,
         const DenseSliceVisitor& slice_visitor,
         bool graceful,
-        bool edpclayout)
+        bool nostagger)
 {
 
     DensePatchComputationResult res;
 
     auto run = [&]()
     {
-        DenseSlice slice{layout, instruction_stream.core_qubits(), edpclayout};
+        DenseSlice slice{layout, instruction_stream.core_qubits(), nostagger};
 
         auto start = std::chrono::steady_clock::now();
 
