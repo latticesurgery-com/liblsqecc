@@ -14,4 +14,5 @@ Options:
     --cnotcorrections      Add Xs and Zs to correct the the negative outcomes: never (default), always
     --compactlayout        Uses Litinski's compact layout, incompatible with -l
     --edpclayout           Uses a layout specified in the EDPC paper by Beverland et. al., incompatible with -l
+    --nostagger            Turns off staggered distillation block timing
     -h, --help             Shows this page        

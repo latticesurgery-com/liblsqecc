@@ -331,7 +331,8 @@ DensePatchComputationResult run_through_dense_slices(
         const DenseSliceVisitor& slice_visitor,
         bool graceful,
         // TRL 01/16/22: We use the EDPC layout flag to influence certain choices within this function
-        bool edpclayout)
+        // TRL 01/23/23: Changed to the "nostagger" flag with behavior noted in help.spec
+        bool nostagger)
 {
 
     DensePatchComputationResult res;
@@ -339,7 +340,8 @@ DensePatchComputationResult run_through_dense_slices(
     auto run = [&]()
     {
         // TRL 01/16/22: We use the EDPC layout flag to influence certain choices within this function
-        DenseSlice slice{layout, instruction_stream.core_qubits(), edpclayout};
+        // TRL 01/23/23: Changed to the "nostagger" flag with behavior noted in help.spec
+        DenseSlice slice{layout, instruction_stream.core_qubits(), nostagger};
 
         auto start = std::chrono::steady_clock::now();
 

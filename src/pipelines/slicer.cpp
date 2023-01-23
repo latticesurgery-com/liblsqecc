@@ -119,7 +119,12 @@ namespace lsqecc
         parser.add_argument()
                 .names({"--edpclayout"})
                 .description("Uses a layout specified in the EDPC paper by Beverland et. al., incompatible with -l")
-                .required(false);                
+                .required(false);
+        // TRL 01/23/23: COMMAND LINE FLAG CONTROLLING WHETHER DISTILLATION TIMES ARE STAGGERED
+        parser.add_argument()
+                .names({"--nostagger"})
+                .description("Turns off staggered distillation block timing")
+                .required(false);                 
         parser.enable_help();
 
         auto err = parser.parse(argc, argv);
@@ -327,7 +332,8 @@ namespace lsqecc
                     [&](const DenseSlice& s){visitor_with_progress(s);},
                     parser.exists("graceful"),
                     // TRL 01/16/22: We use the EDPC layout flag to influence certain choices within this function
-                    parser.exists("edpclayout")
+                    // TRL 01/23/23: Changed to the "nostagger" flag with behavior noted in help.spec
+                    parser.exists("nostagger")
             ));
         } else
         {
