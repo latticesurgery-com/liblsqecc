@@ -96,3 +96,9 @@ However due to the Haskell platform's own portability challenges and some low le
     * If something goes wrong, the makefile in the `newsynth` disectory is readble and shows what's required to run lsqecc with gridsynth
 5. Run lsqecc_slicer as usual. RZ and CRZ gates will be approximated using gridsynth where applicable
     * can use the `--rzprecision` to set gridsynth's precision epsilon=10^(-rzprecision) (Equivalent to gridsynth's default precsion mode `-d`)
+
+## Contributors
+
+Liblsqecc was primarily developed at Aalto University by [George Watkins](https://github.com/gwwatkin) under Dr. [Alexandru Paler](https://github.com/alexandrupaler)'s supervision, and is now maintained by George Watkins.
+
+A special thanks to [Tyler LeBlond](https://github.com/tylerrleblond) for adding the EDPC layout and other contributions.
