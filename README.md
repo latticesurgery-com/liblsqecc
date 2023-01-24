@@ -52,11 +52,9 @@ LibLSQECC can parse a small subset of OpenQASM 2.0 instead of LLI, with restrict
  * Max one gate per line, with only inline comments
  * Single qubit gates must be in the form `g q[n];` where `g` is one of `h`,`x`,`z`,`s`,`t` and `n` is a non-negative integer
  * CNOTs must be in the form `cx q[n],q[m];` where `n` and `m` are non-negative. Target comes first, as per [OpenQASM convention (Fig 2)](https://arxiv.org/pdf/1707.03429.pdf).
+ * `rz(expr)` and `crz(expr)` where `expr` has form `pi/m` or `n*pi/m` for n,m integers. No whitespace.
  * Supports some basic annotations such as: `cx q[0],q[7]; // %ZXWithMBMTargetFirst,AncillaNextToTarget`
  * Program must begin with `OPENQASM 2.0;` in the first line
- 
-In progress:
- * Working on adding support for `rz` and `crz`. Needs integration with a Solovay-Kitaev decomposer.
 
 ### The `liblsqecc` library
 
@@ -78,3 +76,29 @@ $ cmake ..
 ```
 
 The `lsqecc_slicer` executable will be at the top level of the `build` directory.
+
+#### Building with Gridsynth support for approximating rz angles
+
+[Gridsynth](https://www.mathstat.dal.ca/~selinger/newsynth/) (aka Newsynth) is a Haskell program that can approximate arbitrary rotations with Clifford gates and T gates.
+
+We can take advantage of gridsynth's functionality to decompose arbitrary rz's in our input circuits. To do so we've created a [fork of Gridsynth](https://github.com/latticesurgery-com/rotation-decomposer/tree/main/newsynth) with a C API wrapper do that we can call Gridsynth from our C++ code.
+
+However due to the Haskell platform's own portability challenges and some low level interfacing with C and C++ being required, at this point enabling Gridsynth is still manual:
+
+ 1. Go to `external/rotation/decomposer/newsynth`
+ 2. Get a Haskell environment compatible with the dependencies in `newsynth.cabal`
+    * I used a user-level install of ghc-9.4.4 with [ghcup](https://www.haskell.org/ghcup/). The `installghc` target in the`Makefile` in the `newsynth` folder contains the ghcup commands I used to create my build.
+    * Other ways are probably possible with Cabal or Stack
+ 3. Use `make buildhs` in the `newsynth` folder folder to build gridsynth with the C API
+    * Likeley to require some manual intevention like adjusting some versions and paths
+    * Can use the `make runtests` to verify a succesful build of Gridsynth and the C API
+4. Configure the CMake project with the `USE_GRIDSYNTH` variable defined (E.g. `cmake .. -DUSE_GRIDSYNTH:STRING=YES`)
+    * If something goes wrong, the makefile in the `newsynth` disectory is readble and shows what's required to run lsqecc with gridsynth
+5. Run lsqecc_slicer as usual. RZ and CRZ gates will be approximated using gridsynth where applicable
+    * can use the `--rzprecision` to set gridsynth's precision epsilon=10^(-rzprecision) (Equivalent to gridsynth's default precsion mode `-d`)
+
+## Contributors
+
+Liblsqecc was primarily developed at Aalto University by [George Watkins](https://github.com/gwwatkin) under Dr. [Alexandru Paler](https://github.com/alexandrupaler)'s supervision, and is now maintained by George Watkins.
+
+A special thanks to [Tyler LeBlond](https://github.com/tylerrleblond) for adding the EDPC layout and other contributions.

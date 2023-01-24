@@ -3,7 +3,6 @@
 #include <cmath>
 #include <iostream>
 
-//#define DEBUG_EDPC_LAYOUT_CREATION
 
 namespace lsqecc
 {

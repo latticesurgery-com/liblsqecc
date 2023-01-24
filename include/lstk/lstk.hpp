@@ -95,6 +95,39 @@ static inline std::vector<std::string_view> split_on(std::string_view s, char de
     return ret;
 }
 
+static inline std::vector<std::string_view> split_on(std::string_view s, std::string_view delim)
+{
+    std::vector<std::string_view> ret;
+
+    auto accum_begin = s.begin();
+    auto accum_end = s.begin();
+
+    auto push_accum_to_ret = [&]()
+    {
+        ret.emplace_back(accum_begin, static_cast<size_t>(std::distance(accum_begin, accum_end)));
+    };
+
+    while (accum_end != s.end())
+    {
+        if (std::equal(delim.begin(), delim.end(), accum_end))
+        {
+            push_accum_to_ret();
+            accum_end += delim.size(); // skip the delim
+            accum_begin = accum_end;
+        } else
+            accum_end++;
+    }
+
+    if (accum_begin != accum_end)
+        push_accum_to_ret();
+
+    // Add a trailing empty string when finishing on a delimiter
+    else if(accum_begin > s.begin() && std::equal(delim.begin(), delim.end(), accum_end)) ret.push_back("");
+
+    return ret;
+}
+
+
 static inline std::vector<std::string> split_on_get_strings(std::string_view s, char delim)
 {
     std::vector<std::string> ret;

@@ -102,7 +102,7 @@ LSInstruction LSInstructionStreamFromGateStream::get_next_instruction()
 
             else
                 throw std::runtime_error(lstk::cat(
-                        "Cannot approximate R_z(",rz_gate->pi_fraction.num,",",rz_gate->pi_fraction.den,")"));
+                        "Cannot approximate R_z(",rz_gate->pi_fraction.num,"/",rz_gate->pi_fraction.den,")"));
         }
         else if(const auto* controlled_gate = std::get_if<gates::ControlledGate>(&next_gate))
         {
@@ -128,6 +128,7 @@ LSInstruction LSInstructionStreamFromGateStream::get_next_instruction()
             }
             else if(const auto* target_gate = std::get_if<gates::RZ>(&controlled_gate->target_gate))
             {
+                LSTK_UNUSED(target_gate);
                 LSTK_NOT_IMPLEMENTED;
                 // TODO implement with decompose_CRZ_gate and approximate_RZ_gate
             }

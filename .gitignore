@@ -1,10 +1,10 @@
 CMake*
 *.cmake
 Makefile
+build
 *-build*
 .idea
 *.a
-tests_tyler/
-build/
+*.vscode
+tests_*
 .DS_Store
-.vscode/
