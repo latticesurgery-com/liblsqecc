@@ -56,7 +56,6 @@ public:
         case 'T':
         case 'D':
         case 'A':
-        // TRL 01/24/23: CAUGHT BUG REQUIRING ME TO ADD MAGIC STATES AND DEAD CELLS HERE
         case 'M':
         case 'X':
         case '0':
@@ -135,7 +134,6 @@ private:
     std::vector<SurfaceCodeTimestep> cached_distillation_times_;
     std::vector<Cell> cached_ancilla_locations_;
     std::vector<std::vector<Cell>> cached_distilled_state_locations_;
-    // TRL 01/24/23: Caching dead cells here so that they can be used later
     std::vector<Cell> cached_dead_cells_;
     void init_cache(const AsciiLayoutSpec& spec);
 

@@ -47,7 +47,6 @@ enum class PatchType : uint8_t {
     PreparedState,
     Qubit,
     Routing,
-    // TRL 01/24/22: Added Dead designation for DeadCell CellTypes
     Dead
 };
 
@@ -57,7 +56,6 @@ enum class PatchActivity : uint8_t
     Measurement,
     Unitary,
     Distillation,
-    // TRL 01/24/22: Added Dead designation for DeadCell CellTypes
     Dead
 };
 

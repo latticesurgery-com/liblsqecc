@@ -128,7 +128,6 @@ DenseSlice::DenseSlice(const lsqecc::Layout &layout, const tsl::ordered_set<Patc
         }
     }
 
-    // TRL 01/24/23: Adding DeadCells as DensePatches so that the router does not see them as "free"
     for(const Cell& cell: layout.dead_location())
     {
         patch_at(cell) = DensePatch{

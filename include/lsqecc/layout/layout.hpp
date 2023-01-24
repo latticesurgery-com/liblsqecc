@@ -20,7 +20,6 @@ struct Layout {
     virtual const std::vector<Cell>& distilled_state_locations(size_t distillation_region_idx) const = 0;
     virtual const DistillationTimeMap& distillation_times() const = 0;
     virtual const std::vector<Cell>& ancilla_location() const = 0;
-    // TRL 01/24/23: Function to return vector of dead cells; adding here as well as in LayoutFromSpec to make everything consistent
     virtual const std::vector<Cell>& dead_location() const = 0;
 
     template<class F> void for_each_cell(F f) const;
@@ -84,7 +83,7 @@ public:
                                       {Cell{2,3},Cell{2,4},Cell{2,5}},};
 
         ancilla_locations_ = {Cell{1,7}};
-        // TRL 01/24/23: Vector of dead cells; adding here only to make everything consistent   
+
         dead_cells_ = {};
 
 
@@ -122,7 +121,7 @@ public:
     {
         return ancilla_locations_;
     }
-    // TRL 01/24/23: Function to return vector of dead cells; adding here only to make everything consistent
+
     const std::vector<Cell>& dead_location() const override
     {
         return dead_cells_;
@@ -135,7 +134,6 @@ private:
     std::vector<MultipleCellsOccupiedByPatch> distillation_regions_;
     std::vector<Cell> ancilla_locations_;
     std::vector<std::vector<Cell>> distilled_state_locations_;
-    // TRL 01/24/23: Vector of dead cells; adding here only to make everything consistent
     std::vector<Cell> dead_cells_;
 
 };
