@@ -193,6 +193,8 @@ void LayoutFromSpec::init_cache(const AsciiLayoutSpec& spec)
                 cached_core_patches_.push_back(LayoutHelpers::basic_square_patch(Cell::from_ints(row,col)));
 
     cached_ancilla_locations_ = spec.find_all_cells_of_type(AsciiLayoutSpec::CellType::AncillaQubitLocation);
+    // TRL 01/24/23: Caching dead cells here so that they can be used later
+    cached_dead_cells_ = spec.find_all_cells_of_type(AsciiLayoutSpec::CellType::DeadCell);
 }
 
 

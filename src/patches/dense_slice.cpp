@@ -127,6 +127,14 @@ DenseSlice::DenseSlice(const lsqecc::Layout &layout, const tsl::ordered_set<Patc
                     static_cast<CellBoundaries>(cell)};
         }
     }
+
+    // TRL 01/24/23: Adding DeadCells as DensePatches so that the router does not see them as "free"
+    for(const Cell& cell: layout.dead_location())
+    {
+        patch_at(cell) = DensePatch{
+            Patch{PatchType::Dead,PatchActivity::Dead,std::nullopt},
+            CellBoundaries{Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false}}};
+    }
     
     size_t distillation_time_offset = 0;
     for(auto t : layout.distillation_times())
@@ -135,7 +143,7 @@ DenseSlice::DenseSlice(const lsqecc::Layout &layout, const tsl::ordered_set<Patc
         }
         else {
             time_to_next_magic_state_by_distillation_region.push_back(t+distillation_time_offset++);           
-        }        
+        }      
 }
 
 bool DenseSlice::is_cell_free(const Cell& cell) const
