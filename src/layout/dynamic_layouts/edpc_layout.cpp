@@ -118,7 +118,7 @@ std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits)
     std::cout << "The number of columns in the grid is: " << grid[grid.size()-1].size() << std::endl;
     for (unsigned int i=0; i<grid.size(); i++) {
         for (unsigned int j=0; j<grid[i].size(); j++) {
-            std::cout << grid[i][j] << ' ';
+            std::cout << grid[i][j];
         }
         std::cout << std::endl;
     }
