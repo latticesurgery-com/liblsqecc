@@ -68,7 +68,6 @@ json dense_patch_to_json(const DensePatch& p)
         case PatchType::PreparedState:return "DistillationQubit";
         case PatchType::Qubit: return "Qubit";
         case PatchType::Routing: return "Ancilla";
-        // TRL 01/24/23: This makes the visualization for DeadCells the same as cells being used for routing. Perhaps a return value for Dead can be implemented later.
         case PatchType::Dead: return "Ancilla";
         }
         LSTK_UNREACHABLE;
@@ -84,7 +83,6 @@ json dense_patch_to_json(const DensePatch& p)
                         case PatchActivity::Measurement: return json("Measurement");
                         case PatchActivity::Unitary: return json("Unitary");
                         case PatchActivity::Distillation: return json();
-                        // TRL 01/24/23: No activity type if dead
                         case PatchActivity::Dead: return json();
                         }
                         LSTK_UNREACHABLE;
