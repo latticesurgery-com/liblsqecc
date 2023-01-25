@@ -245,7 +245,6 @@ namespace lsqecc
         else
             layout = std::make_unique<SimpleLayout>(instruction_stream->core_qubits().size());
 
-        // TRL 01/23/23: Changed order of operations so that injected instructions get output as well
         if(parser.exists("printlli"))
         {
             print_all_ls_instructions_to_string(out_stream, std::move(instruction_stream));
