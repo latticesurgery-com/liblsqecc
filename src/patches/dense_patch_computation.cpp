@@ -301,7 +301,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
             if(could_not_find_space_for_patch)
                 return {std::make_unique<std::runtime_error>(
                         "Could not find space to place patch after rotation"),{std::move(instruction)}};
-            slice.place_sparse_patch(busy_region->state_after_clearing,false);
+            slice.place_sparse_patch(busy_region->state_after_clearing, false);
             return {nullptr,{}};
         }
         else

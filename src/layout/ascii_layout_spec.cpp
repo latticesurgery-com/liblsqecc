@@ -136,12 +136,7 @@ void LayoutFromSpec::init_cache(const AsciiLayoutSpec& spec)
     cached_furthest_cell_ = spec.furthest_cell();
 
     auto reserved_for_magic_state_cells = spec.find_all_cells_of_type(AsciiLayoutSpec::CellType::ReservedForMagicState);
-    if (reserved_for_magic_state_cells.size() == 0) {
-        magic_states_reserved_ = false;
-    }
-    else {
-        magic_states_reserved_ = true;
-    }
+    magic_states_reserved_ = reserved_for_magic_state_cells.size() == 0 ? false : true;
 
     for(const AsciiLayoutSpec::CellType distillation_region_char : AsciiLayoutSpec::k_distillation_region_types)
     {
@@ -200,13 +195,8 @@ void LayoutFromSpec::init_cache(const AsciiLayoutSpec& spec)
                 reserved_count++;
             }
         }
-        try {
-            if (reserved_count != reserved_for_magic_state_cells.size()) {
-                throw std::string("Cells reserved for magic states must be adjacent to distillation regions. Converting mis-used 'M' to 'r'.");
-            }
-        }
-        catch (std::string& error) {
-            std::cerr << error << std::endl;
+        if (reserved_count != reserved_for_magic_state_cells.size()) {
+            throw std::runtime_error("Cells reserved for magic states must be adjacent to distillation regions. Converting mis-used 'M' to 'r'.");
         }
     }
 
