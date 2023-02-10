@@ -68,6 +68,7 @@ json dense_patch_to_json(const DensePatch& p)
         case PatchType::PreparedState:return "DistillationQubit";
         case PatchType::Qubit: return "Qubit";
         case PatchType::Routing: return "Ancilla";
+        case PatchType::Dead: return "Ancilla";
         }
         LSTK_UNREACHABLE;
     }();
@@ -82,6 +83,7 @@ json dense_patch_to_json(const DensePatch& p)
                         case PatchActivity::Measurement: return json("Measurement");
                         case PatchActivity::Unitary: return json("Unitary");
                         case PatchActivity::Distillation: return json();
+                        case PatchActivity::Dead: return json();
                         }
                         LSTK_UNREACHABLE;
                     }()

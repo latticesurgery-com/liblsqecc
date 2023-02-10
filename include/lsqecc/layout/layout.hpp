@@ -20,6 +20,8 @@ struct Layout {
     virtual const std::vector<Cell>& distilled_state_locations(size_t distillation_region_idx) const = 0;
     virtual const DistillationTimeMap& distillation_times() const = 0;
     virtual const std::vector<Cell>& ancilla_location() const = 0;
+    virtual const std::vector<Cell>& dead_location() const = 0;
+    virtual const bool magic_states_reserved() const = 0;
 
     template<class F> void for_each_cell(F f) const;
 
@@ -80,8 +82,12 @@ public:
 
         distilled_state_locations_ = {{Cell{2,0},Cell{2,1},Cell{2,2}},
                                       {Cell{2,3},Cell{2,4},Cell{2,5}},};
+        magic_states_reserved_ = false;
 
-        ancilla_locations_ = {Cell{1,7}};
+        ancilla_locations_ = {Cell{1,7}};   
+        dead_cells_ = {};
+        
+
 
         for(const auto& r: distillation_regions_)
         {
@@ -117,6 +123,13 @@ public:
     {
         return ancilla_locations_;
     }
+    const std::vector<Cell>& dead_location() const override
+    {
+        return dead_cells_;
+    }
+    const bool magic_states_reserved() const override {
+        return magic_states_reserved_;
+    }
 
 private:
     size_t num_qubits_;
@@ -125,6 +138,8 @@ private:
     std::vector<MultipleCellsOccupiedByPatch> distillation_regions_;
     std::vector<Cell> ancilla_locations_;
     std::vector<std::vector<Cell>> distilled_state_locations_;
+    std::vector<Cell> dead_cells_;
+    bool magic_states_reserved_; 
 
 };
 

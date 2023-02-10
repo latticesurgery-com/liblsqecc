@@ -136,6 +136,7 @@ void LayoutFromSpec::init_cache(const AsciiLayoutSpec& spec)
     cached_furthest_cell_ = spec.furthest_cell();
 
     auto reserved_for_magic_state_cells = spec.find_all_cells_of_type(AsciiLayoutSpec::CellType::ReservedForMagicState);
+    magic_states_reserved_ = reserved_for_magic_state_cells.size() == 0 ? false : true;
 
     for(const AsciiLayoutSpec::CellType distillation_region_char : AsciiLayoutSpec::k_distillation_region_types)
     {
@@ -167,7 +168,7 @@ void LayoutFromSpec::init_cache(const AsciiLayoutSpec& spec)
                 auto inside_neighbours = cell_occupied_by_patch.cell
                         .get_neigbours_within_bounding_box_inclusive({0,0},cached_furthest_cell_);
                 for(const auto& neighbour: inside_neighbours)
-                    if (reserved_for_magic_state_cells.size() == 0) {
+                    if (!magic_states_reserved_) {
                         if( spec.get_grid_spec()[neighbour.row][neighbour.col] == AsciiLayoutSpec::CellType::RoutingAncilla) {
                             queue_for_new_region.push_back(neighbour);
                         }
@@ -187,12 +188,25 @@ void LayoutFromSpec::init_cache(const AsciiLayoutSpec& spec)
 
     }
 
+    if (magic_states_reserved_) {
+        int reserved_count = 0;
+        for (unsigned int i = 0; i < cached_distilled_state_locations_.size(); i++) {
+            for (unsigned int j = 0; j< cached_distilled_state_locations_[i].size(); j++) {
+                reserved_count++;
+            }
+        }
+        if (reserved_count != reserved_for_magic_state_cells.size()) {
+            throw std::runtime_error("Cells reserved for magic states must be adjacent to distillation regions. Converting mis-used 'M' to 'r'.");
+        }
+    }
+
     for(const auto&[row, row_data]: iter::enumerate(spec.get_grid_spec()))
         for(const auto&[col, cell]: iter::enumerate(row_data))
             if(cell == AsciiLayoutSpec::LogicalComputationQubit_StandardBorderOrientation)
                 cached_core_patches_.push_back(LayoutHelpers::basic_square_patch(Cell::from_ints(row,col)));
 
     cached_ancilla_locations_ = spec.find_all_cells_of_type(AsciiLayoutSpec::CellType::AncillaQubitLocation);
+    cached_dead_cells_ = spec.find_all_cells_of_type(AsciiLayoutSpec::CellType::DeadCell);
 }
 
 

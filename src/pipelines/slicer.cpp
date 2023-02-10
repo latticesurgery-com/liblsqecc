@@ -226,12 +226,6 @@ namespace lsqecc
             instruction_stream = std::make_unique<LSInstructionStreamFromGateStream>(*gate_stream, cnot_correction_mode, id_generator);
         }
 
-        if(parser.exists("printlli"))
-        {
-            print_all_ls_instructions_to_string(out_stream, std::move(instruction_stream));
-            return 0;
-        }
-
         std::unique_ptr<Layout> layout;
         if (parser.exists("compactlayout"))
         {
@@ -250,6 +244,12 @@ namespace lsqecc
             layout = std::make_unique<LayoutFromSpec>(file_to_string(parser.get<std::string>("l")));
         else
             layout = std::make_unique<SimpleLayout>(instruction_stream->core_qubits().size());
+
+        if(parser.exists("printlli"))
+        {
+            print_all_ls_instructions_to_string(out_stream, std::move(instruction_stream));
+            return 0;
+        }
 
         auto timeout = parser.exists("t") ?
                        std::make_optional(std::chrono::seconds{parser.get<uint32_t>("t")})

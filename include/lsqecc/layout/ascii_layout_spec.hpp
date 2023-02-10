@@ -56,6 +56,8 @@ public:
         case 'T':
         case 'D':
         case 'A':
+        case 'M':
+        case 'X':
         case '0':
         case '1':
         case '2':
@@ -118,10 +120,12 @@ public:
     const std::vector<MultipleCellsOccupiedByPatch>& distillation_regions() const override {return cached_distillation_regions_;};
     const std::vector<SurfaceCodeTimestep>& distillation_times() const override {return cached_distillation_times_;};
     const std::vector<Cell>& ancilla_location() const override {return cached_ancilla_locations_;}
+    const std::vector<Cell>& dead_location() const override {return cached_dead_cells_;}
     const std::vector<Cell>& distilled_state_locations(size_t distillation_region_idx) const override
     {
         return cached_distilled_state_locations_[distillation_region_idx];
     }
+    const bool magic_states_reserved() const override {return magic_states_reserved_;}
 
 private:
     std::vector<SparsePatch> cached_core_patches_;
@@ -130,6 +134,8 @@ private:
     std::vector<SurfaceCodeTimestep> cached_distillation_times_;
     std::vector<Cell> cached_ancilla_locations_;
     std::vector<std::vector<Cell>> cached_distilled_state_locations_;
+    std::vector<Cell> cached_dead_cells_;
+    bool magic_states_reserved_; 
     void init_cache(const AsciiLayoutSpec& spec);
 
 };

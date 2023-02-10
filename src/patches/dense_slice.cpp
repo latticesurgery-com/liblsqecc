@@ -114,7 +114,7 @@ DenseSlice::DenseSlice(const lsqecc::Layout &layout, const tsl::ordered_set<Patc
     auto core_qubit_ids_itr = core_qubit_ids.begin();
     for (const SparsePatch& p : layout.core_patches())
     {
-        Cell cell = place_sparse_patch(p);
+        Cell cell = place_sparse_patch(p,false);
         patch_at(cell)->id = *core_qubit_ids_itr++;
     }
 
@@ -127,6 +127,25 @@ DenseSlice::DenseSlice(const lsqecc::Layout &layout, const tsl::ordered_set<Patc
                     static_cast<CellBoundaries>(cell)};
         }
     }
+
+    for(const Cell& cell: layout.dead_location())
+    {
+        patch_at(cell) = DensePatch{
+            Patch{PatchType::Dead,PatchActivity::Dead,std::nullopt},
+            CellBoundaries{Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false},
+                Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false}}};
+    }
+
+    if (layout.magic_states_reserved()) {
+        for (unsigned int i=0; i<layout.distillation_regions().size(); i++) {
+            for (const Cell& cell: layout.distilled_state_locations(i)) {
+                patch_at(cell) = DensePatch{
+                    Patch{PatchType::Distillation,PatchActivity::Distillation,std::nullopt},
+                    CellBoundaries{Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false},
+                        Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false}}};
+            }
+        }
+    }
     
     size_t distillation_time_offset = 0;
     for(auto t : layout.distillation_times())
@@ -135,7 +154,7 @@ DenseSlice::DenseSlice(const lsqecc::Layout &layout, const tsl::ordered_set<Patc
         }
         else {
             time_to_next_magic_state_by_distillation_region.push_back(t+distillation_time_offset++);           
-        }        
+        }      
 }
 
 bool DenseSlice::is_cell_free(const Cell& cell) const
@@ -143,15 +162,16 @@ bool DenseSlice::is_cell_free(const Cell& cell) const
     return !patch_at(cell).has_value();
 }
 
-
-Cell DenseSlice::place_sparse_patch(const SparsePatch& sparse_patch)
+Cell DenseSlice::place_sparse_patch(const SparsePatch& sparse_patch, bool distillation)
 {
     auto* occupied_cell = std::get_if<SingleCellOccupiedByPatch>(&sparse_patch.cells);
     if(!occupied_cell)
         throw std::logic_error("Placing Multi Patch cell not yet supported");
-    if(!is_cell_free(occupied_cell->cell))
-        throw std::logic_error(lstk::cat("Double patch occupation at ",occupied_cell->cell, "\n",
-                "Found patch: ", patch_at(occupied_cell->cell)->id.value_or(-1)));
+    else {
+        if(!is_cell_free(occupied_cell->cell) && !distillation)
+            throw std::logic_error(lstk::cat("Double patch occupation at ",occupied_cell->cell, "\n",
+                    "Found patch: ", patch_at(occupied_cell->cell)->id.value_or(-1)));
+    }
 
     patch_at(occupied_cell->cell) = DensePatch::from_sparse_patch(sparse_patch);
     return occupied_cell->cell;

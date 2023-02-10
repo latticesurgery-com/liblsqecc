@@ -46,7 +46,8 @@ enum class PatchType : uint8_t {
     Distillation,
     PreparedState,
     Qubit,
-    Routing
+    Routing,
+    Dead
 };
 
 enum class PatchActivity : uint8_t
@@ -54,7 +55,8 @@ enum class PatchActivity : uint8_t
     None,
     Measurement,
     Unitary,
-    Distillation
+    Distillation,
+    Dead
 };
 
 
