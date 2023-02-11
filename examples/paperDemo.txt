@@ -1,0 +1,58 @@
+DeclareLogicalQubitPatches 0,1,2,2,3,4,5,6
+HGate 2
+HGate 2
+HGate 2
+HGate 2
+HGate 2
+HGate 2
+HGate 2
+HGate 2
+HGate 2
+HGate 2
+HGate 2
+HGate 2
+HGate 2
+Init 7 |+>
+RequestMagicState 9
+RequestMagicState 10
+MeasureSinglePatch 10 Z
+RequestMagicState 11
+RequestMagicState 12
+MeasureSinglePatch 12 Z
+RequestMagicState 13
+
+MultiBodyMeasure 9:Z,0:X
+MultiBodyMeasure 3:Z,11:Z
+
+MeasureSinglePatch 11 Z
+MeasureSinglePatch 13 Z
+HGate 4
+
+MultiBodyMeasure 9:Z,4:X
+MultiBodyMeasure 5:Z,6:Z
+
+MeasureSinglePatch 9 Z
+SGate 2
+SGate 0
+RequestMagicState 14
+
+HGate 4
+MultiBodyMeasure 2:Z,1:X
+
+MultiBodyMeasure 14:Z,4:X
+HGate 0
+HGate 5
+MultiBodyMeasure 2:Z,1:X
+
+MeasureSinglePatch 14 Z
+MeasureSinglePatch 0 Z
+MeasureSinglePatch 1 Z
+MeasureSinglePatch 4 Z
+MeasureSinglePatch 5 Z
+HGate 7
+
+HGate 7
+
+
+
+
