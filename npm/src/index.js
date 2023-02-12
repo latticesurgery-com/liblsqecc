@@ -4,7 +4,7 @@ const LsqeccModule = require('../wasm/lsqecc_emscripten.js');
  * Runs the slicer from string input.
  * 
  * @param {string} input Circuit content as string
- * @param {string} inputType 'qasm' for QASM input, 'lli' for LLI input. 
+ * @param {string} inputType 'qasm' for QASM input, 'lli' (default) for LLI input.
  * @param {boolean} compactLayout Use Litinski's compact layout. Default is 'false'.
  * @param {string} cnotCorrections Add Xs and Zs to correct the the negative outcomes: 'never' (default), 'always'
  * @returns {{err: string, exit_code: number, output: string}} Slicer result

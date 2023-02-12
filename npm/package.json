@@ -2,7 +2,8 @@
   "name": "liblsqecc",
   "version": "0.1.0",
   "description": "Tools for compiling lattice surgery instructions",
-  "main": "index.js",
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/latticesurgery-com/liblsqecc.git"
