@@ -1,6 +1,7 @@
 #include <lsqecc/gates/gate_approximator.hpp>
 
 #include <algorithm>
+#include <memory>
 
 
 bool is_power_of_two(lsqecc::ArbitraryPrecisionInteger n)

@@ -345,6 +345,7 @@ DensePatchComputationResult run_through_dense_slices(
         Router& router,
         std::optional<std::chrono::seconds> timeout,
         const DenseSliceVisitor& slice_visitor,
+        const LSInstructionVisitor& instruction_visitor,
         bool graceful,
         bool nostagger)
 {
@@ -384,6 +385,7 @@ DensePatchComputationResult run_through_dense_slices(
                 slice_visitor(slice);
                 throw std::runtime_error{application_result.maybe_error->what()};
             }
+            instruction_visitor(instruction);
 
 
             if (timeout && lstk::since(start)>*timeout)

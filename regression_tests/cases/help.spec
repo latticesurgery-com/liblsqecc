@@ -9,7 +9,7 @@ Options:
     -r, --router           Set a router: graph_search (default), graph_search_cached
     -g, --graph-search     Set a graph search provider: custom (default), boost (not always available)
     --graceful             If there is an error when slicing, print the error and terminate
-    --printlli             Output LLI instead of JSONs
+    --printlli             Output LLI instead of JSONs. options: before (default), sliced (prints lli on the same slice separated by semicolons)
     --noslices             Do the slicing but don't write the slices out
     --cnotcorrections      Add Xs and Zs to correct the the negative outcomes: never (default), always
     --compactlayout        Uses Litinski's compact layout, incompatible with -l

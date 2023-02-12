@@ -19,6 +19,7 @@ namespace lsqecc {
 
 
 using DenseSliceVisitor = std::function<void(const DenseSlice& slice)>;
+using LSInstructionVisitor = std::function<void(const LSInstruction& visitor)>;
 
 struct DensePatchComputationResult : public PatchComputationResult {
     using PatchComputationResult::PatchComputationResult;
@@ -38,6 +39,7 @@ DensePatchComputationResult run_through_dense_slices(
         Router& router,
         std::optional<std::chrono::seconds> timeout,
         const DenseSliceVisitor& slice_visitor,
+        const LSInstructionVisitor& instruction_visitor,
         bool graceful,
         bool nostagger);
 
