@@ -5,4 +5,4 @@ MultiBodyMeasure 1:X,4:Z
 HGate 2
 MultiBodyMeasure 2:Z,4:Z
 "
-echo "$INPUT" | ../build/lsqecc_slicer -l --compactlayout
+echo "$INPUT" | ../build/lsqecc_slicer -l -L compact

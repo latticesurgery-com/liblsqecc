@@ -9,4 +9,4 @@ HGate 1
 HGate 1
 RotateSingleCellPatch 1
 "
-echo "$INPUT" | lsqecc_slicer -l --compactlayout
+echo "$INPUT" | lsqecc_slicer -l -L compact
