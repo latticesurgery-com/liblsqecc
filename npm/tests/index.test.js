@@ -47,10 +47,10 @@ describe('runSlicer', () => {
             });
         });
 
-        it('compactLayout is true', async () => {
-            const result = await runSlicer('some input', 'lli', true);
+        it('no layoutGenerator is not added to command line', async () => {
+            const result = await runSlicer('some input', 'lli');
             expect(LsqeccModule().run_slicer_program_from_strings).toHaveBeenCalledWith(
-                '--compactlayout  --cnotcorrections never',
+                '  --cnotcorrections never',
                 'some input'
             );
             
@@ -61,10 +61,25 @@ describe('runSlicer', () => {
             });
         });
 
-        it('cnotCorrections is always', async () => {
-            const result = await runSlicer('some input', 'qasm', true, 'always');
+        it('layoutGenerator is compact', async () => {
+            const result = await runSlicer('some input', 'lli', 'compact');
             expect(LsqeccModule().run_slicer_program_from_strings).toHaveBeenCalledWith(
-                '--compactlayout -q --cnotcorrections always',
+                '-L compact  --cnotcorrections never',
+                'some input'
+            );
+
+            expect(result).toEqual({
+                err: '',
+                exit_code: 0,
+                output: 'some result',
+            });
+        });
+
+
+        it('cnotCorrections is always', async () => {
+            const result = await runSlicer('some input', 'qasm', null, 'always');
+            expect(LsqeccModule().run_slicer_program_from_strings).toHaveBeenCalledWith(
+                ' -q --cnotcorrections always',
                 'some input'
             );
             

@@ -2,6 +2,8 @@ type inputType = 'lli' | 'qasm';
 
 type cnotCorrections = 'never' | 'always';
 
+type layoutGenerator = 'compact' | 'edpc';
+
 interface slicerResult {
     err: string;
     exit_code: number;
@@ -18,4 +20,4 @@ interface slicerResult {
  * @returns Slicer result
  *
  */
-export function runSlicer(input: string, inputType?: inputType, compactLayout?: boolean, cnotCorrections?: cnotCorrections): slicerResult;
+export function runSlicer(input: string, inputType?: inputType, layoutGenerator?: layoutGenerator, cnotCorrections?: cnotCorrections): slicerResult;
