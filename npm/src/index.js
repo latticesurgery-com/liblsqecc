@@ -10,7 +10,7 @@ const LsqeccModule = require('../wasm/lsqecc_emscripten.js');
  * @returns {{err: string, exit_code: number, output: string}} Slicer result
  * 
  */
-async function runSlicer(input, inputType='lli', layoutGenerator=null, cnotCorrections='never') {
+async function runSlicer(input, inputType='lli', layoutGenerator='', cnotCorrections='never') {
     const loadedModule = await LsqeccModule();
 
     if (inputType !== 'qasm' && inputType !== 'lli') {
@@ -22,7 +22,7 @@ async function runSlicer(input, inputType='lli', layoutGenerator=null, cnotCorre
     }
 
     const commandLineArgs = [
-        layoutGenerator ? `-L ${layoutGenerator}` : "",
+        layoutGenerator,
         inputType === 'qasm' ? '-q' : '',
         '--cnotcorrections',
         cnotCorrections === 'always' ? 'always' : 'never',
