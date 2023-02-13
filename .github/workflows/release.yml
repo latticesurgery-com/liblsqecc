@@ -1,4 +1,4 @@
-name: New release
+name: New Release
 on:
   release:
     types: [published]
@@ -43,7 +43,7 @@ jobs:
             npm/
 
   npm-publish:
-    name: Publish NPM package
+    name: Publish npm package
     runs-on: ubuntu-22.04
     needs: [npm-build]
 
