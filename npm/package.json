@@ -18,5 +18,11 @@
   "bugs": {
     "url": "https://github.com/latticesurgery-com/liblsqecc/issues"
   },
-  "homepage": "https://github.com/latticesurgery-com/liblsqecc#readme"
+  "homepage": "https://github.com/latticesurgery-com/liblsqecc#readme",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.4.2"
+  }
 }
