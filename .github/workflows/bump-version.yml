@@ -23,12 +23,20 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-        with: 
-          fetch-depth: 0
+
+      - name: Fetch tags
+        run: git fetch --tags origin
+
+      - name: Generate token
+        uses: tibdex/github-app-token@v1
+        id: generate-token
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
       - name: Get next version
         run: |
-          current_tag=$(git describe --tags --abbrev=0)
+          current_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
           major=$(echo $current_tag | cut -dv -f2 | cut -d. -f1)
           minor=$(echo $current_tag | cut -dv -f2 | cut -d. -f2)
           patch=$(echo $current_tag | cut -dv -f2 | cut -d. -f3)
@@ -66,6 +74,7 @@ jobs:
       - name: Create a new PR
         uses: peter-evans/create-pull-request@v4
         with:
+          token: ${{ steps.generate-token.outputs.token }}
           commit-message: Bumping package to v${{ env.NEXT_VERSION }}
           branch: releases/v${{ env.NEXT_VERSION }}
           delete-branch: true
@@ -74,7 +83,7 @@ jobs:
             This PR bumps the version of the package to v${{ env.NEXT_VERSION }} (${{ github.event.inputs.version }}). 
             
             *Triggered by @${{ github.actor }}*
-          reviewers: 
+          reviewers: |
             alexnguyenn
             gwwatkin
           labels: releases
