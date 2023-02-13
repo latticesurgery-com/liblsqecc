@@ -22,7 +22,7 @@ async function runSlicer(input, inputType='lli', layoutGenerator='', cnotCorrect
     }
 
     const commandLineArgs = [
-        layoutGenerator,
+        layoutGenerator ? `-L {layoutGenerator}` : "",
         inputType === 'qasm' ? '-q' : '',
         '--cnotcorrections',
         cnotCorrections === 'always' ? 'always' : 'never',
