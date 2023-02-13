@@ -1,0 +1,28 @@
+{
+  "name": "@lattice-surgery/liblsqecc",
+  "version": "0.1.1",
+  "description": "Tools for compiling lattice surgery instructions",
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/latticesurgery-com/liblsqecc.git"
+  },
+  "keywords": [
+    "lattice surgery",
+    "quantum",
+    "quantum computing"
+  ],
+  "author": "LSC Team",
+  "license": "LGPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/latticesurgery-com/liblsqecc/issues"
+  },
+  "homepage": "https://github.com/latticesurgery-com/liblsqecc#readme",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.4.2"
+  }
+}

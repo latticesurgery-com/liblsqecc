@@ -1,0 +1,68 @@
+name: New Release
+on:
+  release:
+    types: [published]
+
+jobs:
+  npm-build:
+    name: Create emscripten build
+    runs-on: ubuntu-22.04
+    env:
+      EM_VERSION: 3.1.24
+      EM_CACHE_FOLDER: 'emsdk-cache'
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+    
+      - name: Setup system libraries cache
+        uses: actions/cache@v3
+        with:
+          path: ${{env.EM_CACHE_FOLDER}}
+          key: ${{env.EM_VERSION}}-${{ runner.os }}
+
+      - name: Setup emsdk
+        uses: mymindstorm/setup-emsdk@v12
+        with:
+          version: ${{env.EM_VERSION}}
+          actions-cache-folder: ${{env.EM_CACHE_FOLDER}}
+          
+      - name: Create emscripten build
+        run: |
+          mkdir build
+          emcmake cmake -Bbuild -H.
+          make -Cbuild
+          
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: npm-build-artifact
+          retention-days: 7
+          path: |
+            npm/
+
+  npm-publish:
+    name: Publish npm package
+    runs-on: ubuntu-22.04
+    needs: [npm-build]
+
+    steps:
+      - name: Setup Node JS
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v3.0.1
+        with:
+          name: npm-build-artifact
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Publish package
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
