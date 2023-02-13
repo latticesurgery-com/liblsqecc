@@ -164,6 +164,18 @@ if(DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
     #target_link_options(lsqecclib PUBLIC "-s TOTAL_MEMORY=1024MB ")
     #target_link_options(lsqecc_emscripten PUBLIC "-s TOTAL_MEMORY=1024MB --bind")
 
+    add_custom_command(
+        TARGET lsqecc_emscripten POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+                ${CMAKE_SOURCE_DIR}/build/lsqecc_emscripten.js
+                ${CMAKE_SOURCE_DIR}/npm/wasm/lsqecc_emscripten.js)
+    add_custom_command(
+        TARGET lsqecc_emscripten POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+                ${CMAKE_SOURCE_DIR}/build/lsqecc_emscripten.wasm
+                ${CMAKE_SOURCE_DIR}/npm/wasm/lsqecc_emscripten.wasm)
+        
+
 endif()
 
 

@@ -1,0 +1,7 @@
+node_modules
+wasm/*.wasm
+wasm/*.js
+npm-debug.log
+.nyc
+.env
+.DS_Store
