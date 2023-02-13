@@ -1,5 +1,5 @@
 {
-  "name": "liblsqecc",
+  "name": "@lattice-surgery/liblsqecc",
   "version": "0.1.0",
   "description": "Tools for compiling lattice surgery instructions",
   "main": "src/index.js",
