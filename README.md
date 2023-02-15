@@ -108,3 +108,17 @@ However due to the Haskell platform's own portability challenges and some low le
 Liblsqecc was primarily developed at Aalto University by [George Watkins](https://github.com/gwwatkin) under Dr. [Alexandru Paler](https://github.com/alexandrupaler)'s supervision, and is now maintained by George Watkins.
 
 A special thanks to [Tyler LeBlond](https://github.com/tylerrleblond) for adding the EDPC layout and other contributions.
+
+[Alex Nguyen](https://github.com/alexnguyenn) maintains the NPM package and associated infrastructure.
+
+## Citing
+
+Please cite as follows:
+```
+@article{watkins2023high,
+  title={A High Performance Compiler for Very Large Scale Surface Code Computations},
+  author={Watkins, George and Nguyen, Hoang Minh and Seshadri, Varun and Watkins, Keelan and Pearce, Steven and Lau, Hoi-Kwan and Paler, Alexandru},
+  journal={arXiv preprint arXiv:2302.02459},
+  year={2023}
+}
+```

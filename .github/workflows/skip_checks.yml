@@ -1,0 +1,27 @@
+name: Skip Checks
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '**.md'
+      - '!**/**'
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-22.04
+    steps:
+      - run: 'echo "No build required"'
+
+  unit-test:
+    name: Run unit tests
+    runs-on: ubuntu-22.04
+    steps:
+      - run: 'echo "No build required"'
+
+  regression-test:
+    name: Run regression tests
+    runs-on: ubuntu-22.04
+    steps:
+      - run: 'echo "No build required"'
+
