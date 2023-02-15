@@ -76,7 +76,7 @@ namespace lsqecc
                 .required(false);
         parser.add_argument()
                 .names({"-l", "--layout"})
-                .description("File name of file with layout spec. Defaults to simple layout if none is provided")
+                .description("File name of file with layout spec, otherwise the layout is auto-generated (configure with -L)")
                 .required(false);
         parser.add_argument()
                 .names({"-o", "--output"})
@@ -115,8 +115,12 @@ namespace lsqecc
                 .description("Add Xs and Zs to correct the the negative outcomes: never (default), always") // TODO add random
                 .required(false);
         parser.add_argument()
-                .names({"--compactlayout"})
-                .description("Uses Litinski's compact layout, incompatible with -l")
+                .names({"--layoutgenerator","-L"})
+                .description(
+                    "Automatically generates a layout for the given number of qubits. Incompatible with -l. Options:" CONSOLE_HELP_NEWLINE_ALIGN
+                    " - compact (default): Uses Litinski's Game of Surace Code compact layout (https://arxiv.org/abs/1808.02892)" CONSOLE_HELP_NEWLINE_ALIGN
+                    " - edpc: Uses a layout specified in the EDPC paper by Beverland et. al. (https://arxiv.org/abs/2110.11493)"
+                )
                 .required(false);
         #ifdef USE_GRIDSYNTH
         parser.add_argument()
@@ -125,10 +129,6 @@ namespace lsqecc
                              "negative power of ten of this value (I.e. precision=10^(-rzprecision)). Defaults to 10.")
                 .required(false);
         #endif // USE_GRIDSYNTH
-        parser.add_argument()
-                .names({"--edpclayout"})
-                .description("Uses a layout specified in the EDPC paper by Beverland et. al., incompatible with -l")
-                .required(false);
         parser.add_argument()
                 .names({"--nostagger"})
                 .description("Turns off staggered distillation block timing")
@@ -227,23 +227,29 @@ namespace lsqecc
         }
 
         std::unique_ptr<Layout> layout;
-        if (parser.exists("compactlayout"))
+        if (parser.exists("layoutgenerator"))
         {
-            layout = make_compact_layout(instruction_stream->core_qubits().size());
-            instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
-            instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
-
-        }
-        else if (parser.exists("edpclayout"))
-        {
-            layout = make_edpc_layout(instruction_stream->core_qubits().size());
-            instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
-            instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
+            if (parser.get<std::string>("layoutgenerator") == "compact")
+                layout = make_compact_layout(instruction_stream->core_qubits().size());
+            else if (parser.get<std::string>("layoutgenerator") == "edpc")
+                layout = make_edpc_layout(instruction_stream->core_qubits().size());
+            else
+            {
+                err_stream << "Unknown layout generator: " << parser.get<std::string>("layoutgenerator") << std::endl;
+                return -1;
+            }
         }
         else if(parser.exists("l"))
             layout = std::make_unique<LayoutFromSpec>(file_to_string(parser.get<std::string>("l")));
         else
-            layout = std::make_unique<SimpleLayout>(instruction_stream->core_qubits().size());
+        {
+            // Default to Litinsiki's compact layout
+            layout = make_compact_layout(instruction_stream->core_qubits().size());
+        }
+
+        // Some passess that are always applied. After this the LLI is finalized
+        instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
+        instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
 
         if(parser.exists("printlli"))
         {

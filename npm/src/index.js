@@ -5,12 +5,12 @@ const LsqeccModule = require('../wasm/lsqecc_emscripten.js');
  * 
  * @param {string} input Circuit content as string
  * @param {string} inputType 'qasm' for QASM input, 'lli' (default) for LLI input.
- * @param {boolean} compactLayout Use Litinski's compact layout. Default is 'false'.
+ * @param {string} layoutGenerator Choose the type of layout generator: 'compact' (default), 'edpc'
  * @param {string} cnotCorrections Add Xs and Zs to correct the the negative outcomes: 'never' (default), 'always'
  * @returns {{err: string, exit_code: number, output: string}} Slicer result
  * 
  */
-async function runSlicer(input, inputType='lli', compactLayout=false, cnotCorrections='never') {
+async function runSlicer(input, inputType='lli', layoutGenerator='', cnotCorrections='never') {
     const loadedModule = await LsqeccModule();
 
     if (inputType !== 'qasm' && inputType !== 'lli') {
@@ -22,7 +22,7 @@ async function runSlicer(input, inputType='lli', compactLayout=false, cnotCorrec
     }
 
     const commandLineArgs = [
-        compactLayout ? '--compactlayout' : '',
+        layoutGenerator ? `-L ${layoutGenerator}` : "",
         inputType === 'qasm' ? '-q' : '',
         '--cnotcorrections',
         cnotCorrections === 'always' ? 'always' : 'never',

@@ -71,11 +71,11 @@ Cell AsciiLayoutSpec::furthest_cell() const
 }
 
 
-MultipleCellsOccupiedByPatch make_distillation_region_starting_from(const Cell& cell, const AsciiLayoutSpec& spec)
+MultipleCellsOccupiedByPatch make_distillation_region_starting_from(const Cell& starting_cell, const AsciiLayoutSpec& spec)
 {
     MultipleCellsOccupiedByPatch region;
-    auto single_cells = iter::imap(LayoutHelpers::make_distillation_region_cell, spec.connected_component(cell));
-    std::move(single_cells.begin(), single_cells.end(), std::back_inserter(region.sub_cells));
+    for (const auto &distillation_cell : spec.connected_component(starting_cell))
+        region.sub_cells.push_back(LayoutHelpers::make_distillation_region_cell(distillation_cell));
     return region;
 }
 
