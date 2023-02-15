@@ -169,11 +169,11 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         DenseSlice& slice,
         LSInstruction instruction,
         const Layout& layout,
-        Router& router)
+        Router& router,
+        const LSInstructionVisitor& instruction_visitor)
 {
     if (const auto* s = std::get_if<SinglePatchMeasurement>(&instruction.operation))
     {
-
         auto maybe_target_patch = slice.get_patch_by_id(s->target);
         if(!maybe_target_patch)
             return {std::make_unique<std::runtime_error>(lstk::cat("Patch ", s->target, " not on lattice")), {}};
@@ -182,6 +182,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         if (target_patch.is_active())
             return {std::make_unique<std::runtime_error>(lstk::cat("Patch ", s->target, " is active")), {}};
         target_patch.activity = PatchActivity::Measurement;
+        instruction_visitor(instruction);
         return {nullptr, {}};
     }
     else if (const auto* p = std::get_if<SingleQubitOp>(&instruction.operation))
@@ -197,6 +198,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                 return {std::make_unique<std::runtime_error>(lstk::cat("Could not do S gate routing on ", p->target)),
                         {}};
             LSInstruction corrective_term{SingleQubitOp{p->target, SingleQubitOp::Operator::Z}};
+            instruction_visitor(instruction);
             return {nullptr, {corrective_term}};
         }
         else
@@ -207,7 +209,8 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
             target_patch.activity = PatchActivity::Unitary;
             if (p->op == SingleQubitOp::Operator::H)
                 target_patch.boundaries.instant_rotate();
-                
+            
+            instruction_visitor(instruction);
             return {nullptr, {}};
         }
     }
@@ -229,6 +232,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
             return {std::make_unique<std::runtime_error>(lstk::cat("Couldn't find room to route: ",
                     source_id, ":", PauliOperator_to_string(source_op), ",",
                     target_id, ":", PauliOperator_to_string(target_op))), {}};
+        instruction_visitor(instruction);
         return {nullptr, {}};
     }
     else if (const auto* init = std::get_if<PatchInit>(&instruction.operation))
@@ -242,6 +246,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         slice.place_sparse_patch(LayoutHelpers::basic_square_patch(*location), false);
         slice.patch_at(*location)->id = init->target;
 
+        instruction_visitor(instruction);
         return {nullptr, {}};
     }
     else if (const auto* rotation = std::get_if<RotateSingleCellPatch>(&instruction.operation))
@@ -266,6 +271,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         slice.patch_at(target_cell) = std::nullopt;
         apply_routing_region(slice,stages.stage_1);
 
+        instruction_visitor(instruction);
         return {nullptr, {{BusyRegion{std::move(stages.stage_2), 1, std::move(stages.final_state)}}}};
     }
     else if (auto* mr = std::get_if<MagicStateRequest>(&instruction.operation))
@@ -280,6 +286,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
             newly_bound_magic_state.id = mr->target;
             newly_bound_magic_state.type = PatchType::Qubit;
             newly_bound_magic_state.activity = PatchActivity::None;
+            instruction_visitor(instruction);
             return {nullptr, {}};
         }
         else
@@ -302,6 +309,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                 return {std::make_unique<std::runtime_error>(
                         "Could not find space to place patch after rotation"),{std::move(instruction)}};
             slice.place_sparse_patch(busy_region->state_after_clearing, false);
+            instruction_visitor(instruction);
             return {nullptr,{}};
         }
         else
@@ -312,6 +320,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                             {std::move(instruction)}};
 
             apply_routing_region(slice, busy_region->region);
+            instruction_visitor(instruction);
             return {nullptr,{{BusyRegion{
                     std::move(busy_region->region),
                     busy_region->steps_to_clear-1,
@@ -330,9 +339,10 @@ InstructionApplicationResult try_apply_instruction_with_followup_attempts(
         DenseSlice& slice,
         const LSInstruction& instruction,
         const Layout& layout,
-        Router& router)
+        Router& router,
+        const LSInstructionVisitor& instruction_visitor)
 {
-    InstructionApplicationResult r = try_apply_instruction_direct_followup(slice, instruction, layout, router);
+    InstructionApplicationResult r = try_apply_instruction_direct_followup(slice, instruction, layout, router, instruction_visitor);
     if (r.maybe_error && r.followup_instructions.empty())
         return InstructionApplicationResult{nullptr, followup_next_attempt(instruction)};
     return r;
@@ -370,7 +380,8 @@ DensePatchComputationResult run_through_dense_slices(
                 return instruction_stream.get_next_instruction();
             }();
 
-            auto application_result = try_apply_instruction_with_followup_attempts(slice, instruction, layout, router);
+            auto application_result = try_apply_instruction_with_followup_attempts(slice, instruction, layout, router, instruction_visitor);
+
             if (!application_result.followup_instructions.empty())
             {
                 slice_visitor(slice);
@@ -385,7 +396,6 @@ DensePatchComputationResult run_through_dense_slices(
                 slice_visitor(slice);
                 throw std::runtime_error{application_result.maybe_error->what()};
             }
-            instruction_visitor(instruction);
 
 
             if (timeout && lstk::since(start)>*timeout)
