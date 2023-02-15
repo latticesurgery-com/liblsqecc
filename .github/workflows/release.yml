@@ -33,7 +33,11 @@ jobs:
           mkdir build
           emcmake cmake -Bbuild -H.
           make -Cbuild
-          
+      
+      - name: Copy LICENSE
+        run: |
+          cp LICENSE npm/
+
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v3.1.0
         with:
