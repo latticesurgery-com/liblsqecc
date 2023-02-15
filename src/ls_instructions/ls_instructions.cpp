@@ -99,9 +99,9 @@ std::ostream& operator<<(std::ostream& os, const BusyRegion& instruction)
 {
     os << LSInstructionPrint<BusyRegion>::name << " ";
     for (const auto &cell: instruction.region.cells)
-        os << "OccupiedRegion:" << "(" << cell.cell.row << "|" << cell.cell.col << ")";
+        os << "OccupiedRegion:" << "(" << cell.cell.row << "|" << cell.cell.col << "),";
     // TODO: add state_after_clearing if needed. Requires printing a SparsePatch
-    return os << "," << "StepsToClear(" << instruction.steps_to_clear <<")";
+    return os << "StepsToClear(" << instruction.steps_to_clear <<")";
 }
 
 }
