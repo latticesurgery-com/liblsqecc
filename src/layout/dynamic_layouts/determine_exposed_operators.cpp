@@ -22,7 +22,7 @@ tsl::ordered_map<PatchId, RotatableSingleQubitPatchExposedOperators> determine_e
 {
     tsl::ordered_map<PatchId, RotatableSingleQubitPatchExposedOperators> out;
 
-    DenseSlice first_slice{layout, core_qubit_ids, 0};
+    DenseSlice first_slice{layout, core_qubit_ids};
 
     for(const PatchId& patch_id : core_qubit_ids)
     {

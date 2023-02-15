@@ -345,15 +345,14 @@ DensePatchComputationResult run_through_dense_slices(
         Router& router,
         std::optional<std::chrono::seconds> timeout,
         const DenseSliceVisitor& slice_visitor,
-        bool graceful,
-        bool nostagger)
+        bool graceful)
 {
 
     DensePatchComputationResult res;
 
     auto run = [&]()
     {
-        DenseSlice slice{layout, instruction_stream.core_qubits(), nostagger};
+        DenseSlice slice{layout, instruction_stream.core_qubits()};
 
         auto start = std::chrono::steady_clock::now();
 

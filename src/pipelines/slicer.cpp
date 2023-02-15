@@ -58,6 +58,17 @@ namespace lsqecc
     // TODO: Resume by getting the slicer to accept stdin as input
 
 
+    DistillationOptions make_distillation_options(argparse::ArgumentParser& parser)
+    {
+        DistillationOptions distillation_options;
+        if(parser.exists("disttime"))
+            distillation_options.distillation_time = parser.get<size_t>("disttime");
+        if(parser.exists("nostagger"))
+            distillation_options.staggered = false;
+        return distillation_options;
+
+    }
+
     int run_slicer_program(
             int argc, const char* argv[],
             std::istream& in_stream,
@@ -132,6 +143,10 @@ namespace lsqecc
         parser.add_argument()
                 .names({"--nostagger"})
                 .description("Turns off staggered distillation block timing")
+                .required(false);
+        parser.add_argument()
+                .names({"--disttime"})
+                .description("Set the distillation time (default 10)")
                 .required(false);
         parser.enable_help();
 
@@ -227,12 +242,13 @@ namespace lsqecc
         }
 
         std::unique_ptr<Layout> layout;
+        DistillationOptions distillation_options = make_distillation_options(parser);
         if (parser.exists("layoutgenerator"))
         {
             if (parser.get<std::string>("layoutgenerator") == "compact")
-                layout = make_compact_layout(instruction_stream->core_qubits().size());
+                layout = make_compact_layout(instruction_stream->core_qubits().size(), distillation_options);
             else if (parser.get<std::string>("layoutgenerator") == "edpc")
-                layout = make_edpc_layout(instruction_stream->core_qubits().size());
+                layout = make_edpc_layout(instruction_stream->core_qubits().size(), distillation_options);
             else
             {
                 err_stream << "Unknown layout generator: " << parser.get<std::string>("layoutgenerator") << std::endl;
@@ -240,11 +256,11 @@ namespace lsqecc
             }
         }
         else if(parser.exists("l"))
-            layout = std::make_unique<LayoutFromSpec>(file_to_string(parser.get<std::string>("l")));
+            layout = std::make_unique<LayoutFromSpec>(file_to_string(parser.get<std::string>("l")), distillation_options);
         else
         {
             // Default to Litinsiki's compact layout
-            layout = make_compact_layout(instruction_stream->core_qubits().size());
+            layout = make_compact_layout(instruction_stream->core_qubits().size(), distillation_options);
         }
 
         // Some passess that are always applied. After this the LLI is finalized
@@ -347,8 +363,7 @@ namespace lsqecc
                     *router,
                     timeout,
                     [&](const DenseSlice& s){visitor_with_progress(s);},
-                    parser.exists("graceful"),
-                    parser.exists("nostagger")
+                    parser.exists("graceful")
             ));
         } else
         {

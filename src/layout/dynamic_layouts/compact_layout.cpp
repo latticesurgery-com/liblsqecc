@@ -6,7 +6,7 @@ namespace lsqecc
 {
 
 
-std::unique_ptr<Layout> make_compact_layout(size_t num_core_qubits)
+std::unique_ptr<Layout> make_compact_layout(size_t num_core_qubits, const DistillationOptions& distillation_options)
 {
     size_t t_distillation_region_cols = 5;
     auto core_cols = static_cast<size_t>(std::ceil(static_cast<double>(num_core_qubits)/2.0));
@@ -32,7 +32,7 @@ std::unique_ptr<Layout> make_compact_layout(size_t num_core_qubits)
     std::fill_n(grid.at(2).begin() + static_cast<long>(core_cols) + 3, t_distillation_region_cols,
     AsciiLayoutSpec::CellType::DistillationRegion_0);
 
-    return std::make_unique<LayoutFromSpec>(grid);
+    return std::make_unique<LayoutFromSpec>(grid, distillation_options);
 }
 
 } // namespace lsqecc
