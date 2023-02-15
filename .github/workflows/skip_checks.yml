@@ -3,8 +3,8 @@ on:
   pull_request:
     branches: [ main ]
     paths:
-      - '**.md'
       - '!**/**'
+      - '**.md'
 
 jobs:
   build:
@@ -24,4 +24,3 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - run: 'echo "No build required"'
-
