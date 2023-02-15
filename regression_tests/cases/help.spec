@@ -16,4 +16,5 @@ Options:
                             - compact (default): Uses Litinski's Game of Surace Code compact layout (https://arxiv.org/abs/1808.02892)
                             - edpc: Uses a layout specified in the EDPC paper by Beverland et. al. (https://arxiv.org/abs/2110.11493)
     --nostagger            Turns off staggered distillation block timing
+    --disttime             Set the distillation time (default 10)
     -h, --help             Shows this page        

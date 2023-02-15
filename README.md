@@ -49,7 +49,8 @@ Options:
                             - compact (default): Uses Litinski's Game of Surace Code compact layout (https://arxiv.org/abs/1808.02892)
                             - edpc: Uses a layout specified in the EDPC paper by Beverland et. al. (https://arxiv.org/abs/2110.11493)
     --nostagger            Turns off staggered distillation block timing
-    -h, --help             Shows this page
+    --disttime             Set the distillation time (default 10)
+    -h, --help             Shows this page        
 ```
 #### QASM Support (Experimental)
 LibLSQECC can parse a small subset of OpenQASM 2.0 instead of LLI, with restrictions below. We call this type of assembly OpenQASM--. In general OpenQASM-- should be valid OpenQASM, up to implementation defects. The rules are 
