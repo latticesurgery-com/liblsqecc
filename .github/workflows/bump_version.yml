@@ -82,6 +82,8 @@ jobs:
           body: |
             This PR bumps the version of the package to v${{ env.NEXT_VERSION }} (${{ github.event.inputs.version }}). 
             
+            A draft release note can be found in [releases](https://github.com/latticesurgery-com/liblsqecc/releases) once this PR is merged. 
+
             *Triggered by @${{ github.actor }}*
           reviewers: |
             alexnguyenn

@@ -49,8 +49,10 @@ jobs:
   npm-publish:
     name: Publish npm package
     runs-on: ubuntu-22.04
-    if: github.repository_owner == 'latticesurgery-com'
     needs: [npm-build]
+    if: |
+      github.repository_owner == 'latticesurgery-com' && 
+      github.repository == 'latticesurgery-com/liblsqecc'
 
     steps:
       - name: Setup Node JS

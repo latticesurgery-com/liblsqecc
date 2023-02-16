@@ -1,0 +1,34 @@
+name: Draft Release
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  draft-release:
+    runs-on: ubuntu-latest
+    if: |
+      github.repository_owner == 'latticesurgery-com' && 
+      github.event.pull_request.merged == true &&
+      startsWith(github.head_ref, 'releases/') &&
+      contains(github.event.pull_request.labels.*.name, 'releases') &&
+      startsWith(github.event.pull_request.title, 'Bumping package to v')
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get version
+        run: |
+          version=$(
+            echo "${{ github.event.pull_request.title }}" | \
+            grep -oE 'v[0-9]+\.[0-9]+\.[0-9]+' \
+          ) || {
+            echo "Error: could not extract version from PR title"
+            exit 1
+          }
+          echo "NEXT_VERSION=${version}" >> $GITHUB_ENV
+
+      - name: Draft new Github release
+        run: |
+          gh release create ${{ env.NEXT_VERSION }} --draft --generate-notes --title ${{ env.NEXT_VERSION }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
