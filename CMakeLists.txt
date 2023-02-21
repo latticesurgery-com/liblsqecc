@@ -141,7 +141,7 @@ endif()
 
 if(DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
     
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fexceptions")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fexceptions -s SINGLE_FILE")
     
     add_executable(
             lsqecc_emscripten
