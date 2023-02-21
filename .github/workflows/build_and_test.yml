@@ -114,6 +114,10 @@ jobs:
           emcmake cmake -Bbuild -H.
           make -Cbuild
       
+      - run: |
+          cd build
+          ls
+
       - name: Copy LICENSE
         run: |
           cp LICENSE npm/
