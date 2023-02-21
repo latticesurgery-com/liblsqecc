@@ -2,8 +2,8 @@
   "name": "@lattice-surgery/liblsqecc",
   "version": "0.2.0",
   "description": "Tools for compiling lattice surgery instructions",
-  "main": "src/index.js",
-  "types": "src/index.d.ts",
+  "main": "dist/index.js",
+  "types": "types/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/latticesurgery-com/liblsqecc.git"
@@ -20,9 +20,14 @@
   },
   "homepage": "https://github.com/latticesurgery-com/liblsqecc#readme",
   "scripts": {
-    "test": "jest"
+    "build": "tsc",
+    "test": "jest",
+    "lint": "prettier --check  src/**/*.{ts,js}",
+    "lint:fix": "prettier --write  src/**/*.{ts,js}"
   },
   "devDependencies": {
-    "jest": "^29.4.2"
+    "jest": "^29.4.2",
+    "prettier": "^2.8.4",
+    "typescript": "^4.9.5"
   }
 }

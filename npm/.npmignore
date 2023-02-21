@@ -2,3 +2,4 @@
 !wasm/*.js
 wasm/.gitkeep
 tests
+src
