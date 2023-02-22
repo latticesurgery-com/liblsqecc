@@ -31,7 +31,7 @@ jobs:
       - name: Create emscripten build
         run: |
           mkdir build
-          emcmake cmake -Bbuild -H. -DCMAKE_BUILD_TYPE=Release
+          emcmake cmake -Bbuild -H. -DCMAKE_BUILD_TYPE=MinSizeRel
           make -Cbuild
       
       - name: Copy LICENSE
