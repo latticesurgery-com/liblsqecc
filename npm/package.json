@@ -19,6 +19,11 @@
     "url": "https://github.com/latticesurgery-com/liblsqecc/issues"
   },
   "homepage": "https://github.com/latticesurgery-com/liblsqecc#readme",
+  "files": [
+    "dist/*.*",
+    "wasm/*.{js,wasm}",
+    "types/*"
+  ],
   "scripts": {
     "build": "tsc --project tsconfig.build.json",
     "test": "jest",

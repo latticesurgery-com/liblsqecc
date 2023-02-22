@@ -1,5 +1,0 @@
-!wasm/*.wasm
-!wasm/*.js
-wasm/.gitkeep
-tests
-src
