@@ -111,8 +111,13 @@ jobs:
       - name: Create emscripten build
         run: |
           mkdir build
-          emcmake cmake -Bbuild -H.
+          emcmake cmake -Bbuild -H. -DCMAKE_BUILD_TYPE=Debug
           make -Cbuild
+
+      - name: Build output
+        run: |
+          cd build
+          ls
       
       - name: Copy LICENSE
         run: |
@@ -126,8 +131,33 @@ jobs:
           path: |
             npm/
 
+  npm-lint:
+    name: NPM package lint
+    runs-on: ubuntu-22.04
+    needs: [npm-build]
+
+    steps:
+      - name: Setup Node JS
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v3.0.1
+        with:
+          name: npm-build-artifact
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Prettier
+        run: npm run lint
+
+      - name: tsc
+        run: npm run build
+  
   npm-test:
-    name: Run tests for NPM package
+    name: NPM package test
     runs-on: ubuntu-22.04
     needs: [npm-build]
 
