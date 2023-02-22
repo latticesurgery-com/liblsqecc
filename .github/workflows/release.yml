@@ -31,7 +31,7 @@ jobs:
       - name: Create emscripten build
         run: |
           mkdir build
-          emcmake cmake -Bbuild -H.
+          emcmake cmake -Bbuild -H. -DCMAKE_BUILD_TYPE=MinSizeRel
           make -Cbuild
       
       - name: Copy LICENSE
@@ -68,6 +68,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: tsc
+        run: npm run build
 
       - name: Publish package
         run: npm publish

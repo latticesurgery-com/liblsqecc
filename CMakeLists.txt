@@ -10,6 +10,7 @@ project(lsqecc)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wfatal-errors -Wall -pedantic")
 set(CMAKE_CXX_FLAGS_DEBUG_INIT "-O0 -g3 -DNDEBUG -D_LIBCPP_DEBUG=1 ")
 set(CMAKE_CXX_FLAGS_RELEASE_INIT  "-O3")
+set(CMAKE_CXX_FLAGS_MINSIZEREL_INIT  "-Os")
 set(CMAKE_CXX_STANDARD 20)
 #set(CMAKE_BUILD_TYPE Debug)
 
@@ -159,7 +160,7 @@ if(DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
     )
     
     set_target_properties(lsqecclib PROPERTIES LINK_FLAGS "-fexceptions -s MODULARIZE=1 -s TOTAL_MEMORY=1024MB -s DEMANGLE_SUPPORT=1  --bind")
-    set_target_properties(lsqecc_emscripten PROPERTIES LINK_FLAGS "-fexceptions -s MODULARIZE=1 -s TOTAL_MEMORY=1024MB -s DEMANGLE_SUPPORT=1 -s EXPORT_NAME='LsqeccModule' --bind")
+    set_target_properties(lsqecc_emscripten PROPERTIES LINK_FLAGS "-fexceptions -s MODULARIZE=1 -s TOTAL_MEMORY=1024MB -s DEMANGLE_SUPPORT=1 -s EXPORT_NAME='LsqeccModule' --bind -s INVOKE_RUN=0 -s SINGLE_FILE=1")
 
     #target_link_options(lsqecclib PUBLIC "-s TOTAL_MEMORY=1024MB ")
     #target_link_options(lsqecc_emscripten PUBLIC "-s TOTAL_MEMORY=1024MB --bind")
@@ -168,13 +169,7 @@ if(DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
         TARGET lsqecc_emscripten POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
                 ${CMAKE_SOURCE_DIR}/build/lsqecc_emscripten.js
-                ${CMAKE_SOURCE_DIR}/npm/wasm/lsqecc_emscripten.js)
-    add_custom_command(
-        TARGET lsqecc_emscripten POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-                ${CMAKE_SOURCE_DIR}/build/lsqecc_emscripten.wasm
-                ${CMAKE_SOURCE_DIR}/npm/wasm/lsqecc_emscripten.wasm)
-        
+                ${CMAKE_SOURCE_DIR}/npm/wasm/lsqecc_emscripten.js)        
 
 endif()
 

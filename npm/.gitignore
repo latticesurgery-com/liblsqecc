@@ -5,3 +5,6 @@ npm-debug.log
 .nyc
 .env
 .DS_Store
+dist
+types
+*.tsbuildinfo
