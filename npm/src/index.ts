@@ -61,7 +61,7 @@ class Slicer {
             input
         );
 
-        return result;
+        return JSON.parse(result);
     }
 }
 
