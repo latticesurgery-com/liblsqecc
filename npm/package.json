@@ -1,6 +1,6 @@
 {
   "name": "@lattice-surgery/liblsqecc",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Tools for compiling lattice surgery instructions",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
