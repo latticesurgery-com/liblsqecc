@@ -18,7 +18,7 @@ namespace lsqecc
  * QQQQ ... QrAr11111
  */
 
-std::unique_ptr<Layout> make_compact_layout(size_t num_core_qubits);
+std::unique_ptr<Layout> make_compact_layout(size_t num_core_qubits, const DistillationOptions& distillation_options);
 
 
 } // namespace lsqecc

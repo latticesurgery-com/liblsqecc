@@ -25,7 +25,7 @@ struct DenseSlice : public Slice
     std::reference_wrapper<const Layout> layout;
 
     explicit DenseSlice(const Layout& layout);
-    DenseSlice(const Layout& layout, const tsl::ordered_set<PatchId>& core_qubit_ids, bool nostagger);
+    DenseSlice(const Layout& layout, const tsl::ordered_set<PatchId>& core_qubit_ids);
 
     virtual const Layout& get_layout() const override;
 

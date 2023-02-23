@@ -29,6 +29,11 @@ struct Layout {
 };
 
 
+struct DistillationOptions{
+    bool staggered = true;
+    size_t distillation_time = 10;
+};
+
 namespace LayoutHelpers{
     SparsePatch basic_square_patch(Cell placement);
     SingleCellOccupiedByPatch make_distillation_region_cell(Cell placement);

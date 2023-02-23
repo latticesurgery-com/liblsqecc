@@ -103,15 +103,14 @@ private:
 
 class LayoutFromSpec : public Layout{
 public:
-
-    explicit LayoutFromSpec(const std::string_view spec_text)
+    explicit LayoutFromSpec(const std::string_view spec_text, const DistillationOptions& distillation_options)
     {
-        init_cache(AsciiLayoutSpec{spec_text});
+        init_cache(AsciiLayoutSpec{spec_text}, distillation_options);
     }
 
-    explicit LayoutFromSpec(const AsciiLayoutSpec::CellGrid& grid_spec)
+    explicit LayoutFromSpec(const AsciiLayoutSpec::CellGrid& grid_spec, const DistillationOptions& distillation_options)
     {
-        init_cache(AsciiLayoutSpec{grid_spec});
+        init_cache(AsciiLayoutSpec{grid_spec}, distillation_options);
     }
 
 
@@ -136,7 +135,7 @@ private:
     std::vector<std::vector<Cell>> cached_distilled_state_locations_;
     std::vector<Cell> cached_dead_cells_;
     bool magic_states_reserved_; 
-    void init_cache(const AsciiLayoutSpec& spec);
+    void init_cache(const AsciiLayoutSpec& spec, const DistillationOptions& distillation_options);
 
 };
 
