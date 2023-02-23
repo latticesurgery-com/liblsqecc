@@ -28,11 +28,13 @@ describe("Slicer", () => {
 
     describe("valid arguments", () => {
         beforeEach(() => {
-            mockRunSlicerProgramFromStrings.mockReturnValue({
-                err: "",
-                exit_code: 0,
-                output: "some result",
-            });
+            mockRunSlicerProgramFromStrings.mockReturnValue(
+                JSON.stringify({
+                    err: "",
+                    exit_code: 0,
+                    output: "some result",
+                })
+            );
         });
 
         it("inputType is qasm", () => {
