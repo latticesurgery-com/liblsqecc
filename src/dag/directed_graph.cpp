@@ -108,6 +108,31 @@ Set<label_t> DirectedGraph::tails() const
 }
 
 
+void DirectedGraph::topological_order_helper(label_t current, Set<label_t>& visited, std::vector<label_t>& order) const
+{
+    if(visited.count(current))return;
+
+    visited.insert(current);
+
+    for(const auto& neighbor : edges_.at(current))
+        topological_order_helper(neighbor, visited, order);
+
+    order.push_back(current);
+}
+
+
+
+std::vector<label_t> DirectedGraph::topological_order_tails_first() const
+{
+    std::vector<label_t> order;
+    Set<label_t> visited;
+    for(const auto& head : heads())
+        topological_order_helper(head, visited, order);
+    return order;
+}
+
+
+
 std::ostream& DirectedGraph::to_graphviz(std::ostream& os) const
 {
 

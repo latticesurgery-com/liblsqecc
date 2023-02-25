@@ -160,5 +160,78 @@ TEST(directed_graph, subdivide)
     ASSERT_EQ(Set<label_t>{101}, get_back_edges_for_testing(g).at(102));
     ASSERT_EQ(Set<label_t>{102}, get_back_edges_for_testing(g).at(3));
     ASSERT_EQ(Set<label_t>{102}, get_back_edges_for_testing(g).at(4));
+}
 
+TEST(directed_graph, topological_order_tails_first_1)
+{
+    DirectedGraph g;
+    g.add_edge(0, 2);
+    g.add_edge(1, 2);
+    g.add_edge(2, 3);
+    g.add_edge(2, 4);
+    /* Graph (all edges pointing downwards):
+    0   1
+     \ /
+      2
+     / \
+    3   4
+    */
+    std::vector<label_t> topological_order{3, 4, 2, 0, 1};
+    ASSERT_EQ(topological_order, g.topological_order_tails_first());
+}
+
+TEST(directed_graph, topological_order_tails_first_2)
+{
+    DirectedGraph g;
+    g.add_edge(0, 2);
+    g.add_edge(1, 2);
+    g.add_edge(2, 3);
+    g.add_edge(2, 4);
+    g.add_edge(3, 5);
+    g.add_edge(4, 5);
+    g.add_edge(5, 9);
+    g.add_edge(6, 7);
+    g.add_edge(7, 4);
+    g.add_edge(7, 8);
+    g.add_edge(8, 9);
+    g.add_edge(10, 11);
+
+    /* Graph (all edges pointing downwards):
+    0   1   6   10
+     \ /   /     |
+      2   7     11
+     / \ / \ 
+    3   4   8
+     \ /   /
+      5   /
+       \ /
+        9
+
+    The opological order chosen by the algorithm:
+        10
+        |
+        11
+     
+        6
+        |   
+       .7  
+      / |  
+     /  8. 
+    |     \  
+    |  .1  \ 
+    | /     |          
+    | | 0   |
+    | \ |   |
+    |  >2   |
+    | / |   | 
+    | | 3   | 
+    \ \  \  |
+     `-`4 | | 
+        |/  |
+        5  /
+        | /
+        9
+    */
+    std::vector<label_t> topological_order{ 9, 5, 3, 4, 2, 0, 1, 8, 7, 6, 11, 10 };
+    ASSERT_EQ(topological_order, g.topological_order_tails_first());
 }
