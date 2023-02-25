@@ -49,8 +49,8 @@ std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_cnot_instructio
     if(cnot_type == gates::CNOTType::ZX_WITH_MBM_CONTROL_FIRST){
         next_instructions.push({.operation={
                 MultiPatchMeasurement{.observable={
-                        {control_id, PauliOperator::X},
-                        {ancilla_id, PauliOperator::X},
+                        {control_id, PauliOperator::Z},
+                        {ancilla_id, PauliOperator::Z},
                 },.is_negative=false}}});
         if(cnot_correction_mode == CNOTCorrectionMode::ALWAYS)
             next_instructions.push({.operation={
@@ -58,8 +58,8 @@ std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_cnot_instructio
             }});
         next_instructions.push({.operation={
                 MultiPatchMeasurement{.observable={
-                        {ancilla_id,PauliOperator::Z},
-                        {target_id,PauliOperator::Z},
+                        {ancilla_id,PauliOperator::X},
+                        {target_id,PauliOperator::X},
                 },.is_negative=false}}});
         if(cnot_correction_mode == CNOTCorrectionMode::ALWAYS)
             next_instructions.push({.operation={
@@ -69,8 +69,8 @@ std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_cnot_instructio
     else if(cnot_type == gates::CNOTType::ZX_WITH_MBM_TARGET_FIRST){
         next_instructions.push({.operation={
                 MultiPatchMeasurement{.observable={
-                        {ancilla_id,PauliOperator::Z},
-                        {target_id,PauliOperator::Z},
+                        {ancilla_id,PauliOperator::X},
+                        {target_id,PauliOperator::X},
                 },.is_negative=false}}});
         if(cnot_correction_mode == CNOTCorrectionMode::ALWAYS)
             next_instructions.push({.operation={
@@ -78,8 +78,8 @@ std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_cnot_instructio
             }});
         next_instructions.push({.operation={
                 MultiPatchMeasurement{.observable={
-                        {control_id, PauliOperator::X},
-                        {ancilla_id, PauliOperator::X},
+                        {control_id, PauliOperator::Z},
+                        {ancilla_id, PauliOperator::Z},
                 },.is_negative=false}}});
         if(cnot_correction_mode == CNOTCorrectionMode::ALWAYS)
             next_instructions.push({.operation={
