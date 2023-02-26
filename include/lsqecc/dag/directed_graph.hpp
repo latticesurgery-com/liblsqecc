@@ -35,7 +35,7 @@ struct DirectedGraph
 
     std::vector<label_t> topological_order_tails_first() const;
 
-    std::ostream& to_graphviz(std::ostream& os) const;
+    std::ostream& to_graphviz(std::ostream& os, const Map<label_t,std::string>& nodes_contents) const;
 
 private:
     // Minimal definition

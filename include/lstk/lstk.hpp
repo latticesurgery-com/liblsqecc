@@ -173,6 +173,19 @@ std::string cat(Stringifyable &&s, Args &&... args)
 }
 
 
+static inline std::string str_replace(std::string_view s, char target, std::string_view replace_with)
+{
+    if(!contains(s, target))
+        return std::string{s};
+    std::stringstream out;
+    while(contains(s,target))
+    {
+        out << s.substr(0,s.find(target)) << replace_with;
+        s = s.substr(s.find(target)+1,s.length());
+    }
+    return out.str();
+}
+
 // Vector operations
 
 template<class T>

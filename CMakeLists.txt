@@ -192,6 +192,7 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
             tests/main.cpp
             tests/lstk/lstk.cpp
             tests/dag/directed_graph.cpp
+            tests/dag/dependency_dag.cpp
             tests/gates/gate_approximator.cpp
             tests/gates/parse_gates.cpp
     )
