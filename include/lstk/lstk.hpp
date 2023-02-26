@@ -226,6 +226,15 @@ std::string join(IterableOfStringifiables iterable_of_stringifiables, std::strin
 
 }
 
+
+// Variant visitor helper
+template<class... Ts> struct overloaded : Ts... { using Ts::operator()...; };
+template<class... Ts> overloaded(Ts...) -> overloaded<Ts...>;
+
+
+
+} // namespace lstk
+
 #define LSTK_THROW(exception_name, args) \
 throw exception_name{lstk::cat("Exception at ",__FILE__,":",__LINE__,args)}
 
