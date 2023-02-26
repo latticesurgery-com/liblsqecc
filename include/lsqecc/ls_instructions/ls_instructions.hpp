@@ -107,7 +107,7 @@ struct LSInstruction {
 
     size_t wait_at_most_for = DEFAULT_MAX_WAIT;
 
-    std::vector<PatchId> get_operating_patches() const;
+    tsl::ordered_set<PatchId> get_operating_patches() const;
     bool operator==(const LSInstruction&) const = default;
 };
 
