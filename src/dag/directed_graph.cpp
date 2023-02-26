@@ -1,5 +1,5 @@
 #include <lsqecc/dag/directed_graph.hpp>
-
+#include <lstk/lstk.hpp>
 #include <stdexcept>
 
 
@@ -110,7 +110,7 @@ Set<label_t> DirectedGraph::tails() const
 
 void DirectedGraph::topological_order_helper(label_t current, Set<label_t>& visited, std::vector<label_t>& order) const
 {
-    if(visited.count(current))return;
+    if(visited.count(current)) return;
 
     visited.insert(current);
 
@@ -133,14 +133,25 @@ std::vector<label_t> DirectedGraph::topological_order_tails_first() const
 
 
 
-std::ostream& DirectedGraph::to_graphviz(std::ostream& os) const
+std::ostream& DirectedGraph::to_graphviz(std::ostream& os, const Map<label_t,std::string>& nodes_contents) const
 {
 
     os << "digraph DirectedGraph {" << std::endl;
 
     // Print all nodes
     for(const auto& [label, neighbors] : edges_)
-        os << "  " << label << ";" << std::endl;
+    {
+        if(nodes_contents.contains(label))
+            os << "  "<<label << " [shape=\"plaintext\","
+               << "label=<"
+               << "<table cellborder=\"0\">"
+               <<   "<tr><td><b>" << lstk::str_replace(nodes_contents.at(label),'>',"&gt;") << "</b></td></tr>"
+               <<   "<tr><td><font color=\"darkgray\">node: " << label << "</font></td></tr>"
+               << "</table>"
+            << ">];" << std::endl;
+        else
+            os << "  " << label << ";" << std::endl;
+    }
 
     // Print all edges
     for(const auto& [from, neighbors] : edges_)

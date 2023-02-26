@@ -167,24 +167,49 @@ std::ostream& operator<<(std::ostream& os, const gates::Gate& gate)
 {
     using namespace gates;
 
-    if (const auto *basic_gate = std::get_if<BasicSingleQubitGate>(&gate))
-        return os << *basic_gate;
-    else if (const auto *rz_gate = std::get_if<RZ>(&gate))
+    if(const auto* bsqg = std::get_if<BasicSingleQubitGate>(&gate))
     {
-        LSTK_UNUSED(rz_gate);
-        LSTK_NOT_IMPLEMENTED;
+        return os << [&]() -> std::string {
+            switch (bsqg->gate_type)
+            {
+                case BasicSingleQubitGate::Type::X: return "x";
+                case BasicSingleQubitGate::Type::Z: return "z";
+                case BasicSingleQubitGate::Type::S: return "s";
+                case BasicSingleQubitGate::Type::T: return "t";
+                case BasicSingleQubitGate::Type::H: return "h";
+            }
+            LSTK_UNREACHABLE;
+        }() << " q[" << bsqg->target_qubit << "];";
     }
-    else
+    else if (const auto* rz = std::get_if<RZ>(&gate))
     {
-        const auto controlled_gate = std::get<ControlledGate>(gate);
-        if (std::holds_alternative<RZ>(controlled_gate.target_gate))
-            LSTK_NOT_IMPLEMENTED;
-        else if (std::holds_alternative<BasicSingleQubitGate>(controlled_gate.target_gate))
-            LSTK_NOT_IMPLEMENTED;
-        else
-            LSTK_NOT_IMPLEMENTED;
+        return os << "rz("<<rz->pi_fraction.num<<"pi/"<<rz->pi_fraction.den<<") q["<<rz->target_qubit<<"];";
     }
-    
+    else if (const auto* ctrld = std::get_if<ControlledGate>(&gate))
+    {
+        if(const auto* target_bsqg = std::get_if<BasicSingleQubitGate>(&ctrld->target_gate))
+        {
+            return os << [&]() -> std::string {
+                switch (target_bsqg->gate_type)
+                {
+                    case BasicSingleQubitGate::Type::X: return "cx";
+                    case BasicSingleQubitGate::Type::Z: return "cz";
+                    case BasicSingleQubitGate::Type::S:
+                    case BasicSingleQubitGate::Type::T:
+                    case BasicSingleQubitGate::Type::H:
+                    LSTK_NOT_IMPLEMENTED;
+                }
+                LSTK_UNREACHABLE;
+            }() << " q[" << ctrld->control_qubit << "],q[" << target_bsqg->target_qubit << "];";
+        }
+        else if(const auto* target_rz = std::get_if<RZ>(&ctrld->target_gate))
+        {
+            return os << "crz("<<target_rz->pi_fraction.num<<"pi/"<<target_rz->pi_fraction.den
+              << ") q[" << ctrld->control_qubit << "," << target_rz->target_qubit << "];";
+        }
+        LSTK_UNREACHABLE;
+    }
+    LSTK_UNREACHABLE;
 }
 
 
