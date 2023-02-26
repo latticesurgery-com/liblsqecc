@@ -1,17 +1,13 @@
 // @ts-ignore
 import LsqeccModule from "../wasm/lsqecc_emscripten.js";
 
+import type { Slices, Slice, VisualArrayCell } from "./slices";
+
 type inputType = "lli" | "qasm";
 
 type cnotCorrections = "never" | "always";
 
 type layoutGenerator = "compact" | "edpc" | "";
-
-interface slicerResult {
-    err: string;
-    exit_code: number;
-    output: string;
-}
 
 class Slicer {
     private constructor(protected _module: any) {}
@@ -40,7 +36,7 @@ class Slicer {
         inputType: inputType = "lli",
         layoutGenerator: layoutGenerator = "",
         cnotCorrections: cnotCorrections = "never"
-    ): slicerResult {
+    ): Slices {
         if (inputType !== "qasm" && inputType !== "lli") {
             throw new Error(`Invalid argument inputType: ${inputType}`);
         }
@@ -61,8 +57,14 @@ class Slicer {
             input
         );
 
-        return JSON.parse(result);
+        const resultAsJson = JSON.parse(result);
+        if (resultAsJson.exit_code !== 0) {
+            throw new Error(`Exit code ${resultAsJson.exit_code}: ${resultAsJson.err}`);
+        }
+
+        return JSON.parse(resultAsJson.output) as Slices;
     }
 }
 
 export default Slicer;
+export type { Slices, Slice, VisualArrayCell };

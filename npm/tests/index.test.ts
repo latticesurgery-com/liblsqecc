@@ -32,7 +32,7 @@ describe("Slicer", () => {
                 JSON.stringify({
                     err: "",
                     exit_code: 0,
-                    output: "some result",
+                    output: '{ "result": "something" }',
                 })
             );
         });
@@ -45,9 +45,7 @@ describe("Slicer", () => {
             );
 
             expect(result).toEqual({
-                err: "",
-                exit_code: 0,
-                output: "some result",
+                result: "something",
             });
         });
 
@@ -59,9 +57,7 @@ describe("Slicer", () => {
             );
 
             expect(result).toEqual({
-                err: "",
-                exit_code: 0,
-                output: "some result",
+                result: "something",
             });
         });
 
@@ -73,9 +69,7 @@ describe("Slicer", () => {
             );
 
             expect(result).toEqual({
-                err: "",
-                exit_code: 0,
-                output: "some result",
+                result: "something",
             });
         });
 
@@ -87,10 +81,21 @@ describe("Slicer", () => {
             );
 
             expect(result).toEqual({
-                err: "",
-                exit_code: 0,
-                output: "some result",
+                result: "something",
             });
         });
+    });
+
+    it("return error when exit code is not 0", () => {
+        mockRunSlicerProgramFromStrings.mockReturnValue(
+            JSON.stringify({
+                err: "some error",
+                exit_code: 100,
+                output: "",
+            })
+        );
+
+        const test = () => mockSlicer.run("some input");
+        expect(test).toThrow("Exit code 100: some error");
     });
 });
