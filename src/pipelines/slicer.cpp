@@ -122,7 +122,7 @@ namespace lsqecc
                 .required(false);
         parser.add_argument()
                 .names({"--printdag"})
-                .description("Prints a dependancy dag of the circuit. Modes: input (default), processedlli")
+                .description("Prints a dependancy dag of the circuit. Modes: input (default), qasm, processedlli")
                 .required(false);
         parser.add_argument()
                 .names({"--noslices"})
