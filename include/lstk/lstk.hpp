@@ -232,9 +232,10 @@ template<class T>
 tsl::ordered_set<T> set_intersection(const tsl::ordered_set<T>& a, const tsl::ordered_set<T>& b)
 {
     tsl::ordered_set<T> ret;
-    std::set_intersection(a.begin(), a.end(), b.begin(), b.end(), std::inserter(ret, ret.begin()));
+    for(const auto& item: a)
+        if(b.contains(item))
+            ret.insert(item);
     return ret;
-
 }
 
 

@@ -53,3 +53,23 @@ TEST(split_on, pi_over_group)
     ASSERT_EQ("2",splits1.at(1));
 }
 
+
+
+TEST(set_intersection, empty)
+{
+    tsl::ordered_set<int> a = {1,2,3};
+    tsl::ordered_set<int> b = {4,5,6};
+    tsl::ordered_set<int> c = lstk::set_intersection(a,b);
+    ASSERT_TRUE(c.empty());
+}
+
+TEST(set_intersection, non_empty)
+{
+    tsl::ordered_set<int> a = {1,2,3};
+    tsl::ordered_set<int> b = {2,3,4};
+    tsl::ordered_set<int> c = lstk::set_intersection(a,b);
+    ASSERT_EQ(2,c.size());
+    ASSERT_EQ(1,c.count(2));
+    ASSERT_EQ(1,c.count(3));
+}
+
