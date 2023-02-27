@@ -8,5 +8,6 @@ RotateSingleCellPatch 100
 HGate 1
 HGate 1
 RotateSingleCellPatch 1
+MultiBodyMeasure 0:Z,100:Z
 "
 echo "$INPUT" | lsqecc_slicer --printdag input
