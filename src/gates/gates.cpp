@@ -190,8 +190,10 @@ std::ostream& operator<<(std::ostream& os, const gates::Gate& gate)
                     }() << " q[" << ctrld.control_qubit << "],q[" << gate.target_qubit << "];";
                 },
                 [&](const RZ& rz){
-                    os << "crz("<<rz.pi_fraction.num<<"pi/"<<rz.pi_fraction.den
-                       << ") q[" << ctrld.control_qubit << "," << rz.target_qubit << "];";
+                    os << "crz(";
+                    if(rz.pi_fraction.num != 1)
+                        os << rz.pi_fraction.num << "*pi";
+                    os <<"pi/"<<rz.pi_fraction.den << ") q[" << ctrld.control_qubit << "],q[" << rz.target_qubit << "];";
                 },
             }, ctrld.target_gate);
         },
