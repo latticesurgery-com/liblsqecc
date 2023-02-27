@@ -49,6 +49,7 @@ include_directories(external/include)
 add_library(
         lsqecclib
         src/dag/directed_graph.cpp
+        src/dag/domain_dags.cpp
         src/gates/parse_gates.cpp
         src/gates/gates.cpp
         src/gates/gate_approximator.cpp
@@ -192,6 +193,7 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
             tests/main.cpp
             tests/lstk/lstk.cpp
             tests/dag/directed_graph.cpp
+            tests/dag/domain_dags.cpp
             tests/dag/dependency_dag.cpp
             tests/gates/gate_approximator.cpp
             tests/gates/parse_gates.cpp

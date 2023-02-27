@@ -12,6 +12,8 @@
 #include <vector>
 #include <string>
 #include <queue>
+#include <tsl/ordered_set.h>
+#include <unordered_set>
 #include <string_view>
 #include <functional>
 #include <optional>
@@ -223,6 +225,15 @@ std::string join(IterableOfStringifiables iterable_of_stringifiables, std::strin
     }
     return acc;
 }
+
+
+// set operations
+template<class T>
+tsl::ordered_set<T> set_intersection(const tsl::ordered_set<T>& a, const tsl::ordered_set<T>& b)
+{
+    tsl::ordered_set<T> ret;
+    std::set_intersection(a.begin(), a.end(), b.begin(), b.end(), std::inserter(ret, ret.begin()));
+    return ret;
 
 }
 

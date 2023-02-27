@@ -17,7 +17,7 @@ std::ostream& operator<<(std::ostream& os, const TestInstruction& instruction)
 
 
 namespace lsqecc::dag {
-template<> // TODO replace with concepts
+template<>
 struct CommutationTrait<TestInstruction> {
     static bool can_commute(const TestInstruction& lhs, const TestInstruction& rhs)
     {

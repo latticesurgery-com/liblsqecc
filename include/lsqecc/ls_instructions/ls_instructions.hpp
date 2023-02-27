@@ -5,10 +5,12 @@
 #include <stdexcept>
 #include <ostream>
 #include <unordered_set>
-#include <lsqecc/patches/patches.hpp>
 
 #include <tsl/ordered_map.h>
 #include <tsl/ordered_set.h>
+
+#include <lsqecc/patches/patches.hpp>
+#include <lsqecc/dag/commutation_trait.hpp>
 
 
 namespace lsqecc {
@@ -206,7 +208,23 @@ static inline std::string_view SingleQuibitOperatorName_to_string(SingleQubitOp:
 }
 
 
-}
+namespace dag {
+
+template<>
+struct CommutationTrait<LSInstruction>
+{
+    static bool can_commute(const LSInstruction& a, const LSInstruction& b)
+    {
+        return lstk::set_intersection(a.get_operating_patches(), b.get_operating_patches()).empty();
+    }
+};
+
+
+} // namespace dag
+
+
+
+} // namespace lsqecc
 
 
 #endif //LSQECC_LOGICAL_LATTICE_OPS_HPP

@@ -1,4 +1,7 @@
+#pragma once
+
 #include <lsqecc/dag/directed_graph.hpp>
+#include <lsqecc/dag/commutation_trait.hpp>
 
 #include <vector>
 #include <iostream>
@@ -10,23 +13,9 @@ namespace lsqecc::dag {
 /**
  * A Dag representing dependancies between instructions, where instruction can be LLI gates or any other
  * Kind of instruction that can be modelled as having dependancies.
+ * 
+ * Instructions must impmlement the CommutationTrait to take advantage of commutation and not be dependent
  */
-
-
-/**
- * Instructions need to implement this trait to take advantage of parallelism in a dependancy dag
- */
-template <typename Instruction>
-struct CommutationTrait
-{
-    // Requirement:
-    // Instructions commute -> maybe true
-    // Instructions don't commute -> definitely false
-    static bool can_commute(const Instruction& a, const Instruction& b)
-    {
-        return false;
-    }
-};
 
 
 template<typename Instruction>
