@@ -207,7 +207,7 @@ TEST(directed_graph, topological_order_tails_first_2)
        \ /
         9
 
-    The opological order chosen by the algorithm:
+    The topological order chosen by the algorithm:
         10
         |
         11
@@ -233,5 +233,17 @@ TEST(directed_graph, topological_order_tails_first_2)
         9
     */
     std::vector<label_t> topological_order{ 9, 5, 3, 4, 2, 0, 1, 8, 7, 6, 11, 10 };
+    ASSERT_EQ(topological_order, g.topological_order_tails_first());
+}
+
+
+TEST(directed_graph, topological_order_tails_first_3)
+{
+    DirectedGraph g;
+    g.add_node(1);
+    g.add_node(2);
+    g.add_node(3);
+    g.add_node(4);
+    std::vector<label_t> topological_order{1, 2, 3, 4};
     ASSERT_EQ(topological_order, g.topological_order_tails_first());
 }
