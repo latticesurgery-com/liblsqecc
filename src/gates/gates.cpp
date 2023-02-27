@@ -193,14 +193,14 @@ std::ostream& operator<<(std::ostream& os, const gates::Gate& gate)
         [&](const BasicSingleQubitGate& gate){
             os << [&]() -> std::string {
                 switch (gate.gate_type)
-            {
-                case BasicSingleQubitGate::Type::X: return "x";
-                case BasicSingleQubitGate::Type::Z: return "z";
-                case BasicSingleQubitGate::Type::S: return "s";
-                case BasicSingleQubitGate::Type::T: return "t";
-                case BasicSingleQubitGate::Type::H: return "h";
-            }
-            LSTK_UNREACHABLE;
+                {
+                    case BasicSingleQubitGate::Type::X: return "x";
+                    case BasicSingleQubitGate::Type::Z: return "z";
+                    case BasicSingleQubitGate::Type::S: return "s";
+                    case BasicSingleQubitGate::Type::T: return "t";
+                    case BasicSingleQubitGate::Type::H: return "h";
+                }
+                LSTK_UNREACHABLE;
             }() << " q[" << gate.target_qubit << "];";
         },
         [&](const RZ& rz){
@@ -211,14 +211,14 @@ std::ostream& operator<<(std::ostream& os, const gates::Gate& gate)
                 [&](const BasicSingleQubitGate& gate){
                     os << [&]() -> std::string {
                         switch (gate.gate_type)
-                {
-                    case BasicSingleQubitGate::Type::X: return "x";
-                    case BasicSingleQubitGate::Type::Z: return "z";
-                    case BasicSingleQubitGate::Type::S: return "s";
-                    case BasicSingleQubitGate::Type::T: return "t";
-                    case BasicSingleQubitGate::Type::H: return "h";
-                }
-                LSTK_UNREACHABLE;
+                        {
+                            case BasicSingleQubitGate::Type::X: return "x";
+                            case BasicSingleQubitGate::Type::Z: return "z";
+                            case BasicSingleQubitGate::Type::S: return "s";
+                            case BasicSingleQubitGate::Type::T: return "t";
+                            case BasicSingleQubitGate::Type::H: return "h";
+                        }
+                        LSTK_UNREACHABLE;
                     }() << " q[" << ctrld.control_qubit << "],q[" << gate.target_qubit << "];";
                 },
                 [&](const RZ& rz){
