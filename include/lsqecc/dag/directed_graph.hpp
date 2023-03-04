@@ -18,6 +18,9 @@ using Map = tsl::ordered_map<K, V>;
 template <typename T>
 using Set = tsl::ordered_set<T>;
 
+template <typename S, typename T>
+using SetOfPairs = Set<std::pair<S, T>, Hash=lstk::pair_hash<S,T>>;
+
 
 struct DirectedGraph 
 {
