@@ -17,7 +17,6 @@ namespace lsqecc::dag {
  * Instructions must impmlement the CommutationTrait to take advantage of commutation and not be dependent
  */
 
-
 template<typename Instruction>
 struct DependencyDag 
 {
@@ -46,11 +45,23 @@ struct DependencyDag
         return instructions;
     }
 
+    const std::vector<label_t>& get_proximate_heads() const
+    {
+        return proximate_heads_;
+    }
+
     Instruction take_instruction(label_t label)
     {
         Instruction instruction = std::move(instructions_.at(label));
         instructions_.erase(label);
+
+        for(label_t successor: graph_.successors(label))
+            proximate_heads_.push_back(successor);
         graph_.remove_node(label);
+
+        if(proximate_heads_.contains(label))
+            proximate_heads_.erase(label);
+        
         return instruction;
     }
 
@@ -70,8 +81,20 @@ struct DependencyDag
     }
 
 private:
+    
+    // The directed graph representing the instructions and their dependencies. The graph_ only tracks the dependencies
+    // while the actual instructions are stored in the instructions_ map
     DirectedGraph graph_;
     Map<label_t, Instruction> instructions_;
+    
+    // A set of pairs of instructions that have a proximate dependency relationship, these are instructions that must be
+    // executed on subsequent slices
+    SetOfPairs<label_t, label_t> proximate_dependencies_;
+    
+    // When an instruction that had proximate dependencies is removed, the dependant instructions are added to this set
+    // to track the fact that they must be added to the next slices
+    std::vector<label_t> proximate_heads_;
+    
     label_t current_label_ = 0;
 
     template<typename T>
