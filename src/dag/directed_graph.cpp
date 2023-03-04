@@ -49,6 +49,30 @@ void DirectedGraph::remove_node(label_t target)
     back_edges_.erase(target);
 }
 
+
+std::vector<label_t> DirectedGraph::successors(label_t label) const
+{
+    if(!edges_.count(label))
+        throw std::runtime_error("Cannot get successors of non-existing node: " + std::to_string(label));
+
+    std::vector<label_t> successors;
+    for(const auto& to : edges_.at(label))
+        successors.push_back(to);
+    return successors;
+}
+
+
+std::vector<label_t> DirectedGraph::predecessors(label_t label) const
+{
+    if(!edges_.count(label))
+        throw std::runtime_error("Cannot get predecessors of non-existing node: " + std::to_string(label));
+
+    std::vector<label_t> predecessors;
+    for(const auto& from : back_edges_.at(label))
+        predecessors.push_back(from);
+    return predecessors;
+}
+
 void DirectedGraph::subdivide(label_t target, const std::vector<label_t>& replacement)
 {
     if(!edges_.count(target))
