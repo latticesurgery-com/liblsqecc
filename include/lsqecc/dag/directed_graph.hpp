@@ -32,7 +32,11 @@ struct DirectedGraph
 
     void remove_node(label_t target);
 
-    void subdivide(label_t target, const std::vector<label_t>& replacement);
+    std::vector<label_t> successors(label_t label) const;
+
+    std::vector<label_t> predecessors(label_t label) const;
+
+    void expand(label_t target, const std::vector<label_t>& replacement);
 
     Set<label_t> heads() const;
 

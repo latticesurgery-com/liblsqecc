@@ -73,18 +73,18 @@ std::vector<label_t> DirectedGraph::predecessors(label_t label) const
     return predecessors;
 }
 
-void DirectedGraph::subdivide(label_t target, const std::vector<label_t>& replacement)
+void DirectedGraph::expand(label_t target, const std::vector<label_t>& replacement)
 {
     if(!edges_.count(target))
-        throw std::runtime_error("Cannot subdivide non-existing node: " + std::to_string(target));
+        throw std::runtime_error("Cannot expand non-existing node: " + std::to_string(target));
 
     if(replacement.size() < 2)
-        throw std::runtime_error("Cannot subdivide into less than 2 nodes");
+        throw std::runtime_error("Cannot expand into less than 2 nodes");
 
     for(const auto& label : replacement)
     {
         if(edges_.count(label))
-            throw std::runtime_error("Cannot subdivide into existing node");
+            throw std::runtime_error("Cannot expand into existing node");
     }
 
     for(std::size_t i = 1; i != replacement.size(); ++i)
