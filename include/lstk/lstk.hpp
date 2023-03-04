@@ -244,6 +244,17 @@ template<class... Ts> struct overloaded : Ts... { using Ts::operator()...; };
 template<class... Ts> overloaded(Ts...) -> overloaded<Ts...>;
 
 
+// A helper for hasking pairs
+
+template<class T1, class T2>
+struct pair_hash
+{
+    std::size_t operator()(const std::pair<T1, T2>& p) const
+    {
+        return std::hash<T1>()(p.first) ^ std::hash<T2>()(p.second);
+    }
+};
+
 
 } // namespace lstk
 
