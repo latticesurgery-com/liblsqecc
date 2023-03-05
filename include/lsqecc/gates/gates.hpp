@@ -2,6 +2,7 @@
 #define LSQECC_GATES_HPP
 
 #include <lsqecc/pauli_rotations/pauli_operator.hpp>
+#include <lsqecc/dag/commutation_trait.hpp>
 
 #include <cstdint>
 #include <variant>
@@ -100,7 +101,11 @@ MAKE_BASIC_GATE(H);
 
 
 inline constexpr ControlledGate CNOT(
-        QubitNum target_qubit, QubitNum control_qubit, CNOTType cnot_type, CNOTAncillaPlacement cnot_ancilla_placement){
+        QubitNum target_qubit, 
+        QubitNum control_qubit,
+        CNOTType cnot_type = CNOTType::ZX_WITH_MBM_CONTROL_FIRST,
+        CNOTAncillaPlacement cnot_ancilla_placement = CNOTAncillaPlacement::ANCILLA_NEXT_TO_CONTROL
+){
     return {control_qubit, X(target_qubit), cnot_type, cnot_ancilla_placement};
 }
 
@@ -114,12 +119,38 @@ using Gate = std::variant<BasicSingleQubitGate, RZ, ControlledGate>;
 std::vector<Gate> to_clifford_plus_t(const Gate& gate, double rz_precision_log_ten_negative);
 bool is_clifford_plus_t(const Gate& gate);
 
+tsl::ordered_set<QubitNum> get_operating_qubits(const Gate& gate);
+
+
 } // gates namespace
 
 
 std::string print_pi_fraction(const Fraction& fraction);
 std::ostream& operator<<(std::ostream& os, const gates::BasicSingleQubitGate& gate);
 std::ostream& operator<<(std::ostream& os, const gates::Gate& gate);
+
+
+namespace dag{
+template<>
+struct CommutationTrait<gates::Gate>
+{
+    static bool can_commute(const gates::Gate& a, const gates::Gate& b)
+    {
+        // Handle the case of controlled gates separately because the if they only overlap in the index they commute
+        if (const auto* ctrlg_a = std::get_if<gates::ControlledGate>(&a))
+            if (const auto* ctrlg_b = std::get_if<gates::ControlledGate>(&b))
+                if (ctrlg_a->control_qubit == ctrlg_b->control_qubit)
+                    return lstk::set_intersection(
+                        std::visit(gates::get_operating_qubits, ctrlg_a->target_gate), 
+                        std::visit(gates::get_operating_qubits, ctrlg_b->target_gate)
+                    ).empty();
+
+        return lstk::set_intersection(gates::get_operating_qubits(a), gates::get_operating_qubits(b)).empty();
+    }
+};
+
+}
+
 
 }
 
