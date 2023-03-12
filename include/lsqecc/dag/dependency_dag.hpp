@@ -55,7 +55,7 @@ struct DependencyDag
         return instructions;
     }
 
-    std::vector<label_t>& proximate_instructions()
+    std::vector<label_t> proximate_instructions()
     {
         std::vector<label_t> proximate_instructions;
         for (auto& label: proximate_heads_)
@@ -69,27 +69,31 @@ struct DependencyDag
     }
 
 
-    Instruction take_instruction(label_t label)
+    void erase_instruction(label_t label)
     {
         Instruction instruction = std::move(instructions_.at(label));
         instructions_.erase(label);
 
-        for(label_t successor: graph_.successors(label))
-            proximate_heads_.insert(successor);
+        for(label_t predecessor: graph_.predecessors(label))
+        {
+            if(proximate_dependencies_.contains({predecessor, label}))
+            {
+                proximate_heads_.insert(predecessor);
+                proximate_dependencies_.erase({predecessor, label});
+            }
+        }
         graph_.remove_node(label);
 
         if(proximate_heads_.contains(label))
             proximate_heads_.erase(label);
-        
-        return instruction;
     }
 
 
 
     void expand(label_t target, std::vector<Instruction>&& replacement, bool proximate)
     {
-        if(instructions.empty())
-            return;
+        if(replacement.empty())
+            throw std::logic_error("Cannot expand with an empty replacement");
 
         // First add the new instructions to the graph
         std::vector<label_t> new_lables;
@@ -102,7 +106,7 @@ struct DependencyDag
 
         graph_.expand(target, new_lables);
         if(proximate)
-            for (size_t i = 0; i < instructions.size()-1; i++)
+            for (size_t i = 0; i < replacement.size()-1; i++)
                 proximate_dependencies_.insert({new_lables[i], new_lables[i+1]});
         
 
@@ -140,7 +144,21 @@ struct DependencyDag
             ss << instruction;
             nodes_contents[label] = ss.str();
         }
-        return graph_.to_graphviz(os, nodes_contents);
+
+        std::stringstream ss;
+
+        if(proximate_heads_.size() > 0)
+            for (auto label: proximate_heads_)
+                ss << "  " << label << " [fontcolor=red];\n";
+
+        if(proximate_dependencies_.size() > 0)
+        {
+            for (const auto& [from, to]: proximate_dependencies_)
+                ss << "  " << from << " -> " << to << " [penwidth=5];\n";
+        }
+
+
+        return graph_.to_graphviz(os, nodes_contents, std::move(std::make_optional(std::move(ss))));
     }
 
 private:
