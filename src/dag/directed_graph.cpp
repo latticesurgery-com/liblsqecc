@@ -131,6 +131,11 @@ Set<label_t> DirectedGraph::tails() const
     return tails;
 }
 
+bool DirectedGraph::empty() const
+{
+    return edges_.empty();
+}
+
 
 void DirectedGraph::topological_order_helper(label_t current, Set<label_t>& visited, std::vector<label_t>& order) const
 {

@@ -29,9 +29,9 @@ struct CommutationTrait<TestInstruction> {
 TEST(dependency_dag, generate)
 {
     DependencyDag<TestInstruction> dag;
-    label_t instruction_A = dag.push_instruction({"A", 0});
-    label_t instruction_B = dag.push_instruction({"B", 1});
-    label_t instruction_C = dag.push_instruction({"C", 0});
+    label_t instruction_A = dag.push_instruction_based_on_commutation({"A", 0});
+    label_t instruction_B = dag.push_instruction_based_on_commutation({"B", 1});
+    label_t instruction_C = dag.push_instruction_based_on_commutation({"C", 0});
 
     ASSERT_TRUE(get_graph_for_testing(dag).heads().contains(instruction_A));
     ASSERT_TRUE(get_graph_for_testing(dag).heads().contains(instruction_B));
@@ -54,10 +54,10 @@ TEST(dependency_dag, generate)
 TEST(dependency_dag, generate_2)
 {
     DependencyDag<TestInstruction> dag;
-    dag.push_instruction({"A", 0});
-    dag.push_instruction({"B", 1});
-    dag.push_instruction({"C", 0});
-    dag.push_instruction({"D", 1});
+    dag.push_instruction_based_on_commutation({"A", 0});
+    dag.push_instruction_based_on_commutation({"B", 1});
+    dag.push_instruction_based_on_commutation({"C", 0});
+    dag.push_instruction_based_on_commutation({"D", 1});
 
     std::stringstream ss;
     ss << "digraph DirectedGraph {" << std::endl;
