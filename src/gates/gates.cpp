@@ -209,15 +209,14 @@ std::ostream& operator<<(std::ostream& os, const gates::Gate& gate)
         [&](const ControlledGate& ctrld){
             return std::visit(lstk::overloaded{
                 [&](const BasicSingleQubitGate& gate){
-                    os << [&]() -> std::string {
+                    os << "c" << [&]() -> std::string {
                         switch (gate.gate_type)
                         {
-                            case BasicSingleQubitGate::Type::X: return "cx";
-                            case BasicSingleQubitGate::Type::Z: return "cz";
-                            case BasicSingleQubitGate::Type::S:
-                            case BasicSingleQubitGate::Type::T:
-                            case BasicSingleQubitGate::Type::H:
-                            LSTK_NOT_IMPLEMENTED;
+                            case BasicSingleQubitGate::Type::X: return "x";
+                            case BasicSingleQubitGate::Type::Z: return "z";
+                            case BasicSingleQubitGate::Type::S: return "s";
+                            case BasicSingleQubitGate::Type::T: return "t";
+                            case BasicSingleQubitGate::Type::H: return "h";
                         }
                         LSTK_UNREACHABLE;
                     }() << " q[" << ctrld.control_qubit << "],q[" << gate.target_qubit << "];";
