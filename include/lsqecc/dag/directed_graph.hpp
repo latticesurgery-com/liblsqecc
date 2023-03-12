@@ -5,6 +5,8 @@
 #include <tsl/ordered_set.h>
 #include <vector>
 #include <ostream>
+#include <lstk/lstk.hpp>
+
 
 namespace lsqecc {
 
@@ -19,7 +21,7 @@ template <typename T>
 using Set = tsl::ordered_set<T>;
 
 template <typename S, typename T>
-using SetOfPairs = Set<std::pair<S, T>, Hash=lstk::pair_hash<S,T>>;
+using SetOfPairs = tsl::ordered_set<std::pair<S, T>, lstk::pair_hash<S,T>>;
 
 
 struct DirectedGraph 
@@ -41,6 +43,8 @@ struct DirectedGraph
     Set<label_t> heads() const;
 
     Set<label_t> tails() const;
+
+    bool empty() const;
 
     std::vector<label_t> topological_order_tails_first() const;
 

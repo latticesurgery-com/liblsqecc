@@ -127,7 +127,7 @@ TEST(directed_graph, expand)
     3   4
     */
 
-    g.subdivide(2, {100, 101, 102});
+    g.expand(2, {100, 101, 102});
 
     /* Graph after expand (all edges pointing downwards):
     0   1
