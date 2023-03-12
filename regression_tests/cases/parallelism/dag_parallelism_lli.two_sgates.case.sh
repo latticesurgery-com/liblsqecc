@@ -12,5 +12,5 @@ QrrQ
 "
 
 echo "$LAYOUT" > tmp.layout
-echo "$INPUT" | lsqecc_slicer -l tmp.layout -P dag > tmp.json
+echo "$INPUT" | lsqecc_slicer -l tmp.layout -P dag
 rm tmp.layout
