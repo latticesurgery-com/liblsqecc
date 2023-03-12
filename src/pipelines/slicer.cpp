@@ -285,7 +285,11 @@ namespace lsqecc
         if (parser.exists("layoutgenerator"))
         {
             if (parser.get<std::string>("layoutgenerator") == "compact")
+            {
                 layout = make_compact_layout(instruction_stream->core_qubits().size(), distillation_options);
+                instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
+                instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
+            }
             else if (parser.get<std::string>("layoutgenerator") == "edpc")
                 layout = make_edpc_layout(instruction_stream->core_qubits().size(), distillation_options);
             else
@@ -300,11 +304,9 @@ namespace lsqecc
         {
             // Default to Litinsiki's compact layout
             layout = make_compact_layout(instruction_stream->core_qubits().size(), distillation_options);
+            instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
+            instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
         }
-
-        // Some passess that are always applied. After this the LLI is finalized
-        instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
-        instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
 
         if(parser.exists("printlli"))
         {
