@@ -209,7 +209,7 @@ std::ostream& operator<<(std::ostream& os, const gates::Gate& gate)
         [&](const ControlledGate& ctrld){
             return std::visit(lstk::overloaded{
                 [&](const BasicSingleQubitGate& gate){
-                    os << [&]() -> std::string {
+                    os << "c" << [&]() -> std::string {
                         switch (gate.gate_type)
                         {
                             case BasicSingleQubitGate::Type::X: return "x";

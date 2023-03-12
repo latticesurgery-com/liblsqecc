@@ -81,7 +81,6 @@ jobs:
         shell: bash
         run: |
           cd regression_tests
-          ./suite.py || ./suite.py -s
           ./suite.py
 
 
