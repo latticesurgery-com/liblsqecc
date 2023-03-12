@@ -2,6 +2,7 @@
 #define LSQECC_DENSE_PATCH_COMPUTATION_HPP
 
 
+#include <lsqecc/dag/dependency_dag.hpp>
 #include <lsqecc/ls_instructions/ls_instructions.hpp>
 #include <lsqecc/ls_instructions/ls_instruction_stream.hpp>
 #include <lsqecc/patches/patch_computation_result.hpp>
@@ -17,7 +18,6 @@
 
 namespace lsqecc {
 
-
 using DenseSliceVisitor = std::function<void(const DenseSlice& slice)>;
 
 struct DensePatchComputationResult : public PatchComputationResult {
@@ -32,13 +32,19 @@ struct DensePatchComputationResult : public PatchComputationResult {
     size_t slice_count() const override {return slice_count_;}
 };
 
+
 DensePatchComputationResult run_through_dense_slices(
         LSInstructionStream&& instruction_stream,
+        bool dag_pipeline,
         const Layout& layout,
         Router& router,
         std::optional<std::chrono::seconds> timeout,
-        const DenseSliceVisitor& slice_visitor,
+        DenseSliceVisitor slice_visitor,
         bool graceful);
+
+
+static constexpr size_t MAX_INSTRUCTION_APPLICATION_RETRIES_DAG_PIPELINE = 10;
+
 
 }
 
