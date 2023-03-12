@@ -162,7 +162,11 @@ std::vector<label_t> DirectedGraph::topological_order_tails_first() const
 
 
 
-std::ostream& DirectedGraph::to_graphviz(std::ostream& os, const Map<label_t,std::string>& nodes_contents) const
+std::ostream& DirectedGraph::to_graphviz(
+    std::ostream& os,
+    const Map<label_t,std::string>& nodes_contents,
+    std::optional<std::stringstream>&& extra_content
+) const
 {
 
     os << "digraph DirectedGraph {" << std::endl;
@@ -186,6 +190,9 @@ std::ostream& DirectedGraph::to_graphviz(std::ostream& os, const Map<label_t,std
     for(const auto& [from, neighbors] : edges_)
         for(const auto& to : neighbors)
             os << "  " << from << " -> " << to << ";" << std::endl;
+
+    if(extra_content)
+        os << extra_content->str();
 
     os << "}" << std::endl;
     return os;
