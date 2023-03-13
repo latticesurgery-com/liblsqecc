@@ -191,6 +191,9 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
             return {std::make_unique<std::runtime_error>(lstk::cat("Patch ", p->target, " not on lattice")), {}};
         auto& target_patch = maybe_target_patch->get();
 
+        if (target_patch.is_active())
+            return {std::make_unique<std::runtime_error>(lstk::cat("Patch ", p->target, " is active")), {}};
+
         if (p->op==SingleQubitOp::Operator::S)
         {
             if (!merge_patches(slice, router, p->target, PauliOperator::X, p->target, PauliOperator::Z))
@@ -201,9 +204,6 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         }
         else
         {
-            if (target_patch.is_active())
-                return {std::make_unique<std::runtime_error>(lstk::cat("Patch ", p->target, " is active")), {}};
-
             target_patch.activity = PatchActivity::Unitary;
             if (p->op == SingleQubitOp::Operator::H)
                 target_patch.boundaries.instant_rotate();
