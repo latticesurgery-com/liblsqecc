@@ -56,7 +56,7 @@ private:
  *
  * Also assumes that all patches are LayoutHelpers::basic_square_patch
  */
-struct CachedNaiveDijkstraRouter : public Router
+struct CachedRouter : public Router
 {
 
     std::optional<RoutingRegion> find_routing_ancilla(
@@ -69,7 +69,7 @@ struct CachedNaiveDijkstraRouter : public Router
 
 
     void set_graph_search_provider(GraphSearchProvider graph_search_provider) override {
-        naive_router_.set_graph_search_provider(graph_search_provider);
+        router_impl_.set_graph_search_provider(graph_search_provider);
     };
 
     struct PathIdentifier {
@@ -88,7 +88,7 @@ struct CachedNaiveDijkstraRouter : public Router
 
 private:
 
-    CustomDPRouter naive_router_;
+    CustomDPRouter router_impl_;
     mutable std::unordered_map<PathIdentifier, RoutingRegion, PathIdentifier::hash> cached_routes_;
 };
 }

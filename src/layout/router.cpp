@@ -7,7 +7,7 @@ namespace lsqecc {
 
 
 
-CachedNaiveDijkstraRouter::PathIdentifier path_identifier_from_ids(
+CachedRouter::PathIdentifier path_identifier_from_ids(
         const Slice& slice,
         PatchId source,
         PauliOperator source_op,
@@ -16,10 +16,10 @@ CachedNaiveDijkstraRouter::PathIdentifier path_identifier_from_ids(
 {
     Cell source_cell = slice.get_cell_by_id(source).value();
     Cell target_cell = slice.get_cell_by_id(target).value();
-    return CachedNaiveDijkstraRouter::PathIdentifier{source_cell, source_op, target_cell, target_op};
+    return CachedRouter::PathIdentifier{source_cell, source_op, target_cell, target_op};
 }
 
-std::optional<RoutingRegion> CachedNaiveDijkstraRouter::find_routing_ancilla(const Slice& slice, PatchId source,
+std::optional<RoutingRegion> CachedRouter::find_routing_ancilla(const Slice& slice, PatchId source,
         PauliOperator source_op, PatchId target, PauliOperator target_op) const
 {
 
@@ -27,7 +27,7 @@ std::optional<RoutingRegion> CachedNaiveDijkstraRouter::find_routing_ancilla(con
     auto path_identifier = path_identifier_from_ids(slice, source, source_op, target, target_op);
     if(!cached_routes_.contains(path_identifier))
     {
-        auto route = naive_router_.find_routing_ancilla(
+        auto route = router_impl_.find_routing_ancilla(
                 slice, source, source_op, target, target_op);
         if(!route) return std::nullopt;
         cached_routes_.insert({path_identifier, *route});
@@ -38,8 +38,8 @@ std::optional<RoutingRegion> CachedNaiveDijkstraRouter::find_routing_ancilla(con
 
 
 
-size_t CachedNaiveDijkstraRouter::PathIdentifier::hash::operator()(
-        const CachedNaiveDijkstraRouter::PathIdentifier& x) const
+size_t CachedRouter::PathIdentifier::hash::operator()(
+        const CachedRouter::PathIdentifier& x) const
 {
     return 0
             + std::hash<uint32_t>()(static_cast<uint32_t>(x.source_op))

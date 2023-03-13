@@ -331,11 +331,10 @@ namespace lsqecc
             if(router_name =="graph_search") //TODO change to djikstra
                 LSTK_NOOP;// Already set
             else if(router_name=="graph_search_cached")
-                router = std::make_unique<CachedNaiveDijkstraRouter>();
+                router = std::make_unique<CachedRouter>();
             else
             {
                 err_stream <<"Unknown router: "<< router_name << std::endl;
-                err_stream << "Choices are: naive, naive_cached." << std::endl;
                 return -1;
             }
         }
@@ -343,7 +342,7 @@ namespace lsqecc
         router->set_graph_search_provider(GraphSearchProvider::Djikstra);
         if(parser.exists("g"))
         {
-            auto router_name = parser.get<std::string>("r");
+            auto router_name = parser.get<std::string>("g");
             if(router_name =="astar")
                 router->set_graph_search_provider(GraphSearchProvider::AStar);
             else if (router_name=="djikstra")
@@ -353,7 +352,6 @@ namespace lsqecc
             else
             {
                 err_stream<<"Unknown router: "<< router_name <<std::endl;
-                err_stream << "Choices are: custom, boost." << std::endl;
                 return -1;
             }
         }
