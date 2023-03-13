@@ -222,6 +222,9 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
         Vertex curr = frontier.top(); frontier.pop();
         size_t distance_to_curr = *predecessor_map[curr].distance;
 
+        if constexpr (heuristic != Heuristic::None)
+            if(curr == slice_searcher.target_vertex()) break;
+
         auto neighbours = slice_searcher.get_neighbours(curr);
         for(const Cell& neighbour_cell : neighbours)
         {
