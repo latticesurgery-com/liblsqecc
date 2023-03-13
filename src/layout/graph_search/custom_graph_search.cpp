@@ -18,15 +18,42 @@ struct PredecessorData {
     std::optional<size_t> distance;
     Vertex predecessor;
 
-    bool operator<(const PredecessorData other) const{
-        return distance.value_or(std::numeric_limits<size_t>::max())
-        < other.distance.value_or(std::numeric_limits<size_t>::max());
+    double cost() const
+    {
+        return static_cast<double>(distance.value_or(std::numeric_limits<size_t>::max()));
+    }
+};
+
+
+
+double euclidean_distance(Cell a, Cell b)
+{
+    return std::sqrt(std::pow(a.row - b.row, 2) + std::pow(a.col - b.col, 2));
+}
+
+template <class SliceSearcher, Heuristic heuristic>
+struct Comparator
+{
+    bool operator()(const Vertex& a, const Vertex& b) const
+    {
+        if constexpr(heuristic == Heuristic::None)
+        {
+            return predecessor_map[a].cost() > predecessor_map[b].cost();
+        }
+        else if constexpr(heuristic == Heuristic::Euclidean)
+        {
+            return predecessor_map[a].cost() + euclidean_distance(slice_searcher.cell_from_vertex(a), target_cell) >
+                   predecessor_map[b].cost() + euclidean_distance(slice_searcher.cell_from_vertex(b), target_cell);
+        }
+        else
+        {
+            throw std::runtime_error(lstk::cat("Unknown heuristic: ", static_cast<int>(heuristic)));
+        }
     }
 
-    bool operator>(const PredecessorData other) const{
-        return distance.value_or(std::numeric_limits<size_t>::max())
-        > other.distance.value_or(std::numeric_limits<size_t>::max());
-    }
+    Cell target_cell;
+    const std::vector<PredecessorData> predecessor_map;
+    const SliceSearcher& slice_searcher;
 };
 
 
@@ -143,7 +170,7 @@ private:
 
 
 
-template<bool want_cycle>
+template<bool want_cycle, Heuristic heuristic>
 std::optional<RoutingRegion> do_graph_search_route_ancilla(
         const Slice& slice,
         PatchId source,
@@ -164,10 +191,7 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
     for (size_t i = 0; i<predecessor_map.size(); ++i)
         predecessor_map[i] = PredecessorData{std::nullopt, i};
 
-
-    auto cmp = [&](Vertex a, Vertex b){
-        return predecessor_map[a] > predecessor_map[b]; // Note the inversion
-    };
+    Comparator<decltype(slice_searcher), heuristic> cmp{target_cell, predecessor_map, slice_searcher};
     std::priority_queue<Vertex, std::vector<Vertex>, decltype(cmp)> frontier(cmp);
 
     if constexpr (!want_cycle)
@@ -270,7 +294,9 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
     return reached_source ? std::make_optional(ret) : std::nullopt;
 }
 
-std::optional<RoutingRegion> graph_search_route_ancilla(
+
+template<Heuristic heuristic>
+std::optional<RoutingRegion> graph_search_route_ancilla_dispatc_heuristic(
         const Slice& slice,
         PatchId source,
         PauliOperator source_op,
@@ -278,10 +304,27 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
         PauliOperator target_op
 )
 {
-
     return source == target ?
-        do_graph_search_route_ancilla<true>(slice, source, source_op, target, target_op):
-        do_graph_search_route_ancilla<false>(slice, source, source_op, target, target_op);
+        do_graph_search_route_ancilla<true, heuristic>(slice, source, source_op, target, target_op):
+        do_graph_search_route_ancilla<false, heuristic>(slice, source, source_op, target, target_op);
+}
+
+
+std::optional<RoutingRegion> graph_search_route_ancilla(
+        const Slice& slice,
+        PatchId source,
+        PauliOperator source_op,
+        PatchId target,
+        PauliOperator target_op,
+        Heuristic heuristic
+)
+{
+    if(heuristic == Heuristic::None)
+        return graph_search_route_ancilla_dispatc_heuristic<Heuristic::None>(slice, source, source_op, target, target_op);
+    else if(heuristic == Heuristic::Euclidean)
+        return graph_search_route_ancilla_dispatc_heuristic<Heuristic::Euclidean>(slice, source, source_op, target, target_op);
+    else
+        throw std::runtime_error(lstk::cat("Unknown heuristic: ", static_cast<int>(heuristic)));
 }
 
 

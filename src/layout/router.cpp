@@ -51,16 +51,19 @@ size_t CachedNaiveDijkstraRouter::PathIdentifier::hash::operator()(
 }
 
 
-std::optional<RoutingRegion>NaiveDijkstraRouter::find_routing_ancilla(
+std::optional<RoutingRegion>CustomDPRouter::find_routing_ancilla(
         const Slice& slice, PatchId source, PauliOperator source_op, PatchId target, PauliOperator target_op) const
 {
 
+    using namespace lsqecc::custom_graph_search;
     switch(graph_search_provider_)
     {
     case GraphSearchProvider::Boost:
         return boost_graph_search::graph_search_route_ancilla(slice, source, source_op, target, target_op);
-    case GraphSearchProvider::Custom:
-        return custom_graph_search::graph_search_route_ancilla(slice, source, source_op, target, target_op);
+    case GraphSearchProvider::Djikstra:
+        return custom_graph_search::graph_search_route_ancilla(slice, source, source_op, target, target_op, Heuristic::None);
+    case GraphSearchProvider::AStar:
+        return custom_graph_search::graph_search_route_ancilla(slice, source, source_op, target, target_op, Heuristic::Euclidean);
     }
 
     LSTK_UNREACHABLE;

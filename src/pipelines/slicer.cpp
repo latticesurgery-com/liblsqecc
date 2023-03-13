@@ -110,7 +110,7 @@ namespace lsqecc
                 .required(false);
         parser.add_argument()
                 .names({"-g", "--graph-search"})
-                .description("Set a graph search provider: custom (default), boost (not always available)")
+                .description("Set a graph search provider: djikstra (default), astar, boost (not always available)")
                 .required(false);
         parser.add_argument()
                 .names({"--graceful"})
@@ -324,7 +324,7 @@ namespace lsqecc
                                           : std::nullopt;
 
 
-        std::unique_ptr<Router> router = std::make_unique<NaiveDijkstraRouter>();
+        std::unique_ptr<Router> router = std::make_unique<CustomDPRouter>();
         if(parser.exists("r"))
         {
             auto router_name = parser.get<std::string>("r");
@@ -340,12 +340,14 @@ namespace lsqecc
             }
         }
 
-        router->set_graph_search_provider(GraphSearchProvider::Custom);
+        router->set_graph_search_provider(GraphSearchProvider::Djikstra);
         if(parser.exists("g"))
         {
             auto router_name = parser.get<std::string>("r");
-            if(router_name =="custom")
-                LSTK_NOOP;// Already set
+            if(router_name =="astar")
+                router->set_graph_search_provider(GraphSearchProvider::AStar);
+            else if (router_name=="djikstra")
+                router->set_graph_search_provider(GraphSearchProvider::Djikstra);
             else if(router_name=="boost")
                 router->set_graph_search_provider(GraphSearchProvider::Boost);
             else
