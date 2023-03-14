@@ -7,31 +7,39 @@
 namespace lsqecc {
 
 
-std::vector<PatchId> LSInstruction::get_operating_patches() const
+tsl::ordered_set<PatchId> LSInstruction::get_operating_patches() const
 {
-    std::vector<PatchId> ret;
-    if (const auto* s = std::get_if<SinglePatchMeasurement>(&operation))
-    {
-        ret.push_back(s->target);
-    }
-    else if (const auto* p = std::get_if<SingleQubitOp>(&operation))
-    {
-        ret.push_back(p->target);
-    }
-    else if (const auto* m = std::get_if<MultiPatchMeasurement>(&operation))
-    {
-        for(auto pair : m->observable)
-        {
-            ret.push_back(pair.first);
+    tsl::ordered_set<PatchId> ret;
+    std::visit(lstk::overloaded{
+        [&](const SinglePatchMeasurement& op){
+            ret.insert(op.target);
+        },
+        [&](const MultiPatchMeasurement& op){
+            for(const auto& [patch_id, local_observable] : op.observable)
+                ret.insert(patch_id);
+        },
+        [&](const PatchInit& op){
+            ret.insert(op.target);
+        },
+        [&](const MagicStateRequest& op){
+            ret.insert(op.target);
+        },
+        [&](const SingleQubitOp& op){
+            ret.insert(op.target);
+        },
+        [&](const RotateSingleCellPatch& op){
+            ret.insert(op.target);
+        },
+        [&](const BusyRegion& op){
+            if(op.state_after_clearing.id) ret.insert(*op.state_after_clearing.id);
+        },
+        [&](const DeclareLogicalQubitPatches& op){
+            LSTK_NOOP;
+        },
+        [&](const auto& op){
+            LSTK_UNREACHABLE;
         }
-    }
-    else if (const auto* rotation = std::get_if<RotateSingleCellPatch>(&operation)) {
-        ret.push_back(rotation->target);
-    }
-    else {
-        const auto& mr = std::get<MagicStateRequest>(operation);
-        ret.push_back(mr.target);
-    }
+    }, operation);
     return ret;
 }
 

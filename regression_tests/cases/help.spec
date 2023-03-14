@@ -10,6 +10,7 @@ Options:
     -g, --graph-search     Set a graph search provider: custom (default), boost (not always available)
     --graceful             If there is an error when slicing, print the error and terminate
     --printlli             Output LLI instead of JSONs
+    --printdag             Prints a dependancy dag of the circuit. Modes: input (default), processedlli
     --noslices             Do the slicing but don't write the slices out
     --cnotcorrections      Add Xs and Zs to correct the the negative outcomes: never (default), always
     --layoutgenerator, -L  Automatically generates a layout for the given number of qubits. Incompatible with -l. Options:

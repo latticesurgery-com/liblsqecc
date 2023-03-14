@@ -49,18 +49,42 @@ void DirectedGraph::remove_node(label_t target)
     back_edges_.erase(target);
 }
 
-void DirectedGraph::subdivide(label_t target, const std::vector<label_t>& replacement)
+
+std::vector<label_t> DirectedGraph::successors(label_t label) const
+{
+    if(!edges_.count(label))
+        throw std::runtime_error("Cannot get successors of non-existing node: " + std::to_string(label));
+
+    std::vector<label_t> successors;
+    for(const auto& to : edges_.at(label))
+        successors.push_back(to);
+    return successors;
+}
+
+
+std::vector<label_t> DirectedGraph::predecessors(label_t label) const
+{
+    if(!edges_.count(label))
+        throw std::runtime_error("Cannot get predecessors of non-existing node: " + std::to_string(label));
+
+    std::vector<label_t> predecessors;
+    for(const auto& from : back_edges_.at(label))
+        predecessors.push_back(from);
+    return predecessors;
+}
+
+void DirectedGraph::expand(label_t target, const std::vector<label_t>& replacement)
 {
     if(!edges_.count(target))
-        throw std::runtime_error("Cannot subdivide non-existing node: " + std::to_string(target));
+        throw std::runtime_error("Cannot expand non-existing node: " + std::to_string(target));
 
     if(replacement.size() < 2)
-        throw std::runtime_error("Cannot subdivide into less than 2 nodes");
+        throw std::runtime_error("Cannot expand into less than 2 nodes");
 
     for(const auto& label : replacement)
     {
         if(edges_.count(label))
-            throw std::runtime_error("Cannot subdivide into existing node");
+            throw std::runtime_error("Cannot expand into existing node");
     }
 
     for(std::size_t i = 1; i != replacement.size(); ++i)
@@ -107,6 +131,11 @@ Set<label_t> DirectedGraph::tails() const
     return tails;
 }
 
+bool DirectedGraph::empty() const
+{
+    return edges_.empty();
+}
+
 
 void DirectedGraph::topological_order_helper(label_t current, Set<label_t>& visited, std::vector<label_t>& order) const
 {
@@ -133,7 +162,11 @@ std::vector<label_t> DirectedGraph::topological_order_tails_first() const
 
 
 
-std::ostream& DirectedGraph::to_graphviz(std::ostream& os, const Map<label_t,std::string>& nodes_contents) const
+std::ostream& DirectedGraph::to_graphviz(
+    std::ostream& os,
+    const Map<label_t,std::string>& nodes_contents,
+    std::optional<std::stringstream>&& extra_content
+) const
 {
 
     os << "digraph DirectedGraph {" << std::endl;
@@ -157,6 +190,9 @@ std::ostream& DirectedGraph::to_graphviz(std::ostream& os, const Map<label_t,std
     for(const auto& [from, neighbors] : edges_)
         for(const auto& to : neighbors)
             os << "  " << from << " -> " << to << ";" << std::endl;
+
+    if(extra_content)
+        os << extra_content->str();
 
     os << "}" << std::endl;
     return os;

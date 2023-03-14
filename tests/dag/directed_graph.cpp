@@ -112,7 +112,7 @@ TEST(directed_graph, heads_and_tails_after_update)
 }
 
 
-TEST(directed_graph, subdivide)
+TEST(directed_graph, expand)
 {
     DirectedGraph g;
     g.add_edge(0, 2);
@@ -127,9 +127,9 @@ TEST(directed_graph, subdivide)
     3   4
     */
 
-    g.subdivide(2, {100, 101, 102});
+    g.expand(2, {100, 101, 102});
 
-    /* Graph after subdivide (all edges pointing downwards):
+    /* Graph after expand (all edges pointing downwards):
     0   1
      \ /
      100

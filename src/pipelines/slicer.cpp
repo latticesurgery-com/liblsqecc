@@ -1,5 +1,6 @@
 #include <lsqecc/pipelines/slicer.hpp>
 
+#include <lsqecc/dag/domain_dags.hpp>
 #include <lsqecc/gates/parse_gates.hpp>
 #include <lsqecc/gates/clifford_plus_t_conversion_stream.hpp>
 #include <lsqecc/ls_instructions/ls_instruction_stream.hpp>
@@ -55,7 +56,9 @@ namespace lsqecc
     };
 
 
-    // TODO: Resume by getting the slicer to accept stdin as input
+    enum class PrintDagMode {
+        None, Input, ProcessedLli
+     };
 
 
     DistillationOptions make_distillation_options(argparse::ArgumentParser& parser)
@@ -116,6 +119,10 @@ namespace lsqecc
         parser.add_argument()
                 .names({"--printlli"})
                 .description("Output LLI instead of JSONs")
+                .required(false);
+        parser.add_argument()
+                .names({"--printdag"})
+                .description("Prints a dependancy dag of the circuit. Modes: input (default), processedlli")
                 .required(false);
         parser.add_argument()
                 .names({"--noslices"})
@@ -194,6 +201,22 @@ namespace lsqecc
             }
         }
 
+        PrintDagMode print_dag_mode = PrintDagMode::None;
+        if (parser.exists("printdag"))
+        {
+            auto mode_arg = parser.get<std::string>("printdag");
+            if (mode_arg=="input" || mode_arg=="")
+                print_dag_mode = PrintDagMode::Input;
+            else if (mode_arg=="processedlli")
+                print_dag_mode = PrintDagMode::ProcessedLli;
+            else
+            {
+                err_stream << "Unknown print dag mode " << mode_arg << std::endl;
+                return -1;
+            }
+        }
+        
+
         std::reference_wrapper<std::istream> input_file_stream = std::ref(in_stream);
         std::unique_ptr<std::ifstream> _file_to_read_store;
         if(parser.exists("i"))
@@ -215,10 +238,24 @@ namespace lsqecc
             instruction_stream = std::make_unique<LSInstructionStreamFromFile>(input_file_stream.get());
             id_generator.set_start(*std::max(instruction_stream->core_qubits().begin(),
                                              instruction_stream->core_qubits().end()));
+            if( print_dag_mode == PrintDagMode::Input )
+            {
+                auto dag = dag::full_dependency_dag_from_instruction_stream(*instruction_stream);
+                dag.to_graphviz(out_stream);
+                return 0;
+            }
         }
         if(parser.exists("q"))
         {
             gate_stream = std::make_unique<GateStreamFromFile>(input_file_stream.get());
+
+            if (print_dag_mode == PrintDagMode::Input)
+            {
+                auto dag = dag::full_dependency_dag_from_gate_stream(*gate_stream);
+                dag.to_graphviz(out_stream);
+                return 0;
+            }
+
             gate_stream = std::make_unique<CliffordPlusTConversionStream>(
                 std::move(gate_stream),
                 parser.exists("rzprecision") ? parser.get<double>("rzprecision") : k_default_precision_log_ten_negative
@@ -237,16 +274,22 @@ namespace lsqecc
                     return -1;
                 }
             }
+
             id_generator.set_start(gate_stream->get_qreg().size);
-            instruction_stream = std::make_unique<LSInstructionStreamFromGateStream>(*gate_stream, cnot_correction_mode, id_generator);
+            instruction_stream = std::make_unique<LSInstructionStreamFromGateStream>(*gate_stream, cnot_correction_mode, id_generator);    
         }
+
 
         std::unique_ptr<Layout> layout;
         DistillationOptions distillation_options = make_distillation_options(parser);
         if (parser.exists("layoutgenerator"))
         {
             if (parser.get<std::string>("layoutgenerator") == "compact")
+            {
                 layout = make_compact_layout(instruction_stream->core_qubits().size(), distillation_options);
+                instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
+                instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
+            }
             else if (parser.get<std::string>("layoutgenerator") == "edpc")
                 layout = make_edpc_layout(instruction_stream->core_qubits().size(), distillation_options);
             else
@@ -261,15 +304,18 @@ namespace lsqecc
         {
             // Default to Litinsiki's compact layout
             layout = make_compact_layout(instruction_stream->core_qubits().size(), distillation_options);
+            instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
+            instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
         }
-
-        // Some passess that are always applied. After this the LLI is finalized
-        instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
-        instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
 
         if(parser.exists("printlli"))
         {
             print_all_ls_instructions_to_string(out_stream, std::move(instruction_stream));
+            return 0;
+        } else if (print_dag_mode == PrintDagMode::ProcessedLli)
+        {
+            auto dag = dag::full_dependency_dag_from_instruction_stream(*instruction_stream);
+            dag.to_graphviz(out_stream);
             return 0;
         }
 

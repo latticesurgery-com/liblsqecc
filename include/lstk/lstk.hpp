@@ -12,6 +12,8 @@
 #include <vector>
 #include <string>
 #include <queue>
+#include <tsl/ordered_set.h>
+#include <unordered_set>
 #include <string_view>
 #include <functional>
 #include <optional>
@@ -224,7 +226,37 @@ std::string join(IterableOfStringifiables iterable_of_stringifiables, std::strin
     return acc;
 }
 
+
+// set operations
+template<class T>
+tsl::ordered_set<T> set_intersection(const tsl::ordered_set<T>& a, const tsl::ordered_set<T>& b)
+{
+    tsl::ordered_set<T> ret;
+    for(const auto& item: a)
+        if(b.contains(item))
+            ret.insert(item);
+    return ret;
 }
+
+
+// Variant visitor helper
+template<class... Ts> struct overloaded : Ts... { using Ts::operator()...; };
+template<class... Ts> overloaded(Ts...) -> overloaded<Ts...>;
+
+
+// A helper for hasking pairs
+
+template<class T1, class T2>
+struct pair_hash
+{
+    std::size_t operator()(const std::pair<T1, T2>& p) const
+    {
+        return std::hash<T1>()(p.first) ^ std::hash<T2>()(p.second);
+    }
+};
+
+
+} // namespace lstk
 
 #define LSTK_THROW(exception_name, args) \
 throw exception_name{lstk::cat("Exception at ",__FILE__,":",__LINE__,args)}

@@ -1,8 +1,12 @@
+#pragma once
+
 #include <algorithm>
 #include <tsl/ordered_map.h>
 #include <tsl/ordered_set.h>
 #include <vector>
 #include <ostream>
+#include <lstk/lstk.hpp>
+
 
 namespace lsqecc {
 
@@ -16,6 +20,9 @@ using Map = tsl::ordered_map<K, V>;
 template <typename T>
 using Set = tsl::ordered_set<T>;
 
+template <typename S, typename T>
+using SetOfPairs = tsl::ordered_set<std::pair<S, T>, lstk::pair_hash<S,T>>;
+
 
 struct DirectedGraph 
 {
@@ -27,15 +34,21 @@ struct DirectedGraph
 
     void remove_node(label_t target);
 
-    void subdivide(label_t target, const std::vector<label_t>& replacement);
+    std::vector<label_t> successors(label_t label) const;
+
+    std::vector<label_t> predecessors(label_t label) const;
+
+    void expand(label_t target, const std::vector<label_t>& replacement);
 
     Set<label_t> heads() const;
 
     Set<label_t> tails() const;
 
+    bool empty() const;
+
     std::vector<label_t> topological_order_tails_first() const;
 
-    std::ostream& to_graphviz(std::ostream& os, const Map<label_t,std::string>& nodes_contents) const;
+    std::ostream& to_graphviz(std::ostream& os, const Map<label_t,std::string>& nodes_contents, std::optional<std::stringstream>&& extra_content = std::nullopt) const;
 
 private:
     // Minimal definition
