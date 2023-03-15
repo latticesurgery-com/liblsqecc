@@ -42,6 +42,14 @@ std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_cnot_instructio
         place_ancilla_next_to = std::make_pair(target_id, PauliOperator::X);
 
     std::queue<LSInstruction> next_instructions;
+
+    // TRL 03/15/23: Pushing instructions for BELL_BASED_C CNOT type (control-first with odd number of intervening tiles)
+    // TRL 03/15/23: For now, we are going to accomplish this using the already-implemented instruction set
+    if (cnot_type == gates::CNOTType::BELL_BASED_C) {
+        // TRL 03/15/23: Find route here? 
+
+    }
+
     PatchId ancilla_id = id_generator_.new_id();
     next_instructions.push({.operation={PatchInit{
             ancilla_id, PatchInit::InitializeableStates::Plus, place_ancilla_next_to}}});
