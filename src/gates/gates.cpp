@@ -84,7 +84,7 @@ bool is_clifford_plus_t(const Gate& gate)
     }
 }
 
-// TRL 03/15/23: Added Bell-Based CNOTTypes
+// TRL 03/15/23: Added Bell-Based CNOTType
 std::string_view CNOTType_toString(CNOTType cnot_type)
 {
     using namespace std::string_view_literals;
@@ -94,14 +94,8 @@ std::string_view CNOTType_toString(CNOTType cnot_type)
             return "ZXWithMBMControlFirst"sv;
         case CNOTType::ZX_WITH_MBM_TARGET_FIRST:
             return "ZXWithMBMTargetFirst"sv;
-        case CNOTType::BELL_BASED_A:
-            return "BellBasedA"sv;
-        case CNOTType::BELL_BASED_B:
-            return "BellBasedB"sv;
-        case CNOTType::BELL_BASED_C:
-            return "BellBasedC"sv;
-        case CNOTType::BELL_BASED_D:
-            return "BellBasedD"sv;
+        case CNOTType::BELL_BASED:
+            return "BellBased"sv;
     }
     LSTK_UNREACHABLE;
 }
@@ -111,10 +105,7 @@ std::optional<CNOTType> CNOTType_fromString(std::string_view s)
 {
     if (s == CNOTType_toString(CNOTType::ZX_WITH_MBM_CONTROL_FIRST)) return CNOTType::ZX_WITH_MBM_CONTROL_FIRST;
     if (s == CNOTType_toString(CNOTType::ZX_WITH_MBM_TARGET_FIRST)) return CNOTType::ZX_WITH_MBM_TARGET_FIRST;
-    if (s == CNOTType_toString(CNOTType::BELL_BASED_A)) return CNOTType::BELL_BASED_A;
-    if (s == CNOTType_toString(CNOTType::BELL_BASED_B)) return CNOTType::BELL_BASED_B;
-    if (s == CNOTType_toString(CNOTType::BELL_BASED_C)) return CNOTType::BELL_BASED_C;
-    if (s == CNOTType_toString(CNOTType::BELL_BASED_D)) return CNOTType::BELL_BASED_D;
+    if (s == CNOTType_toString(CNOTType::BELL_BASED)) return CNOTType::BELL_BASED;
 
     else return std::nullopt;
 }

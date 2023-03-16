@@ -51,6 +51,15 @@ struct PatchInit {
 
     bool operator==(const PatchInit&) const = default;
 };
+// TRL 03/16/23: Implementing BellPairInit as a new LLI
+struct BellPairInit {
+    PatchId side1;
+    PatchId side2; 
+    PatchInit::PlaceNexTo loc1;
+    PatchInit::PlaceNexTo loc2;
+
+    bool operator==(const BellPairInit&) const = default;
+};
 
 struct MagicStateRequest {
     PatchId target;
@@ -101,6 +110,8 @@ struct LSInstruction {
             SinglePatchMeasurement,
             MultiPatchMeasurement,
             PatchInit,
+            // TRL 03/16/23: Implementing BellPairInit as a new LLI
+            BellPairInit,
             MagicStateRequest,
             SingleQubitOp,
             RotateSingleCellPatch,
@@ -126,6 +137,8 @@ std::ostream& operator<<(std::ostream& os, const DeclareLogicalQubitPatches& ins
 std::ostream& operator<<(std::ostream& os, const SinglePatchMeasurement& instruction);
 std::ostream& operator<<(std::ostream& os, const MultiPatchMeasurement& instruction);
 std::ostream& operator<<(std::ostream& os, const PatchInit& instruction);
+// TRL 03/16/23: Implementing BellPairInit as a new LLI
+std::ostream& operator<<(std::ostream& os, const BellPairInit& instruction);
 std::ostream& operator<<(std::ostream& os, const MagicStateRequest& instruction);
 std::ostream& operator<<(std::ostream& os, const SingleQubitOp& instruction);
 std::ostream& operator<<(std::ostream& os, const RotateSingleCellPatch& instruction);
@@ -154,6 +167,11 @@ struct LSInstructionPrint<MultiPatchMeasurement>{
 template<>
 struct LSInstructionPrint<PatchInit>{
     static constexpr std::string_view name = "Init";
+};
+// TRL 03/16/23: Implementing BellPairInit as a new LLI
+template<>
+struct LSInstructionPrint<BellPairInit>{
+    static constexpr std::string_view name = "BellPairInit";
 };
 
 template<>

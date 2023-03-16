@@ -35,68 +35,75 @@ std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_cnot_instructio
     // Control is green -> smooth -> measures Z otimes Z
     // Target is red -> rough -> measures X otimes X
 
+    std::queue<LSInstruction> next_instructions;
+
+    // TRL 03/15/23: Pushing instructions for BELL_BASED CNOT type (control-first with odd number of intervening tiles)
+    // TRL 03/16/23: Implementing using BellPairInit as a new LLI
+    if (cnot_type == gates::CNOTType::BELL_BASED) {
+
+        // next_instructions.push({.operation={
+        //         BellPairInit{id1, id2, control, target}}})
+
+    }
+    
+    else {
+
     std::optional<PatchInit::PlaceNexTo> place_ancilla_next_to;
     if(cnot_ancilla_placement == gates::CNOTAncillaPlacement::ANCILLA_NEXT_TO_CONTROL)
         place_ancilla_next_to = std::make_pair(control_id, PauliOperator::Z);
     else if(cnot_ancilla_placement == gates::CNOTAncillaPlacement::ANCILLA_NEXT_TO_TARGET)
         place_ancilla_next_to = std::make_pair(target_id, PauliOperator::X);
 
-    std::queue<LSInstruction> next_instructions;
+        PatchId ancilla_id = id_generator_.new_id();
+        next_instructions.push({.operation={PatchInit{
+                ancilla_id, PatchInit::InitializeableStates::Plus, place_ancilla_next_to}}});
 
-    // TRL 03/15/23: Pushing instructions for BELL_BASED_C CNOT type (control-first with odd number of intervening tiles)
-    // TRL 03/15/23: For now, we are going to accomplish this using the already-implemented instruction set
-    if (cnot_type == gates::CNOTType::BELL_BASED_C) {
-        // TRL 03/15/23: Find route here? 
+        if(cnot_type == gates::CNOTType::ZX_WITH_MBM_CONTROL_FIRST){
+                next_instructions.push({.operation={
+                        MultiPatchMeasurement{.observable={
+                                {control_id, PauliOperator::Z},
+                                {ancilla_id, PauliOperator::Z},
+                        },.is_negative=false}}});
+                if(cnot_correction_mode == CNOTCorrectionMode::ALWAYS)
+                next_instructions.push({.operation={
+                        SingleQubitOp{ancilla_id, SingleQubitOp::Operator::X}
+                }});
+                next_instructions.push({.operation={
+                        MultiPatchMeasurement{.observable={
+                                {ancilla_id,PauliOperator::X},
+                                {target_id,PauliOperator::X},
+                        },.is_negative=false}}});
+                if(cnot_correction_mode == CNOTCorrectionMode::ALWAYS)
+                next_instructions.push({.operation={
+                        SingleQubitOp{control_id, SingleQubitOp::Operator::Z}
+                }});
+        }
+        else if(cnot_type == gates::CNOTType::ZX_WITH_MBM_TARGET_FIRST){
+                next_instructions.push({.operation={
+                        MultiPatchMeasurement{.observable={
+                                {ancilla_id,PauliOperator::X},
+                                {target_id,PauliOperator::X},
+                        },.is_negative=false}}});
+                if(cnot_correction_mode == CNOTCorrectionMode::ALWAYS)
+                next_instructions.push({.operation={
+                        SingleQubitOp{ancilla_id, SingleQubitOp::Operator::Z}
+                }});
+                next_instructions.push({.operation={
+                        MultiPatchMeasurement{.observable={
+                                {control_id, PauliOperator::Z},
+                                {ancilla_id, PauliOperator::Z},
+                        },.is_negative=false}}});
+                if(cnot_correction_mode == CNOTCorrectionMode::ALWAYS)
+                next_instructions.push({.operation={
+                        SingleQubitOp{target_id, SingleQubitOp::Operator::X}
+                }});
+        }
+        else LSTK_UNREACHABLE;
+
+        next_instructions.push({.operation={SinglePatchMeasurement{ancilla_id, PauliOperator::X, false}}});
 
     }
 
-    PatchId ancilla_id = id_generator_.new_id();
-    next_instructions.push({.operation={PatchInit{
-            ancilla_id, PatchInit::InitializeableStates::Plus, place_ancilla_next_to}}});
-
-    if(cnot_type == gates::CNOTType::ZX_WITH_MBM_CONTROL_FIRST){
-        next_instructions.push({.operation={
-                MultiPatchMeasurement{.observable={
-                        {control_id, PauliOperator::Z},
-                        {ancilla_id, PauliOperator::Z},
-                },.is_negative=false}}});
-        if(cnot_correction_mode == CNOTCorrectionMode::ALWAYS)
-            next_instructions.push({.operation={
-                    SingleQubitOp{ancilla_id, SingleQubitOp::Operator::X}
-            }});
-        next_instructions.push({.operation={
-                MultiPatchMeasurement{.observable={
-                        {ancilla_id,PauliOperator::X},
-                        {target_id,PauliOperator::X},
-                },.is_negative=false}}});
-        if(cnot_correction_mode == CNOTCorrectionMode::ALWAYS)
-            next_instructions.push({.operation={
-                    SingleQubitOp{control_id, SingleQubitOp::Operator::Z}
-            }});
-    }
-    else if(cnot_type == gates::CNOTType::ZX_WITH_MBM_TARGET_FIRST){
-        next_instructions.push({.operation={
-                MultiPatchMeasurement{.observable={
-                        {ancilla_id,PauliOperator::X},
-                        {target_id,PauliOperator::X},
-                },.is_negative=false}}});
-        if(cnot_correction_mode == CNOTCorrectionMode::ALWAYS)
-            next_instructions.push({.operation={
-                    SingleQubitOp{ancilla_id, SingleQubitOp::Operator::Z}
-            }});
-        next_instructions.push({.operation={
-                MultiPatchMeasurement{.observable={
-                        {control_id, PauliOperator::Z},
-                        {ancilla_id, PauliOperator::Z},
-                },.is_negative=false}}});
-        if(cnot_correction_mode == CNOTCorrectionMode::ALWAYS)
-            next_instructions.push({.operation={
-                    SingleQubitOp{target_id, SingleQubitOp::Operator::X}
-            }});
-    }
-    else LSTK_UNREACHABLE;
-
-    next_instructions.push({.operation={SinglePatchMeasurement{ancilla_id, PauliOperator::X, false}}});
 
     return next_instructions;
 }

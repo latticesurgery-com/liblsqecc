@@ -106,6 +106,29 @@ LSInstruction parse_ls_instruction(std::string_view line)
         auto patch_id = parse_patch_id(get_next_arg());
         return {RotateSingleCellPatch{patch_id}};
     }
+    // TRL 03/16/23: Implementing BellPairInit as a new LLI
+    else if (instruction == "BellPairInit" || instruction == "8")
+    {
+        auto side1 = parse_patch_id(get_next_arg());
+        auto side2 = parse_patch_id(get_next_arg());
+        auto patches_dict = get_next_arg();
+        auto dict_pairs = lstk::split_on(patches_dict, ',');
+        std::vector<PatchInit::PlaceNexTo> locs;
+        size_t counter = 0;
+        for (auto pair: dict_pairs) 
+        {
+            auto assoc = lstk::split_on(pair, ':'); 
+            if (assoc.size()!=2)
+                throw InstructionParseException{std::string{"BellPairInit dict_pairs not in key pair format:"}+std::string{pair}};
+
+            if (counter > 1) {
+                throw InstructionParseException{std::string{"BellPairInit more than two locations specified."}};
+            }
+            locs.push_back(std::make_pair(parse_patch_id(assoc[0]), PauliOperator_from_string(assoc[1])));
+            counter++;
+        }
+        return {BellPairInit{side1, side2, locs[0], locs[1]}};
+    }
     else
     {
         throw InstructionParseException(std::string{"Operation not supported: "}+std::string{instruction});

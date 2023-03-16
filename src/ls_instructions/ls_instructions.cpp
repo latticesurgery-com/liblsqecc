@@ -21,6 +21,11 @@ tsl::ordered_set<PatchId> LSInstruction::get_operating_patches() const
         [&](const PatchInit& op){
             ret.insert(op.target);
         },
+        // TRL 03/16/23: Implementing BellPairInit as a new LLI
+        [&](const BellPairInit& op) {
+            ret.insert(op.side1);
+            ret.insert(op.side2);
+        },
         [&](const MagicStateRequest& op){
             ret.insert(op.target);
         },
@@ -83,6 +88,15 @@ std::ostream& operator<<(std::ostream& os, const PatchInit& instruction)
 
     if (instruction.place_next_to)
         os << " " << instruction.place_next_to->first << ":" << PauliOperator_to_string(instruction.place_next_to->second);
+
+    return os;
+}
+// TRL 03/16/23: Implementing BellPairInit as a new LLI
+std::ostream& operator<<(std::ostream& os, const BellPairInit& instruction)
+{
+    os << LSInstructionPrint<BellPairInit>::name
+        << " " << instruction.side1 << " " << instruction.side2 << " " << instruction.loc1.first << ":" << PauliOperator_to_string(instruction.loc1.second)
+        << "," << instruction.loc2.first << ":" << PauliOperator_to_string(instruction.loc2.second);
 
     return os;
 }

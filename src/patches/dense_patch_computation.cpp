@@ -244,6 +244,11 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
 
         return {nullptr, {}};
     }
+    // TRL 03/16/23: Implementing BellPairInit as a new LLI
+    else if (const auto* bell_init = std::get_if<BellPairInit>(&instruction.operation))
+    {
+
+    }
     else if (const auto* rotation = std::get_if<RotateSingleCellPatch>(&instruction.operation))
     {
         if (!slice.has_patch(rotation->target))
