@@ -245,9 +245,31 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         return {nullptr, {}};
     }
     // TRL 03/16/23: Implementing BellPairInit as a new LLI
-    else if (const auto* bell_init = std::get_if<BellPairInit>(&instruction.operation))
+    else if (const auto* bell_init = std::get_if<BellPairInit>(&instruction.operation)) 
     {
 
+        // TRL 03/17/23: Placing ancillae in the desired locations
+        std::vector<PatchId> ids{bell_init->side1, bell_init->side2};
+        std::vector<std::optional<Cell>> locs;
+        locs.push_back(place_ancilla_next_to(slice, bell_init->loc1.first, bell_init->loc1.second));
+        locs.push_back(place_ancilla_next_to(slice, bell_init->loc2.first, bell_init->loc2.second));
+        size_t counter = 0;
+        for (const std::optional<Cell>& loc : locs) {
+            if (!loc) return {std::make_unique<std::runtime_error>("Could not allocate Bell state"), {}};
+            slice.place_sparse_patch(LayoutHelpers::basic_square_patch(*loc), false);
+            slice.patch_at(*loc)->id = ids[counter];
+            counter++;
+        }
+
+        return {nullptr, {}};
+
+        // TRL 03/17/23: Will need to make the region busy for the appropriate number of time steps
+
+        // TRL 03/17/23: Will need to use router to enforce an optimal path between the qubits in question
+
+        // TRL 03/17/23: Will need to enforce validity w/r/t even/odd path length
+
+        // TRL 03/17/23: Perhaps should implement options for compiling to local vs nonlocal instruction sets
     }
     else if (const auto* rotation = std::get_if<RotateSingleCellPatch>(&instruction.operation))
     {
