@@ -11,7 +11,8 @@ namespace lsqecc {
 enum class GraphSearchProvider
 {
     Boost,
-    Custom
+    Djikstra,
+    AStar
 };
 
 
@@ -30,7 +31,7 @@ struct Router {
 };
 
 
-struct NaiveDijkstraRouter : public Router
+struct CustomDPRouter : public Router
 {
     std::optional<RoutingRegion> find_routing_ancilla(
             const Slice& slice,
@@ -45,7 +46,7 @@ struct NaiveDijkstraRouter : public Router
     };
 
 private:
-    GraphSearchProvider graph_search_provider_ = GraphSearchProvider::Custom;
+    GraphSearchProvider graph_search_provider_ = GraphSearchProvider::Djikstra;
 
 };
 
@@ -55,7 +56,7 @@ private:
  *
  * Also assumes that all patches are LayoutHelpers::basic_square_patch
  */
-struct CachedNaiveDijkstraRouter : public Router
+struct CachedRouter : public Router
 {
 
     std::optional<RoutingRegion> find_routing_ancilla(
@@ -68,7 +69,7 @@ struct CachedNaiveDijkstraRouter : public Router
 
 
     void set_graph_search_provider(GraphSearchProvider graph_search_provider) override {
-        naive_router_.set_graph_search_provider(graph_search_provider);
+        router_impl_.set_graph_search_provider(graph_search_provider);
     };
 
     struct PathIdentifier {
@@ -87,7 +88,7 @@ struct CachedNaiveDijkstraRouter : public Router
 
 private:
 
-    NaiveDijkstraRouter naive_router_;
+    CustomDPRouter router_impl_;
     mutable std::unordered_map<PathIdentifier, RoutingRegion, PathIdentifier::hash> cached_routes_;
 };
 }

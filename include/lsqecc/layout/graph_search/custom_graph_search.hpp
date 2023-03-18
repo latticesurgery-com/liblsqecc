@@ -7,15 +7,21 @@ namespace lsqecc {
 namespace custom_graph_search {
 
 
+enum class Heuristic
+{
+        None, // I.e. Djikstra
+        Euclidean,
+};
+
+
 std::optional<RoutingRegion> graph_search_route_ancilla(
         const Slice& slice,
         PatchId source,
         PauliOperator source_op,
         PatchId target,
-        PauliOperator target_op
+        PauliOperator target_op,
+        Heuristic heuristic
 );
-
-std::optional<RoutingRegion> cycle_routing(Slice& slice, PatchId target);
 
 }
 

@@ -170,16 +170,6 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
 
 #endif
 
-std::optional<RoutingRegion> cycle_routing(Slice& slice, PatchId target)
-{
-    return graph_search_route_ancilla(
-            slice,
-            target,
-            PauliOperator::X,
-            target,
-            PauliOperator::Z
-    );
-}
 
 }
 }
