@@ -4,6 +4,9 @@
 
 using namespace lsqecc::dag;
 
+#define COMMA ,
+
+
 TEST(directed_graph, add_node)
 {
     DirectedGraph g;
@@ -161,6 +164,70 @@ TEST(directed_graph, expand)
     ASSERT_EQ(Set<label_t>{102}, get_back_edges_for_testing(g).at(3));
     ASSERT_EQ(Set<label_t>{102}, get_back_edges_for_testing(g).at(4));
 }
+
+
+TEST(directed_graph, expand_one_node)
+{
+    DirectedGraph g;
+    g.add_edge(0, 2);
+    g.add_edge(1, 2);
+    g.add_edge(2, 3);
+    g.add_edge(2, 4);
+    /* Graph (all edges pointing downwards):
+    0   1
+     \ /
+      2
+     / \
+    3   4
+    */
+
+    g.expand(2, {100});
+
+    /* Graph after expand (all edges pointing downwards):
+    0   1
+     \ /
+     100
+     / \
+    3   4
+    */
+
+    ASSERT_EQ(5, get_back_edges_for_testing(g).size());
+    ASSERT_EQ(5, get_edges_for_testing(g).size());
+    ASSERT_EQ(Set<label_t>{100}, get_edges_for_testing(g).at(0));
+    ASSERT_EQ(Set<label_t>{100}, get_edges_for_testing(g).at(1));
+    Set<label_t> v{3, 4};
+    ASSERT_EQ(v, get_edges_for_testing(g).at(100));
+    ASSERT_EQ(Set<label_t>{}, get_edges_for_testing(g).at(3));
+    ASSERT_EQ(Set<label_t>{}, get_edges_for_testing(g).at(4));
+
+    ASSERT_EQ(Set<label_t>{}, get_back_edges_for_testing(g).at(0));
+    ASSERT_EQ(Set<label_t>{}, get_back_edges_for_testing(g).at(1));
+    Set<label_t> v2{0, 1};
+    ASSERT_EQ(v2, get_back_edges_for_testing(g).at(100));
+    ASSERT_EQ(Set<label_t>{100}, get_back_edges_for_testing(g).at(3));
+    ASSERT_EQ(Set<label_t>{100}, get_back_edges_for_testing(g).at(4));
+}
+
+
+TEST(directed_graph, expand_isolated_node)
+{
+    DirectedGraph g;
+    g.add_node(0);
+    g.add_node(1);
+    
+    g.expand(0, {2});
+    
+    ASSERT_EQ((Set<label_t>{1 COMMA 2}), g.heads());
+
+    ASSERT_EQ(Set<label_t>{}, get_edges_for_testing(g).at(1));
+    ASSERT_EQ(Set<label_t>{}, get_back_edges_for_testing(g).at(1));
+
+    ASSERT_EQ(Set<label_t>{}, get_edges_for_testing(g).at(2));
+    ASSERT_EQ(Set<label_t>{}, get_back_edges_for_testing(g).at(2));
+
+
+}
+
 
 TEST(directed_graph, topological_order_tails_first_1)
 {
