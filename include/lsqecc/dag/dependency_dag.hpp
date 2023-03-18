@@ -69,7 +69,7 @@ struct DependencyDag
     }
 
 
-    void erase_instruction(label_t label)
+    void pop_head(label_t label)
     {
         Instruction instruction = std::move(instructions_.at(label));
         instructions_.erase(label);
@@ -89,8 +89,8 @@ struct DependencyDag
     }
 
 
-
-    void expand(label_t target, std::vector<Instruction>&& replacement, bool proximate)
+    /// Returns the start of the replacement
+    label_t expand(label_t target, std::vector<Instruction>&& replacement, bool proximate)
     {
         if(replacement.empty())
             throw std::logic_error("Cannot expand with an empty replacement");
@@ -130,8 +130,14 @@ struct DependencyDag
             proximate_heads_.erase(target);
             proximate_heads_.insert(new_lables.front());
         }
+
+        return new_lables.front();
     }
 
+    void make_proximate(label_t head)
+    {
+        proximate_heads_.insert(head);
+    }
 
     std::ostream& to_graphviz(std::ostream& os) const
     {
@@ -181,7 +187,6 @@ private:
     template<typename T>
     friend const DirectedGraph& get_graph_for_testing(const DependencyDag<T>& g);
 };
-
 
 template<typename Instruction>
 std::string to_graphviz(const DependencyDag<Instruction>& dag)

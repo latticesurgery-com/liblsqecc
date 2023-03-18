@@ -7,6 +7,7 @@ Options:
     -f, --output-format    Requires -o, STDOUT output format: progress, noprogress, machine
     -t, --timeout          Set a timeout in seconds after which stop producing slices
     -r, --router           Set a router: graph_search (default), graph_search_cached
+    -P, --pipeline         pipeline mode: stream (default), dag
     -g, --graph-search     Set a graph search provider: djikstra (default), astar, boost (not always available)
     --graceful             If there is an error when slicing, print the error and terminate
     --printlli             Output LLI instead of JSONs

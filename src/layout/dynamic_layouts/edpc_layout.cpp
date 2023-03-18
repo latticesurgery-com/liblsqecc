@@ -52,48 +52,68 @@ std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits, const Distillat
         }
     }
 
-    // Add distillation blocks
+    // Add distillation blocks on north edge
+    size_t a_count = 0;
+    size_t i = t_distillation_region_rows;
+    for (size_t j = t_distillation_region_cols; j<grid[i].size()-t_distillation_region_cols; j++) {
+        if (grid[i][j] == 'A') {
+            a_count++;
+            if (a_count%2 == 0) {
+                grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
+                for (size_t k=i-t_distillation_region_rows; k<i; k++) {
+                    for (size_t l=j-1; l<j+2; l++) {
+                        grid[k][l] = AsciiLayoutSpec::CellType::DistillationRegion_0;
+                    }
+                }
+            }
+        }
+    }
+
+    // Add distillation blocks on south edge
+    a_count = 0;
+    i = grid.size() - t_distillation_region_rows - 1;
+    for (size_t j = t_distillation_region_cols; j<grid[i].size()-t_distillation_region_cols; j++) {
+        if (grid[i][j] == 'A') {
+            a_count++;
+            if (a_count%2 == 0) {
+                grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
+                for (size_t k=i+1; k<i+t_distillation_region_rows+1; k++) {
+                    for (size_t l=j-1; l<j+2; l++) {
+                        grid[k][l] = AsciiLayoutSpec::CellType::DistillationRegion_0;
+                    }
+                }
+            }
+        }
+    }
+
+    // Add distillation blocks on west edge
+    a_count = 0;
+    size_t j = t_distillation_region_cols;
     for (size_t i = t_distillation_region_rows; i<grid.size()-t_distillation_region_rows; i++) {
-        for (size_t j = t_distillation_region_cols; j<grid[i].size()-t_distillation_region_cols; j++) {
-            if (grid[i][j] == 'A') {
-                if (grid[i+2][j] == 'Q') {
-                    if (grid[i-1][j-1] == 'r') {
-                        grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
-                        for (size_t k=i-t_distillation_region_rows; k<i; k++) {
-                            for (size_t l=j-1; l<j+2; l++) {
-                                grid[k][l] = AsciiLayoutSpec::CellType::DistillationRegion_0;
-                            }
-                        }
+        if (grid[i][j] == 'A') {
+            a_count++;
+            if (a_count%2 == 0) {
+                grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
+                for (size_t k=i-1; k<i+2; k++) {
+                    for (size_t l=j-t_distillation_region_cols; l<j; l++) {
+                        grid[k][l] = AsciiLayoutSpec::CellType::DistillationRegion_0;
                     }
                 }
-                else if (grid[i-2][j] == 'Q') {
-                    if (grid[i+1][j-1] == 'r') {
-                        grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;                      
-                        for (size_t k=i+1; k<i+t_distillation_region_rows+1; k++) {
-                            for (size_t l=j-1; l<j+2; l++) {
-                                grid[k][l] = AsciiLayoutSpec::CellType::DistillationRegion_0;
-                            }
-                        }
-                    }
-                }
-                else if (grid[i][j+2] == 'Q') {
-                    if (grid[i-1][j-1] == 'r') {
-                        grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
-                        for (size_t k=i-1; k<i+2; k++) {
-                            for (size_t l=j-t_distillation_region_cols; l<j; l++) {
-                                grid[k][l] = AsciiLayoutSpec::CellType::DistillationRegion_0;
-                            }
-                        }
-                    }
-                }
-                else if (grid[i][j-2] == 'Q') {
-                    if (grid[i-1][j+1] == 'r') {
-                        grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
-                        for (size_t k=i-1; k<i+2; k++) {
-                            for (size_t l=j+1; l<j+t_distillation_region_cols+1; l++) {
-                                grid[k][l] = AsciiLayoutSpec::CellType::DistillationRegion_0;
-                            }
-                        }
+            }
+        }
+    }
+
+    // Add distillation blocks on east edge
+    a_count = 0;
+    j = grid[0].size() - t_distillation_region_cols - 1;
+    for (size_t i = t_distillation_region_rows; i<grid.size()-t_distillation_region_rows; i++) {
+        if (grid[i][j] == 'A') {
+            a_count++;
+            if (a_count%2 == 0) {
+                grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
+                for (size_t k=i-1; k<i+2; k++) {
+                    for (size_t l=j+1; l<j+t_distillation_region_cols+1; l++) {
+                        grid[k][l] = AsciiLayoutSpec::CellType::DistillationRegion_0;
                     }
                 }
             }

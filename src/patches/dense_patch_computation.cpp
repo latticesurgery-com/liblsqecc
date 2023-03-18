@@ -1,4 +1,5 @@
 #include <lsqecc/patches/dense_patch_computation.hpp>
+#include <lsqecc/dag/domain_dags.hpp>
 
 namespace lsqecc
 {
@@ -164,7 +165,6 @@ struct InstructionApplicationResult
 
 
 
-
 InstructionApplicationResult try_apply_instruction_direct_followup(
         DenseSlice& slice,
         LSInstruction instruction,
@@ -215,7 +215,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
     {
 
         if (m->observable.size()!=2)
-            throw std::logic_error("Multi patch measurement only supports 2 patches currently");
+            throw std::logic_error(lstk::cat("Multi patch measurement only supports 2 patches currently. Got:\n", *m));
         auto pairs = m->observable.begin();
         const auto&[source_id, source_op] = *pairs++;
         const auto&[target_id, target_op] = *pairs;
@@ -226,9 +226,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
             return {std::make_unique<std::runtime_error>(lstk::cat("Patch ", target_id, " not on lattice")), {}};
 
         if (!merge_patches(slice, router, source_id, source_op, target_id, target_op))
-            return {std::make_unique<std::runtime_error>(lstk::cat("Couldn't find room to route: ",
-                    source_id, ":", PauliOperator_to_string(source_op), ",",
-                    target_id, ":", PauliOperator_to_string(target_op))), {}};
+            return {std::make_unique<std::runtime_error>(lstk::cat("Couldn't find room to route:\n", *m)), {}};
         return {nullptr, {}};
     }
     else if (const auto* init = std::get_if<PatchInit>(&instruction.operation))
@@ -339,52 +337,156 @@ InstructionApplicationResult try_apply_instruction_with_followup_attempts(
 }
 
 
-DensePatchComputationResult run_through_dense_slices(
+
+void run_through_dense_slices_streamed(
         LSInstructionStream&& instruction_stream,
         const Layout& layout,
         Router& router,
         std::optional<std::chrono::seconds> timeout,
         const DenseSliceVisitor& slice_visitor,
+        bool graceful,
+        DensePatchComputationResult& res)
+{
+    DenseSlice slice{layout, instruction_stream.core_qubits()};
+    std::queue<LSInstruction> future_instructions;
+
+    while (instruction_stream.has_next_instruction() || !future_instructions.empty())
+    {
+        LSInstruction instruction = [&]()
+        {
+            if (!future_instructions.empty())
+                return lstk::queue_pop(future_instructions);
+            res.ls_instructions_count_++;
+            return instruction_stream.get_next_instruction();
+        }();
+
+        auto application_result = try_apply_instruction_with_followup_attempts(slice, instruction, layout, router);
+        if (!application_result.followup_instructions.empty())
+        {
+            slice_visitor(slice);
+            advance_slice(slice, layout);
+            res.slice_count_++;
+
+            for (auto&& i: application_result.followup_instructions)
+                future_instructions.push(i);
+        }
+        else if (application_result.maybe_error)
+        {
+            slice_visitor(slice);
+            throw std::runtime_error{application_result.maybe_error->what()};
+        }
+    }
+    slice_visitor(slice);
+}
+
+
+void run_through_dense_slices_dag(
+        dag::DependencyDag<LSInstruction>&& dag,
+        const tsl::ordered_set<PatchId>& core_qubits,
+        const Layout& layout,
+        Router& router,
+        std::optional<std::chrono::seconds> timeout,
+        const DenseSliceVisitor& slice_visitor,
+        bool graceful,
+        DensePatchComputationResult& res)
+{
+    DenseSlice slice{layout, core_qubits};
+
+    std::unordered_map<dag::label_t, size_t> attempts_per_instruction;
+    auto increment_attepmts = [&attempts_per_instruction](dag::label_t label)
+    {
+        if (!attempts_per_instruction.contains(label))
+            attempts_per_instruction[label] = 0;
+        attempts_per_instruction[label]++;
+    };
+
+    auto handle_followup_instructions = [&dag](dag::label_t instruction_label, std::vector<LSInstruction>&& followup_instructions)
+    {
+        if (!followup_instructions.empty())
+            {
+                dag::label_t new_head = dag.expand(instruction_label, std::move(followup_instructions), true);
+                dag.make_proximate(new_head);
+            }
+            else
+                dag.pop_head(instruction_label);
+    };
+
+
+    while (!dag.empty())
+    {
+        // Apply all proximate instructions
+        auto proximate_instructions = dag.proximate_instructions();
+        for (dag::label_t instruction_label: proximate_instructions)
+        {
+            const LSInstruction& instruction = dag.at(instruction_label);
+            auto application_result = try_apply_instruction_direct_followup(slice, instruction, layout, router);
+            if (application_result.maybe_error)
+                throw std::runtime_error{lstk::cat(
+                    "Could not apply proximate instruction:\n",
+                    instruction,"\n",
+                    "Caused by:\n",
+                    application_result.maybe_error->what())};
+            else
+                res.ls_instructions_count_++;
+            
+            handle_followup_instructions(instruction_label, std::move(application_result.followup_instructions));
+            
+        }
+
+        // Now apply all non-proximate instructions, where possible
+        auto non_proximate_instructions = dag.applicable_instructions();
+        for (dag::label_t instruction_label: non_proximate_instructions)
+        {
+            const LSInstruction& instruction = dag.at(instruction_label);
+            auto application_result = try_apply_instruction_direct_followup(slice, instruction, layout, router);
+            if (application_result.maybe_error)
+            {
+                increment_attepmts(instruction_label);
+                if (attempts_per_instruction[instruction_label] > MAX_INSTRUCTION_APPLICATION_RETRIES_DAG_PIPELINE)
+                {
+                    throw std::runtime_error{lstk::cat(
+                        "Could not apply non-proximate instruction after ",
+                        MAX_INSTRUCTION_APPLICATION_RETRIES_DAG_PIPELINE," retries:\n",
+                        instruction,"\n",
+                        "Caused by:\n",
+                        application_result.maybe_error->what())};
+                }
+            }
+            else
+                res.ls_instructions_count_++;
+
+            handle_followup_instructions(instruction_label, std::move(application_result.followup_instructions));
+
+        }
+
+        // Advance the slice
+        slice_visitor(slice);
+        advance_slice(slice, layout);
+        res.slice_count_++;
+
+    }
+}
+
+
+DensePatchComputationResult run_through_dense_slices(
+        LSInstructionStream&& instruction_stream,
+        bool dag_pipeline,
+        const Layout& layout,
+        Router& router,
+        std::optional<std::chrono::seconds> timeout,
+        DenseSliceVisitor slice_visitor,
         bool graceful)
 {
 
     DensePatchComputationResult res;
 
-    auto run = [&]()
+    // TODO move this out of here and into the pipeline, if possible. (might have to also take res out)
+    auto start = lstk::now();
+    if(timeout.has_value())
     {
-        DenseSlice slice{layout, instruction_stream.core_qubits()};
 
-        auto start = std::chrono::steady_clock::now();
-
-        std::queue<LSInstruction> future_instructions;
-
-        while (instruction_stream.has_next_instruction() || !future_instructions.empty())
+        slice_visitor = [&, slice_visitor](const DenseSlice& slice)
         {
-            LSInstruction instruction = [&]()
-            {
-                if (!future_instructions.empty())
-                    return lstk::queue_pop(future_instructions);
-                res.ls_instructions_count_++;
-                return instruction_stream.get_next_instruction();
-            }();
-
-            auto application_result = try_apply_instruction_with_followup_attempts(slice, instruction, layout, router);
-            if (!application_result.followup_instructions.empty())
-            {
-                slice_visitor(slice);
-                advance_slice(slice, layout);
-                res.slice_count_++;
-
-                for (auto&& i: application_result.followup_instructions)
-                    future_instructions.push(i);
-            }
-            else if (application_result.maybe_error)
-            {
-                slice_visitor(slice);
-                throw std::runtime_error{application_result.maybe_error->what()};
-            }
-
-
             if (timeout && lstk::since(start)>*timeout)
             {
                 auto timeout_str = std::string{"Out of time after "}+std::to_string(timeout->count())+std::string{"s. "}
@@ -393,8 +495,36 @@ DensePatchComputationResult run_through_dense_slices(
 
                 throw std::runtime_error{timeout_str};
             }
+            slice_visitor(slice);
+        };
+    }
+
+    auto run = [&]()
+    {
+        if (dag_pipeline)
+        {
+            auto dag = dag::full_dependency_dag_from_instruction_stream(instruction_stream);
+            return run_through_dense_slices_dag(
+                std::move(dag),
+                instruction_stream.core_qubits(),
+                layout,
+                router,
+                timeout,
+                slice_visitor,
+                graceful,
+                res);
         }
-        slice_visitor(slice);
+        else
+        {
+            return run_through_dense_slices_streamed(
+                std::move(instruction_stream),
+                layout,
+                router,
+                timeout,
+                slice_visitor,
+                graceful,
+                res);
+        }
     };
 
     if(graceful)
@@ -414,6 +544,7 @@ DensePatchComputationResult run_through_dense_slices(
 
     return res;
 }
+
 
 DensePatchComputationResult::DensePatchComputationResult(const DensePatchComputationResult& other)
  : ls_instructions_count_(other.ls_instructions_count_), slice_count_(other.slice_count_)
