@@ -91,11 +91,11 @@ struct SingleQubitOp {
     bool operator==(const SingleQubitOp&) const = default;
 };
 
-
+// TRL 03/20/23: Updated to take a vector of SparsePatches
 struct BusyRegion{
     RoutingRegion region;
     size_t steps_to_clear;
-    SparsePatch state_after_clearing;
+    std::vector<SparsePatch> state_after_clearing;
 
     bool operator==(const BusyRegion&) const = default;
 };

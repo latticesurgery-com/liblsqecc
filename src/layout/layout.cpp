@@ -19,26 +19,26 @@ SparsePatch LayoutHelpers::basic_square_patch(Cell placement)
     };
 }
 // TRL 03/17/23: Helper function to create SparsePatch out of vector of cells
-SparsePatch LayoutHelpers::basic_square_patches(const std::vector<Cell>& placement)
-{
-        std::vector<SingleCellOccupiedByPatch> patches;
-        for (const Cell& cell : placement) {
-                patches.push_back(SingleCellOccupiedByPatch{
-                    {.top={BoundaryType::Rough,false},
-                     .bottom={BoundaryType::Rough,false},
-                     .left={BoundaryType::Smooth,false},
-                     .right={BoundaryType::Smooth,false}},
-                    cell}  
-                );    
-        }
+// SparsePatch LayoutHelpers::basic_square_patches(const std::vector<Cell>& placement)
+// {
+//         std::vector<SingleCellOccupiedByPatch> patches;
+//         for (const Cell& cell : placement) {
+//                 patches.push_back(SingleCellOccupiedByPatch{
+//                     {.top={BoundaryType::Rough,false},
+//                      .bottom={BoundaryType::Rough,false},
+//                      .left={BoundaryType::Smooth,false},
+//                      .right={BoundaryType::Smooth,false}},
+//                     cell}  
+//                 );    
+//         }
 
-        return SparsePatch{
-                {.type=PatchType::Qubit,
-                .activity=PatchActivity::None,
-                .id=std::nullopt},
-                MultipleCellsOccupiedByPatch{patches}
-        };
-};  
+//         return SparsePatch{
+//                 {.type=PatchType::Qubit,
+//                 .activity=PatchActivity::None,
+//                 .id=std::nullopt},
+//                 MultipleCellsOccupiedByPatch{patches}
+//         };
+// };  
 SingleCellOccupiedByPatch LayoutHelpers::make_distillation_region_cell(Cell placement)
 {
         return SingleCellOccupiedByPatch{

@@ -247,7 +247,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
     // TRL 03/16/23: Implementing BellPairInit as a new LLI
     else if (const auto* bell_init = std::get_if<BellPairInit>(&instruction.operation)) 
     {
-        // TRL 03/17/23: Find a route between the appropriate source and target edges
+        // TRL 03/17/23: Find a route between the edges of the patches that the sides of the Bell pair should be placed next to
         auto routing_region = router.find_routing_ancilla(slice, bell_init->loc1.first, bell_init->loc1.second, bell_init->loc2.first, bell_init->loc2.second);
         if(!routing_region) {
             return {std::make_unique<std::runtime_error>(lstk::cat("No valid route found for Bell pair creation: ",
@@ -263,7 +263,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         // slice.patch_at(routing_region->cells.back().cell)->id = ids[1];
         // routing_region->cells.pop_back();
 
-        // TRL 03/17/23: Apply remainder of route
+        // TRL 03/17/23: Apply route 
         for(const auto& occupied_cell : routing_region->cells) {
             // if (!slice.is_cell_free(occupied_cell.cell)) continue;
             // std::cout << occupied_cell.cell.row << " " << occupied_cell.cell.col << std::endl;
@@ -275,9 +275,16 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         // slice.get_boundary_between(routing_region->cells[routing_region->cells.size()-1].cell,routing_region->cells[routing_region->cells.size()-2].cell)->get().is_active=true;
 
         // TRL 03/17/23: Make the routing region busy for the appropriate number of time steps and then place ancillae in first and last
-        std::vector<Cell> cells{routing_region->cells.front().cell, routing_region->cells.back().cell};
-        SparsePatch bell_state = LayoutHelpers::basic_square_patches(cells);
+        std::vector<SparsePatch> bell_state;
+        bell_state.push_back(LayoutHelpers::basic_square_patch(routing_region->cells.front().cell));
+        bell_state.push_back(LayoutHelpers::basic_square_patch(routing_region->cells.back().cell));
+        bell_state[0].id = bell_init->side1; bell_state[1].id = bell_init->side2;
         return {nullptr, {{{BusyRegion{routing_region.value(), 1, bell_state}}}}};
+
+
+        // std::vector<Cell> cells{routing_region->cells.front().cell, routing_region->cells.back().cell};
+        // SparsePatch bell_state = LayoutHelpers::basic_square_patches(cells);
+        // return {nullptr, {{{BusyRegion{routing_region.value(), 1, bell_state}}}}};
 
         // TRL 03/17/23: Placing ancillae in the desired locations
         // std::vector<std::optional<Cell>> locs;
@@ -317,7 +324,10 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         slice.patch_at(target_cell) = std::nullopt;
         apply_routing_region(slice,stages.stage_1);
 
-        return {nullptr, {{BusyRegion{std::move(stages.stage_2), 1, std::move(stages.final_state)}}}};
+        // TRL 03/20/23: Use a vector in return BusyRegion
+        std::vector<SparsePatch> final_state{stages.final_state};
+
+        return {nullptr, {{BusyRegion{std::move(stages.stage_2), 1, final_state}}}};
     }
     else if (auto* mr = std::get_if<MagicStateRequest>(&instruction.operation))
     {
@@ -342,24 +352,27 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
     {
         if(busy_region->steps_to_clear <= 0)
         {
-            bool could_not_find_space_for_patch = false;
-            busy_region->state_after_clearing.visit_individual_cells(
-                    [&](const SingleCellOccupiedByPatch& occupied_cell){
-                        if(!slice.is_cell_free(occupied_cell.cell))
-                            could_not_find_space_for_patch = true;
-                    });
+            // TRL 03/20/23: Added ability to place multiple patches after clearing
+            for (const SparsePatch& patch : busy_region->state_after_clearing) {
+                bool could_not_find_space_for_patch = false;
+                patch.visit_individual_cells(
+                        [&](const SingleCellOccupiedByPatch& occupied_cell){
+                            if(!slice.is_cell_free(occupied_cell.cell))
+                                could_not_find_space_for_patch = true;
+                        });
 
-            if(could_not_find_space_for_patch)
-                return {std::make_unique<std::runtime_error>(
-                        "Could not find space to place patch after rotation"),{std::move(instruction)}};
-            // TRL 01/25/23: Added second argument to be consistent with 'bool distillation'
-            // TRL 03/17/23: Added multi-patch cell functionality
-            auto* patch = std::get_if<SingleCellOccupiedByPatch>(&busy_region->state_after_clearing.cells);
-            if (patch) {
-                slice.place_sparse_patch(busy_region->state_after_clearing,false);
-            }
-            else {
-                slice.place_sparse_patch_multiple_patches(busy_region->state_after_clearing);
+                if(could_not_find_space_for_patch)
+                    return {std::make_unique<std::runtime_error>(
+                            "Could not find space to place patch after BusyRegion clears"),{std::move(instruction)}};
+                // TRL 01/25/23: Added second argument to be consistent with 'bool distillation'
+                // TRL 03/17/23: Added multi-patch cell functionality
+                auto* single_cell = std::get_if<SingleCellOccupiedByPatch>(&patch.cells);
+                if (single_cell) {
+                    slice.place_sparse_patch(patch,false);
+                }
+                else {
+                    slice.place_sparse_patch_multiple_cells(patch);
+                }
             }
 
             return {nullptr,{}};
@@ -368,7 +381,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         {
             for(const auto& occupied_cell: busy_region->region.cells)
                 if(!slice.is_cell_free(occupied_cell.cell))
-                    return {std::make_unique<std::runtime_error>("Could not find free cell for rotation"),
+                    return {std::make_unique<std::runtime_error>("Could not find free cell in BusyRegion"),
                             {std::move(instruction)}};
 
             apply_routing_region(slice, busy_region->region);

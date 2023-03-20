@@ -171,26 +171,29 @@ Cell DenseSlice::place_sparse_patch(const SparsePatch& sparse_patch, bool distil
     patch_at(occupied_cell->cell) = DensePatch::from_sparse_patch(sparse_patch);
     return occupied_cell->cell;
 }
-// TRL 03/17/23: Added multi-patch cell functionality
-void DenseSlice::place_sparse_patch_multiple_patches(const SparsePatch& sparse_patch){
+// TRL 03/17/23: Added multi-cell patch functionality
+void DenseSlice::place_sparse_patch_multiple_cells(const SparsePatch& sparse_patch){
     auto* occupied_cells = std::get_if<MultipleCellsOccupiedByPatch>(&sparse_patch.cells);
-    for (const SingleCellOccupiedByPatch& patch : occupied_cells->sub_cells) {
-        if (is_cell_free(patch.cell)) {
-            SparsePatch a{
-                {.type=PatchType::Qubit,
-                .activity=PatchActivity::None,
-                .id=std::nullopt},
-                SingleCellOccupiedByPatch{
-                        {.top={BoundaryType::Rough,false},
-                        .bottom={BoundaryType::Rough,false},
-                        .left={BoundaryType::Smooth,false},
-                        .right={BoundaryType::Smooth,false}},
-                        patch.cell
-                }};
-            patch_at(patch.cell) = DensePatch::from_sparse_patch(a);
-        }
-        else {
-            throw std::logic_error(lstk::cat("Double patch occupation at ", patch.cell));
+    if (!occupied_cells) {place_sparse_patch(sparse_patch, false);}
+    else {
+        for (const SingleCellOccupiedByPatch& patch : occupied_cells->sub_cells) {
+            if (is_cell_free(patch.cell)) {
+                SparsePatch a{
+                    {.type=PatchType::Qubit,
+                    .activity=PatchActivity::None,
+                    .id=std::nullopt},
+                    SingleCellOccupiedByPatch{
+                            {.top={BoundaryType::Rough,false},
+                            .bottom={BoundaryType::Rough,false},
+                            .left={BoundaryType::Smooth,false},
+                            .right={BoundaryType::Smooth,false}},
+                            patch.cell
+                    }};
+                patch_at(patch.cell) = DensePatch::from_sparse_patch(a);
+            }
+            else {
+                throw std::logic_error(lstk::cat("Double patch occupation at ", patch.cell));
+            }
         }
     }
 }

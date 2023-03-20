@@ -36,7 +36,10 @@ tsl::ordered_set<PatchId> LSInstruction::get_operating_patches() const
             ret.insert(op.target);
         },
         [&](const BusyRegion& op){
-            if(op.state_after_clearing.id) ret.insert(*op.state_after_clearing.id);
+            // TRL 03/20/23: Incorporated vector of patches for state_after_clearing
+            for (const SparsePatch& patch : op.state_after_clearing) {
+                if(patch.id) ret.insert(*patch.id);
+            }
         },
         [&](const DeclareLogicalQubitPatches& op){
             LSTK_NOOP;

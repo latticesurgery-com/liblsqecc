@@ -37,7 +37,7 @@ struct DistillationOptions{
 namespace LayoutHelpers{
     SparsePatch basic_square_patch(Cell placement);
     // TRL 03/17/23: Helper function to create SparsePatch out of vector of cells
-    SparsePatch basic_square_patches(const std::vector<Cell>& placement);
+    // SparsePatch basic_square_patches(const std::vector<Cell>& placement);
     SingleCellOccupiedByPatch make_distillation_region_cell(Cell placement);
 
 
