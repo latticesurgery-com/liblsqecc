@@ -78,8 +78,8 @@ void DirectedGraph::expand(label_t target, const std::vector<label_t>& replaceme
     if(!edges_.count(target))
         throw std::runtime_error("Cannot expand non-existing node: " + std::to_string(target));
 
-    if(replacement.size() < 2)
-        throw std::runtime_error("Cannot expand into less than 2 nodes");
+    if(replacement.size() < 1)
+        throw std::runtime_error("Cannot expand into less than 1 node");
 
     for(const auto& label : replacement)
     {
@@ -87,7 +87,9 @@ void DirectedGraph::expand(label_t target, const std::vector<label_t>& replaceme
             throw std::runtime_error("Cannot expand into existing node");
     }
 
-    for(std::size_t i = 1; i != replacement.size(); ++i)
+    add_node(replacement.front());
+
+    for(std::size_t i = 1; i < replacement.size(); ++i)
         add_edge(replacement.at(i-1), replacement.at((i)));
 
     Set<label_t> forward_dangling;

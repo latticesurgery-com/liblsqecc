@@ -60,6 +60,10 @@ namespace lsqecc
         None, Input, ProcessedLli
      };
 
+    enum class PipelineMode {
+        Stream, Dag
+    };
+
 
     DistillationOptions make_distillation_options(argparse::ArgumentParser& parser)
     {
@@ -109,8 +113,12 @@ namespace lsqecc
                 .description("Set a router: graph_search (default), graph_search_cached")
                 .required(false);
         parser.add_argument()
+                .names({"-P", "--pipeline"})
+                .description("pipeline mode: stream (default), dag")
+                .required(false);
+        parser.add_argument()
                 .names({"-g", "--graph-search"})
-                .description("Set a graph search provider: custom (default), boost (not always available)")
+                .description("Set a graph search provider: djikstra (default), astar, boost (not always available)")
                 .required(false);
         parser.add_argument()
                 .names({"--graceful"})
@@ -216,6 +224,22 @@ namespace lsqecc
             }
         }
         
+
+        PipelineMode pipeline_mode = PipelineMode::Stream;
+        if (parser.exists("pipeline"))
+        {
+            auto mode_arg = parser.get<std::string>("pipeline");
+            if (mode_arg=="stream" || mode_arg=="")
+                pipeline_mode = PipelineMode::Stream;
+            else if (mode_arg=="dag")
+                pipeline_mode = PipelineMode::Dag;
+            else
+            {
+                err_stream << "Unknown pipeline mode " << mode_arg << std::endl;
+                return -1;
+            }
+        }
+
 
         std::reference_wrapper<std::istream> input_file_stream = std::ref(in_stream);
         std::unique_ptr<std::ifstream> _file_to_read_store;
@@ -324,34 +348,34 @@ namespace lsqecc
                                           : std::nullopt;
 
 
-        std::unique_ptr<Router> router = std::make_unique<NaiveDijkstraRouter>();
+        std::unique_ptr<Router> router = std::make_unique<CustomDPRouter>();
         if(parser.exists("r"))
         {
             auto router_name = parser.get<std::string>("r");
             if(router_name =="graph_search") //TODO change to djikstra
                 LSTK_NOOP;// Already set
             else if(router_name=="graph_search_cached")
-                router = std::make_unique<CachedNaiveDijkstraRouter>();
+                router = std::make_unique<CachedRouter>();
             else
             {
                 err_stream <<"Unknown router: "<< router_name << std::endl;
-                err_stream << "Choices are: naive, naive_cached." << std::endl;
                 return -1;
             }
         }
 
-        router->set_graph_search_provider(GraphSearchProvider::Custom);
+        router->set_graph_search_provider(GraphSearchProvider::Djikstra);
         if(parser.exists("g"))
         {
-            auto router_name = parser.get<std::string>("r");
-            if(router_name =="custom")
-                LSTK_NOOP;// Already set
+            auto router_name = parser.get<std::string>("g");
+            if(router_name =="astar")
+                router->set_graph_search_provider(GraphSearchProvider::AStar);
+            else if (router_name=="djikstra")
+                router->set_graph_search_provider(GraphSearchProvider::Djikstra);
             else if(router_name=="boost")
                 router->set_graph_search_provider(GraphSearchProvider::Boost);
             else
             {
                 err_stream<<"Unknown router: "<< router_name <<std::endl;
-                err_stream << "Choices are: custom, boost." << std::endl;
                 return -1;
             }
         }
@@ -399,24 +423,16 @@ namespace lsqecc
 
         auto start = lstk::now();
 
-        std::unique_ptr<PatchComputationResult> computation_result;
-
-        if (!parser.exists("a") || (parser.exists("a") && parser.get<std::string>("a") == "dense"))
-        {
-            computation_result = std::make_unique<DensePatchComputationResult>(run_through_dense_slices(
+        std::unique_ptr<PatchComputationResult> computation_result = 
+            std::make_unique<DensePatchComputationResult>(run_through_dense_slices(
                     std::move(*instruction_stream),
+                    pipeline_mode == PipelineMode::Dag,
                     *layout,
                     *router,
                     timeout,
                     [&](const DenseSlice& s){visitor_with_progress(s);},
                     parser.exists("graceful")
-            ));
-        } else
-        {
-            err_stream << "Invalid patch repr: " << parser.get<std::string>("a") << std::endl;
-            return 1;
-        }
-
+        ));
 
         if(parser.exists("o") || parser.exists("noslices"))
         {
