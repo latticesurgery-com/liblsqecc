@@ -171,7 +171,6 @@ Cell DenseSlice::place_sparse_patch(const SparsePatch& sparse_patch, bool distil
     patch_at(occupied_cell->cell) = DensePatch::from_sparse_patch(sparse_patch);
     return occupied_cell->cell;
 }
-// TRL 03/17/23: Added multi-cell patch functionality
 void DenseSlice::place_sparse_patch_multiple_cells(const SparsePatch& sparse_patch){
     auto* occupied_cells = std::get_if<MultipleCellsOccupiedByPatch>(&sparse_patch.cells);
     if (!occupied_cells) {place_sparse_patch(sparse_patch, false);}

@@ -106,7 +106,6 @@ LSInstruction parse_ls_instruction(std::string_view line)
         auto patch_id = parse_patch_id(get_next_arg());
         return {RotateSingleCellPatch{patch_id}};
     }
-    // TRL 03/16/23: Implementing BellPairInit as a new LLI
     else if (instruction == "BellPairInit" || instruction == "8")
     {
         auto side1 = parse_patch_id(get_next_arg());

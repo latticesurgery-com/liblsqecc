@@ -21,7 +21,6 @@ tsl::ordered_set<PatchId> LSInstruction::get_operating_patches() const
         [&](const PatchInit& op){
             ret.insert(op.target);
         },
-        // TRL 03/16/23: Implementing BellPairInit as a new LLI
         [&](const BellPairInit& op) {
             ret.insert(op.side1);
             ret.insert(op.side2);
@@ -36,7 +35,6 @@ tsl::ordered_set<PatchId> LSInstruction::get_operating_patches() const
             ret.insert(op.target);
         },
         [&](const BusyRegion& op){
-            // TRL 03/20/23: Incorporated vector of patches for state_after_clearing
             for (const SparsePatch& patch : op.state_after_clearing) {
                 if(patch.id) ret.insert(*patch.id);
             }
@@ -94,7 +92,6 @@ std::ostream& operator<<(std::ostream& os, const PatchInit& instruction)
 
     return os;
 }
-// TRL 03/16/23: Implementing BellPairInit as a new LLI
 std::ostream& operator<<(std::ostream& os, const BellPairInit& instruction)
 {
     os << LSInstructionPrint<BellPairInit>::name

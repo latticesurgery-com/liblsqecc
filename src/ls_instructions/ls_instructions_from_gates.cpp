@@ -32,27 +32,45 @@ std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_cnot_instructio
         gates::CNOTAncillaPlacement cnot_ancilla_placement,
         CNOTCorrectionMode cnot_correction_mode)
 {
-    // Control is green -> smooth -> measures Z otimes Z
-    // Target is red -> rough -> measures X otimes X
-
     std::queue<LSInstruction> next_instructions;
 
-    // TRL 03/15/23: Pushing instructions for BELL_BASED CNOT type (control-first with odd number of intervening tiles)
-    // TRL 03/16/23: Implementing using BellPairInit as a new LLI
     if (cnot_type == gates::CNOTType::BELL_BASED) {
 
-        // next_instructions.push({.operation={
-        //         BellPairInit{id1, id2, control, target}}})
+        PatchId id1 = id_generator_.new_id();
+        PatchId id2 = id_generator_.new_id();
+        next_instructions.push({.operation={
+                BellPairInit{id1, id2, std::make_pair(control_id, PauliOperator::Z), std::make_pair(target_id, PauliOperator::X)}}});
+        next_instructions.push({.operation={
+                MultiPatchMeasurement{.observable={
+                        {control_id, PauliOperator::Z},
+                        {id1, PauliOperator::Z},
+                },.is_negative=false}}});
+        next_instructions.push({.operation={
+                MultiPatchMeasurement{.observable={
+                        {id2,PauliOperator::X},
+                        {target_id,PauliOperator::X},
+                },.is_negative=false}}});
+        next_instructions.push({.operation={SinglePatchMeasurement{id1, PauliOperator::X, false}}});
+        next_instructions.push({.operation={SinglePatchMeasurement{id2, PauliOperator::Z, false}}});
 
+        if(cnot_correction_mode == CNOTCorrectionMode::ALWAYS) {
+                next_instructions.push({.operation={
+                        SingleQubitOp{control_id, SingleQubitOp::Operator::Z}}});
+                next_instructions.push({.operation={
+                        SingleQubitOp{target_id, SingleQubitOp::Operator::X}}});
+        }
     }
     
     else {
 
-    std::optional<PatchInit::PlaceNexTo> place_ancilla_next_to;
-    if(cnot_ancilla_placement == gates::CNOTAncillaPlacement::ANCILLA_NEXT_TO_CONTROL)
-        place_ancilla_next_to = std::make_pair(control_id, PauliOperator::Z);
-    else if(cnot_ancilla_placement == gates::CNOTAncillaPlacement::ANCILLA_NEXT_TO_TARGET)
-        place_ancilla_next_to = std::make_pair(target_id, PauliOperator::X);
+        // Control is green -> smooth -> measures Z otimes Z
+        // Target is red -> rough -> measures X otimes X
+
+        std::optional<PatchInit::PlaceNexTo> place_ancilla_next_to;
+        if(cnot_ancilla_placement == gates::CNOTAncillaPlacement::ANCILLA_NEXT_TO_CONTROL)
+                place_ancilla_next_to = std::make_pair(control_id, PauliOperator::Z);
+        else if(cnot_ancilla_placement == gates::CNOTAncillaPlacement::ANCILLA_NEXT_TO_TARGET)
+                place_ancilla_next_to = std::make_pair(target_id, PauliOperator::X);
 
         PatchId ancilla_id = id_generator_.new_id();
         next_instructions.push({.operation={PatchInit{

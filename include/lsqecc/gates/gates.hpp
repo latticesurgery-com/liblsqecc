@@ -52,7 +52,6 @@ struct RZ
 
 using SingleQubitGate = std::variant<BasicSingleQubitGate, RZ>;
 
-// TRL 03/15/23: Added Bell-Based CNOTType
 enum class CNOTType
 {
     ZX_WITH_MBM_CONTROL_FIRST,

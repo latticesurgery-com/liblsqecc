@@ -84,7 +84,6 @@ bool is_clifford_plus_t(const Gate& gate)
     }
 }
 
-// TRL 03/15/23: Added Bell-Based CNOTType
 std::string_view CNOTType_toString(CNOTType cnot_type)
 {
     using namespace std::string_view_literals;
@@ -100,7 +99,6 @@ std::string_view CNOTType_toString(CNOTType cnot_type)
     LSTK_UNREACHABLE;
 }
 
-// TRL 03/15/23: Added Bell-Based CNOTTypes
 std::optional<CNOTType> CNOTType_fromString(std::string_view s)
 {
     if (s == CNOTType_toString(CNOTType::ZX_WITH_MBM_CONTROL_FIRST)) return CNOTType::ZX_WITH_MBM_CONTROL_FIRST;

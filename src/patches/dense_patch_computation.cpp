@@ -244,10 +244,8 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
 
         return {nullptr, {}};
     }
-    // TRL 03/16/23: Implementing BellPairInit as a new LLI
     else if (const auto* bell_init = std::get_if<BellPairInit>(&instruction.operation)) 
     {
-        // TRL 03/17/23: Find a route between the edges of the patches that the sides of the Bell pair should be placed next to
         auto routing_region = router.find_routing_ancilla(slice, bell_init->loc1.first, bell_init->loc1.second, bell_init->loc2.first, bell_init->loc2.second);
         if(!routing_region) {
             return {std::make_unique<std::runtime_error>(lstk::cat("No valid route found for Bell pair creation: ",
@@ -255,52 +253,16 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                 bell_init->loc2.first, ":", PauliOperator_to_string(bell_init->loc2.second))), {}};
         }
 
-        // TRL 03/17/23: Placing ancillae in the desired locations 
-        // std::vector<PatchId> ids{bell_init->side1, bell_init->side2};
-        // slice.place_sparse_patch(LayoutHelpers::basic_square_patch(routing_region->cells.front().cell), false);
-        // slice.place_sparse_patch(LayoutHelpers::basic_square_patch(routing_region->cells.back().cell), false);
-        // slice.patch_at(routing_region->cells.front().cell)->id = ids[0];
-        // slice.patch_at(routing_region->cells.back().cell)->id = ids[1];
-        // routing_region->cells.pop_back();
-
-        // TRL 03/17/23: Apply route 
         for(const auto& occupied_cell : routing_region->cells) {
-            // if (!slice.is_cell_free(occupied_cell.cell)) continue;
-            // std::cout << occupied_cell.cell.row << " " << occupied_cell.cell.col << std::endl;
             slice.place_sparse_patch(SparsePatch{{PatchType::Routing,PatchActivity::None},occupied_cell}, false);
         }
 
-        // TRL 03/17/23: Make boundaries busy
-        // slice.get_boundary_between(routing_region->cells[0].cell,routing_region->cells[1].cell)->get().is_active=true;
-        // slice.get_boundary_between(routing_region->cells[routing_region->cells.size()-1].cell,routing_region->cells[routing_region->cells.size()-2].cell)->get().is_active=true;
-
-        // TRL 03/17/23: Make the routing region busy for the appropriate number of time steps and then place ancillae in first and last
         std::vector<SparsePatch> bell_state;
-        bell_state.push_back(LayoutHelpers::basic_square_patch(routing_region->cells.front().cell));
         bell_state.push_back(LayoutHelpers::basic_square_patch(routing_region->cells.back().cell));
+        bell_state.push_back(LayoutHelpers::basic_square_patch(routing_region->cells.front().cell));
         bell_state[0].id = bell_init->side1; bell_state[1].id = bell_init->side2;
+
         return {nullptr, {{{BusyRegion{routing_region.value(), 1, bell_state}}}}};
-
-
-        // std::vector<Cell> cells{routing_region->cells.front().cell, routing_region->cells.back().cell};
-        // SparsePatch bell_state = LayoutHelpers::basic_square_patches(cells);
-        // return {nullptr, {{{BusyRegion{routing_region.value(), 1, bell_state}}}}};
-
-        // TRL 03/17/23: Placing ancillae in the desired locations
-        // std::vector<std::optional<Cell>> locs;
-        // locs.push_back(place_ancilla_next_to(slice, bell_init->loc1.first, bell_init->loc1.second));
-        // locs.push_back(place_ancilla_next_to(slice, bell_init->loc2.first, bell_init->loc2.second));
-        // size_t counter = 0;
-        // for (const std::optional<Cell>& loc : locs) {
-        //     if (!loc) return {std::make_unique<std::runtime_error>("Could not allocate Bell state"), {}};
-        //     slice.place_sparse_patch(LayoutHelpers::basic_square_patch(*loc), false);
-        //     slice.patch_at(*loc)->id = ids[counter];
-        //     counter++;
-        // }
-
-        // TRL 03/17/23: Implement options for compiling to local vs nonlocal instruction sets
-
-        // TRL 03/17/23: Will need to enforce validity w/r/t even/odd path length
     }
     else if (const auto* rotation = std::get_if<RotateSingleCellPatch>(&instruction.operation))
     {
@@ -324,7 +286,6 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         slice.patch_at(target_cell) = std::nullopt;
         apply_routing_region(slice,stages.stage_1);
 
-        // TRL 03/20/23: Use a vector in return BusyRegion
         std::vector<SparsePatch> final_state{stages.final_state};
 
         return {nullptr, {{BusyRegion{std::move(stages.stage_2), 1, final_state}}}};
@@ -352,7 +313,6 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
     {
         if(busy_region->steps_to_clear <= 0)
         {
-            // TRL 03/20/23: Added ability to place multiple patches after clearing
             for (const SparsePatch& patch : busy_region->state_after_clearing) {
                 bool could_not_find_space_for_patch = false;
                 patch.visit_individual_cells(
@@ -364,8 +324,6 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                 if(could_not_find_space_for_patch)
                     return {std::make_unique<std::runtime_error>(
                             "Could not find space to place patch after BusyRegion clears"),{std::move(instruction)}};
-                // TRL 01/25/23: Added second argument to be consistent with 'bool distillation'
-                // TRL 03/17/23: Added multi-patch cell functionality
                 auto* single_cell = std::get_if<SingleCellOccupiedByPatch>(&patch.cells);
                 if (single_cell) {
                     slice.place_sparse_patch(patch,false);
