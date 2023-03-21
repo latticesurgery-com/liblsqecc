@@ -192,7 +192,8 @@ void DenseSlice::place_sparse_patch_multiple_cells(const SparsePatch& sparse_pat
                 patch_at(patch.cell) = DensePatch::from_sparse_patch(a);
             }
             else {
-                throw std::logic_error(lstk::cat("Double patch occupation at ", patch.cell));
+                throw std::logic_error(lstk::cat("Double patch occupation at ", patch.cell, "\n",
+                    "Found patch: ", patch_at(patch.cell)->id.value_or(-1)));
             }
         }
     }

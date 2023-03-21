@@ -232,7 +232,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
     else if (const auto* init = std::get_if<PatchInit>(&instruction.operation))
     {
         auto location= init->place_next_to ?
-                  place_ancilla_next_to(slice, init->place_next_to->first, init->place_next_to->second)
+                  place_ancilla_next_to(slice, init->place_next_to->target, init->place_next_to->op)
                 : find_free_ancilla_location(layout, slice);
         if (!location) return {std::make_unique<std::runtime_error>("Could not allocate ancilla"), {}};
 
@@ -244,16 +244,14 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
     }
     else if (const auto* bell_init = std::get_if<BellPairInit>(&instruction.operation)) 
     {
-        auto routing_region = router.find_routing_ancilla(slice, bell_init->loc1.first, bell_init->loc1.second, bell_init->loc2.first, bell_init->loc2.second);
+        auto routing_region = router.find_routing_ancilla(slice, bell_init->loc1.target, bell_init->loc1.op, bell_init->loc2.target, bell_init->loc2.op);
         if(!routing_region) {
             return {std::make_unique<std::runtime_error>(lstk::cat("No valid route found for Bell pair creation: ",
-                bell_init->loc1.first, ":", PauliOperator_to_string(bell_init->loc1.second), ",",
-                bell_init->loc2.first, ":", PauliOperator_to_string(bell_init->loc2.second))), {}};
+                bell_init->loc1.target, ":", PauliOperator_to_string(bell_init->loc1.op), ",",
+                bell_init->loc2.target, ":", PauliOperator_to_string(bell_init->loc2.op))), {}};
         }
 
-        for(const auto& occupied_cell : routing_region->cells) {
-            slice.place_sparse_patch(SparsePatch{{PatchType::Routing,PatchActivity::None},occupied_cell}, false);
-        }
+        apply_routing_region(slice, *routing_region);
 
         std::vector<SparsePatch> bell_state;
         bell_state.push_back(LayoutHelpers::basic_square_patch(routing_region->cells.back().cell));

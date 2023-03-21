@@ -39,7 +39,7 @@ std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_cnot_instructio
         PatchId id1 = id_generator_.new_id();
         PatchId id2 = id_generator_.new_id();
         next_instructions.push({.operation={
-                BellPairInit{id1, id2, std::make_pair(control_id, PauliOperator::Z), std::make_pair(target_id, PauliOperator::X)}}});
+                BellPairInit{id1, id2, PlaceNexTo{control_id, PauliOperator::Z}, PlaceNexTo{target_id, PauliOperator::X}}}});
         next_instructions.push({.operation={
                 MultiPatchMeasurement{.observable={
                         {control_id, PauliOperator::Z},
@@ -66,11 +66,11 @@ std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_cnot_instructio
         // Control is green -> smooth -> measures Z otimes Z
         // Target is red -> rough -> measures X otimes X
 
-        std::optional<PatchInit::PlaceNexTo> place_ancilla_next_to;
+        std::optional<PlaceNexTo> place_ancilla_next_to;
         if(cnot_ancilla_placement == gates::CNOTAncillaPlacement::ANCILLA_NEXT_TO_CONTROL)
-                place_ancilla_next_to = std::make_pair(control_id, PauliOperator::Z);
+                place_ancilla_next_to = PlaceNexTo{control_id, PauliOperator::Z}; 
         else if(cnot_ancilla_placement == gates::CNOTAncillaPlacement::ANCILLA_NEXT_TO_TARGET)
-                place_ancilla_next_to = std::make_pair(target_id, PauliOperator::X);
+                place_ancilla_next_to = PlaceNexTo{target_id, PauliOperator::X};
 
         PatchId ancilla_id = id_generator_.new_id();
         next_instructions.push({.operation={PatchInit{

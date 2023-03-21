@@ -37,6 +37,13 @@ struct MultiPatchMeasurement {
     bool operator==(const MultiPatchMeasurement&) const = default;
 };
 
+struct PlaceNexTo {
+    PatchId target;
+    PauliOperator op;
+
+    bool operator==(const PlaceNexTo&) const = default;
+};
+
 struct PatchInit {
     PatchId target;
 
@@ -46,7 +53,6 @@ struct PatchInit {
     };
 
     InitializeableStates state;
-    using PlaceNexTo = std::pair<PatchId,PauliOperator>;
     std::optional<PlaceNexTo> place_next_to = std::nullopt;
 
     bool operator==(const PatchInit&) const = default;
@@ -54,8 +60,8 @@ struct PatchInit {
 struct BellPairInit {
     PatchId side1;
     PatchId side2; 
-    PatchInit::PlaceNexTo loc1;
-    PatchInit::PlaceNexTo loc2;
+    PlaceNexTo loc1;
+    PlaceNexTo loc2;
 
     bool operator==(const BellPairInit&) const = default;
 };
@@ -133,6 +139,7 @@ std::ostream& operator<<(std::ostream& os, const LSInstruction& instruction);
 std::ostream& operator<<(std::ostream& os, const DeclareLogicalQubitPatches& instruction);
 std::ostream& operator<<(std::ostream& os, const SinglePatchMeasurement& instruction);
 std::ostream& operator<<(std::ostream& os, const MultiPatchMeasurement& instruction);
+std::ostream& operator<<(std::ostream& os, const PlaceNexTo& place_next_to);
 std::ostream& operator<<(std::ostream& os, const PatchInit& instruction);
 std::ostream& operator<<(std::ostream& os, const BellPairInit& instruction);
 std::ostream& operator<<(std::ostream& os, const MagicStateRequest& instruction);

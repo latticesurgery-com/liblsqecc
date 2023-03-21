@@ -81,6 +81,12 @@ std::ostream& operator<<(std::ostream& os, const MultiPatchMeasurement& instruct
     return os << lstk::join(op_patch_mapping,",");
 }
 
+std::ostream& operator<<(std::ostream& os, const PlaceNexTo& place_next_to)
+{
+    os << place_next_to.target << ":" << PauliOperator_to_string(place_next_to.op);
+
+    return os;
+}
 
 std::ostream& operator<<(std::ostream& os, const PatchInit& instruction)
 {
@@ -88,15 +94,14 @@ std::ostream& operator<<(std::ostream& os, const PatchInit& instruction)
         << " " << instruction.target << " " << InitializeableStates_to_string(instruction.state);
 
     if (instruction.place_next_to)
-        os << " " << instruction.place_next_to->first << ":" << PauliOperator_to_string(instruction.place_next_to->second);
+        os << " " << instruction.place_next_to.value();
 
     return os;
 }
 std::ostream& operator<<(std::ostream& os, const BellPairInit& instruction)
 {
     os << LSInstructionPrint<BellPairInit>::name
-        << " " << instruction.side1 << " " << instruction.side2 << " " << instruction.loc1.first << ":" << PauliOperator_to_string(instruction.loc1.second)
-        << "," << instruction.loc2.first << ":" << PauliOperator_to_string(instruction.loc2.second);
+        << " " << instruction.side1 << " " << instruction.side2 << " " << instruction.loc1 << "," << instruction.loc2;
 
     return os;
 }
