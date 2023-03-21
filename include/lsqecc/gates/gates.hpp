@@ -55,7 +55,8 @@ using SingleQubitGate = std::variant<BasicSingleQubitGate, RZ>;
 enum class CNOTType
 {
     ZX_WITH_MBM_CONTROL_FIRST,
-    ZX_WITH_MBM_TARGET_FIRST
+    ZX_WITH_MBM_TARGET_FIRST,
+    BELL_BASED,
 };
 
 std::string_view CNOTType_toString(CNOTType cnot_type);

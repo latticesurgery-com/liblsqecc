@@ -37,6 +37,13 @@ struct MultiPatchMeasurement {
     bool operator==(const MultiPatchMeasurement&) const = default;
 };
 
+struct PlaceNexTo {
+    PatchId target;
+    PauliOperator op;
+
+    bool operator==(const PlaceNexTo&) const = default;
+};
+
 struct PatchInit {
     PatchId target;
 
@@ -46,10 +53,17 @@ struct PatchInit {
     };
 
     InitializeableStates state;
-    using PlaceNexTo = std::pair<PatchId,PauliOperator>;
     std::optional<PlaceNexTo> place_next_to = std::nullopt;
 
     bool operator==(const PatchInit&) const = default;
+};
+struct BellPairInit {
+    PatchId side1;
+    PatchId side2; 
+    PlaceNexTo loc1;
+    PlaceNexTo loc2;
+
+    bool operator==(const BellPairInit&) const = default;
 };
 
 struct MagicStateRequest {
@@ -82,11 +96,10 @@ struct SingleQubitOp {
     bool operator==(const SingleQubitOp&) const = default;
 };
 
-
 struct BusyRegion{
     RoutingRegion region;
     size_t steps_to_clear;
-    SparsePatch state_after_clearing;
+    std::vector<SparsePatch> state_after_clearing;
 
     bool operator==(const BusyRegion&) const = default;
 };
@@ -101,6 +114,7 @@ struct LSInstruction {
             SinglePatchMeasurement,
             MultiPatchMeasurement,
             PatchInit,
+            BellPairInit,
             MagicStateRequest,
             SingleQubitOp,
             RotateSingleCellPatch,
@@ -125,7 +139,9 @@ std::ostream& operator<<(std::ostream& os, const LSInstruction& instruction);
 std::ostream& operator<<(std::ostream& os, const DeclareLogicalQubitPatches& instruction);
 std::ostream& operator<<(std::ostream& os, const SinglePatchMeasurement& instruction);
 std::ostream& operator<<(std::ostream& os, const MultiPatchMeasurement& instruction);
+std::ostream& operator<<(std::ostream& os, const PlaceNexTo& place_next_to);
 std::ostream& operator<<(std::ostream& os, const PatchInit& instruction);
+std::ostream& operator<<(std::ostream& os, const BellPairInit& instruction);
 std::ostream& operator<<(std::ostream& os, const MagicStateRequest& instruction);
 std::ostream& operator<<(std::ostream& os, const SingleQubitOp& instruction);
 std::ostream& operator<<(std::ostream& os, const RotateSingleCellPatch& instruction);
@@ -154,6 +170,10 @@ struct LSInstructionPrint<MultiPatchMeasurement>{
 template<>
 struct LSInstructionPrint<PatchInit>{
     static constexpr std::string_view name = "Init";
+};
+template<>
+struct LSInstructionPrint<BellPairInit>{
+    static constexpr std::string_view name = "BellPairInit";
 };
 
 template<>

@@ -61,6 +61,7 @@ LibLSQECC can parse a small subset of OpenQASM 2.0 instead of LLI, with restrict
  * CNOTs must be in the form `cx q[n],q[m];` where `n` and `m` are non-negative. Target comes first, as per [OpenQASM convention (Fig 2)](https://arxiv.org/pdf/1707.03429.pdf).
  * `rz(expr)` and `crz(expr)` where `expr` has form `pi/m` or `n*pi/m` for n,m integers. No whitespace.
  * Supports some basic annotations such as: `cx q[0],q[7]; // %ZXWithMBMTargetFirst,AncillaNextToTarget`
+ * Supports Bell-state mediated CNOT gates using the `BellBased` annotation as in: `cx q[0],q[7]; // %BellBased`
  * Program must begin with `OPENQASM 2.0;` in the first line
 
 ### The `liblsqecc` library
