@@ -21,6 +21,10 @@ tsl::ordered_set<PatchId> LSInstruction::get_operating_patches() const
         [&](const PatchInit& op){
             ret.insert(op.target);
         },
+        [&](const BellPairInit& op) {
+            ret.insert(op.side1);
+            ret.insert(op.side2);
+        },
         [&](const MagicStateRequest& op){
             ret.insert(op.target);
         },
@@ -31,7 +35,9 @@ tsl::ordered_set<PatchId> LSInstruction::get_operating_patches() const
             ret.insert(op.target);
         },
         [&](const BusyRegion& op){
-            if(op.state_after_clearing.id) ret.insert(*op.state_after_clearing.id);
+            for (const SparsePatch& patch : op.state_after_clearing) {
+                if(patch.id) ret.insert(*patch.id);
+            }
         },
         [&](const DeclareLogicalQubitPatches& op){
             LSTK_NOOP;
@@ -75,6 +81,12 @@ std::ostream& operator<<(std::ostream& os, const MultiPatchMeasurement& instruct
     return os << lstk::join(op_patch_mapping,",");
 }
 
+std::ostream& operator<<(std::ostream& os, const PlaceNexTo& place_next_to)
+{
+    os << place_next_to.target << ":" << PauliOperator_to_string(place_next_to.op);
+
+    return os;
+}
 
 std::ostream& operator<<(std::ostream& os, const PatchInit& instruction)
 {
@@ -82,7 +94,14 @@ std::ostream& operator<<(std::ostream& os, const PatchInit& instruction)
         << " " << instruction.target << " " << InitializeableStates_to_string(instruction.state);
 
     if (instruction.place_next_to)
-        os << " " << instruction.place_next_to->first << ":" << PauliOperator_to_string(instruction.place_next_to->second);
+        os << " " << instruction.place_next_to.value();
+
+    return os;
+}
+std::ostream& operator<<(std::ostream& os, const BellPairInit& instruction)
+{
+    os << LSInstructionPrint<BellPairInit>::name
+        << " " << instruction.side1 << " " << instruction.side2 << " " << instruction.loc1 << "," << instruction.loc2;
 
     return os;
 }

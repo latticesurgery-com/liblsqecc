@@ -50,6 +50,7 @@ struct DenseSlice : public Slice
 
     // Return a cell of the placed patch
     Cell place_sparse_patch(const SparsePatch& sparse_patch, bool distillation);
+    void place_sparse_patch_multiple_cells(const SparsePatch& sparse_patch);
 
     void delete_patch_by_id(PatchId id);
 
