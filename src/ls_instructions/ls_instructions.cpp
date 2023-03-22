@@ -52,8 +52,6 @@ tsl::ordered_set<PatchId> LSInstruction::get_operating_patches() const
 std::ostream& operator<<(std::ostream& os, const LSInstruction& instruction)
 {
     std::visit([&os](auto&& op){ os << op;}, instruction.operation);
-    if (instruction.wait_at_most_for != LSInstruction::DEFAULT_MAX_WAIT)
-        os << " #WaitAtMostFor " << instruction.wait_at_most_for;
     return os;
 }
 
@@ -126,8 +124,8 @@ std::ostream& operator<<(std::ostream& os, const BusyRegion& instruction)
 {
     os << LSInstructionPrint<BusyRegion>::name << " ";
     for (const auto &cell: instruction.region.cells)
-        os << "OccupiedRegion:" << "(" << cell.cell.row << "," << cell.cell.col << ")";
-    return os << " " << "StateAfterClearing:TODO"; // TODO
+        os << "(" << cell.cell.row << "," << cell.cell.col << "),";
+    return os << "StepsToClear(" << instruction.steps_to_clear <<")";
 }
 
 }
