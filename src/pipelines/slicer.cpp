@@ -314,8 +314,11 @@ namespace lsqecc
                 instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
                 instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
             }
-            else if (parser.get<std::string>("layoutgenerator") == "edpc")
+            else if (parser.get<std::string>("layoutgenerator") == "edpc") 
+            {
                 layout = make_edpc_layout(instruction_stream->core_qubits().size(), distillation_options);
+                instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
+            }
             else
             {
                 err_stream << "Unknown layout generator: " << parser.get<std::string>("layoutgenerator") << std::endl;
