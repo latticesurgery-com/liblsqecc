@@ -9,7 +9,7 @@ cx q[2],q[3];
 cx q[4],q[5];
 cx q[6],q[7];
 "
-echo "$INPUT" | lsqecc_slicer -q -L edpc --nostagger --graceful
+echo "$INPUT" | lsqecc_slicer -q -L edpc --nostagger
 
 
 
