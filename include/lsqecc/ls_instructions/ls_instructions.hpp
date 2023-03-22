@@ -130,8 +130,8 @@ struct LSInstruction {
 // TRL 03/22/23: First pass at a new IR for local instructions, which can depend on layout.
 // TRL 03/22/23: BellPrepare allocates two sides of a Bell pair at specified adjacent cells
 struct BellPrepare {
-    PatchId side1;
-    PatchId side2;
+    // PatchId side1;
+    // PatchId side2;
     Cell cell1;
     Cell cell2;
 
@@ -139,9 +139,11 @@ struct BellPrepare {
 };
 // TRL 03/22/23: BellMeasure performs a ZZ or XX measurement and then measures out in the opposite basis
 struct BellMeasure {
-    PatchId side1;
-    PatchId side2;
-    PauliOperator op;
+    // PatchId side1;
+    // PatchId side2;
+    // PauliOperator op;
+    Cell cell1;
+    Cell cell2;
 
     bool operator==(const BellMeasure&) const = default;
 };
@@ -153,7 +155,7 @@ struct TwoPatchMeasure {
 
     bool operator==(const TwoPatchMeasure&) const = default;
 };
-// TRL 03/22/23: ExtendSplit merges and splits with an adjacent cell
+// TRL 03/22/23: ExtendSplit merges and splits a patch with an adjacent cell
 struct ExtendSplit {
     PatchId side1;
     PatchId side2;
@@ -161,22 +163,31 @@ struct ExtendSplit {
 
     bool operator==(const ExtendSplit&) const = default;
 };
+// TRL 03/22/23: Move merges and splits a patch with an adjacent cell and then measures out the cell left behind
+struct Move {
+    // PatchId side1;
+    Cell cell1;
+    Cell cell2;
+
+    bool operator==(const Move&) const = default;
+};
 
 // TRL 03/22/23: First pass at a new IR for local instructions, which can depend on layout.
 struct LocalInstruction {
 
-    static constexpr size_t DEFAULT_MAX_WAIT = 3; // Allows for rotations to finish
+    // static constexpr size_t DEFAULT_MAX_WAIT = 3; // Allows for rotations to finish
 
     std::variant<
             BellPrepare,
             BellMeasure,
             TwoPatchMeasure,
-            ExtendSplit
+            ExtendSplit,
+            Move
             > operation;
 
-    size_t wait_at_most_for = DEFAULT_MAX_WAIT;
+    // size_t wait_at_most_for = DEFAULT_MAX_WAIT;
 
-    tsl::ordered_set<PatchId> get_operating_patches() const;
+    // tsl::ordered_set<PatchId> get_operating_patches() const;
     bool operator==(const LocalInstruction&) const = default;
 };
 
@@ -204,6 +215,7 @@ std::ostream& operator<<(std::ostream& os, const BellPrepare& instruction);
 std::ostream& operator<<(std::ostream& os, const BellMeasure& instruction);
 std::ostream& operator<<(std::ostream& os, const TwoPatchMeasure& instruction);
 std::ostream& operator<<(std::ostream& os, const ExtendSplit& instruction);
+std::ostream& operator<<(std::ostream& os, const Move& instruction);
 
 template <class T>
 struct LSInstructionPrint{};
@@ -273,6 +285,11 @@ struct LSInstructionPrint<TwoPatchMeasure>{
 template<>
 struct LSInstructionPrint<ExtendSplit>{
     static constexpr std::string_view name = "ExtendSplit";
+};
+
+template<>
+struct LSInstructionPrint<Move>{
+    static constexpr std::string_view name = "Move";
 };
 
 

@@ -245,11 +245,42 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
     else if (const auto* bell_init = std::get_if<BellPairInit>(&instruction.operation)) 
     {
         auto routing_region = router.find_routing_ancilla(slice, bell_init->loc1.target, bell_init->loc1.op, bell_init->loc2.target, bell_init->loc2.op);
-        if(!routing_region) {
+        if(!routing_region) 
+        {
             return {std::make_unique<std::runtime_error>(lstk::cat("No valid route found for Bell pair creation: ",
                 bell_init->loc1.target, ":", PauliOperator_to_string(bell_init->loc1.op), ",",
                 bell_init->loc2.target, ":", PauliOperator_to_string(bell_init->loc2.op))), {}};
         }
+        // TRL 03/22/23: Realized that some corner cases need to be resolved; just crashing for now
+        else if (routing_region->cells.size() < 2) 
+        {
+            return {std::make_unique<std::runtime_error>(lstk::cat("Shortest route cannot be used for Bell pair creation: ",
+                bell_init->loc1.target, ":", PauliOperator_to_string(bell_init->loc1.op), ",",
+                bell_init->loc2.target, ":", PauliOperator_to_string(bell_init->loc2.op))), {}};
+        }
+
+        // TRL 03/22/23: Construct LocalInstructions based on route
+        std::vector<std::vector<LocalInstruction>> local_instructions;
+        std::vector<LocalInstruction> layer1;
+        std::vector<LocalInstruction> layer2;
+        for (size_t i=0; i<routing_region->cells.size(); i=i+2)
+        {
+            // May want patch IDs later but cells are fine for now
+            // PatchId id1 = id_generator_.new_id();
+            // PatchId id2 = id_generator_.new_id();
+            // layer1.push_back(BellPrepare{id1, id2, routing_region->cells[i].cell, routing_region->cells[i+1].cell});
+            layer1.push_back({BellPrepare{routing_region->cells[i].cell, routing_region->cells[i+1].cell}});
+            if (i!=0)
+            {
+                layer2.push_back({BellMeasure{routing_region->cells[i-1].cell, routing_region->cells[i].cell}});
+            }
+        }
+        if (routing_region->cells.size()%2 == 1)
+        {
+            layer2.push_back({Move{routing_region->cells[routing_region->cells.size()-2].cell, routing_region->cells[routing_region->cells.size()-1].cell}});
+        }
+        local_instructions.push_back(layer1); 
+        local_instructions.push_back(layer2);
 
         apply_routing_region(slice, *routing_region);
 
