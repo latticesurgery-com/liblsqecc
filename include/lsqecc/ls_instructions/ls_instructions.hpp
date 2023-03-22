@@ -127,6 +127,59 @@ struct LSInstruction {
     bool operator==(const LSInstruction&) const = default;
 };
 
+// TRL 03/22/23: First pass at a new IR for local instructions, which can depend on layout.
+// TRL 03/22/23: BellPrepare allocates two sides of a Bell pair at specified adjacent cells
+struct BellPrepare {
+    PatchId side1;
+    PatchId side2;
+    Cell cell1;
+    Cell cell2;
+
+    bool operator==(const BellPrepare&) const = default;
+};
+// TRL 03/22/23: BellMeasure performs a ZZ or XX measurement and then measures out in the opposite basis
+struct BellMeasure {
+    PatchId side1;
+    PatchId side2;
+    PauliOperator op;
+
+    bool operator==(const BellMeasure&) const = default;
+};
+// TRL 03/22/23: TwoPatchMeasure performs a ZZ or XX measurement
+struct TwoPatchMeasure {
+    PatchId side1;
+    PatchId side2;
+    PauliOperator op;
+
+    bool operator==(const TwoPatchMeasure&) const = default;
+};
+// TRL 03/22/23: ExtendSplit merges and splits with an adjacent cell
+struct ExtendSplit {
+    PatchId side1;
+    PatchId side2;
+    Cell extension;
+
+    bool operator==(const ExtendSplit&) const = default;
+};
+
+// TRL 03/22/23: First pass at a new IR for local instructions, which can depend on layout.
+struct LocalInstruction {
+
+    static constexpr size_t DEFAULT_MAX_WAIT = 3; // Allows for rotations to finish
+
+    std::variant<
+            BellPrepare,
+            BellMeasure,
+            TwoPatchMeasure,
+            ExtendSplit
+            > operation;
+
+    size_t wait_at_most_for = DEFAULT_MAX_WAIT;
+
+    tsl::ordered_set<PatchId> get_operating_patches() const;
+    bool operator==(const LocalInstruction&) const = default;
+};
+
 struct InMemoryLogicalLatticeComputation
 {
     tsl::ordered_set<PatchId> core_qubits;
@@ -146,6 +199,11 @@ std::ostream& operator<<(std::ostream& os, const MagicStateRequest& instruction)
 std::ostream& operator<<(std::ostream& os, const SingleQubitOp& instruction);
 std::ostream& operator<<(std::ostream& os, const RotateSingleCellPatch& instruction);
 std::ostream& operator<<(std::ostream& os, const BusyRegion& instruction);
+// TRL 03/22/23: First pass at a new IR for local instructions
+std::ostream& operator<<(std::ostream& os, const BellPrepare& instruction);
+std::ostream& operator<<(std::ostream& os, const BellMeasure& instruction);
+std::ostream& operator<<(std::ostream& os, const TwoPatchMeasure& instruction);
+std::ostream& operator<<(std::ostream& os, const ExtendSplit& instruction);
 
 template <class T>
 struct LSInstructionPrint{};
@@ -195,6 +253,26 @@ struct LSInstructionPrint<RotateSingleCellPatch>
 template<>
 struct LSInstructionPrint<BusyRegion>{
     static constexpr std::string_view name = "BusyRegion";
+};
+// TRL 03/22/23: First pass at a new IR for local instructions
+template<>
+struct LSInstructionPrint<BellPrepare>{
+    static constexpr std::string_view name = "BellPrepare";
+};
+
+template<>
+struct LSInstructionPrint<BellMeasure>{
+    static constexpr std::string_view name = "BellMeasure";
+};
+
+template<>
+struct LSInstructionPrint<TwoPatchMeasure>{
+    static constexpr std::string_view name = "TwoPatchMeasure";
+};
+
+template<>
+struct LSInstructionPrint<ExtendSplit>{
+    static constexpr std::string_view name = "ExtendSplit";
 };
 
 

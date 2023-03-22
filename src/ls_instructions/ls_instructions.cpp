@@ -48,6 +48,33 @@ tsl::ordered_set<PatchId> LSInstruction::get_operating_patches() const
     }, operation);
     return ret;
 }
+// TRL 03/22/23: First pass at a new IR for local instructions, which can depend on layout.
+tsl::ordered_set<PatchId> LocalInstruction::get_operating_patches() const
+{
+    tsl::ordered_set<PatchId> ret;
+    std::visit(lstk::overloaded{
+        [&](const BellPrepare& op) {
+            ret.insert(op.side1);
+            ret.insert(op.side2);
+        },
+        [&](const BellMeasure& op) {
+            ret.insert(op.side1);
+            ret.insert(op.side2);
+        },
+        [&](const TwoPatchMeasure& op) {
+            ret.insert(op.side1);
+            ret.insert(op.side2);
+        },
+        [&](const ExtendSplit& op) {
+            ret.insert(op.side1);
+            ret.insert(op.side2);
+        },
+        [&](const auto& op){
+            LSTK_UNREACHABLE;
+        }
+    }, operation);
+    return ret;
+}
 
 std::ostream& operator<<(std::ostream& os, const LSInstruction& instruction)
 {
@@ -128,6 +155,35 @@ std::ostream& operator<<(std::ostream& os, const BusyRegion& instruction)
     for (const auto &cell: instruction.region.cells)
         os << "OccupiedRegion:" << "(" << cell.cell.row << "," << cell.cell.col << ")";
     return os << " " << "StateAfterClearing:TODO"; // TODO
+}
+
+std::ostream& operator<<(std::ostream& os, const BellPrepare& instruction)
+{
+    os << LSInstructionPrint<BellPrepare>::name
+        << " " << instruction.side1 << " " << instruction.side2;// << " " << instruction.cell1 << "," << instruction.cell2;
+
+    return os;
+}
+std::ostream& operator<<(std::ostream& os, const BellMeasure& instruction)
+{
+    os << LSInstructionPrint<BellMeasure>::name
+        << " " << instruction.side1 << " " << instruction.side2;// << " " << instruction.cell1 << "," << instruction.cell2;
+
+    return os;
+}
+std::ostream& operator<<(std::ostream& os, const TwoPatchMeasure& instruction)
+{
+    os << LSInstructionPrint<TwoPatchMeasure>::name
+        << " " << instruction.side1 << " " << instruction.side2;// << " " << instruction.cell1 << "," << instruction.cell2;
+
+    return os;
+}
+std::ostream& operator<<(std::ostream& os, const ExtendSplit& instruction)
+{
+    os << LSInstructionPrint<ExtendSplit>::name
+        << " " << instruction.side1 << " " << instruction.side2;// << " " << instruction.cell1 << "," << instruction.cell2;
+
+    return os;
 }
 
 }
