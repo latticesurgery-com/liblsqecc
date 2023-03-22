@@ -104,29 +104,6 @@ struct BusyRegion{
     bool operator==(const BusyRegion&) const = default;
 };
 
-
-struct LSInstruction {
-
-    static constexpr size_t DEFAULT_MAX_WAIT = 3; // Allows for rotations to finish
-
-    std::variant<
-            DeclareLogicalQubitPatches,
-            SinglePatchMeasurement,
-            MultiPatchMeasurement,
-            PatchInit,
-            BellPairInit,
-            MagicStateRequest,
-            SingleQubitOp,
-            RotateSingleCellPatch,
-            BusyRegion
-            > operation;
-
-    size_t wait_at_most_for = DEFAULT_MAX_WAIT;
-
-    tsl::ordered_set<PatchId> get_operating_patches() const;
-    bool operator==(const LSInstruction&) const = default;
-};
-
 // TRL 03/22/23: First pass at a new IR for local instructions, which can depend on layout.
 // TRL 03/22/23: BellPrepare allocates two sides of a Bell pair at specified adjacent cells
 struct BellPrepare {
@@ -170,6 +147,35 @@ struct Move {
     Cell cell2;
 
     bool operator==(const Move&) const = default;
+};
+
+struct LSInstruction {
+
+    static constexpr size_t DEFAULT_MAX_WAIT = 3; // Allows for rotations to finish
+
+    std::variant<
+            DeclareLogicalQubitPatches,
+            SinglePatchMeasurement,
+            MultiPatchMeasurement,
+            PatchInit,
+            // TRL 03/16/23: Implementing BellPairInit as a new LLI
+            BellPairInit,
+            MagicStateRequest,
+            SingleQubitOp,
+            RotateSingleCellPatch,
+            BusyRegion,
+            // TRL 03/22/23: For now, adding local instructions here so I can use them with the followup instructions technique
+            BellPrepare,
+            BellMeasure,
+            TwoPatchMeasure,
+            ExtendSplit,
+            Move
+            > operation;
+
+    size_t wait_at_most_for = DEFAULT_MAX_WAIT;
+
+    tsl::ordered_set<PatchId> get_operating_patches() const;
+    bool operator==(const LSInstruction&) const = default;
 };
 
 // TRL 03/22/23: First pass at a new IR for local instructions, which can depend on layout.

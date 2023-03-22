@@ -160,7 +160,7 @@ std::ostream& operator<<(std::ostream& os, const BusyRegion& instruction)
         os << "OccupiedRegion:" << "(" << cell.cell.row << "," << cell.cell.col << ")";
     return os << " " << "StateAfterClearing:TODO"; // TODO
 }
-
+// TRL 03/22/23: First pass at a new IR for local instructions
 std::ostream& operator<<(std::ostream& os, const BellPrepare& instruction)
 {
     os << LSInstructionPrint<BellPrepare>::name
@@ -188,6 +188,13 @@ std::ostream& operator<<(std::ostream& os, const ExtendSplit& instruction)
 {
     os << LSInstructionPrint<ExtendSplit>::name
         << " " << instruction.side1 << " " << instruction.side2;// << " " << instruction.cell1 << "," << instruction.cell2;
+
+    return os;
+}
+std::ostream& operator<<(std::ostream& os, const Move& instruction)
+{
+    os << LSInstructionPrint<Move>::name
+        << " " << instruction.cell1 << " " << instruction.cell2;// << " " << instruction.cell1 << "," << instruction.cell2;
 
     return os;
 }

@@ -242,6 +242,42 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
 
         return {nullptr, {}};
     }
+    // TRL 03/22/23: Implementing BellPrepare LocalInstruction
+    else if (const auto* bellprep = std::get_if<BellPrepare>(&instruction.operation))
+    {
+        slice.place_sparse_patch(LayoutHelpers::basic_square_patch(bellprep->cell1), false);
+        slice.place_sparse_patch(LayoutHelpers::basic_square_patch(bellprep->cell2), false);
+        slice.get_boundary_between(bellprep->cell1,bellprep->cell2)->get().is_active=true;
+        slice.get_boundary_between(bellprep->cell2,bellprep->cell1)->get().is_active=true;
+
+        return {nullptr, {}};
+    }
+    // TRL 03/22/23: Implementing BellMeasure LocalInstruction
+    else if (const auto* bellmeas = std::get_if<BellMeasure>(&instruction.operation))
+    {
+        // TODO remove duplicate cell/patch search
+        if (slice.patch_at(bellmeas->cell1)->is_active())
+        {
+            return {std::make_unique<std::runtime_error>(lstk::cat("Patch at ", bellmeas->cell1, " is active")), {}};
+        }
+        else if (slice.patch_at(bellmeas->cell2)->is_active())
+        {
+            return {std::make_unique<std::runtime_error>(lstk::cat("Patch at ", bellmeas->cell2, " is active")), {}};
+        }
+        slice.get_boundary_between(bellmeas->cell1,bellmeas->cell2)->get().is_active=true;
+        slice.get_boundary_between(bellmeas->cell2,bellmeas->cell1)->get().is_active=true;
+
+        return {nullptr, {}};
+    }
+    // TRL 03/22/23: Implementing Move LocalInstruction
+    else if (const auto* move = std::get_if<Move>(&instruction.operation))
+    {
+        slice.place_sparse_patch(LayoutHelpers::basic_square_patch(move->cell2), false);
+        slice.patch_at(move->cell1)->activity = PatchActivity::Measurement;
+
+        return {nullptr, {}};
+    }
+    // TRL 03/16/23: Implementing BellPairInit as a new LLI
     else if (const auto* bell_init = std::get_if<BellPairInit>(&instruction.operation)) 
     {
         auto routing_region = router.find_routing_ancilla(slice, bell_init->loc1.target, bell_init->loc1.op, bell_init->loc2.target, bell_init->loc2.op);
@@ -260,36 +296,49 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         }
 
         // TRL 03/22/23: Construct LocalInstructions based on route
+        // TRL 03/22/23: Create a vector of LSInstruction to return as well
         std::vector<std::vector<LocalInstruction>> local_instructions;
         std::vector<LocalInstruction> layer1;
         std::vector<LocalInstruction> layer2;
-        for (size_t i=0; i<routing_region->cells.size(); i=i+2)
+        std::vector<LSInstruction> followup_instructions;
+        // std::cout << routing_region->cells.size();
+        for (size_t i=0; i<routing_region->cells.size()-1; i=i+2)
         {
             // May want patch IDs later but cells are fine for now
             // PatchId id1 = id_generator_.new_id();
             // PatchId id2 = id_generator_.new_id();
             // layer1.push_back(BellPrepare{id1, id2, routing_region->cells[i].cell, routing_region->cells[i+1].cell});
             layer1.push_back({BellPrepare{routing_region->cells[i].cell, routing_region->cells[i+1].cell}});
+            followup_instructions.push_back({BellPrepare{routing_region->cells[i].cell, routing_region->cells[i+1].cell}});
+            // std::cout << routing_region->cells[i].cell << routing_region->cells[i+1].cell << std::endl;
             if (i!=0)
             {
                 layer2.push_back({BellMeasure{routing_region->cells[i-1].cell, routing_region->cells[i].cell}});
+                followup_instructions.push_back({BellMeasure{routing_region->cells[i-1].cell, routing_region->cells[i].cell}});
             }
         }
         if (routing_region->cells.size()%2 == 1)
         {
             layer2.push_back({Move{routing_region->cells[routing_region->cells.size()-2].cell, routing_region->cells[routing_region->cells.size()-1].cell}});
+            followup_instructions.push_back({Move{routing_region->cells[routing_region->cells.size()-2].cell, routing_region->cells[routing_region->cells.size()-1].cell}});
         }
         local_instructions.push_back(layer1); 
         local_instructions.push_back(layer2);
 
-        apply_routing_region(slice, *routing_region);
+        // // TRL 03/17/23: Apply route 
+        // apply_routing_region(slice, *routing_region);
 
-        std::vector<SparsePatch> bell_state;
-        bell_state.push_back(LayoutHelpers::basic_square_patch(routing_region->cells.back().cell));
-        bell_state.push_back(LayoutHelpers::basic_square_patch(routing_region->cells.front().cell));
-        bell_state[0].id = bell_init->side1; bell_state[1].id = bell_init->side2;
+        // // TRL 03/17/23: Make the routing region busy for the appropriate number of time steps and then place ancillae in first and last
+        // std::vector<SparsePatch> bell_state;
+        // bell_state.push_back(LayoutHelpers::basic_square_patch(routing_region->cells.back().cell));
+        // bell_state.push_back(LayoutHelpers::basic_square_patch(routing_region->cells.front().cell));
+        // bell_state[0].id = bell_init->side1; bell_state[1].id = bell_init->side2;
+        // return {nullptr, {{{BusyRegion{routing_region.value(), 1, bell_state}}}}};
 
-        return {nullptr, {{{BusyRegion{routing_region.value(), 1, bell_state}}}}};
+        return {nullptr, followup_instructions};
+
+        // TRL 03/17/23: Implement options for compiling to local vs nonlocal instruction sets
+
     }
     else if (const auto* rotation = std::get_if<RotateSingleCellPatch>(&instruction.operation))
     {
