@@ -22,6 +22,68 @@ struct DeclareLogicalQubitPatches{
     bool operator==(const DeclareLogicalQubitPatches&) const = default;
 };
 
+
+struct BellPrepare {
+    std::optional<PatchId> side1;
+    std::optional<PatchId> side2;
+    Cell cell1;
+    Cell cell2;
+
+    bool operator==(const BellPrepare&) const = default;
+};
+
+struct BellMeasure {
+    // PatchId side1;
+    // PatchId side2;
+    // PauliOperator op;
+    Cell cell1;
+    Cell cell2;
+
+    bool operator==(const BellMeasure&) const = default;
+};
+
+struct TwoPatchMeasure {
+    PatchId side1;
+    PatchId side2;
+    PauliOperator op;
+
+    bool operator==(const TwoPatchMeasure&) const = default;
+};
+
+struct ExtendSplit {
+    PatchId side1;
+    PatchId side2;
+    Cell extension;
+
+    bool operator==(const ExtendSplit&) const = default;
+};
+
+struct Move {
+    std::optional<PatchId> target;
+    Cell cell1;
+    Cell cell2;
+
+    bool operator==(const Move&) const = default;
+};
+
+struct LocalInstruction {
+
+    // static constexpr size_t DEFAULT_MAX_WAIT = 3; // Allows for rotations to finish
+
+    std::variant<
+            BellPrepare,
+            BellMeasure,
+            TwoPatchMeasure,
+            ExtendSplit,
+            Move
+            > operation;
+
+    // size_t wait_at_most_for = DEFAULT_MAX_WAIT;
+
+    // tsl::ordered_set<PatchId> get_operating_patches() const;
+    bool operator==(const LocalInstruction&) const = default;
+};
+
 struct SinglePatchMeasurement {
     PatchId target;
     PauliOperator observable;
@@ -62,6 +124,8 @@ struct BellPairInit {
     PatchId side2; 
     PlaceNexTo loc1;
     PlaceNexTo loc2;
+    std::optional<std::vector<LocalInstruction>> local_instructions;
+    std::optional<unsigned int> counter;
 
     bool operator==(const BellPairInit&) const = default;
 };
@@ -104,51 +168,6 @@ struct BusyRegion{
     bool operator==(const BusyRegion&) const = default;
 };
 
-// TRL 03/22/23: First pass at a new IR for local instructions, which can depend on layout.
-// TRL 03/22/23: BellPrepare allocates two sides of a Bell pair at specified adjacent cells
-struct BellPrepare {
-    std::optional<PatchId> side1;
-    std::optional<PatchId> side2;
-    Cell cell1;
-    Cell cell2;
-
-    bool operator==(const BellPrepare&) const = default;
-};
-// TRL 03/22/23: BellMeasure performs a ZZ or XX measurement and then measures out in the opposite basis
-struct BellMeasure {
-    // PatchId side1;
-    // PatchId side2;
-    // PauliOperator op;
-    Cell cell1;
-    Cell cell2;
-
-    bool operator==(const BellMeasure&) const = default;
-};
-// TRL 03/22/23: TwoPatchMeasure performs a ZZ or XX measurement
-struct TwoPatchMeasure {
-    PatchId side1;
-    PatchId side2;
-    PauliOperator op;
-
-    bool operator==(const TwoPatchMeasure&) const = default;
-};
-// TRL 03/22/23: ExtendSplit merges and splits a patch with an adjacent cell
-struct ExtendSplit {
-    PatchId side1;
-    PatchId side2;
-    Cell extension;
-
-    bool operator==(const ExtendSplit&) const = default;
-};
-// TRL 03/22/23: Move merges and splits a patch with an adjacent cell and then measures out the cell left behind
-struct Move {
-    std::optional<PatchId> target;
-    Cell cell1;
-    Cell cell2;
-
-    bool operator==(const Move&) const = default;
-};
-
 struct LSInstruction {
 
     static constexpr size_t DEFAULT_MAX_WAIT = 3; // Allows for rotations to finish
@@ -158,43 +177,17 @@ struct LSInstruction {
             SinglePatchMeasurement,
             MultiPatchMeasurement,
             PatchInit,
-            // TRL 03/16/23: Implementing BellPairInit as a new LLI
             BellPairInit,
             MagicStateRequest,
             SingleQubitOp,
             RotateSingleCellPatch,
-            BusyRegion,
-            // TRL 03/22/23: For now, adding local instructions here so I can use them with the followup instructions technique
-            BellPrepare,
-            BellMeasure,
-            TwoPatchMeasure,
-            ExtendSplit,
-            Move
+            BusyRegion
             > operation;
 
     size_t wait_at_most_for = DEFAULT_MAX_WAIT;
 
     tsl::ordered_set<PatchId> get_operating_patches() const;
     bool operator==(const LSInstruction&) const = default;
-};
-
-// TRL 03/22/23: First pass at a new IR for local instructions, which can depend on layout.
-struct LocalInstruction {
-
-    // static constexpr size_t DEFAULT_MAX_WAIT = 3; // Allows for rotations to finish
-
-    std::variant<
-            BellPrepare,
-            BellMeasure,
-            TwoPatchMeasure,
-            ExtendSplit,
-            Move
-            > operation;
-
-    // size_t wait_at_most_for = DEFAULT_MAX_WAIT;
-
-    // tsl::ordered_set<PatchId> get_operating_patches() const;
-    bool operator==(const LocalInstruction&) const = default;
 };
 
 struct InMemoryLogicalLatticeComputation
@@ -205,6 +198,7 @@ struct InMemoryLogicalLatticeComputation
 
 
 std::ostream& operator<<(std::ostream& os, const LSInstruction& instruction);
+std::ostream& operator<<(std::ostream& os, const LocalInstruction& instruction);
 
 std::ostream& operator<<(std::ostream& os, const DeclareLogicalQubitPatches& instruction);
 std::ostream& operator<<(std::ostream& os, const SinglePatchMeasurement& instruction);
@@ -216,12 +210,11 @@ std::ostream& operator<<(std::ostream& os, const MagicStateRequest& instruction)
 std::ostream& operator<<(std::ostream& os, const SingleQubitOp& instruction);
 std::ostream& operator<<(std::ostream& os, const RotateSingleCellPatch& instruction);
 std::ostream& operator<<(std::ostream& os, const BusyRegion& instruction);
-// TRL 03/22/23: First pass at a new IR for local instructions
 std::ostream& operator<<(std::ostream& os, const BellPrepare& instruction);
 std::ostream& operator<<(std::ostream& os, const BellMeasure& instruction);
+std::ostream& operator<<(std::ostream& os, const Move& instruction);
 std::ostream& operator<<(std::ostream& os, const TwoPatchMeasure& instruction);
 std::ostream& operator<<(std::ostream& os, const ExtendSplit& instruction);
-std::ostream& operator<<(std::ostream& os, const Move& instruction);
 
 template <class T>
 struct LSInstructionPrint{};
@@ -272,7 +265,6 @@ template<>
 struct LSInstructionPrint<BusyRegion>{
     static constexpr std::string_view name = "BusyRegion";
 };
-// TRL 03/22/23: First pass at a new IR for local instructions
 template<>
 struct LSInstructionPrint<BellPrepare>{
     static constexpr std::string_view name = "BellPrepare";

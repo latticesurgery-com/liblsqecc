@@ -48,43 +48,18 @@ tsl::ordered_set<PatchId> LSInstruction::get_operating_patches() const
     }, operation);
     return ret;
 }
-// TRL 03/22/23: First pass at a new IR for local instructions, which can depend on layout.
-// tsl::ordered_set<PatchId> LocalInstruction::get_operating_patches() const
-// {
-//     tsl::ordered_set<PatchId> ret;
-//     std::visit(lstk::overloaded{
-//         [&](const BellPrepare& op) {
-//             ret.insert(op.side1);
-//             ret.insert(op.side2);
-//         },
-//         [&](const BellMeasure& op) {
-//             ret.insert(op.side1);
-//             ret.insert(op.side2);
-//         },
-//         [&](const TwoPatchMeasure& op) {
-//             ret.insert(op.side1);
-//             ret.insert(op.side2);
-//         },
-//         [&](const ExtendSplit& op) {
-//             ret.insert(op.side1);
-//             ret.insert(op.side2);
-//         },
-//         [&](const Move& op) {
-//             ret.insert(op.side1);
-//             ret.insert(op.side2);
-//         },
-//         [&](const auto& op){
-//             LSTK_UNREACHABLE;
-//         }
-//     }, operation);
-//     return ret;
-// }
 
 std::ostream& operator<<(std::ostream& os, const LSInstruction& instruction)
 {
     std::visit([&os](auto&& op){ os << op;}, instruction.operation);
     if (instruction.wait_at_most_for != LSInstruction::DEFAULT_MAX_WAIT)
         os << " #WaitAtMostFor " << instruction.wait_at_most_for;
+    return os;
+}
+
+std::ostream& operator<<(std::ostream& os, const LocalInstruction& instruction)
+{
+    std::visit([&os](auto&& op){ os << op;}, instruction.operation);
     return os;
 }
 
@@ -160,7 +135,6 @@ std::ostream& operator<<(std::ostream& os, const BusyRegion& instruction)
         os << "OccupiedRegion:" << "(" << cell.cell.row << "," << cell.cell.col << ")";
     return os << " " << "StateAfterClearing:TODO"; // TODO
 }
-// TRL 03/22/23: First pass at a new IR for local instructions
 std::ostream& operator<<(std::ostream& os, const BellPrepare& instruction)
 {
     os << LSInstructionPrint<BellPrepare>::name

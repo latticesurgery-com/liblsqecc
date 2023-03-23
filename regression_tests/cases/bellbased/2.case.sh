@@ -12,7 +12,6 @@ RotateSingleCellPatch 1
 MultiBodyMeasure 0:Z,100:Z
 "
 echo "$INPUT" | lsqecc_slicer -L edpc --nostagger
-# echo "$INPUT" | ./../build/lsqecc_slicer -L edpc --nostagger --noslices
 
 
 
