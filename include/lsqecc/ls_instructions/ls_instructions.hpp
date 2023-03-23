@@ -107,8 +107,8 @@ struct BusyRegion{
 // TRL 03/22/23: First pass at a new IR for local instructions, which can depend on layout.
 // TRL 03/22/23: BellPrepare allocates two sides of a Bell pair at specified adjacent cells
 struct BellPrepare {
-    // PatchId side1;
-    // PatchId side2;
+    std::optional<PatchId> side1;
+    std::optional<PatchId> side2;
     Cell cell1;
     Cell cell2;
 
@@ -142,7 +142,7 @@ struct ExtendSplit {
 };
 // TRL 03/22/23: Move merges and splits a patch with an adjacent cell and then measures out the cell left behind
 struct Move {
-    // PatchId side1;
+    std::optional<PatchId> target;
     Cell cell1;
     Cell cell2;
 
