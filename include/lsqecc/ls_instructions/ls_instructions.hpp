@@ -11,6 +11,7 @@
 
 #include <lsqecc/patches/patches.hpp>
 #include <lsqecc/dag/commutation_trait.hpp>
+#include <lsqecc/ls_instructions/local_instructions.hpp>
 
 
 namespace lsqecc {
@@ -21,78 +22,6 @@ struct DeclareLogicalQubitPatches{
 
     bool operator==(const DeclareLogicalQubitPatches&) const = default;
 };
-
-// TRL 03/24/23: Utilizing a namespace for local instructions
-namespace LocalInstruction
-{
-// TRL 03/22/23: First pass at a new IR for local instructions, which can depend on layout.
-// TRL 03/22/23: BellPrepare allocates two sides of a Bell pair at specified adjacent cells
-struct BellPrepare {
-    std::optional<PatchId> side1;
-    std::optional<PatchId> side2;
-    Cell cell1;
-    Cell cell2;
-
-    bool operator==(const BellPrepare&) const = default;
-};
-
-struct BellMeasure {
-    Cell cell1;
-    Cell cell2;
-
-    bool operator==(const BellMeasure&) const = default;
-};
-
-struct TwoPatchMeasure {
-    Cell cell1;
-    Cell cell2;
-
-    bool operator==(const TwoPatchMeasure&) const = default;
-};
-
-struct ExtendSplit {
-    std::optional<PatchId> side1;
-    std::optional<PatchId> side2;
-    Cell target_cell;
-    Cell extension_cell;
-
-    bool operator==(const ExtendSplit&) const = default;
-};
-
-struct Move {
-    std::optional<PatchId> target;
-    Cell cell1;
-    Cell cell2;
-
-    bool operator==(const Move&) const = default;
-};
-// TRL 03/22/23: First pass at a new IR for local instructions, which can depend on layout.
-struct LSInstruction {
-
-    // static constexpr size_t DEFAULT_MAX_WAIT = 3; // Allows for rotations to finish
-
-    std::variant<
-            BellPrepare,
-            BellMeasure,
-            TwoPatchMeasure,
-            ExtendSplit,
-            Move
-            > operation;
-
-    // size_t wait_at_most_for = DEFAULT_MAX_WAIT;
-
-    // tsl::ordered_set<PatchId> get_operating_patches() const;
-    bool operator==(const LSInstruction&) const = default;
-};
-
-// TRL 03/22/23: First pass at a new IR for local instructions
-std::ostream& operator<<(std::ostream& os, const LSInstruction& instruction);
-std::ostream& operator<<(std::ostream& os, const BellPrepare& instruction);
-std::ostream& operator<<(std::ostream& os, const BellMeasure& instruction);
-std::ostream& operator<<(std::ostream& os, const Move& instruction);
-std::ostream& operator<<(std::ostream& os, const TwoPatchMeasure& instruction);
-std::ostream& operator<<(std::ostream& os, const ExtendSplit& instruction);
-}
 
 struct SinglePatchMeasurement {
     PatchId target;
@@ -270,32 +199,6 @@ template<>
 struct LSInstructionPrint<BusyRegion>{
     static constexpr std::string_view name = "BusyRegion";
 };
-template<>
-struct LSInstructionPrint<LocalInstruction::BellPrepare>{
-    static constexpr std::string_view name = "BellPrepare";
-};
-
-template<>
-struct LSInstructionPrint<LocalInstruction::BellMeasure>{
-    static constexpr std::string_view name = "BellMeasure";
-};
-
-template<>
-struct LSInstructionPrint<LocalInstruction::TwoPatchMeasure>{
-    static constexpr std::string_view name = "TwoPatchMeasure";
-};
-
-template<>
-struct LSInstructionPrint<LocalInstruction::ExtendSplit>{
-    static constexpr std::string_view name = "ExtendSplit";
-};
-
-template<>
-struct LSInstructionPrint<LocalInstruction::Move>{
-    static constexpr std::string_view name = "Move";
-};
-
-
 
 template <PatchInit::InitializeableStates State>
 struct InitializeableStatePrint{};
