@@ -35,21 +35,21 @@ struct BellPrepare {
 
     bool operator==(const BellPrepare&) const = default;
 };
-
+// TRL 03/22/23: BellMeasure performs a ZZ or XX measurement and then measures out in the opposite basis
 struct BellMeasure {
     Cell cell1;
     Cell cell2;
 
     bool operator==(const BellMeasure&) const = default;
 };
-
+// TRL 03/22/23: TwoPatchMeasure performs a ZZ or XX measurement
 struct TwoPatchMeasure {
     Cell cell1;
     Cell cell2;
 
     bool operator==(const TwoPatchMeasure&) const = default;
 };
-
+// TRL 03/22/23: ExtendSplit merges and splits a patch with an adjacent cell
 struct ExtendSplit {
     std::optional<PatchId> side1;
     std::optional<PatchId> side2;
@@ -58,7 +58,7 @@ struct ExtendSplit {
 
     bool operator==(const ExtendSplit&) const = default;
 };
-
+// TRL 03/22/23: Move merges and splits a patch with an adjacent cell and then measures out the cell left behind
 struct Move {
     std::optional<PatchId> target;
     Cell cell1;
@@ -129,6 +129,7 @@ struct PatchInit {
 
     bool operator==(const PatchInit&) const = default;
 };
+// TRL 03/16/23: Implementing BellPairInit as a new LLI
 struct BellPairInit {
     PatchId side1;
     PatchId side2; 
@@ -171,6 +172,7 @@ struct SingleQubitOp {
     bool operator==(const SingleQubitOp&) const = default;
 };
 
+// TRL 03/20/23: Updated to take a vector of SparsePatches
 struct BusyRegion{
     RoutingRegion region;
     size_t steps_to_clear;
@@ -188,6 +190,7 @@ struct LSInstruction {
             SinglePatchMeasurement,
             MultiPatchMeasurement,
             PatchInit,
+            // TRL 03/16/23: Implementing BellPairInit as a new LLI
             BellPairInit,
             MagicStateRequest,
             SingleQubitOp,
@@ -213,8 +216,10 @@ std::ostream& operator<<(std::ostream& os, const LSInstruction& instruction);
 std::ostream& operator<<(std::ostream& os, const DeclareLogicalQubitPatches& instruction);
 std::ostream& operator<<(std::ostream& os, const SinglePatchMeasurement& instruction);
 std::ostream& operator<<(std::ostream& os, const MultiPatchMeasurement& instruction);
+// TRL 03/21/23: Adding ability to print PlaceNexTo
 std::ostream& operator<<(std::ostream& os, const PlaceNexTo& place_next_to);
 std::ostream& operator<<(std::ostream& os, const PatchInit& instruction);
+// TRL 03/16/23: Implementing BellPairInit as a new LLI
 std::ostream& operator<<(std::ostream& os, const BellPairInit& instruction);
 std::ostream& operator<<(std::ostream& os, const MagicStateRequest& instruction);
 std::ostream& operator<<(std::ostream& os, const SingleQubitOp& instruction);
@@ -245,6 +250,7 @@ template<>
 struct LSInstructionPrint<PatchInit>{
     static constexpr std::string_view name = "Init";
 };
+// TRL 03/16/23: Implementing BellPairInit as a new LLI
 template<>
 struct LSInstructionPrint<BellPairInit>{
     static constexpr std::string_view name = "BellPairInit";
@@ -270,6 +276,7 @@ template<>
 struct LSInstructionPrint<BusyRegion>{
     static constexpr std::string_view name = "BusyRegion";
 };
+// TRL 03/22/23: First pass at a new IR for local instructions
 template<>
 struct LSInstructionPrint<LocalInstruction::BellPrepare>{
     static constexpr std::string_view name = "BellPrepare";

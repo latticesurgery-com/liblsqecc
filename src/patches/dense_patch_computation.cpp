@@ -165,11 +165,12 @@ struct InstructionApplicationResult
 
 InstructionApplicationResult try_apply_local_instruction(
         DenseSlice& slice,
-        LocalInstruction instruction,
+        LocalInstruction::LSInstruction instruction,
         const Layout& layout,
         Router& router)
 {
-    if (const auto* bellprep = std::get_if<BellPrepare>(&instruction.operation))
+    // TRL 03/22/23: Implementing BellPrepare LocalInstruction
+    if (const auto* bellprep = std::get_if<LocalInstruction::BellPrepare>(&instruction.operation))
     {
         if (!slice.is_cell_free(bellprep->cell1)) 
         {
@@ -193,7 +194,8 @@ InstructionApplicationResult try_apply_local_instruction(
 
         return {nullptr, {}};
     }
-    else if (const auto* bellmeas = std::get_if<BellMeasure>(&instruction.operation))
+    // TRL 03/22/23: Implementing BellMeasure LocalInstruction
+    else if (const auto* bellmeas = std::get_if<LocalInstruction::BellMeasure>(&instruction.operation))
     {
         if (slice.patch_at(bellmeas->cell1)->is_active())
         {
@@ -210,7 +212,8 @@ InstructionApplicationResult try_apply_local_instruction(
 
         return {nullptr, {}};
     }
-    else if (const auto* move = std::get_if<Move>(&instruction.operation))
+    // TRL 03/22/23: Implementing Move LocalInstruction
+    else if (const auto* move = std::get_if<LocalInstruction::Move>(&instruction.operation))
     {
         if (slice.patch_at(move->cell1)->is_active())
         {
@@ -229,12 +232,12 @@ InstructionApplicationResult try_apply_local_instruction(
 
         return {nullptr, {}};
     }
-    else if (const auto* s = std::get_if<TwoPatchMeasure>(&instruction.operation))
+    else if (const auto* s = std::get_if<LocalInstruction::TwoPatchMeasure>(&instruction.operation))
     {
         // Not yet implemented
         return {std::make_unique<std::runtime_error>("TwoPatchMeasure not yet implemented"), {}};
     }
-    else if (const auto* s = std::get_if<ExtendSplit>(&instruction.operation))
+    else if (const auto* s = std::get_if<LocalInstruction::ExtendSplit>(&instruction.operation))
     {
         // Not yet implemented
         return {std::make_unique<std::runtime_error>("TwoPatchMeasure not yet implemented"), {}};
@@ -341,27 +344,27 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                     bell_init->loc2.target, ":", PauliOperator_to_string(bell_init->loc2.op))), {}};
             }
 
-            // Construct LocalInstructions based on route
-            std::vector<LocalInstruction> local_instructions;
+            // TRL 03/22/23: Construct LocalInstructions based on route
+            std::vector<LocalInstruction::LSInstruction> local_instructions;
             for (size_t i=0; i<routing_region->cells.size()-1; i=i+2)
             {
                 // Push a BellPrepare instruction with PatchID's depending on the case
                 if (i==0) 
-                    local_instructions.push_back({BellPrepare{bell_init->side2, std::nullopt, routing_region->cells[i].cell, routing_region->cells[i+1].cell}});
+                    local_instructions.push_back({LocalInstruction::BellPrepare{bell_init->side2, std::nullopt, routing_region->cells[i].cell, routing_region->cells[i+1].cell}});
                 else if (i == routing_region->cells.size() - 2)
-                    local_instructions.push_back({BellPrepare{std::nullopt, bell_init->side1, routing_region->cells[i].cell, routing_region->cells[i+1].cell}});
+                    local_instructions.push_back({LocalInstruction::BellPrepare{std::nullopt, bell_init->side1, routing_region->cells[i].cell, routing_region->cells[i+1].cell}});
                 else 
-                    local_instructions.push_back({BellPrepare{std::nullopt, std::nullopt, routing_region->cells[i].cell, routing_region->cells[i+1].cell}});
+                    local_instructions.push_back({LocalInstruction::BellPrepare{std::nullopt, std::nullopt, routing_region->cells[i].cell, routing_region->cells[i+1].cell}});
             }
             for (size_t i=2; i<routing_region->cells.size()-1; i=i+2)
             {
                 // Push a complementary layer of BellMeasure instructions
-                local_instructions.push_back({BellMeasure{routing_region->cells[i-1].cell, routing_region->cells[i].cell}});
+                local_instructions.push_back({LocalInstruction::BellMeasure{routing_region->cells[i-1].cell, routing_region->cells[i].cell}});
             }
             // Take care of the case of an odd route
             if ((routing_region->cells.size()%2 == 1))
             {
-                local_instructions.push_back({Move{bell_init->side1, routing_region->cells[routing_region->cells.size()-2].cell, routing_region->cells[routing_region->cells.size()-1].cell}});
+                local_instructions.push_back({LocalInstruction::Move{bell_init->side1, routing_region->cells[routing_region->cells.size()-2].cell, routing_region->cells[routing_region->cells.size()-1].cell}});
             }
 
             // Update the LSInstruction itself

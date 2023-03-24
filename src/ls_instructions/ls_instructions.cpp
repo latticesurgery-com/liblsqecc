@@ -55,12 +55,6 @@ std::ostream& operator<<(std::ostream& os, const LSInstruction& instruction)
     return os;
 }
 
-std::ostream& operator<<(std::ostream& os, const LocalInstruction& instruction)
-{
-    std::visit([&os](auto&& op){ os << op;}, instruction.operation);
-    return os;
-}
-
 std::ostream& operator<<(std::ostream& os, const DeclareLogicalQubitPatches& instruction)
 {
     return os << LSInstructionPrint<DeclareLogicalQubitPatches>::name
@@ -133,10 +127,20 @@ std::ostream& operator<<(std::ostream& os, const BusyRegion& instruction)
         os << "(" << cell.cell.row << "," << cell.cell.col << "),";
     return os << "StepsToClear(" << instruction.steps_to_clear <<")";
 }
+
+namespace LocalInstruction 
+{
+// TRL 03/23/23:
+std::ostream& operator<<(std::ostream& os, const LSInstruction& instruction)
+{
+    std::visit([&os](auto&& op){ os << op;}, instruction.operation);
+    return os;
+}
+
+// TRL 03/22/23: First pass at a new IR for local instructions
 std::ostream& operator<<(std::ostream& os, const BellPrepare& instruction)
 {
     os << LSInstructionPrint<BellPrepare>::name
-        // << " " << instruction.side1 << " " << instruction.side2;// << " " << instruction.cell1 << "," << instruction.cell2;
         << " " << instruction.cell1 << " " << instruction.cell2;
 
     return os;
@@ -144,7 +148,6 @@ std::ostream& operator<<(std::ostream& os, const BellPrepare& instruction)
 std::ostream& operator<<(std::ostream& os, const BellMeasure& instruction)
 {
     os << LSInstructionPrint<BellMeasure>::name
-        // << " " << instruction.side1 << " " << instruction.side2;// << " " << instruction.cell1 << "," << instruction.cell2;
         << " " << instruction.cell1 << " " << instruction.cell2;
 
     return os;
@@ -152,23 +155,25 @@ std::ostream& operator<<(std::ostream& os, const BellMeasure& instruction)
 std::ostream& operator<<(std::ostream& os, const TwoPatchMeasure& instruction)
 {
     os << LSInstructionPrint<TwoPatchMeasure>::name
-        << " " << instruction.side1 << " " << instruction.side2;// << " " << instruction.cell1 << "," << instruction.cell2;
+        << " " << instruction.cell1 << "," << instruction.cell2;
 
     return os;
 }
 std::ostream& operator<<(std::ostream& os, const ExtendSplit& instruction)
 {
     os << LSInstructionPrint<ExtendSplit>::name
-        << " " << instruction.side1 << " " << instruction.side2;// << " " << instruction.cell1 << "," << instruction.cell2;
+        << " " << instruction.target_cell << "," << instruction.extension_cell;
 
     return os;
 }
 std::ostream& operator<<(std::ostream& os, const Move& instruction)
 {
     os << LSInstructionPrint<Move>::name
-        << " " << instruction.cell1 << " " << instruction.cell2;// << " " << instruction.cell1 << "," << instruction.cell2;
+        << " " << instruction.cell1 << " " << instruction.cell2;
 
     return os;
 }
+}
+
 
 }
