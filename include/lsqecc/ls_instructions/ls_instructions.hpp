@@ -63,7 +63,7 @@ struct BellPairInit {
     PatchId side2; 
     PlaceNexTo loc1;
     PlaceNexTo loc2;
-    // TRL 03/23/23: Creating LocalInstruction vector
+
     std::optional<std::vector<LocalInstruction::LSInstruction>> local_instructions;
     std::optional<unsigned int> counter;
 

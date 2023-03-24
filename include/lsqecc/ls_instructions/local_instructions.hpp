@@ -15,11 +15,9 @@
 
 namespace lsqecc {
 
-// TRL 03/24/23: Utilizing a namespace for local instructions
 namespace LocalInstruction
 {
-// TRL 03/22/23: First pass at a new IR for local instructions, which can depend on layout.
-// TRL 03/22/23: BellPrepare allocates two sides of a Bell pair at specified adjacent cells
+
 struct BellPrepare {
     std::optional<PatchId> side1;
     std::optional<PatchId> side2;
@@ -28,21 +26,21 @@ struct BellPrepare {
 
     bool operator==(const BellPrepare&) const = default;
 };
-// TRL 03/22/23: BellMeasure performs a ZZ or XX measurement and then measures out in the opposite basis
+
 struct BellMeasure {
     Cell cell1;
     Cell cell2;
 
     bool operator==(const BellMeasure&) const = default;
 };
-// TRL 03/22/23: TwoPatchMeasure performs a ZZ or XX measurement
+
 struct TwoPatchMeasure {
     Cell cell1;
     Cell cell2;
 
     bool operator==(const TwoPatchMeasure&) const = default;
 };
-// TRL 03/22/23: ExtendSplit merges and splits a patch with an adjacent cell
+
 struct ExtendSplit {
     std::optional<PatchId> side1;
     std::optional<PatchId> side2;
@@ -51,7 +49,7 @@ struct ExtendSplit {
 
     bool operator==(const ExtendSplit&) const = default;
 };
-// TRL 03/22/23: Move merges and splits a patch with an adjacent cell and then measures out the cell left behind
+
 struct Move {
     std::optional<PatchId> target;
     Cell cell1;
