@@ -499,7 +499,8 @@ void run_through_dense_slices_streamed(
         const Layout& layout,
         Router& router,
         std::optional<std::chrono::seconds> timeout,
-        const DenseSliceVisitor& slice_visitor,
+        DenseSliceVisitor slice_visitor,
+        LSInstructionVisitor instruction_visitor,
         bool graceful,
         DensePatchComputationResult& res)
 {
@@ -517,6 +518,9 @@ void run_through_dense_slices_streamed(
         }();
 
         auto application_result = try_apply_instruction_with_followup_attempts(slice, instruction, layout, router);
+        if (!application_result.maybe_error)
+            instruction_visitor(instruction);
+
         if (!application_result.followup_instructions.empty())
         {
             slice_visitor(slice);
@@ -542,7 +546,8 @@ void run_through_dense_slices_dag(
         const Layout& layout,
         Router& router,
         std::optional<std::chrono::seconds> timeout,
-        const DenseSliceVisitor& slice_visitor,
+        DenseSliceVisitor slice_visitor,
+        LSInstructionVisitor instruction_visitor,
         bool graceful,
         DensePatchComputationResult& res)
 {
@@ -583,8 +588,10 @@ void run_through_dense_slices_dag(
                     "Caused by:\n",
                     application_result.maybe_error->what())};
             else
+            {
                 res.ls_instructions_count_++;
-            
+                instruction_visitor(instruction);
+            }
             handle_followup_instructions(instruction_label, std::move(application_result.followup_instructions));
             
         }
@@ -609,10 +616,11 @@ void run_through_dense_slices_dag(
                 }
             }
             else
+            {
                 res.ls_instructions_count_++;
-
+                instruction_visitor(instruction);
+            }
             handle_followup_instructions(instruction_label, std::move(application_result.followup_instructions));
-
         }
 
         // Advance the slice
@@ -631,6 +639,7 @@ DensePatchComputationResult run_through_dense_slices(
         Router& router,
         std::optional<std::chrono::seconds> timeout,
         DenseSliceVisitor slice_visitor,
+        LSInstructionVisitor instruction_visitor,
         bool graceful)
 {
 
@@ -667,6 +676,7 @@ DensePatchComputationResult run_through_dense_slices(
                 router,
                 timeout,
                 slice_visitor,
+                instruction_visitor,
                 graceful,
                 res);
         }
@@ -678,6 +688,7 @@ DensePatchComputationResult run_through_dense_slices(
                 router,
                 timeout,
                 slice_visitor,
+                instruction_visitor,
                 graceful,
                 res);
         }

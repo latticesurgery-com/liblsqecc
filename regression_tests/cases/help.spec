@@ -10,7 +10,7 @@ Options:
     -P, --pipeline         pipeline mode: stream (default), dag
     -g, --graph-search     Set a graph search provider: djikstra (default), astar, boost (not always available)
     --graceful             If there is an error when slicing, print the error and terminate
-    --printlli             Output LLI instead of JSONs
+    --printlli             Output LLI instead of JSONs. options: before (default), sliced (prints lli on the same slice separated by semicolons)
     --printdag             Prints a dependancy dag of the circuit. Modes: input (default), processedlli
     --noslices             Do the slicing but don't write the slices out
     --cnotcorrections      Add Xs and Zs to correct the the negative outcomes: never (default), always

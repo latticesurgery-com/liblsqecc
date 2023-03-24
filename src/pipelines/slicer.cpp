@@ -55,13 +55,17 @@ namespace lsqecc
         Progress, NoProgress, Machine
     };
 
-
     enum class PrintDagMode {
         None, Input, ProcessedLli
      };
 
     enum class PipelineMode {
         Stream, Dag
+    };
+
+    enum class LLIPrintMode
+    {
+        None, BeforeSlicing, Sliced
     };
 
 
@@ -126,7 +130,7 @@ namespace lsqecc
                 .required(false);
         parser.add_argument()
                 .names({"--printlli"})
-                .description("Output LLI instead of JSONs")
+                .description("Output LLI instead of JSONs. options: before (default), sliced (prints lli on the same slice separated by semicolons)")
                 .required(false);
         parser.add_argument()
                 .names({"--printdag"})
@@ -178,12 +182,12 @@ namespace lsqecc
             return 0;
         }
 
-        std::reference_wrapper<std::ostream> write_slices_stream = std::ref(out_stream);
+        std::reference_wrapper<std::ostream> bulk_output_stream = std::ref(out_stream);
         std::unique_ptr<std::ostream> _ofstream_store;
         if(parser.exists("o"))
         {
             _ofstream_store = std::make_unique<std::ofstream>(parser.get<std::string>("o"));
-            write_slices_stream = std::ref(*_ofstream_store);
+            bulk_output_stream = std::ref(*_ofstream_store);
         }
 
         auto output_format_mode = (parser.exists("o") || parser.exists("noslices")) ? OutputFormatMode::Progress : OutputFormatMode::NoProgress;
@@ -335,7 +339,22 @@ namespace lsqecc
             instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
         }
 
+        LLIPrintMode lli_print_mode = LLIPrintMode::None;
         if(parser.exists("printlli"))
+        {
+            auto mode_arg = parser.get<std::string>("printlli");
+            if (mode_arg=="before" || mode_arg=="")
+                lli_print_mode = LLIPrintMode::BeforeSlicing;
+            else if (mode_arg=="sliced")
+                lli_print_mode = LLIPrintMode::Sliced;
+            else
+            {
+                err_stream << "Unknown lli print mode " << mode_arg << std::endl;
+                return -1;
+            }
+        }
+
+        if(lli_print_mode == LLIPrintMode::BeforeSlicing)
         {
             print_all_ls_instructions_to_string(out_stream, std::move(instruction_stream));
             return 0;
@@ -384,37 +403,30 @@ namespace lsqecc
         }
 
 
-        using SliceVisitorFunction = std::function<void(const SliceVariant & slice)>;
-
-        auto no_op_visitor = [](const SliceVariant& s) -> void {LSTK_UNUSED(s);};
-
-        SliceVisitorFunction slice_printing_visitor{no_op_visitor};
+        bool print_slices = !parser.exists("noslices") && lli_print_mode == LLIPrintMode::None;
+        DenseSliceVisitor slice_visitor = [](const DenseSlice& s) -> void {LSTK_UNUSED(s);};
         bool is_first_slice = true;
-        if(!parser.exists("noslices"))
+        if(print_slices)
         {
-            slice_printing_visitor = [&write_slices_stream, &is_first_slice](const SliceVariant & s){
+            slice_visitor = [&bulk_output_stream, &is_first_slice](const DenseSlice & s){
                 if(is_first_slice)
                 {
-                    write_slices_stream.get() << "[\n" << std::visit(
-                            [&](const auto& slice){ return slice_to_json(slice).dump(3);}, s);
+                    bulk_output_stream.get() << "[\n" << slice_to_json(s).dump(3);
                     is_first_slice = false;
                 }
                 else
-                    write_slices_stream.get() << ",\n" << std::visit(
-                            [&](const auto& slice){ return slice_to_json(slice).dump(3);},s);
+                    bulk_output_stream.get() << ",\n" << slice_to_json(s).dump(3);
             };
         }
 
         size_t slice_counter = 0;
 
-        SliceVisitorFunction visitor_with_progress{slice_printing_visitor};
-
         auto gave_update_at = lstk::now();
         if(output_format_mode == OutputFormatMode::Progress)
         {
-            visitor_with_progress = [&](const SliceVariant & s)
+            slice_visitor = [&, slice_visitor](const DenseSlice & s)
             {
-                slice_printing_visitor(s);
+                slice_visitor(s);
                 slice_counter++;
                 if(lstk::seconds_since(gave_update_at)>=1)
                 {
@@ -423,6 +435,23 @@ namespace lsqecc
                 }
             };
         }
+
+
+        LSInstructionVisitor instruction_visitor{[&](const LSInstruction& i){}};
+        if (lli_print_mode == LLIPrintMode::Sliced)
+        {
+            instruction_visitor = [&](const LSInstruction& i)
+            {
+                bulk_output_stream.get() << i << ";";
+            }; 
+
+            slice_visitor = [&,slice_visitor](const DenseSlice & s)
+            {
+                slice_visitor(s);
+                bulk_output_stream.get() << std::endl;
+            };
+        }
+
 
         auto start = lstk::now();
 
@@ -433,7 +462,8 @@ namespace lsqecc
                     *layout,
                     *router,
                     timeout,
-                    [&](const DenseSlice& s){visitor_with_progress(s);},
+                    slice_visitor,
+                    instruction_visitor,
                     parser.exists("graceful")
         ));
 
@@ -451,8 +481,11 @@ namespace lsqecc
                 out_stream << "Made patch computation. Took " << lstk::seconds_since(start) << "s." << std::endl;
             }
         }
-        if(!parser.exists("noslices"))
-            write_slices_stream.get() << "]" <<std::endl;
+        
+        if(print_slices)
+            bulk_output_stream.get() << "]" <<std::endl;
+        if (lli_print_mode == LLIPrintMode::Sliced)
+            bulk_output_stream.get() << std::endl;
 
         return 0;
     }
