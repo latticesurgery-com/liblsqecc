@@ -59,7 +59,8 @@ const Cell& SparsePatch::get_a_cell() const
 
 std::ostream& operator<<(std::ostream& os, const Cell& c)
 {
-    return os << "(" << c.row << "," << c.col << ")" << std::endl;
+    // TRL 03/29/23: removed end of line
+    return os << "(" << c.row << "," << c.col << ")";
 }
 
 void SparsePatch::visit_individual_cells_mut(std::function<void (SingleCellOccupiedByPatch&)> f)

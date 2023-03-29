@@ -18,14 +18,14 @@ std::ostream& operator<<(std::ostream& os, const LocalLSInstruction& instruction
 std::ostream& operator<<(std::ostream& os, const BellPrepare& instruction)
 {
     os << LocalInstructionPrint<BellPrepare>::name
-        << " " << instruction.cell1 << " " << instruction.cell2;
+        << " " << instruction.cell1 << "," << instruction.cell2;
 
     return os;
 }
 std::ostream& operator<<(std::ostream& os, const BellMeasure& instruction)
 {
     os << LocalInstructionPrint<BellMeasure>::name
-        << " " << instruction.cell1 << " " << instruction.cell2;
+        << " " << instruction.cell1 << "," << instruction.cell2;
 
     return os;
 }
@@ -46,7 +46,7 @@ std::ostream& operator<<(std::ostream& os, const ExtendSplit& instruction)
 std::ostream& operator<<(std::ostream& os, const Move& instruction)
 {
     os << LocalInstructionPrint<Move>::name
-        << " " << instruction.cell1 << " " << instruction.cell2;
+        << " " << instruction.cell1 << "," << instruction.cell2;
 
     return os;
 }
