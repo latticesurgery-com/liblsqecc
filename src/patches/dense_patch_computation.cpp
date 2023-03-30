@@ -380,7 +380,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
             InstructionApplicationResult r = try_apply_local_instruction(slice, bell_init->local_instructions.value()[i], layout, router);
             if (r.maybe_error && r.followup_instructions.empty())
                 return InstructionApplicationResult{nullptr, {instruction}};
-            else if (!r.followup_instructions.empty())
+            if (!r.followup_instructions.empty())
                 return InstructionApplicationResult{std::make_unique<std::runtime_error>("Followup local instructions not implemented"), {}};
 
             bell_init->counter->second++;
@@ -492,7 +492,8 @@ InstructionApplicationResult try_apply_instruction_with_followup_attempts(
 {
     InstructionApplicationResult r = try_apply_instruction_direct_followup(slice, instruction, layout, router);
     if (r.maybe_error && r.followup_instructions.empty())
-        return InstructionApplicationResult{nullptr, followup_next_attempt(instruction)};
+        // TRL 03/30/23: Returning the error here should fix a few bugs including repeated instructions in --printlli and non-crashing
+        return InstructionApplicationResult{std::move(r.maybe_error), followup_next_attempt(instruction)};
     return r;
 }
 
