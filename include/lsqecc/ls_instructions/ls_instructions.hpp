@@ -64,7 +64,7 @@ struct BellPairInit {
     PlaceNexTo loc1;
     PlaceNexTo loc2;
 
-    std::optional<std::vector<LocalInstruction::LSInstruction>> local_instructions;
+    std::optional<std::vector<LocalInstruction::LocalLSInstruction>> local_instructions;
     std::optional<unsigned int> counter;
 
     bool operator==(const BellPairInit&) const = default;

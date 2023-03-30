@@ -9,7 +9,7 @@ namespace lsqecc {
 namespace LocalInstruction 
 {
 
-std::ostream& operator<<(std::ostream& os, const LSInstruction& instruction)
+std::ostream& operator<<(std::ostream& os, const LocalLSInstruction& instruction)
 {
     std::visit([&os](auto&& op){ os << op;}, instruction.operation);
     return os;

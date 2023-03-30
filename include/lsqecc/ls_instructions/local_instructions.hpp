@@ -58,9 +58,7 @@ struct Move {
     bool operator==(const Move&) const = default;
 };
 
-struct LSInstruction {
-
-    // static constexpr size_t DEFAULT_MAX_WAIT = 3; // Allows for rotations to finish
+struct LocalLSInstruction {
 
     std::variant<
             BellPrepare,
@@ -70,13 +68,10 @@ struct LSInstruction {
             Move
             > operation;
 
-    // size_t wait_at_most_for = DEFAULT_MAX_WAIT;
-
-    // tsl::ordered_set<PatchId> get_operating_patches() const;
-    bool operator==(const LSInstruction&) const = default;
+    bool operator==(const LocalLSInstruction&) const = default;
 };
 
-std::ostream& operator<<(std::ostream& os, const LSInstruction& instruction);
+std::ostream& operator<<(std::ostream& os, const LocalLSInstruction& instruction);
 std::ostream& operator<<(std::ostream& os, const BellPrepare& instruction);
 std::ostream& operator<<(std::ostream& os, const BellMeasure& instruction);
 std::ostream& operator<<(std::ostream& os, const Move& instruction);

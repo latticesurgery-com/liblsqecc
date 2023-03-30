@@ -165,7 +165,7 @@ struct InstructionApplicationResult
 
 InstructionApplicationResult try_apply_local_instruction(
         DenseSlice& slice,
-        LocalInstruction::LSInstruction instruction,
+        LocalInstruction::LocalLSInstruction instruction,
         const Layout& layout,
         Router& router)
 {
@@ -344,7 +344,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                     bell_init->loc2.target, ":", PauliOperator_to_string(bell_init->loc2.op))), {}};
             }
 
-            std::vector<LocalInstruction::LSInstruction> local_instructions;
+            std::vector<LocalInstruction::LocalLSInstruction> local_instructions;
             local_instructions.reserve(routing_region->cells.size());
 
             for (size_t i=0; i<routing_region->cells.size()-1; i=i+2)
