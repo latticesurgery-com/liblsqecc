@@ -347,16 +347,17 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
 
             std::vector<LocalInstruction::LocalLSInstruction> local_instructions;
             local_instructions.reserve(routing_region->cells.size());
-
+            std::optional<PatchId> id1; std::optional<PatchId> id2;
             for (size_t i=0; i<routing_region->cells.size()-1; i=i+2)
             {
                 // Push a BellPrepare instruction with PatchID's depending on the case
+                id1 = std::nullopt; id2 = std::nullopt;
                 if (i==0) 
-                    local_instructions.push_back({LocalInstruction::BellPrepare{bell_init->side2, std::nullopt, routing_region->cells[i].cell, routing_region->cells[i+1].cell}});
-                else if (i == routing_region->cells.size() - 2)
-                    local_instructions.push_back({LocalInstruction::BellPrepare{std::nullopt, bell_init->side1, routing_region->cells[i].cell, routing_region->cells[i+1].cell}});
-                else 
-                    local_instructions.push_back({LocalInstruction::BellPrepare{std::nullopt, std::nullopt, routing_region->cells[i].cell, routing_region->cells[i+1].cell}});
+                    id1 = bell_init->side2;
+                if (i==routing_region->cells.size()-2)
+                    id2 = bell_init->side1;
+
+                local_instructions.push_back({LocalInstruction::BellPrepare{id1, id2, routing_region->cells[i].cell, routing_region->cells[i+1].cell}});
             }
             for (size_t i=2; i<routing_region->cells.size()-1; i=i+2)
             {
@@ -468,7 +469,8 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
 
             apply_routing_region(slice, busy_region->region);
             return {nullptr,{{BusyRegion{
-                    std::move(busy_region->region),
+                    // TRL 03/30/23: Removed std::move because we need to retain the present instruction for the sake of printing
+                    busy_region->region,
                     busy_region->steps_to_clear-1,
                     std::move(busy_region->state_after_clearing)}}}};
         }
