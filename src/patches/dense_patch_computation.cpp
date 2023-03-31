@@ -250,7 +250,6 @@ InstructionApplicationResult try_apply_local_instruction(
 
 InstructionApplicationResult try_apply_instruction_direct_followup(
         DenseSlice& slice,
-        // TRL 03/29/23: Pass instruction by reference and allow modification
         LSInstruction& instruction,
         const Layout& layout,
         Router& router)
@@ -469,7 +468,6 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
 
             apply_routing_region(slice, busy_region->region);
             return {nullptr,{{BusyRegion{
-                    // TRL 03/30/23: Removed std::move because we need to retain the present instruction for the sake of printing
                     busy_region->region,
                     busy_region->steps_to_clear-1,
                     std::move(busy_region->state_after_clearing)}}}};
@@ -485,14 +483,12 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
 
 InstructionApplicationResult try_apply_instruction_with_followup_attempts(
         DenseSlice& slice,
-        // TRL 03/29/23: Pass instruction by reference and allow modification
         LSInstruction& instruction,
         const Layout& layout,
         Router& router)
 {
     InstructionApplicationResult r = try_apply_instruction_direct_followup(slice, instruction, layout, router);
     if (r.maybe_error && r.followup_instructions.empty())
-        // TRL 03/30/23: Returning the error here should fix a few bugs including repeated instructions in --printlli and non-crashing
         return InstructionApplicationResult{std::move(r.maybe_error), followup_next_attempt(instruction)};
     return r;
 }
@@ -584,7 +580,6 @@ void run_through_dense_slices_dag(
         auto proximate_instructions = dag.proximate_instructions();
         for (dag::label_t instruction_label: proximate_instructions)
         {
-            // TRL 03/29/23: Removing const label
             LSInstruction& instruction = dag.at(instruction_label);
             auto application_result = try_apply_instruction_direct_followup(slice, instruction, layout, router);
             if (application_result.maybe_error)
@@ -606,7 +601,6 @@ void run_through_dense_slices_dag(
         auto non_proximate_instructions = dag.applicable_instructions();
         for (dag::label_t instruction_label: non_proximate_instructions)
         {
-            // TRL 03/29/23: Removing const label
             LSInstruction& instruction = dag.at(instruction_label);
             auto application_result = try_apply_instruction_direct_followup(slice, instruction, layout, router);
             if (application_result.maybe_error)

@@ -10,7 +10,7 @@ HGate 1
 RotateSingleCellPatch 1
 MultiBodyMeasure 0:Z,100:Z
 "
-echo "$INPUT" | lsqecc_slicer -l ../examples/core4by4layout.txt --nostagger 
+echo "$INPUT" | lsqecc_slicer -l ../examples/core4by4layout.txt --nostagger --printlli sliced
 
 
 

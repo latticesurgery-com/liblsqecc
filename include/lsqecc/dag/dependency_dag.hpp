@@ -62,7 +62,7 @@ struct DependencyDag
             proximate_instructions.push_back(label);
         return proximate_instructions;
     }
-    // TRL 03/29/23: Removing const label for this
+
     Instruction& at(label_t label)
     {
         return instructions_.at(label);

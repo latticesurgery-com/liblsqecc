@@ -59,7 +59,6 @@ const Cell& SparsePatch::get_a_cell() const
 
 std::ostream& operator<<(std::ostream& os, const Cell& c)
 {
-    // TRL 03/29/23: removed end of line
     return os << "(" << c.row << "," << c.col << ")";
 }
 
