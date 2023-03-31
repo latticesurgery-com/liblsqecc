@@ -163,7 +163,90 @@ struct InstructionApplicationResult
     std::vector<LSInstruction> followup_instructions;
 };
 
+InstructionApplicationResult try_apply_local_instruction(
+        DenseSlice& slice,
+        LocalInstruction::LocalLSInstruction instruction,
+        const Layout& layout,
+        Router& router)
+{
 
+    if (const auto* bellprep = std::get_if<LocalInstruction::BellPrepare>(&instruction.operation))
+    {
+        if (!slice.is_cell_free(bellprep->cell1)) 
+        {
+            std::cout << lstk::cat("Cell ", bellprep->cell1, " is not free") << std::endl;
+            return {std::make_unique<std::runtime_error>(lstk::cat("Cell ", bellprep->cell1, " is not free")), {}};
+        }
+        else if (!slice.is_cell_free(bellprep->cell2))
+        {
+            std::cout << lstk::cat("Cell ", bellprep->cell2, " is not free") << std::endl;
+            return {std::make_unique<std::runtime_error>(lstk::cat("Cell ", bellprep->cell2, " is not free")), {}};
+        }
+        std::vector<SparsePatch> bell_state;
+        bell_state.push_back(LayoutHelpers::basic_square_patch(bellprep->cell1));
+        bell_state.push_back(LayoutHelpers::basic_square_patch(bellprep->cell2));
+        bell_state[0].id = bellprep->side1; bell_state[1].id = bellprep->side2;
+
+        slice.place_sparse_patch(bell_state[0], false);
+        slice.place_sparse_patch(bell_state[1], false);
+        slice.get_boundary_between(bellprep->cell1,bellprep->cell2)->get().is_active=true;
+        slice.get_boundary_between(bellprep->cell2,bellprep->cell1)->get().is_active=true;
+
+        return {nullptr, {}};
+    }
+
+    else if (const auto* bellmeas = std::get_if<LocalInstruction::BellMeasure>(&instruction.operation))
+    {
+        if (slice.patch_at(bellmeas->cell1)->is_active())
+        {
+            return {std::make_unique<std::runtime_error>(lstk::cat("Patch at ", bellmeas->cell1, " is active")), {}};
+        }
+        else if (slice.patch_at(bellmeas->cell2)->is_active())
+        {
+            return {std::make_unique<std::runtime_error>(lstk::cat("Patch at ", bellmeas->cell2, " is active")), {}};
+        }
+        slice.get_boundary_between(bellmeas->cell1,bellmeas->cell2)->get().is_active=true;
+        slice.get_boundary_between(bellmeas->cell2,bellmeas->cell1)->get().is_active=true;
+        slice.patch_at(bellmeas->cell1)->activity = PatchActivity::Measurement;
+        slice.patch_at(bellmeas->cell2)->activity = PatchActivity::Measurement;
+
+        return {nullptr, {}};
+    }
+
+    else if (const auto* move = std::get_if<LocalInstruction::Move>(&instruction.operation))
+    {
+        if (slice.patch_at(move->cell1)->is_active())
+        {
+            return {std::make_unique<std::runtime_error>(lstk::cat("Patch at ", move->cell1, " is active")), {}};
+        }
+        else if (!slice.is_cell_free(move->cell2))
+        {
+            return {std::make_unique<std::runtime_error>(lstk::cat("Cell ", move->cell2, " is not free")), {}};
+        }
+        SparsePatch patch = LayoutHelpers::basic_square_patch(move->cell2);
+        patch.id = move->target;
+        slice.place_sparse_patch(patch, false);
+        slice.get_boundary_between(move->cell1,move->cell2)->get().is_active=true;
+        slice.get_boundary_between(move->cell2,move->cell1)->get().is_active=true;
+        slice.patch_at(move->cell1)->activity = PatchActivity::Measurement;
+
+        return {nullptr, {}};
+    }
+    else if (const auto* s = std::get_if<LocalInstruction::TwoPatchMeasure>(&instruction.operation))
+    {
+        // Not yet implemented
+        return {std::make_unique<std::runtime_error>("TwoPatchMeasure not yet implemented"), {}};
+    }
+    else if (const auto* s = std::get_if<LocalInstruction::ExtendSplit>(&instruction.operation))
+    {
+        // Not yet implemented
+        return {std::make_unique<std::runtime_error>("ExtendSplit not yet implemented"), {}};
+    }
+
+    std::stringstream s;
+    s << "Unhandled LocalInstruction in PatchComputation: " << instruction;
+    return {std::make_unique<std::runtime_error>(s.str()),{}};
+}
 
 InstructionApplicationResult try_apply_instruction_direct_followup(
         DenseSlice& slice,
@@ -242,23 +325,66 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
 
         return {nullptr, {}};
     }
-    else if (const auto* bell_init = std::get_if<BellPairInit>(&instruction.operation)) 
+    else if (auto* bell_init = std::get_if<BellPairInit>(&instruction.operation)) 
     {
-        auto routing_region = router.find_routing_ancilla(slice, bell_init->loc1.target, bell_init->loc1.op, bell_init->loc2.target, bell_init->loc2.op);
-        if(!routing_region) {
-            return {std::make_unique<std::runtime_error>(lstk::cat("No valid route found for Bell pair creation: ",
-                bell_init->loc1.target, ":", PauliOperator_to_string(bell_init->loc1.op), ",",
-                bell_init->loc2.target, ":", PauliOperator_to_string(bell_init->loc2.op))), {}};
+
+        if (!bell_init->counter.has_value())
+        {
+            auto routing_region = router.find_routing_ancilla(slice, bell_init->loc1.target, bell_init->loc1.op, bell_init->loc2.target, bell_init->loc2.op);
+            if(!routing_region) 
+            {
+                return {std::make_unique<std::runtime_error>(lstk::cat("No valid route found for Bell pair creation: ",
+                    bell_init->loc1.target, ":", PauliOperator_to_string(bell_init->loc1.op), ",",
+                    bell_init->loc2.target, ":", PauliOperator_to_string(bell_init->loc2.op))), {}};
+            }
+            else if (routing_region->cells.size() < 2) 
+            {
+                return {std::make_unique<std::runtime_error>(lstk::cat("Shortest route cannot be used for Bell pair creation: ",
+                    bell_init->loc1.target, ":", PauliOperator_to_string(bell_init->loc1.op), ",",
+                    bell_init->loc2.target, ":", PauliOperator_to_string(bell_init->loc2.op))), {}};
+            }
+
+            std::vector<LocalInstruction::LocalLSInstruction> local_instructions;
+            local_instructions.reserve(routing_region->cells.size());
+
+            for (size_t i=0; i<routing_region->cells.size()-1; i=i+2)
+            {
+                // Push a BellPrepare instruction with PatchID's depending on the case
+                if (i==0) 
+                    local_instructions.push_back({LocalInstruction::BellPrepare{bell_init->side2, std::nullopt, routing_region->cells[i].cell, routing_region->cells[i+1].cell}});
+                else if (i == routing_region->cells.size() - 2)
+                    local_instructions.push_back({LocalInstruction::BellPrepare{std::nullopt, bell_init->side1, routing_region->cells[i].cell, routing_region->cells[i+1].cell}});
+                else 
+                    local_instructions.push_back({LocalInstruction::BellPrepare{std::nullopt, std::nullopt, routing_region->cells[i].cell, routing_region->cells[i+1].cell}});
+            }
+            for (size_t i=2; i<routing_region->cells.size()-1; i=i+2)
+            {
+                // Push a complementary layer of BellMeasure instructions
+                local_instructions.push_back({LocalInstruction::BellMeasure{routing_region->cells[i-1].cell, routing_region->cells[i].cell}});
+            }
+            // Take care of the case of an odd route
+            if ((routing_region->cells.size()%2 == 1))
+            {
+                local_instructions.push_back({LocalInstruction::Move{bell_init->side1, routing_region->cells[routing_region->cells.size()-2].cell, routing_region->cells[routing_region->cells.size()-1].cell}});
+            }
+
+            bell_init->local_instructions = std::move(local_instructions);
+            bell_init->counter = 0;
         }
 
-        apply_routing_region(slice, *routing_region);
+        for (unsigned int i = bell_init->counter.value(); i < bell_init->local_instructions.value().size(); i++)
+        {
+            InstructionApplicationResult r = try_apply_local_instruction(slice, bell_init->local_instructions.value()[i], layout, router);
+            if (r.maybe_error && r.followup_instructions.empty())
+                return InstructionApplicationResult{nullptr, {instruction}};
+            else if (!r.followup_instructions.empty())
+                return InstructionApplicationResult{std::make_unique<std::runtime_error>("Followup local instructions not implemented"), {}};
 
-        std::vector<SparsePatch> bell_state;
-        bell_state.push_back(LayoutHelpers::basic_square_patch(routing_region->cells.back().cell));
-        bell_state.push_back(LayoutHelpers::basic_square_patch(routing_region->cells.front().cell));
-        bell_state[0].id = bell_init->side1; bell_state[1].id = bell_init->side2;
+            bell_init->counter.value()++;
+        }
 
-        return {nullptr, {{{BusyRegion{routing_region.value(), 1, bell_state}}}}};
+        return {nullptr, {}};
+
     }
     else if (const auto* rotation = std::get_if<RotateSingleCellPatch>(&instruction.operation))
     {

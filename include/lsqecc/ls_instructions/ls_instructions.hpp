@@ -11,6 +11,7 @@
 
 #include <lsqecc/patches/patches.hpp>
 #include <lsqecc/dag/commutation_trait.hpp>
+#include <lsqecc/ls_instructions/local_instructions.hpp>
 
 
 namespace lsqecc {
@@ -63,6 +64,9 @@ struct BellPairInit {
     PlaceNexTo loc1;
     PlaceNexTo loc2;
 
+    std::optional<std::vector<LocalInstruction::LocalLSInstruction>> local_instructions;
+    std::optional<unsigned int> counter;
+
     bool operator==(const BellPairInit&) const = default;
 };
 
@@ -103,7 +107,6 @@ struct BusyRegion{
 
     bool operator==(const BusyRegion&) const = default;
 };
-
 
 struct LSInstruction {
 
@@ -196,8 +199,6 @@ template<>
 struct LSInstructionPrint<BusyRegion>{
     static constexpr std::string_view name = "BusyRegion";
 };
-
-
 
 template <PatchInit::InitializeableStates State>
 struct InitializeableStatePrint{};

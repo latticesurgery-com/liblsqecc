@@ -21,7 +21,7 @@ t q[13];
 t q[14];
 t q[15];
 "
-echo "$INPUT" | lsqecc_slicer -q -L edpc --nostagger --graceful
+echo "$INPUT" | lsqecc_slicer -q -L edpc --nostagger
 
 
 
