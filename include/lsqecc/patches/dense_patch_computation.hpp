@@ -37,6 +37,7 @@ struct DensePatchComputationResult : public PatchComputationResult {
 DensePatchComputationResult run_through_dense_slices(
         LSInstructionStream&& instruction_stream,
         bool dag_pipeline,
+        bool local_instructions,
         const Layout& layout,
         Router& router,
         std::optional<std::chrono::seconds> timeout,
