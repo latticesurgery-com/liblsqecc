@@ -553,7 +553,7 @@ void run_through_dense_slices_dag(
     DenseSlice slice{layout, core_qubits};
 
     std::unordered_map<dag::label_t, size_t> attempts_per_instruction;
-    auto increment_attepmts = [&attempts_per_instruction](dag::label_t label)
+    auto increment_attempts = [&attempts_per_instruction](dag::label_t label)
     {
         if (!attempts_per_instruction.contains(label))
             attempts_per_instruction[label] = 0;
@@ -603,7 +603,7 @@ void run_through_dense_slices_dag(
             auto application_result = try_apply_instruction_direct_followup(slice, instruction, layout, router);
             if (application_result.maybe_error)
             {
-                increment_attepmts(instruction_label);
+                increment_attempts(instruction_label);
                 if (attempts_per_instruction[instruction_label] > MAX_INSTRUCTION_APPLICATION_RETRIES_DAG_PIPELINE)
                 {
                     throw std::runtime_error{lstk::cat(
