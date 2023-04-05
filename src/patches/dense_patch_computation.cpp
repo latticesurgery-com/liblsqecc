@@ -337,6 +337,11 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
     }
     else if (auto* bell_init = std::get_if<BellPairInit>(&instruction.operation)) 
     {
+        if (!slice.has_patch(bell_init->loc1.target))
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Patch ", bell_init->loc1.target, " not on lattice")), {}};
+        if (!slice.has_patch(bell_init->loc2.target)) 
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Patch ", bell_init->loc2.target, " not on lattice")), {}};
+
         if (!local_instructions)
         {
             auto routing_region = router.find_routing_ancilla(slice, bell_init->loc1.target, bell_init->loc1.op, bell_init->loc2.target, bell_init->loc2.op);

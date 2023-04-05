@@ -3,9 +3,8 @@
 namespace lsqecc
 {
 
-
-LSIinstructionFromGatesGenerator::LSIinstructionFromGatesGenerator(IdGenerator& id_generator)
-: id_generator_(id_generator)
+LSIinstructionFromGatesGenerator::LSIinstructionFromGatesGenerator(IdGenerator& id_generator, bool local_instructions)
+: id_generator_(id_generator), local_instructions_(local_instructions)
 {}
 
 std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_t_gate_instructions(PatchId target_id)
@@ -13,15 +12,32 @@ std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_t_gate_instruct
     std::queue<LSInstruction> next_instructions;
     PatchId new_magic_state_id = id_generator_.new_id();
     next_instructions.push({.operation={MagicStateRequest{new_magic_state_id}}, .wait_at_most_for=MagicStateRequest::DEFAULT_WAIT});
-    next_instructions.push({.operation={
-            MultiPatchMeasurement{.observable={
-                    {target_id,PauliOperator::Z},
-                    {new_magic_state_id,PauliOperator::Z},
-            },.is_negative=false}}});
-    next_instructions.push({.operation={SinglePatchMeasurement{
-            new_magic_state_id, PauliOperator::X, false
-    }}});
-    next_instructions.push({.operation={SingleQubitOp{target_id, SingleQubitOp::Operator::S}}});
+    if (local_instructions_)
+    {
+        auto instructions = make_cnot_instructions(
+                            target_id,
+                            new_magic_state_id,
+                            gates::CNOTType::BELL_BASED,
+                            gates::CNOTAncillaPlacement::ANCILLA_FREE_PLACEMENT,
+                            CNOTCorrectionMode::NEVER);
+        lstk::queue_extend(next_instructions, instructions);
+        next_instructions.push({.operation={SinglePatchMeasurement{new_magic_state_id, PauliOperator::Z, false}}});
+
+        // next_instructions.push({.operation={SingleQubitOp{target_id, SingleQubitOp::Operator::S}}});
+    }
+    else 
+    {
+        next_instructions.push({.operation={
+                MultiPatchMeasurement{.observable={
+                        {target_id,PauliOperator::Z},
+                        {new_magic_state_id,PauliOperator::Z},
+                },.is_negative=false}}});
+        next_instructions.push({.operation={SinglePatchMeasurement{
+                new_magic_state_id, PauliOperator::X, false
+        }}});
+        next_instructions.push({.operation={SingleQubitOp{target_id, SingleQubitOp::Operator::S}}});
+    }
+
     return next_instructions;
 }
 
