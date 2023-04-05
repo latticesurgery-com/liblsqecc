@@ -159,11 +159,12 @@ tsl::ordered_set<PatchId> core_qubits_from_gate_stream(GateStream& gate_stream)
 LSInstructionStreamFromGateStream::LSInstructionStreamFromGateStream(
         GateStream& gate_stream,
         CNOTCorrectionMode cnot_correction_mode,
-        IdGenerator& id_generator)
+        IdGenerator& id_generator,
+        bool local_instructions)
 : gate_stream_(gate_stream),
   next_instructions_(),
   core_qubits_(core_qubits_from_gate_stream(gate_stream)),
-  instruction_generator_(id_generator),
+  instruction_generator_(id_generator, local_instructions),
   cnot_correction_mode_(cnot_correction_mode)
 {
 }

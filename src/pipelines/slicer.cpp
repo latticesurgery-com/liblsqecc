@@ -270,6 +270,10 @@ namespace lsqecc
         std::unique_ptr<LSInstructionStream> instruction_stream;
         std::unique_ptr<GateStream> gate_stream;
 
+        CompilationMode compile_mode = CompilationMode::Nonlocal;
+        if (parser.exists("local"))
+            compile_mode = CompilationMode::Local;
+
         if(!parser.exists("q"))
         {
             instruction_stream = std::make_unique<LSInstructionStreamFromFile>(input_file_stream.get());
@@ -313,7 +317,7 @@ namespace lsqecc
             }
 
             id_generator.set_start(gate_stream->get_qreg().size);
-            instruction_stream = std::make_unique<LSInstructionStreamFromGateStream>(*gate_stream, cnot_correction_mode, id_generator);    
+            instruction_stream = std::make_unique<LSInstructionStreamFromGateStream>(*gate_stream, cnot_correction_mode, id_generator, compile_mode == CompilationMode::Local);    
         }
 
 
@@ -378,10 +382,6 @@ namespace lsqecc
             dag.to_graphviz(out_stream);
             return 0;
         }
-        
-        CompilationMode compile_mode = CompilationMode::Nonlocal;
-        if (parser.exists("local"))
-            compile_mode = CompilationMode::Local;
 
         auto timeout = parser.exists("t") ?
                        std::make_optional(std::chrono::seconds{parser.get<uint32_t>("t")})
