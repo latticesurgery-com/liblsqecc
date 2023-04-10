@@ -6,6 +6,7 @@
 #include <lsqecc/ls_instructions/ls_instruction_stream.hpp>
 #include <lsqecc/ls_instructions/boundary_rotation_injection_stream.hpp>
 #include <lsqecc/ls_instructions/teleported_s_gate_injection_stream.hpp>
+#include <lsqecc/ls_instructions/catalytic_s_gate_injection_stream.hpp>
 #include <lsqecc/layout/ascii_layout_spec.hpp>
 #include <lsqecc/layout/router.hpp>
 #include <lsqecc/layout/dynamic_layouts/compact_layout.hpp>
@@ -339,7 +340,7 @@ namespace lsqecc
             else if (parser.get<std::string>("layoutgenerator") == "edpc") 
             {
                 layout = make_edpc_layout(instruction_stream->core_qubits().size(), distillation_options);
-                instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
+                instruction_stream = std::make_unique<CatalyticSGateInjectionStream>(std::move(instruction_stream), id_generator, compile_mode == CompilationMode::Local);
             }
             else
             {
