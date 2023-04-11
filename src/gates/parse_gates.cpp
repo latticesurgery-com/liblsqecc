@@ -47,11 +47,20 @@ Line split_instruction_and_args(std::string_view gate_str)
 {
     if(!lstk::contains(gate_str, ' '))
         return {gate_str, {}};
-
-    auto instr_split = lstk::split_on(gate_str,' ');
-    auto instruction = instr_split.at(0);
-    auto args = lstk::split_on(instr_split.at(1), ',');
-    auto semicolon_split = lstk::split_on(gate_str,';');
+    
+    auto first_space = gate_str.find(' ');
+    auto instruction = gate_str.substr(0, first_space);
+    auto details = gate_str.substr(first_space + 1, gate_str.size());
+        
+    auto args = lstk::split_on(details, ',');
+    // trim starting spaces
+    for (auto& arg : args)
+    {
+        while (arg.starts_with(' '))
+            arg.remove_prefix(1);
+    }
+    
+    auto semicolon_split = lstk::split_on(gate_str, ';');
     auto annotation_line = semicolon_split.at(1);
 
     std::vector<std::string_view> annotations;
@@ -59,7 +68,6 @@ Line split_instruction_and_args(std::string_view gate_str)
             annotations = lstk::split_on(annotation_line.substr(5),',');
 
     return Line{instruction, args, annotations};
-
 }
 
 QubitNum get_index_arg(std::string_view s)
