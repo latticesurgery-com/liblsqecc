@@ -49,8 +49,21 @@ std::vector<Gate> decompose_CRZ_gate(const ControlledGate &crz_gate, double rz_p
 
 std::vector<Gate> to_clifford_plus_t(const Gate &gate, double rz_precision_log_ten_negative)
 {
-    if (const auto *basic_gate = std::get_if<BasicSingleQubitGate>(&gate))
-        return {*basic_gate};
+    if (const auto *basic_gate = std::get_if<BasicSingleQubitGate>(&gate)) {
+        auto gate_type = basic_gate->gate_type;
+        if (gate_type == BasicSingleQubitGate::Type::SDg)
+        {
+            // TODO: Implement this properly
+            return {S(basic_gate->target_qubit)};
+        }
+        else if (gate_type == BasicSingleQubitGate::Type::TDg)
+        {
+            // TODO: Implement this properly
+            return {T(basic_gate->target_qubit)};
+        }
+        else
+            return {*basic_gate};
+    }
     else if (const auto *rz_gate = std::get_if<RZ>(&gate))
         return approximate_RZ_gate(*rz_gate, rz_precision_log_ten_negative);
     else
@@ -69,7 +82,10 @@ std::vector<Gate> to_clifford_plus_t(const Gate &gate, double rz_precision_log_t
 bool is_clifford_plus_t(const Gate& gate)
 {
     if (std::holds_alternative<BasicSingleQubitGate>(gate))
-        return true;
+    {
+        auto gate_type = std::get<BasicSingleQubitGate>(gate).gate_type;
+        return gate_type != BasicSingleQubitGate::Type::SDg && gate_type != BasicSingleQubitGate::Type::TDg;
+    }
     else if (std::holds_alternative<RZ>(gate))
         return false;
     else
@@ -201,6 +217,8 @@ std::ostream& operator<<(std::ostream& os, const gates::Gate& gate)
                     case BasicSingleQubitGate::Type::S: return "s";
                     case BasicSingleQubitGate::Type::T: return "t";
                     case BasicSingleQubitGate::Type::H: return "h";
+                    case BasicSingleQubitGate::Type::SDg: return "sdg";
+                    case BasicSingleQubitGate::Type::TDg: return "tdg";
                 }
                 LSTK_UNREACHABLE;
             }() << " q[" << gate.target_qubit << "];";
@@ -219,6 +237,8 @@ std::ostream& operator<<(std::ostream& os, const gates::Gate& gate)
                             case BasicSingleQubitGate::Type::S: return "s";
                             case BasicSingleQubitGate::Type::T: return "t";
                             case BasicSingleQubitGate::Type::H: return "h";
+                            case BasicSingleQubitGate::Type::SDg: return "sdg";
+                            case BasicSingleQubitGate::Type::TDg: return "tdg";
                         }
                         LSTK_UNREACHABLE;
                     }() << " q[" << ctrld.control_qubit << "],q[" << gate.target_qubit << "];";

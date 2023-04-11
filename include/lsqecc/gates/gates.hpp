@@ -35,7 +35,9 @@ struct BasicSingleQubitGate{
         S,
         T,
         H,
-
+        
+        SDg,
+        TDg,
     };
 
     QubitNum target_qubit;
@@ -97,6 +99,8 @@ MAKE_BASIC_GATE(Z);
 MAKE_BASIC_GATE(S);
 MAKE_BASIC_GATE(T);
 MAKE_BASIC_GATE(H);
+MAKE_BASIC_GATE(SDg);
+MAKE_BASIC_GATE(TDg);
 
 #undef MAKE_BASIC_GATE
 
