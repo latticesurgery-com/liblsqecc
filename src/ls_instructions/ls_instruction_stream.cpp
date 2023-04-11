@@ -83,6 +83,7 @@ LSInstruction LSInstructionStreamFromGateStream::get_next_instruction()
                 SINGLE_QUBIT_OP_CASE(S)
 #undef SINGLE_QUBIT_OP_CASE
                 
+<<<<<<< HEAD
                 case gates::BasicSingleQubitGate::Type::SDg:
                     next_instructions_.push({.operation={SingleQubitOp{sq_gate->target_qubit,SingleQubitOp::Operator::S, true}}});\
                     break;
@@ -91,6 +92,18 @@ LSInstruction LSInstructionStreamFromGateStream::get_next_instruction()
                 case gates::BasicSingleQubitGate::Type::T:
                     bool is_dagger = sq_gate->gate_type == gates::BasicSingleQubitGate::Type::TDg;
                     auto instructions = instruction_generator_.make_t_gate_instructions(sq_gate->target_qubit, is_dagger);
+=======
+                
+                case gates::BasicSingleQubitGate::Type::SDg: // TODO: Implement this properly
+                    next_instructions_.push({.operation={SingleQubitOp{sq_gate->target_qubit,SingleQubitOp::Operator::S}}});\
+                    break;
+                
+               
+                case gates::BasicSingleQubitGate::Type::TDg: //TODO: Implement this properly
+                case gates::BasicSingleQubitGate::Type::T:
+                
+                    auto instructions = instruction_generator_.make_t_gate_instructions( sq_gate->target_qubit);
+>>>>>>> d9a8157 (Added support for TDg and SDg gates in QASM input.)
                     lstk::queue_extend(next_instructions_, instructions);
                     break;
             }
