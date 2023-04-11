@@ -175,6 +175,7 @@ bool is_ignored_instruction(std::string_view instr)
 {
     if( instr == "OPENQASM" ||
         instr == "include" ||
+        instr == "creg" ||
         instr == "barrier")
         return true;
     return false;
@@ -194,6 +195,7 @@ Qreg parse_qreg(std::vector<std::string_view>& args)
         .size=num
     };
 }
+
 
 ParseGateResult parse_gate(std::string_view str_line)
 {
