@@ -119,6 +119,16 @@ DenseSlice::DenseSlice(const lsqecc::Layout &layout, const tsl::ordered_set<Patc
         patch_at(cell)->id = *core_qubit_ids_itr++;
     }
 
+    // TRL 04/10/23: Adding Y states
+    for (const Cell& cell: layout.y_states())
+    {
+        // TRL 04/10/23: Have to figure out how to get IDs on these!
+        // TRL 04/10/23: Could also have these be "PreparedStates" that only get initialized and given ids when needed! Then, once initialized, they are added to a store of available ones.
+        // TRL 04/10/23: Of course, we also need to figure out how to use the closest ones for a given T state 
+        SparsePatch p = LayoutHelpers::basic_square_patch(cell);
+        place_sparse_patch(p,false);
+    }
+
     for(const MultipleCellsOccupiedByPatch& distillation_region: layout.distillation_regions())
     {
         for (const SingleCellOccupiedByPatch& cell: distillation_region.sub_cells)

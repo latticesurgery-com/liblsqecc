@@ -33,14 +33,16 @@ LSInstruction CatalyticSGateInjectionStream::get_next_instruction()
     const auto* sgate = std::get_if<SingleQubitOp>(&new_instruction.operation);
     if( sgate && sgate->op == SingleQubitOp::Operator::S && core_qubits().contains(sgate->target))
     {
-        const PatchId new_ancilla_id = id_generator_.new_id();
+        const PatchId ystate_id = id_generator_.new_id();
 
-        // Find available Y state
+        // Request Y state
+        next_instructions_.push({.operation={YStateRequest{ystate_id, sgate->target}}, .wait_at_most_for=YStateRequest::DEFAULT_WAIT});
+        
 
         // Add gates
         auto instructions = instruction_generator_.make_cnot_instructions(
                                     sgate->target,
-                                    ystate,
+                                    ystate_id,
                                     gates::CNOTType::BELL_BASED,
                                     gates::CNOTAncillaPlacement::ANCILLA_FREE_PLACEMENT,
                                     CNOTCorrectionMode::NEVER);
@@ -48,12 +50,14 @@ LSInstruction CatalyticSGateInjectionStream::get_next_instruction()
 
         next_instructions_.push({.operation={
                 SingleQubitOp{
-                    .target = ystate,
+                    .target = ystate_id,
                     .op = SingleQubitOp::Operator::H}}});
 
-        auto instructions = instruction_generator_.make_cnot_instructions(
+        next_instructions_.push({.operation={RotateSingleCellPatch{ystate_id}}});
+
+        instructions = instruction_generator_.make_cnot_instructions(
                                     sgate->target,
-                                    ystate,
+                                    ystate_id,
                                     gates::CNOTType::BELL_BASED,
                                     gates::CNOTAncillaPlacement::ANCILLA_FREE_PLACEMENT,
                                     CNOTCorrectionMode::NEVER);
@@ -61,8 +65,10 @@ LSInstruction CatalyticSGateInjectionStream::get_next_instruction()
 
         next_instructions_.push({.operation={
                 SingleQubitOp{
-                    .target = ystate,
+                    .target = ystate_id,
                     .op = SingleQubitOp::Operator::H}}});
+
+        next_instructions_.push({.operation={RotateSingleCellPatch{ystate_id}}});
     }
     else
     {

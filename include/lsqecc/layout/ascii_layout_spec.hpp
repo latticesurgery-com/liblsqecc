@@ -32,6 +32,8 @@ public:
         DistillationRegion_9 = '9',
         ReservedForMagicState = 'M',
         DeadCell = 'X',
+        // TRL 04/10/23: Adding pre-distilled y states
+        PreDistilledYState = 'Y'
     };
 
     static constexpr std::array<CellType,10> k_distillation_region_types = {
@@ -58,6 +60,8 @@ public:
         case 'A':
         case 'M':
         case 'X':
+        // TRL 04/10/23: Adding pre-distilled y states
+        case 'Y':
         case '0':
         case '1':
         case '2':
@@ -120,6 +124,8 @@ public:
     const std::vector<SurfaceCodeTimestep>& distillation_times() const override {return cached_distillation_times_;};
     const std::vector<Cell>& ancilla_location() const override {return cached_ancilla_locations_;}
     const std::vector<Cell>& dead_location() const override {return cached_dead_cells_;}
+    // TRL 04/10/23: Function to return distilled Y states
+    const std::vector<Cell>& y_states() const override {return cached_y_states_;}
     const std::vector<Cell>& distilled_state_locations(size_t distillation_region_idx) const override
     {
         return cached_distilled_state_locations_[distillation_region_idx];
@@ -128,6 +134,8 @@ public:
 
 private:
     std::vector<SparsePatch> cached_core_patches_;
+    // TRL 04/10/23: Caching y states
+    std::vector<Cell> cached_y_states_;
     Cell cached_furthest_cell_;
     std::vector<MultipleCellsOccupiedByPatch> cached_distillation_regions_;
     std::vector<SurfaceCodeTimestep> cached_distillation_times_;

@@ -128,6 +128,13 @@ LSInstruction parse_ls_instruction(std::string_view line)
         }
         return {BellPairInit{side1, side2, locs[0], locs[1]}};
     }
+    // TRL 04/11/23: Implementing YStateRequest as a new LLI        
+    else if(instruction == "RequestYState" || instruction == "9")
+    {
+        auto patch_id1 = parse_patch_id(get_next_arg());
+        auto patch_id2 = parse_patch_id(get_next_arg());
+        return {YStateRequest{patch_id1, patch_id2}, YStateRequest::DEFAULT_WAIT};
+    }
     else
     {
         throw InstructionParseException(std::string{"Operation not supported: "}+std::string{instruction});

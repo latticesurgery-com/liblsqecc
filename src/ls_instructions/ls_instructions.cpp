@@ -28,6 +28,10 @@ tsl::ordered_set<PatchId> LSInstruction::get_operating_patches() const
         [&](const MagicStateRequest& op){
             ret.insert(op.target);
         },
+        // TRL 04/11/23: Implementing YStateRequest as a new LLI
+        [&](const YStateRequest& op){
+            ret.insert(op.target);
+        },
         [&](const SingleQubitOp& op){
             ret.insert(op.target);
         },
@@ -122,7 +126,12 @@ std::ostream& operator<<(std::ostream& os, const MagicStateRequest& instruction)
     return os << LSInstructionPrint<MagicStateRequest>::name
         << " " << instruction.target;
 }
-
+// TRL 04/11/23: Implementing YStateRequest as a new LLI
+std::ostream& operator<<(std::ostream& os, const YStateRequest& instruction)
+{
+    return os << LSInstructionPrint<YStateRequest>::name
+        << " " << instruction.target << " " << instruction.near_patch;
+}
 std::ostream& operator<<(std::ostream& os, const SingleQubitOp& instruction)
 {
     return os << SingleQuibitOperatorName_to_string(instruction.op)
