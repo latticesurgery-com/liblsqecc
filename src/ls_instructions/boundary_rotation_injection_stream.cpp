@@ -48,7 +48,8 @@ LSInstruction BoundaryRotationInjectionStream::get_next_instruction()
         }
     } else if (const auto* h_gate = std::get_if<SingleQubitOp>(&new_instruction.operation))
     {
-        if (h_gate->op == SingleQubitOp::Operator::H) 
+        // TRL 04/13/23: Fixed this so that it won't try to rotate for patches that aren't in the map
+        if (exposed_operators_.contains(h_gate->target) && h_gate->op == SingleQubitOp::Operator::H) 
         {
             exposed_operators_.at(h_gate->target).rotate();
         }

@@ -24,6 +24,8 @@ tsl::ordered_set<PatchId> LSInstruction::get_operating_patches() const
         [&](const BellPairInit& op) {
             ret.insert(op.side1);
             ret.insert(op.side2);
+            ret.insert(op.loc1.target);
+            ret.insert(op.loc2.target);
         },
         [&](const MagicStateRequest& op){
             ret.insert(op.target);
