@@ -463,8 +463,8 @@ void run_through_dense_slices_dag(
             {
                 res.ls_instructions_count_++;
                 instruction_visitor(instruction);
+                handle_followup_instructions(instruction_label, std::move(application_result.followup_instructions));
             }
-            handle_followup_instructions(instruction_label, std::move(application_result.followup_instructions));
         }
 
         // Advance the slice
