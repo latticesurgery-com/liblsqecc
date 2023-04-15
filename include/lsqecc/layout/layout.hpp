@@ -35,7 +35,7 @@ struct DistillationOptions{
 };
 
 namespace LayoutHelpers{
-    SparsePatch basic_square_patch(Cell placement);
+    SparsePatch basic_square_patch(Cell placement, std::optional<PatchId> id = std::nullopt);
     SingleCellOccupiedByPatch make_distillation_region_cell(Cell placement);
 
 

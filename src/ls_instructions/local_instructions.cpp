@@ -46,7 +46,7 @@ std::ostream& operator<<(std::ostream& os, const ExtendSplit& instruction)
 std::ostream& operator<<(std::ostream& os, const Move& instruction)
 {
     os << LocalInstructionPrint<Move>::name
-        << " " << instruction.cell1 << "," << instruction.cell2;
+        << " " << instruction.source_cell << "," << instruction.target_cell;
 
     return os;
 }

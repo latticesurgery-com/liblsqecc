@@ -4,7 +4,10 @@ include "qelib1.inc";
 
 qreg q[2];
 
-t q[1];
+h q[1];
+h q[1];
+h q[1];
+h q[1];
 h q[1];
 h q[1];
 h q[1];
