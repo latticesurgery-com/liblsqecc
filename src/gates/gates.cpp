@@ -71,12 +71,7 @@ bool is_decomposed(const Gate& gate)
 {
     if (std::holds_alternative<BasicSingleQubitGate>(gate))
     {
-<<<<<<< HEAD
         return true;
-=======
-        auto gate_type = std::get<BasicSingleQubitGate>(gate).gate_type;
-        return gate_type != BasicSingleQubitGate::Type::SDg && gate_type != BasicSingleQubitGate::Type::TDg;
->>>>>>> d9a8157 (Added support for TDg and SDg gates in QASM input.)
     }
     else if (std::holds_alternative<RZ>(gate))
         return false;
