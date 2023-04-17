@@ -72,7 +72,6 @@ struct BellPairInit {
 
 struct MagicStateRequest {
     PatchId target;
-
     static const size_t DEFAULT_WAIT = 10;
     bool operator==(const MagicStateRequest&) const = default;
 };
@@ -96,6 +95,7 @@ struct SingleQubitOp {
     };
 
     Operator op;
+    bool is_dagger = false;
 
     bool operator==(const SingleQubitOp&) const = default;
 };

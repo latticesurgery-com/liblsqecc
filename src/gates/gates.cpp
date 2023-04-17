@@ -20,13 +20,13 @@ std::vector<Gate> decompose_CRZ_gate(const ControlledGate &crz_gate, double rz_p
      */
 
     std::vector<Gate> res;
-    lstk::vector_extend(res, to_clifford_plus_t(
+    lstk::vector_extend(res, decompose(
             RZ{crz_gate.control_qubit, Fraction{rz_gate.pi_fraction.num,
                                                 rz_gate.pi_fraction.den * 2}},
             rz_precision_log_ten_negative
         )
     );
-    lstk::vector_extend(res, to_clifford_plus_t(
+    lstk::vector_extend(res, decompose(
             RZ{rz_gate.target_qubit, Fraction{rz_gate.pi_fraction.num,
                                               rz_gate.pi_fraction.den * 2}},
             rz_precision_log_ten_negative
@@ -34,7 +34,7 @@ std::vector<Gate> decompose_CRZ_gate(const ControlledGate &crz_gate, double rz_p
     );
     res.emplace_back(
             CNOT(rz_gate.target_qubit, crz_gate.control_qubit, crz_gate.cnot_type, crz_gate.cnot_ancilla_placement));
-    lstk::vector_extend(res, to_clifford_plus_t(
+    lstk::vector_extend(res, decompose(
             RZ{rz_gate.target_qubit, Fraction{-rz_gate.pi_fraction.num,
                                               rz_gate.pi_fraction.den * 2}},
             rz_precision_log_ten_negative
@@ -47,22 +47,10 @@ std::vector<Gate> decompose_CRZ_gate(const ControlledGate &crz_gate, double rz_p
 }
 
 
-std::vector<Gate> to_clifford_plus_t(const Gate &gate, double rz_precision_log_ten_negative)
+std::vector<Gate> decompose(const Gate &gate, double rz_precision_log_ten_negative)
 {
     if (const auto *basic_gate = std::get_if<BasicSingleQubitGate>(&gate)) {
-        auto gate_type = basic_gate->gate_type;
-        if (gate_type == BasicSingleQubitGate::Type::SDg)
-        {
-            // TODO: Implement this properly
-            return {S(basic_gate->target_qubit)};
-        }
-        else if (gate_type == BasicSingleQubitGate::Type::TDg)
-        {
-            // TODO: Implement this properly
-            return {T(basic_gate->target_qubit)};
-        }
-        else
-            return {*basic_gate};
+        return {*basic_gate};
     }
     else if (const auto *rz_gate = std::get_if<RZ>(&gate))
         return approximate_RZ_gate(*rz_gate, rz_precision_log_ten_negative);
@@ -79,12 +67,11 @@ std::vector<Gate> to_clifford_plus_t(const Gate &gate, double rz_precision_log_t
 }
 
 
-bool is_clifford_plus_t(const Gate& gate)
+bool is_decomposed(const Gate& gate)
 {
     if (std::holds_alternative<BasicSingleQubitGate>(gate))
     {
-        auto gate_type = std::get<BasicSingleQubitGate>(gate).gate_type;
-        return gate_type != BasicSingleQubitGate::Type::SDg && gate_type != BasicSingleQubitGate::Type::TDg;
+        return true;
     }
     else if (std::holds_alternative<RZ>(gate))
         return false;
@@ -94,7 +81,7 @@ bool is_clifford_plus_t(const Gate& gate)
         if (std::holds_alternative<RZ>(controlled_gate.target_gate))
             return false;
         else if (std::holds_alternative<BasicSingleQubitGate>(controlled_gate.target_gate))
-            return is_clifford_plus_t(std::visit([](const auto tg){return Gate{tg};}, controlled_gate.target_gate));
+            return is_decomposed(std::visit([](const auto tg){return Gate{tg};}, controlled_gate.target_gate));
         else
             LSTK_NOT_IMPLEMENTED;
     }

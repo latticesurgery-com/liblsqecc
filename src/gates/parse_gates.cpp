@@ -52,9 +52,9 @@ Line split_instruction_and_args(std::string_view gate_str)
     gate_str = semicolon_split.at(0);
     auto annotation_line = semicolon_split.at(1);
     
-    auto first_space = gate_str.find(' ');
-    auto instruction = gate_str.substr(0, first_space);
-    auto details = gate_str.substr(first_space + 1, gate_str.size());
+    auto instruction_with_details = lstk::split_on_first(gate_str, ' ');
+    auto instruction = instruction_with_details.at(0);
+    auto details = instruction_with_details.at(1);
     
     auto args = lstk::split_on(details, ',');
     // trim starting spaces

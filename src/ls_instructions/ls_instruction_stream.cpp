@@ -70,7 +70,7 @@ LSInstruction LSInstructionStreamFromGateStream::get_next_instruction()
         gates::Gate next_gate = gate_stream_.get_next_gate();
 
         if(const auto* sq_gate = std::get_if<gates::BasicSingleQubitGate>(&next_gate))
-        {
+        {   
             switch(sq_gate->gate_type)
             {
 #define SINGLE_QUBIT_OP_CASE(Op)\
@@ -83,16 +83,14 @@ LSInstruction LSInstructionStreamFromGateStream::get_next_instruction()
                 SINGLE_QUBIT_OP_CASE(S)
 #undef SINGLE_QUBIT_OP_CASE
                 
-                
-                case gates::BasicSingleQubitGate::Type::SDg: // TODO: Implement this properly
-                    next_instructions_.push({.operation={SingleQubitOp{sq_gate->target_qubit,SingleQubitOp::Operator::S}}});\
+                case gates::BasicSingleQubitGate::Type::SDg:
+                    next_instructions_.push({.operation={SingleQubitOp{sq_gate->target_qubit,SingleQubitOp::Operator::S, true}}});\
                     break;
-                
                
-                case gates::BasicSingleQubitGate::Type::TDg: //TODO: Implement this properly
+                case gates::BasicSingleQubitGate::Type::TDg:
                 case gates::BasicSingleQubitGate::Type::T:
-                
-                    auto instructions = instruction_generator_.make_t_gate_instructions( sq_gate->target_qubit);
+                    bool is_dagger = sq_gate->gate_type == gates::BasicSingleQubitGate::Type::TDg;
+                    auto instructions = instruction_generator_.make_t_gate_instructions(sq_gate->target_qubit, is_dagger);
                     lstk::queue_extend(next_instructions_, instructions);
                     break;
             }

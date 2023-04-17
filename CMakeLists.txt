@@ -53,7 +53,7 @@ add_library(
         src/gates/parse_gates.cpp
         src/gates/gates.cpp
         src/gates/gate_approximator.cpp
-        src/gates/clifford_plus_t_conversion_stream.cpp
+        src/gates/decompose_rotation_stream.cpp
         src/patches/dense_slice.cpp
         src/patches/dense_patch_computation.cpp
         src/patches/patches.cpp

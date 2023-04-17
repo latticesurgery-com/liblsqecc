@@ -2,7 +2,7 @@
 
 #include <lsqecc/dag/domain_dags.hpp>
 #include <lsqecc/gates/parse_gates.hpp>
-#include <lsqecc/gates/clifford_plus_t_conversion_stream.hpp>
+#include <lsqecc/gates/decompose_rotation_stream.hpp>
 #include <lsqecc/ls_instructions/ls_instruction_stream.hpp>
 #include <lsqecc/ls_instructions/boundary_rotation_injection_stream.hpp>
 #include <lsqecc/ls_instructions/teleported_s_gate_injection_stream.hpp>
@@ -285,7 +285,7 @@ namespace lsqecc
                 return 0;
             }
 
-            gate_stream = std::make_unique<CliffordPlusTConversionStream>(
+            gate_stream = std::make_unique<DecomposeRotationStream>(
                 std::move(gate_stream),
                 parser.exists("rzprecision") ? parser.get<double>("rzprecision") : k_default_precision_log_ten_negative
             );

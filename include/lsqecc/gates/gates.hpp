@@ -121,8 +121,8 @@ inline constexpr ControlledGate CRZ(
 
 using Gate = std::variant<BasicSingleQubitGate, RZ, ControlledGate>;
 
-std::vector<Gate> to_clifford_plus_t(const Gate& gate, double rz_precision_log_ten_negative);
-bool is_clifford_plus_t(const Gate& gate);
+std::vector<Gate> decompose(const Gate& gate, double rz_precision_log_ten_negative);
+bool is_decomposed(const Gate& gate);
 
 tsl::ordered_set<QubitNum> get_operating_qubits(const Gate& gate);
 
