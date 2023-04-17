@@ -18,7 +18,7 @@ namespace lsqecc {
 namespace LocalInstruction
 {
 
-struct BellPrepare {
+struct BellPrepare { // TODO rename to BellPrepareNeighbours
     std::optional<PatchId> side1;
     std::optional<PatchId> side2;
     Cell cell1;
@@ -51,9 +51,9 @@ struct ExtendSplit {
 };
 
 struct Move {
-    std::optional<PatchId> target;
-    Cell cell1;
-    Cell cell2;
+    Cell source_cell;
+    Cell target_cell;
+    std::optional<PatchId> new_id_for_target;
 
     bool operator==(const Move&) const = default;
 };

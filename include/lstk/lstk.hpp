@@ -21,7 +21,7 @@
 #include <chrono>
 #include <sstream>
 
-#define LSTK_UNREACHABLE throw std::logic_error(std::string{"Meant to be unreachable: "}+__FILE__+":"+std::to_string(__LINE__))
+#define LSTK_UNREACHABLE throw std::logic_error(std::string{"Not meant to be unreachable: "}+__FILE__+":"+std::to_string(__LINE__))
 #define LSTK_NOT_IMPLEMENTED throw std::logic_error(std::string{"Not implemented: "}+__FILE__+":"+std::to_string(__LINE__))
 
 namespace lstk
@@ -204,6 +204,14 @@ T queue_pop(std::queue<T>& queue)
     return v;
 }
 
+template<class T>
+T deque_pop(std::deque<T>& queue)
+{
+    T v{std::move(queue.front())};
+    queue.pop_front();
+    return v;
+}
+
 // Leaves source empty
 template<class T>
 void queue_extend(std::queue<T>& target, std::queue<T>& source)
@@ -254,6 +262,17 @@ struct pair_hash
         return std::hash<T1>()(p.first) ^ std::hash<T2>()(p.second);
     }
 };
+
+// Optional helpers
+
+template<class T>
+T get_or_throw(const std::optional<T>& opt, const std::exception& e)
+{
+    if(opt.has_value())
+        return opt.value();
+    else
+        throw e;
+}
 
 
 } // namespace lstk

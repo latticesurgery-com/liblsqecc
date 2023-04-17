@@ -3,12 +3,12 @@
 
 namespace lsqecc {
 
-SparsePatch LayoutHelpers::basic_square_patch(Cell placement)
+SparsePatch LayoutHelpers::basic_square_patch(Cell placement, std::optional<PatchId> id)
 {
     return SparsePatch{
             {.type=PatchType::Qubit,
              .activity=PatchActivity::None,
-             .id=std::nullopt},
+             .id=id},
             SingleCellOccupiedByPatch{
                     {.top={BoundaryType::Rough,false},
                      .bottom={BoundaryType::Rough,false},

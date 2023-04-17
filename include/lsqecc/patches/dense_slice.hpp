@@ -45,6 +45,7 @@ struct DenseSlice : public Slice
     const std::optional<DensePatch>& patch_at(const Cell& cell) const;
 
     std::optional<std::reference_wrapper<Boundary>> get_boundary_between(const Cell& target, const Cell& neighbour);
+    std::reference_wrapper<Boundary> get_boundary_between_or_fail(const Cell& target, const Cell& neighbour);
     std::optional<std::reference_wrapper<const Boundary>> get_boundary_between(const Cell& target, const Cell& neighbour) const;
     bool have_boundary_of_type_with(const Cell& target, const Cell& neighbour, PauliOperator op) const override;
 

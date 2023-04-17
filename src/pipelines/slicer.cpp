@@ -149,6 +149,7 @@ namespace lsqecc
                 .description(
                     "Automatically generates a layout for the given number of qubits. Incompatible with -l. Options:" CONSOLE_HELP_NEWLINE_ALIGN
                     " - compact (default): Uses Litinski's Game of Surace Code compact layout (https://arxiv.org/abs/1808.02892)" CONSOLE_HELP_NEWLINE_ALIGN
+                    " - compact_no_clogging: same as compact, but fewer cells for ancillas and magic state queues" CONSOLE_HELP_NEWLINE_ALIGN
                     " - edpc: Uses a layout specified in the EDPC paper by Beverland et. al. (https://arxiv.org/abs/2110.11493)"
                 )
                 .required(false);
@@ -315,6 +316,11 @@ namespace lsqecc
             if (parser.get<std::string>("layoutgenerator") == "compact")
             {
                 layout = make_compact_layout(instruction_stream->core_qubits().size(), distillation_options);
+                instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
+                instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
+            } else if (parser.get<std::string>("layoutgenerator") == "compact_no_clogging")
+            {
+                layout = make_compact_layout(instruction_stream->core_qubits().size(), distillation_options, true);
                 instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
                 instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
             }

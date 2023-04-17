@@ -16,6 +16,7 @@ Options:
     --cnotcorrections      Add Xs and Zs to correct the the negative outcomes: never (default), always
     --layoutgenerator, -L  Automatically generates a layout for the given number of qubits. Incompatible with -l. Options:
                             - compact (default): Uses Litinski's Game of Surace Code compact layout (https://arxiv.org/abs/1808.02892)
+                            - compact_no_clogging: same as compact, but fewer cells for ancillas and magic state queues
                             - edpc: Uses a layout specified in the EDPC paper by Beverland et. al. (https://arxiv.org/abs/2110.11493)
     --nostagger            Turns off staggered distillation block timing
     --disttime             Set the distillation time (default 10)

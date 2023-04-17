@@ -219,6 +219,13 @@ std::optional<std::reference_wrapper<Boundary>> DenseSlice::get_boundary_between
 
 }
 
+std::reference_wrapper<Boundary> DenseSlice::get_boundary_between_or_fail(const Cell& target, const Cell& neighbour)
+{
+    return lstk::get_or_throw(get_boundary_between(target, neighbour), 
+        std::logic_error{lstk::cat("No boundary between cells ", target, "and ", neighbour)});
+}
+
+
 std::optional<std::reference_wrapper<const Boundary>> DenseSlice::get_boundary_between(
         const Cell& target, const Cell& neighbour) const
 {

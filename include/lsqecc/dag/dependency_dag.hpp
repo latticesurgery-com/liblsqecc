@@ -20,6 +20,8 @@ namespace lsqecc::dag {
 template<typename Instruction>
 struct DependencyDag 
 {
+    using Self = DependencyDag<Instruction>;
+
     label_t push_instruction_based_on_commutation(Instruction&& instruction)
     {
         label_t new_instruction_label = add_instruction_isolated(std::move(instruction));
@@ -63,11 +65,16 @@ struct DependencyDag
         return proximate_instructions;
     }
 
-    const Instruction& at(label_t label) const
+    Instruction& at(label_t label)
     {
         return instructions_.at(label);
     }
 
+
+    const Instruction& at(label_t label) const
+    {
+        return const_cast<Self*>(this)->instructions_.at(label);
+    }
 
     void pop_head(label_t label)
     {

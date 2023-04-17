@@ -101,6 +101,19 @@ std::ostream& operator<<(std::ostream& os, const BellPairInit& instruction)
     os << LSInstructionPrint<BellPairInit>::name
         << " " << instruction.side1 << " " << instruction.side2 << " " << instruction.loc1 << "," << instruction.loc2;
 
+    if (instruction.counter.has_value() && instruction.local_instructions.has_value()) 
+    {
+        os << " [";
+        for (unsigned int i = instruction.counter->first; i < instruction.counter->second; i++) 
+        {
+            os << instruction.local_instructions.value()[i];
+            if (i != instruction.counter->second - 1) 
+                os << ";";
+        }
+        os << "]";
+
+    }
+
     return os;
 }
 
