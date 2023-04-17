@@ -6,6 +6,7 @@ qreg q[25];
 
 t q[0];
 t q[1];
+t q[1];
 t q[2];
 t q[3];
 t q[4];
@@ -21,7 +22,9 @@ t q[13];
 t q[14];
 t q[15];
 "
-echo "$INPUT" | lsqecc_slicer -q -L edpc --nostagger
+echo "$INPUT" | lsqecc_slicer -q -L edpc --nostagger -P dag 
+
+
 
 
 

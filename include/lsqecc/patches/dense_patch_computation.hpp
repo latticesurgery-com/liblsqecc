@@ -45,7 +45,7 @@ DensePatchComputationResult run_through_dense_slices(
         bool graceful);
 
 
-static constexpr size_t MAX_INSTRUCTION_APPLICATION_RETRIES_DAG_PIPELINE = 10;
+static constexpr size_t MAX_INSTRUCTION_APPLICATION_RETRIES_DAG_PIPELINE = 100;
 
 
 }
