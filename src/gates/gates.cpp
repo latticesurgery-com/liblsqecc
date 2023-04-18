@@ -161,6 +161,9 @@ tsl::ordered_set<QubitNum> get_operating_qubits(const Gate& gate)
                 [&](const RZ& tg){
                     res.insert(tg.target_qubit);
                 },
+                [&](const Reset& reset){
+                    res.insert(reset.target_qubit);
+                },
                 [&](const auto&){
                     LSTK_UNREACHABLE;
                 }
