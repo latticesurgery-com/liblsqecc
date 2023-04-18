@@ -72,7 +72,6 @@ LSInstruction CatalyticSGateInjectionStream::get_next_instruction()
         // Unbind Y state
         next_instructions_.push({.operation={YStateRequest{ystate_id, gate->target}}, .wait_at_most_for=YStateRequest::DEFAULT_WAIT});
     }
-    // TRL 04/13/23: We require a patch rotation after a Hadamard gate in order to leave the qubit in an orientation consistent with BellBased CNOTs
     else if (gate && gate->op == SingleQubitOp::Operator::H && core_qubits().contains(gate->target))
     {
         next_instructions_.push(new_instruction);

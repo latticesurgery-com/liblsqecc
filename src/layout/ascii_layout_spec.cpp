@@ -209,7 +209,6 @@ void LayoutFromSpec::init_cache(const AsciiLayoutSpec& spec, const DistillationO
 
     cached_ancilla_locations_ = spec.find_all_cells_of_type(AsciiLayoutSpec::CellType::AncillaQubitLocation);
     cached_dead_cells_ = spec.find_all_cells_of_type(AsciiLayoutSpec::CellType::DeadCell);
-    // TRL 04/10/23: Caching pre-distilled ystates
     cached_y_states_ = spec.find_all_cells_of_type(AsciiLayoutSpec::CellType::PreDistilledYState);
 }
 

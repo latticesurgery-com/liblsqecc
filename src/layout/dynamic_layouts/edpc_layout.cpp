@@ -37,7 +37,6 @@ std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits, const Distillat
             if ((i-t_distillation_region_rows)%2==0 && (j-t_distillation_region_cols)%2==0) {
                 if (i == t_distillation_region_rows || j == t_distillation_region_cols 
                     || i == grid.size()-t_distillation_region_rows -1 || j == grid[i].size() -t_distillation_region_cols -1) {
-                    // TRL 04/10/23: Updated to include pre-distilled y states
                     grid[i][j] = AsciiLayoutSpec::CellType::PreDistilledYState;
                 }
                 else {

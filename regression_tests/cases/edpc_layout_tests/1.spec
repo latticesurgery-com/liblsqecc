@@ -31872,7 +31872,7 @@
             "Top": "Dashed"
          },
          "patch_type": "Qubit",
-         "text": "Id: 4"
+         "text": "Not bound"
       },
       null,
       {
@@ -34457,7 +34457,7 @@
             "Top": "Dashed"
          },
          "patch_type": "Qubit",
-         "text": "Id: 4"
+         "text": "Not bound"
       },
       null,
       {
@@ -37054,7 +37054,7 @@
             "Top": "Dashed"
          },
          "patch_type": "Qubit",
-         "text": "Id: 4"
+         "text": "Not bound"
       },
       null,
       {
@@ -68098,7 +68098,7 @@
             "Top": "Dashed"
          },
          "patch_type": "Qubit",
-         "text": "Id: 12"
+         "text": "Not bound"
       },
       null,
       {
@@ -70683,7 +70683,7 @@
             "Top": "Dashed"
          },
          "patch_type": "Qubit",
-         "text": "Id: 12"
+         "text": "Not bound"
       },
       null,
       {
@@ -73280,7 +73280,7 @@
             "Top": "Dashed"
          },
          "patch_type": "Qubit",
-         "text": "Id: 12"
+         "text": "Not bound"
       },
       null,
       {
@@ -75865,7 +75865,7 @@
             "Top": "Dashed"
          },
          "patch_type": "Qubit",
-         "text": "Id: 12"
+         "text": "Not bound"
       },
       null,
       {

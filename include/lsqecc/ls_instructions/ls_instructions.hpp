@@ -76,7 +76,7 @@ struct MagicStateRequest {
     static const size_t DEFAULT_WAIT = 10;
     bool operator==(const MagicStateRequest&) const = default;
 };
-// TRL 04/11/23: Implementing YStateRequest as a new LLI
+
 struct YStateRequest {
     PatchId target;
     PatchId near_patch;
@@ -127,7 +127,6 @@ struct LSInstruction {
             PatchInit,
             BellPairInit,
             MagicStateRequest,
-            // TRL 04/11/23: Implementing YStateRequest as a new LLI
             YStateRequest,
             SingleQubitOp,
             RotateSingleCellPatch,
@@ -156,7 +155,6 @@ std::ostream& operator<<(std::ostream& os, const PlaceNexTo& place_next_to);
 std::ostream& operator<<(std::ostream& os, const PatchInit& instruction);
 std::ostream& operator<<(std::ostream& os, const BellPairInit& instruction);
 std::ostream& operator<<(std::ostream& os, const MagicStateRequest& instruction);
-// TRL 04/11/23: Implementing YStateRequest as a new LLI
 std::ostream& operator<<(std::ostream& os, const YStateRequest& instruction);
 std::ostream& operator<<(std::ostream& os, const SingleQubitOp& instruction);
 std::ostream& operator<<(std::ostream& os, const RotateSingleCellPatch& instruction);
@@ -195,7 +193,6 @@ template<>
 struct LSInstructionPrint<MagicStateRequest>{
     static constexpr std::string_view name = "RequestMagicState";
 };
-// TRL 04/11/23: Implementing YStateRequest as a new LLI
 template<>
 struct LSInstructionPrint<YStateRequest>{
     static constexpr std::string_view name = "RequestYState";

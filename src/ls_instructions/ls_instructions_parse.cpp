@@ -127,8 +127,7 @@ LSInstruction parse_ls_instruction(std::string_view line)
             counter++;
         }
         return {BellPairInit{side1, side2, locs[0], locs[1]}};
-    }
-    // TRL 04/11/23: Implementing YStateRequest as a new LLI        
+    }      
     else if(instruction == "RequestYState" || instruction == "9")
     {
         auto patch_id1 = parse_patch_id(get_next_arg());
