@@ -485,7 +485,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
             for (const Cell& cell : layout.y_states())
             {
                 // TRL 04/18/23: Replaced is_active check with id.has_value check
-                if (!slice.patch_at(cell)->id.has_value())
+                if (!slice.patch_at(cell)->id.has_value() && !slice.patch_at(cell)->is_active())
                 {
                     dist = abs(cell.col - slice.get_cell_by_id(yr->near_patch).value().col) + abs(cell.row - slice.get_cell_by_id(yr->near_patch).value().row);
                     if (dist < min_dist)
