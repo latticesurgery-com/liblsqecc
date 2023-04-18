@@ -487,7 +487,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                 // TRL 04/18/23: Replaced is_active check with id.has_value check
                 if (!slice.patch_at(cell)->id.has_value())
                 {
-                    dist = sqrt(pow(cell.col - slice.get_cell_by_id(yr->near_patch).value().col, 2) + pow(cell.row - slice.get_cell_by_id(yr->near_patch).value().row, 2));
+                    dist = abs(cell.col - slice.get_cell_by_id(yr->near_patch).value().col) + abs(cell.row - slice.get_cell_by_id(yr->near_patch).value().row);
                     if (dist < min_dist)
                     {
                         min_dist = dist;
