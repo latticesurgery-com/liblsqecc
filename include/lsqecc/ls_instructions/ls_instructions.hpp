@@ -116,6 +116,12 @@ struct BusyRegion{
     bool operator==(const BusyRegion&) const = default;
 };
 
+struct PatchReset {
+    PatchId target;
+
+    bool operator==(const PatchReset&) const = default;
+};
+
 struct LSInstruction {
 
     static constexpr size_t DEFAULT_MAX_WAIT = 3; // Allows for rotations to finish
@@ -130,7 +136,8 @@ struct LSInstruction {
             YStateRequest,
             SingleQubitOp,
             RotateSingleCellPatch,
-            BusyRegion
+            BusyRegion,
+            PatchReset
             > operation;
 
     size_t wait_at_most_for = DEFAULT_MAX_WAIT;
@@ -159,6 +166,7 @@ std::ostream& operator<<(std::ostream& os, const YStateRequest& instruction);
 std::ostream& operator<<(std::ostream& os, const SingleQubitOp& instruction);
 std::ostream& operator<<(std::ostream& os, const RotateSingleCellPatch& instruction);
 std::ostream& operator<<(std::ostream& os, const BusyRegion& instruction);
+std::ostream& operator<<(std::ostream& os, const PatchReset& instruction);
 
 template <class T>
 struct LSInstructionPrint{};
@@ -212,6 +220,11 @@ struct LSInstructionPrint<RotateSingleCellPatch>
 template<>
 struct LSInstructionPrint<BusyRegion>{
     static constexpr std::string_view name = "BusyRegion";
+};
+
+template<>
+struct LSInstructionPrint<PatchReset>{
+    static constexpr std::string_view name = "Reset";
 };
 
 template <PatchInit::InitializeableStates State>

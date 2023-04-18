@@ -47,6 +47,9 @@ tsl::ordered_set<PatchId> LSInstruction::get_operating_patches() const
         [&](const DeclareLogicalQubitPatches& op){
             LSTK_NOOP;
         },
+        [&](const PatchReset& op){
+            ret.insert(op.target);
+        },
         [&](const auto& op){
             LSTK_UNREACHABLE;
         }
@@ -148,6 +151,12 @@ std::ostream& operator<<(std::ostream& os, const BusyRegion& instruction)
     for (const auto &cell: instruction.region.cells)
         os << "(" << cell.cell.row << "," << cell.cell.col << "),";
     return os << "StepsToClear(" << instruction.steps_to_clear <<")";
+}
+
+
+std::ostream& operator<<(std::ostream& os, const PatchReset& instruction)
+{
+    return os << LSInstructionPrint<PatchReset>::name << " " << instruction.target;
 }
 
 }

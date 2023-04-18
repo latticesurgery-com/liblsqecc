@@ -249,7 +249,6 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
 {
     if (const auto* s = std::get_if<SinglePatchMeasurement>(&instruction.operation))
     {
-
         auto maybe_target_patch = slice.get_patch_by_id(s->target);
         if(!maybe_target_patch)
             return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Patch ", s->target, " not on lattice")), {}};
@@ -549,6 +548,9 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         }
 
     }
+    else if (auto* reset = std::get_if<PatchReset>(&instruction.operation))
+        return {nullptr, {}};
+    
     LSTK_UNREACHABLE;
 }
 
