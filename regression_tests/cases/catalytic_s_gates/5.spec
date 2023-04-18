@@ -105624,7 +105624,7 @@
             "Top": "Dashed"
          },
          "patch_type": "Qubit",
-         "text": "Id: 28"
+         "text": "Not bound"
       },
       null,
       {

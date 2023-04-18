@@ -16,3 +16,4 @@ MeasureSinglePatch 29 X
 MeasureSinglePatch 30 Z
 HGate 26
 RotateSingleCellPatch 26
+RequestYState 26 0

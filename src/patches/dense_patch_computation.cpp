@@ -467,33 +467,47 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                     lstk::cat(instruction,";Could not get magic state")), {}};
 
     }
-    // TRL 04/11/23: Implementing YStateRequest as a new LLI
     else if (auto* yr = std::get_if<YStateRequest>(&instruction.operation))
     {
-        std::optional<Cell> min_cell;
-        double min_dist = 9999; 
-        double dist;
-        // Get minimum distance available Y state patch
-        for (const Cell& cell : layout.y_states())
+        // Unbind Y state patch if already bound
+        if (slice.get_patch_by_id(yr->target))
         {
-            dist = sqrt(pow(cell.col - slice.get_cell_by_id(yr->near_patch).value().col, 2) + pow(cell.row - slice.get_cell_by_id(yr->near_patch).value().row, 2));
-            if ((dist < min_dist) && !slice.patch_at(cell)->is_active())
+            slice.get_patch_by_id(yr->target)->get().id = std::nullopt;
+            return{nullptr, {}};
+        }
+        // Otherwise, get minimum (L1) distance unbound Y state patch
+        else 
+        {
+            std::optional<Cell> min_cell;
+            double min_dist = 9999; 
+            double dist;
+            // 
+            for (const Cell& cell : layout.y_states())
             {
-                min_dist = dist;
-                min_cell = cell;
+                // TRL 04/18/23: Replaced is_active check with id.has_value check
+                if (!slice.patch_at(cell)->id.has_value())
+                {
+                    dist = sqrt(pow(cell.col - slice.get_cell_by_id(yr->near_patch).value().col, 2) + pow(cell.row - slice.get_cell_by_id(yr->near_patch).value().row, 2));
+                    if (dist < min_dist)
+                    {
+                        min_dist = dist;
+                        min_cell = cell;
+                    }
+                }
+            }
+
+            if (min_cell)
+            {
+                slice.patch_at(min_cell.value()).value().id = yr->target;
+                return {nullptr, {}};
+            }
+            else 
+            {
+                return {std::make_unique<std::runtime_error>(
+                        std::string{"Could not get Y state"}), {}};           
             }
         }
 
-        if (min_cell)
-        {
-            slice.patch_at(min_cell.value()).value().id = yr->target;
-            return {nullptr, {}};
-        }
-        else 
-        {
-            return {std::make_unique<std::runtime_error>(
-                    std::string{"Could not get Y state"}), {}};           
-        }
     }
     else if (auto* busy_region = std::get_if<BusyRegion>(&instruction.operation))
     {
