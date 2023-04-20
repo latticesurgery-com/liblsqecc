@@ -8,8 +8,9 @@ LSIinstructionFromGatesGenerator::LSIinstructionFromGatesGenerator(IdGenerator& 
 : id_generator_(id_generator)
 {}
 
-std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_t_gate_instructions(PatchId target_id)
+std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_t_gate_instructions(PatchId target_id, bool is_dagger)
 {
+    // Currently we ignore the is_dagger argument, since the procedure in this case is the same
     std::queue<LSInstruction> next_instructions;
     PatchId new_magic_state_id = id_generator_.new_id();
     next_instructions.push({.operation={MagicStateRequest{new_magic_state_id}}, .wait_at_most_for=MagicStateRequest::DEFAULT_WAIT});
