@@ -166,12 +166,12 @@ InstructionApplicationResult try_apply_local_instruction(
         if (!slice.is_cell_free(bellprep->cell1)) 
         {
             std::cout << lstk::cat("Cell ", bellprep->cell1, " is not free") << std::endl;
-            return {std::make_unique<std::runtime_error>(lstk::cat("Cell ", bellprep->cell1, " is not free")), {}};
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Cell ", bellprep->cell1, " is not free")), {}};
         }
         else if (!slice.is_cell_free(bellprep->cell2))
         {
             std::cout << lstk::cat("Cell ", bellprep->cell2, " is not free") << std::endl;
-            return {std::make_unique<std::runtime_error>(lstk::cat("Cell ", bellprep->cell2, " is not free")), {}};
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Cell ", bellprep->cell2, " is not free")), {}};
         }
 
         slice.place_sparse_patch(LayoutHelpers::basic_square_patch(bellprep->cell1, bellprep->side1), false);
@@ -186,11 +186,11 @@ InstructionApplicationResult try_apply_local_instruction(
     {
         if (slice.patch_at(bellmeas->cell1)->is_active())
         {
-            return {std::make_unique<std::runtime_error>(lstk::cat("Patch at ", bellmeas->cell1, " is active")), {}};
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Patch at ", bellmeas->cell1, " is active")), {}};
         }
         else if (slice.patch_at(bellmeas->cell2)->is_active())
         {
-            return {std::make_unique<std::runtime_error>(lstk::cat("Patch at ", bellmeas->cell2, " is active")), {}};
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Patch at ", bellmeas->cell2, " is active")), {}};
         }
         slice.get_boundary_between_or_fail(bellmeas->cell1,bellmeas->cell2).get().is_active=true;
         slice.get_boundary_between_or_fail(bellmeas->cell2,bellmeas->cell1).get().is_active=true;
@@ -203,11 +203,11 @@ InstructionApplicationResult try_apply_local_instruction(
     else if (const auto* move = std::get_if<LocalInstruction::Move>(&instruction.operation))
     {
         if (!slice.patch_at(move->source_cell).has_value())
-            return {std::make_unique<std::runtime_error>(lstk::cat("No Patch at ", move->source_cell, ", cannot move")), {}};
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; No Patch at ", move->source_cell, ", cannot move")), {}};
         else if (slice.patch_at(move->source_cell)->is_active())
-            return {std::make_unique<std::runtime_error>(lstk::cat("Patch at ", move->source_cell, " is active, cannot move")), {}};
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Patch at ", move->source_cell, " is active, cannot move")), {}};
         else if (!slice.is_cell_free(move->target_cell))
-            return {std::make_unique<std::runtime_error>(lstk::cat("Cell ", move->target_cell, " is not free, cannot move")), {}};
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Cell ", move->target_cell, " is not free, cannot move")), {}};
         
         SparsePatch new_patch = LayoutHelpers::basic_square_patch(move->target_cell);
         new_patch.id = move->new_id_for_target ? move->new_id_for_target : slice.patch_at(move->source_cell)->id;
@@ -222,11 +222,11 @@ InstructionApplicationResult try_apply_local_instruction(
     {
         if (slice.patch_at(localmeas->cell1)->is_active())
         {
-            return {std::make_unique<std::runtime_error>(lstk::cat("Patch at ", localmeas->cell1, " is active")), {}};
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Patch at ", localmeas->cell1, " is active")), {}};
         }
         else if (slice.patch_at(localmeas->cell2)->is_active())
         {
-            return {std::make_unique<std::runtime_error>(lstk::cat("Patch at ", localmeas->cell2, " is active")), {}};
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Patch at ", localmeas->cell2, " is active")), {}};
         }
         slice.get_boundary_between_or_fail(localmeas->cell1,localmeas->cell2).get().is_active=true;
         slice.get_boundary_between_or_fail(localmeas->cell2,localmeas->cell1).get().is_active=true;
@@ -479,10 +479,10 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         else 
         {
             std::optional<Cell> min_cell;
-            double min_dist = 9999; 
+            double min_dist = std::numeric_limits<double>::max();
             double dist;
             // 
-            for (const Cell& cell : layout.y_states())
+            for (const Cell& cell : layout.predistilled_y_states())
             {
                 if (!slice.patch_at(cell)->id.has_value() && !slice.patch_at(cell)->is_active())
                 {
