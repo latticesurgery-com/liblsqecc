@@ -48,7 +48,7 @@ LSInstruction BoundaryRotationInjectionStream::get_next_instruction()
         }
     } else if (const auto* h_gate = std::get_if<SingleQubitOp>(&new_instruction.operation))
     {
-        if (h_gate->op == SingleQubitOp::Operator::H) 
+        if (exposed_operators_.contains(h_gate->target) && h_gate->op == SingleQubitOp::Operator::H) 
         {
             exposed_operators_.at(h_gate->target).rotate();
         }

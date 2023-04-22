@@ -24,8 +24,13 @@ tsl::ordered_set<PatchId> LSInstruction::get_operating_patches() const
         [&](const BellPairInit& op) {
             ret.insert(op.side1);
             ret.insert(op.side2);
+            ret.insert(op.loc1.target);
+            ret.insert(op.loc2.target);
         },
         [&](const MagicStateRequest& op){
+            ret.insert(op.target);
+        },
+        [&](const YStateRequest& op){
             ret.insert(op.target);
         },
         [&](const SingleQubitOp& op){
@@ -122,7 +127,11 @@ std::ostream& operator<<(std::ostream& os, const MagicStateRequest& instruction)
     return os << LSInstructionPrint<MagicStateRequest>::name
         << " " << instruction.target;
 }
-
+std::ostream& operator<<(std::ostream& os, const YStateRequest& instruction)
+{
+    return os << LSInstructionPrint<YStateRequest>::name
+        << " " << instruction.target << " " << instruction.near_patch;
+}
 std::ostream& operator<<(std::ostream& os, const SingleQubitOp& instruction)
 {
     return os << SingleQuibitOperatorName_to_string(instruction.op)

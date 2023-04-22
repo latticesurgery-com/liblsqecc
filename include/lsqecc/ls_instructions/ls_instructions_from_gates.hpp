@@ -18,7 +18,7 @@ enum class CNOTCorrectionMode {
 class LSIinstructionFromGatesGenerator
 {
 public:
-    explicit LSIinstructionFromGatesGenerator(IdGenerator& id_generator);
+    explicit LSIinstructionFromGatesGenerator(IdGenerator& id_generator, bool local_instructions);
 
     std::queue<LSInstruction> make_t_gate_instructions(PatchId target_id, bool is_dagger=false);
     std::queue<LSInstruction> make_cnot_instructions(
@@ -30,6 +30,7 @@ public:
 
 private:
     IdGenerator& id_generator_;
+    bool local_instructions_;
 };
 
 }

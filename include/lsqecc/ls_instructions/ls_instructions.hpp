@@ -76,6 +76,14 @@ struct MagicStateRequest {
     bool operator==(const MagicStateRequest&) const = default;
 };
 
+struct YStateRequest {
+    PatchId target;
+    PatchId near_patch;
+
+    static const size_t DEFAULT_WAIT = 8;
+    bool operator==(const YStateRequest&) const = default;
+};
+
 
 struct RotateSingleCellPatch {
     PatchId target;
@@ -119,6 +127,7 @@ struct LSInstruction {
             PatchInit,
             BellPairInit,
             MagicStateRequest,
+            YStateRequest,
             SingleQubitOp,
             RotateSingleCellPatch,
             BusyRegion
@@ -146,6 +155,7 @@ std::ostream& operator<<(std::ostream& os, const PlaceNexTo& place_next_to);
 std::ostream& operator<<(std::ostream& os, const PatchInit& instruction);
 std::ostream& operator<<(std::ostream& os, const BellPairInit& instruction);
 std::ostream& operator<<(std::ostream& os, const MagicStateRequest& instruction);
+std::ostream& operator<<(std::ostream& os, const YStateRequest& instruction);
 std::ostream& operator<<(std::ostream& os, const SingleQubitOp& instruction);
 std::ostream& operator<<(std::ostream& os, const RotateSingleCellPatch& instruction);
 std::ostream& operator<<(std::ostream& os, const BusyRegion& instruction);
@@ -182,6 +192,10 @@ struct LSInstructionPrint<BellPairInit>{
 template<>
 struct LSInstructionPrint<MagicStateRequest>{
     static constexpr std::string_view name = "RequestMagicState";
+};
+template<>
+struct LSInstructionPrint<YStateRequest>{
+    static constexpr std::string_view name = "RequestYState";
 };
 
 template<>

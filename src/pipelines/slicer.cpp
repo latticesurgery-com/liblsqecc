@@ -6,6 +6,7 @@
 #include <lsqecc/ls_instructions/ls_instruction_stream.hpp>
 #include <lsqecc/ls_instructions/boundary_rotation_injection_stream.hpp>
 #include <lsqecc/ls_instructions/teleported_s_gate_injection_stream.hpp>
+#include <lsqecc/ls_instructions/catalytic_s_gate_injection_stream.hpp>
 #include <lsqecc/layout/ascii_layout_spec.hpp>
 #include <lsqecc/layout/router.hpp>
 #include <lsqecc/layout/dynamic_layouts/compact_layout.hpp>
@@ -68,6 +69,10 @@ namespace lsqecc
         None, BeforeSlicing, Sliced
     };
 
+    enum class CompilationMode
+    {
+        Local, Nonlocal
+    };
 
     DistillationOptions make_distillation_options(argparse::ArgumentParser& parser)
     {
@@ -168,6 +173,10 @@ namespace lsqecc
                 .names({"--disttime"})
                 .description("Set the distillation time (default 10)")
                 .required(false);
+        parser.add_argument()
+                .names({"--local"})
+                .description("Compile gates using a local lattice surgery instruction set")
+                .required(false);
         parser.enable_help();
 
         auto err = parser.parse(argc, argv);
@@ -262,6 +271,10 @@ namespace lsqecc
         std::unique_ptr<LSInstructionStream> instruction_stream;
         std::unique_ptr<GateStream> gate_stream;
 
+        CompilationMode compile_mode = CompilationMode::Nonlocal;
+        if (parser.exists("local"))
+            compile_mode = CompilationMode::Local;
+
         if(!parser.exists("q"))
         {
             instruction_stream = std::make_unique<LSInstructionStreamFromFile>(input_file_stream.get());
@@ -305,7 +318,7 @@ namespace lsqecc
             }
 
             id_generator.set_start(gate_stream->get_qreg().size);
-            instruction_stream = std::make_unique<LSInstructionStreamFromGateStream>(*gate_stream, cnot_correction_mode, id_generator);    
+            instruction_stream = std::make_unique<LSInstructionStreamFromGateStream>(*gate_stream, cnot_correction_mode, id_generator, compile_mode == CompilationMode::Local);    
         }
 
 
@@ -327,7 +340,7 @@ namespace lsqecc
             else if (parser.get<std::string>("layoutgenerator") == "edpc") 
             {
                 layout = make_edpc_layout(instruction_stream->core_qubits().size(), distillation_options);
-                instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
+                instruction_stream = std::make_unique<CatalyticSGateInjectionStream>(std::move(instruction_stream), id_generator, compile_mode == CompilationMode::Local);
             }
             else
             {
@@ -465,6 +478,7 @@ namespace lsqecc
             std::make_unique<DensePatchComputationResult>(run_through_dense_slices(
                     std::move(*instruction_stream),
                     pipeline_mode == PipelineMode::Dag,
+                    compile_mode == CompilationMode::Local,
                     *layout,
                     *router,
                     timeout,

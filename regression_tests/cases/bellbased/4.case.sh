@@ -9,4 +9,4 @@ cx q[2],q[3]; // %BellBased
 cx q[4],q[5]; // %BellBased
 cx q[6],q[7]; // %BellBased
 "
-echo "$INPUT" | lsqecc_slicer -q -L edpc --nostagger -P dag
+echo "$INPUT" | lsqecc_slicer -q -L edpc --nostagger -P dag --local

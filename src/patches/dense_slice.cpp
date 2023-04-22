@@ -119,6 +119,12 @@ DenseSlice::DenseSlice(const lsqecc::Layout &layout, const tsl::ordered_set<Patc
         patch_at(cell)->id = *core_qubit_ids_itr++;
     }
 
+    for (const Cell& cell: layout.predistilled_y_states())
+    {
+        SparsePatch p = LayoutHelpers::basic_square_patch(cell);
+        place_sparse_patch(p,false);
+    }
+
     for(const MultipleCellsOccupiedByPatch& distillation_region: layout.distillation_regions())
     {
         for (const SingleCellOccupiedByPatch& cell: distillation_region.sub_cells)

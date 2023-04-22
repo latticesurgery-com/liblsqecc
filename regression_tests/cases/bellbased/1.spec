@@ -5,6 +5,10 @@ MultiBodyMeasure 5:Z,6:Z
 MultiBodyMeasure 2:Z,3:Z
 RotateSingleCellPatch 100
 HGate 1
+RotateSingleCellPatch 1
 HGate 1
 RotateSingleCellPatch 1
+RotateSingleCellPatch 1
 MultiBodyMeasure 0:Z,100:Z
+RequestYState 7 0
+MultiBodyMeasure 0:Z,7:Z

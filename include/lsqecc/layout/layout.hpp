@@ -21,6 +21,7 @@ struct Layout {
     virtual const DistillationTimeMap& distillation_times() const = 0;
     virtual const std::vector<Cell>& ancilla_location() const = 0;
     virtual const std::vector<Cell>& dead_location() const = 0;
+    virtual const std::vector<Cell>& predistilled_y_states() const = 0;
     virtual const bool magic_states_reserved() const = 0;
 
     template<class F> void for_each_cell(F f) const;

@@ -20,4 +20,5 @@ Options:
                             - edpc: Uses a layout specified in the EDPC paper by Beverland et. al. (https://arxiv.org/abs/2110.11493)
     --nostagger            Turns off staggered distillation block timing
     --disttime             Set the distillation time (default 10)
+    --local                Compile gates using a local lattice surgery instruction set
     -h, --help             Shows this page        

@@ -37,6 +37,7 @@ struct DensePatchComputationResult : public PatchComputationResult {
 DensePatchComputationResult run_through_dense_slices(
         LSInstructionStream&& instruction_stream,
         bool dag_pipeline,
+        bool local_instructions,
         const Layout& layout,
         Router& router,
         std::optional<std::chrono::seconds> timeout,
@@ -45,7 +46,7 @@ DensePatchComputationResult run_through_dense_slices(
         bool graceful);
 
 
-static constexpr size_t MAX_INSTRUCTION_APPLICATION_RETRIES_DAG_PIPELINE = 10;
+static constexpr size_t MAX_INSTRUCTION_APPLICATION_RETRIES_DAG_PIPELINE = 100;
 
 
 }

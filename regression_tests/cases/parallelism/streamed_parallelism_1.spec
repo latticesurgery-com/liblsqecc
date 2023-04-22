@@ -3420,7 +3420,7 @@
       },
       {
          "activity": {
-            "activity_type": "Unitary"
+            "activity_type": null
          },
          "edges": {
             "Bottom": "Solid",
