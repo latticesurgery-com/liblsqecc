@@ -47,19 +47,28 @@ Line split_instruction_and_args(std::string_view gate_str)
 {
     if(!lstk::contains(gate_str, ' '))
         return {gate_str, {}};
-
-    auto instr_split = lstk::split_on(gate_str,' ');
-    auto instruction = instr_split.at(0);
-    auto args = lstk::split_on(instr_split.at(1), ',');
-    auto semicolon_split = lstk::split_on(gate_str,';');
+    
+    auto semicolon_split = lstk::split_on(gate_str, ';');
+    gate_str = semicolon_split.at(0);
     auto annotation_line = semicolon_split.at(1);
-
+    
+    auto instruction_with_details = lstk::split_on_first(gate_str, ' ');
+    auto instruction = instruction_with_details.at(0);
+    auto details = instruction_with_details.at(1);
+    
+    auto args = lstk::split_on(details, ',');
+    // trim starting spaces
+    for (auto& arg : args)
+    {
+        while (arg.starts_with(' '))
+            arg.remove_prefix(1);
+    }
+    
     std::vector<std::string_view> annotations;
     if (annotation_line.starts_with(" // %"))
             annotations = lstk::split_on(annotation_line.substr(5),',');
 
     return Line{instruction, args, annotations};
-
 }
 
 QubitNum get_index_arg(std::string_view s)
@@ -123,6 +132,8 @@ gates::Gate parse_qasm_gate(const Line& line)
     if(line.instruction == "s") return gates::S(get_index_arg(line.args.at(0)));
     if(line.instruction == "t") return gates::T(get_index_arg(line.args.at(0)));
     if(line.instruction == "h") return gates::H(get_index_arg(line.args.at(0)));
+    if(line.instruction == "sdg") return gates::SDg(get_index_arg(line.args.at(0)));
+    if(line.instruction == "tdg") return gates::TDg(get_index_arg(line.args.at(0)));
 
     if(line.instruction == "cx")
     {
@@ -164,6 +175,7 @@ bool is_ignored_instruction(std::string_view instr)
 {
     if( instr == "OPENQASM" ||
         instr == "include" ||
+        instr == "creg" ||
         instr == "barrier")
         return true;
     return false;
@@ -183,6 +195,7 @@ Qreg parse_qreg(std::vector<std::string_view>& args)
         .size=num
     };
 }
+
 
 ParseGateResult parse_gate(std::string_view str_line)
 {
