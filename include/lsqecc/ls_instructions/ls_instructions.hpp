@@ -72,6 +72,8 @@ struct BellPairInit {
 
 struct MagicStateRequest {
     PatchId target;
+    PatchId near_patch;
+    
     static const size_t DEFAULT_WAIT = 10;
     bool operator==(const MagicStateRequest&) const = default;
 };

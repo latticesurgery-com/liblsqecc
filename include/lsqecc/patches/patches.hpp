@@ -38,6 +38,11 @@ struct Cell {
     }
 
     bool operator==(const Cell&) const = default;
+
+    bool operator<(const Cell& cell_comparison) const
+    {
+        return row<cell_comparison.row || (row == cell_comparison.row && col<cell_comparison.col);
+    }
 };
 
 std::ostream& operator<<(std::ostream& os, const Cell& c);

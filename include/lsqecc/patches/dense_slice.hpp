@@ -7,6 +7,7 @@
 
 #include <functional>
 #include <unordered_map>
+#include <set>
 #include <tsl/ordered_set.h>
 
 namespace lsqecc
@@ -20,7 +21,7 @@ struct DenseSlice : public Slice
 
     using RowStore = std::vector<std::optional<DensePatch>>;
     std::vector<RowStore> cells;
-    std::queue<Cell> magic_state_queue;
+    std::set<Cell> magic_states;
     DistillationTimeMap time_to_next_magic_state_by_distillation_region;
     std::reference_wrapper<const Layout> layout;
 

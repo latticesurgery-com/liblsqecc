@@ -12,7 +12,7 @@ std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_t_gate_instruct
     // Currently we ignore the is_dagger argument, since the procedure in this case is the same
     std::queue<LSInstruction> next_instructions;
     PatchId new_magic_state_id = id_generator_.new_id();
-    next_instructions.push({.operation={MagicStateRequest{new_magic_state_id}}, .wait_at_most_for=MagicStateRequest::DEFAULT_WAIT});
+    next_instructions.push({.operation={MagicStateRequest{new_magic_state_id, target_id}}, .wait_at_most_for=MagicStateRequest::DEFAULT_WAIT});
     if (local_instructions_)
     {
         auto instructions = make_cnot_instructions(
