@@ -72,7 +72,8 @@ struct BellPairInit {
 
 struct MagicStateRequest {
     PatchId target;
-    static const size_t DEFAULT_WAIT = 10;
+    
+    static constexpr size_t DEFAULT_WAIT = 100;
     bool operator==(const MagicStateRequest&) const = default;
 };
 
@@ -124,7 +125,7 @@ struct PatchReset {
 
 struct LSInstruction {
 
-    static constexpr size_t DEFAULT_MAX_WAIT = 3; // Allows for rotations to finish
+    static constexpr size_t DEFAULT_MAX_WAIT = 100; // Allows for rotations to finish
 
     std::variant<
             DeclareLogicalQubitPatches,
@@ -141,8 +142,10 @@ struct LSInstruction {
             > operation;
 
     size_t wait_at_most_for = DEFAULT_MAX_WAIT;
-
+    tsl::ordered_set<PatchId> clients; // these are artificial dependencies
+    
     tsl::ordered_set<PatchId> get_operating_patches() const;
+    tsl::ordered_set<PatchId> get_patch_dependencies() const { return lstk::set_union(get_operating_patches(), clients); }
     bool operator==(const LSInstruction&) const = default;
 };
 

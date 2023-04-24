@@ -1,5 +1,8 @@
 #include <lsqecc/patches/dense_patch_computation.hpp>
 #include <lsqecc/dag/domain_dags.hpp>
+#include <lsqecc/scheduler/wave_scheduler.hpp>
+
+#include <algorithm>
 
 namespace lsqecc
 {
@@ -147,13 +150,6 @@ bool merge_patches(
 }
 
 
-// TODO replace with a variant
-struct InstructionApplicationResult
-{
-    std::unique_ptr<std::exception> maybe_error;
-    std::vector<LSInstruction> followup_instructions;
-};
-
 InstructionApplicationResult try_apply_local_instruction(
         DenseSlice& slice,
         LocalInstruction::LocalLSInstruction instruction,
@@ -278,10 +274,12 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         {
             if (target_patch.is_active())
                 return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Patch ", p->target, " is active")), {}};
-
+            
             target_patch.activity = PatchActivity::Unitary;
             if (p->op == SingleQubitOp::Operator::H)
+            {
                 target_patch.boundaries.instant_rotate();
+            }
                 
             return {nullptr, {}};
         }
@@ -548,7 +546,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         }
 
     }
-    else if (auto* reset = std::get_if<PatchReset>(&instruction.operation))
+    else if (std::get_if<PatchReset>(&instruction.operation))
         return {nullptr, {}};
     
     LSTK_UNREACHABLE;
@@ -697,10 +695,34 @@ void run_through_dense_slices_dag(
     }
 }
 
+void run_through_dense_slices_wave(
+        LSInstructionStream&& instruction_stream,
+        bool local_instructions,
+        const Layout& layout,
+        Router& router,
+        std::optional<std::chrono::seconds> timeout,
+        DenseSliceVisitor slice_visitor,
+        LSInstructionVisitor instruction_visitor,
+        bool graceful,
+        DensePatchComputationResult& res)
+{
+    DenseSlice slice{layout, instruction_stream.core_qubits()};
+    WaveScheduler scheduler(std::move(instruction_stream), local_instructions, layout);
+    
+    while (!scheduler.done())
+    {
+        scheduler.schedule_wave(slice, instruction_visitor, res);
+        
+        slice_visitor(slice);
+        advance_slice(slice, layout);
+        res.slice_count_++;
+    }
+}
+
 
 DensePatchComputationResult run_through_dense_slices(
         LSInstructionStream&& instruction_stream,
-        bool dag_pipeline,
+        PipelineMode pipeline_mode,
         bool local_instructions,
         const Layout& layout,
         Router& router,
@@ -733,7 +755,21 @@ DensePatchComputationResult run_through_dense_slices(
 
     auto run = [&]()
     {
-        if (dag_pipeline)
+        switch (pipeline_mode)
+        {
+        case PipelineMode::Stream:
+            return run_through_dense_slices_streamed(
+                std::move(instruction_stream),
+                local_instructions,
+                layout,
+                router,
+                timeout,
+                slice_visitor,
+                instruction_visitor,
+                graceful,
+                res);
+        
+        case PipelineMode::Dag:
         {
             auto dag = dag::full_dependency_dag_from_instruction_stream(instruction_stream);
             return run_through_dense_slices_dag(
@@ -748,9 +784,9 @@ DensePatchComputationResult run_through_dense_slices(
                 graceful,
                 res);
         }
-        else
-        {
-            return run_through_dense_slices_streamed(
+        
+        case PipelineMode::Wave:
+            return run_through_dense_slices_wave(
                 std::move(instruction_stream),
                 local_instructions,
                 layout,
@@ -760,6 +796,8 @@ DensePatchComputationResult run_through_dense_slices(
                 instruction_visitor,
                 graceful,
                 res);
+        
+        default: LSTK_UNREACHABLE;
         }
     };
 

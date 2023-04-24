@@ -60,10 +60,6 @@ namespace lsqecc
         None, Input, ProcessedLli
      };
 
-    enum class PipelineMode {
-        Stream, Dag
-    };
-
     enum class LLIPrintMode
     {
         None, BeforeSlicing, Sliced
@@ -247,6 +243,8 @@ namespace lsqecc
                 pipeline_mode = PipelineMode::Stream;
             else if (mode_arg=="dag")
                 pipeline_mode = PipelineMode::Dag;
+            else if (mode_arg=="wave")
+                pipeline_mode = PipelineMode::Wave;
             else
             {
                 err_stream << "Unknown pipeline mode " << mode_arg << std::endl;
@@ -477,7 +475,7 @@ namespace lsqecc
         std::unique_ptr<PatchComputationResult> computation_result = 
             std::make_unique<DensePatchComputationResult>(run_through_dense_slices(
                     std::move(*instruction_stream),
-                    pipeline_mode == PipelineMode::Dag,
+                    pipeline_mode,
                     compile_mode == CompilationMode::Local,
                     *layout,
                     *router,

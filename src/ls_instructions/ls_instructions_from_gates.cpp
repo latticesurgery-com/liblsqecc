@@ -12,7 +12,8 @@ std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_t_gate_instruct
     // Currently we ignore the is_dagger argument, since the procedure in this case is the same
     std::queue<LSInstruction> next_instructions;
     PatchId new_magic_state_id = id_generator_.new_id();
-    next_instructions.push({.operation={MagicStateRequest{new_magic_state_id}}, .wait_at_most_for=MagicStateRequest::DEFAULT_WAIT});
+    
+    next_instructions.push({.operation={MagicStateRequest{new_magic_state_id}}, .wait_at_most_for=MagicStateRequest::DEFAULT_WAIT, .clients={target_id}});
     if (local_instructions_)
     {
         auto instructions = make_cnot_instructions(
@@ -38,7 +39,7 @@ std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_t_gate_instruct
         }}});
         next_instructions.push({.operation={SingleQubitOp{target_id, SingleQubitOp::Operator::S}}});
     }
-
+    
     return next_instructions;
 }
 
@@ -55,8 +56,11 @@ std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_cnot_instructio
 
         PatchId id1 = id_generator_.new_id();
         PatchId id2 = id_generator_.new_id();
-        next_instructions.push({.operation={
-                BellPairInit{id1, id2, PlaceNexTo{control_id, PauliOperator::Z}, PlaceNexTo{target_id, PauliOperator::X}}}});
+        next_instructions.push(
+        {
+                .operation = {BellPairInit{id1, id2, PlaceNexTo{control_id, PauliOperator::Z}, PlaceNexTo{target_id, PauliOperator::X}}},
+                .clients = {control_id, target_id}
+        });
         next_instructions.push({.operation={
                 MultiPatchMeasurement{.observable={
                         {control_id, PauliOperator::Z},
@@ -90,9 +94,13 @@ std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_cnot_instructio
                 place_ancilla_next_to = PlaceNexTo{target_id, PauliOperator::X};
 
         PatchId ancilla_id = id_generator_.new_id();
-        next_instructions.push({.operation={PatchInit{
-                ancilla_id, PatchInit::InitializeableStates::Plus, place_ancilla_next_to}}});
-
+        
+        next_instructions.push(
+        {
+                .operation = {PatchInit{ancilla_id, PatchInit::InitializeableStates::Plus, place_ancilla_next_to}},
+                .clients = {control_id, target_id}
+        });
+        
         if(cnot_type == gates::CNOTType::ZX_WITH_MBM_CONTROL_FIRST){
                 next_instructions.push({.operation={
                         MultiPatchMeasurement{.observable={

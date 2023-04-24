@@ -9,7 +9,7 @@ namespace lsqecc {
 
 tsl::ordered_set<PatchId> LSInstruction::get_operating_patches() const
 {
-    tsl::ordered_set<PatchId> ret;
+    tsl::ordered_set<PatchId> ret = clients;
     std::visit(lstk::overloaded{
         [&](const SinglePatchMeasurement& op){
             ret.insert(op.target);

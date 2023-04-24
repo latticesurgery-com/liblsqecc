@@ -67,7 +67,7 @@ LSInstruction parse_ls_instruction(std::string_view line)
             place_next_to = PlaceNexTo{parse_patch_id(placement_info.at(0)),PauliOperator_from_string(placement_info.at(1))}; 
         }
 
-        return {PatchInit{patch_id, state, place_next_to}};
+        return {.operation = PatchInit{patch_id, state, place_next_to}, .clients = {patch_id}};
     }
     else if(instruction == "MeasureSinglePatch" || instruction == "1")
     {
