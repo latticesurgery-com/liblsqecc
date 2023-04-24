@@ -23,7 +23,7 @@ WaveScheduler::WaveScheduler(LSInstructionStream&& stream, bool local_instructio
 		assert(records_.size() < UINT32_MAX);
 		records_.push_back({instruction, {}});
 		
-		auto operating_patches = instruction.get_operating_patches();
+		auto operating_patches = instruction.get_patch_dependencies();
 		assert(operating_patches.size() <= UINT8_MAX);
 		
 		uint8_t dependency_count = 0;
@@ -136,36 +136,35 @@ void WaveScheduler::schedule_dependent_instructions(InstructionID instruction_id
 	
 bool WaveScheduler::is_immediate(const LSInstruction& instruction)
 {
-	return false;
-	// if (std::get_if<SinglePatchMeasurement>(&instruction.operation))
-	// 	return true;
-	// else if (std::get_if<MultiPatchMeasurement>(&instruction.operation))
-	// 	return false;
-	// else if (std::get_if<PatchInit>(&instruction.operation))
-	// 	return true;
-	// else if (std::get_if<BellPairInit>(&instruction.operation))
-	// 	return false;
-	// else if (std::get_if<MagicStateRequest>(&instruction.operation))
-	// 	return true;
-	// else if (auto* op = std::get_if<SingleQubitOp>(&instruction.operation))
-	// {
-	// 	switch(op->op)
-	// 	{
-	// 		case SingleQubitOp::Operator::X: return true;
-	// 		case SingleQubitOp::Operator::Z: return true;
-	// 		case SingleQubitOp::Operator::H: return false;
-	// 		case SingleQubitOp::Operator::S: return true;
-	// 		default: LSTK_UNREACHABLE;
-	// 	}
-	// }
-	// else if (std::get_if<RotateSingleCellPatch>(&instruction.operation))
-	// 	return false;
-	// else if (std::get_if<BusyRegion>(&instruction.operation))
-	// 	return false;
-	// else if (std::get_if<PatchReset>(&instruction.operation))
-	// 	return true;
-	// else
-	// 	LSTK_UNREACHABLE;
+	if (std::get_if<SinglePatchMeasurement>(&instruction.operation))
+		return true;
+	else if (std::get_if<MultiPatchMeasurement>(&instruction.operation))
+		return false;
+	else if (std::get_if<PatchInit>(&instruction.operation))
+		return true;
+	else if (std::get_if<BellPairInit>(&instruction.operation))
+		return false;
+	else if (std::get_if<MagicStateRequest>(&instruction.operation))
+		return true;
+	else if (auto* op = std::get_if<SingleQubitOp>(&instruction.operation))
+	{
+		switch(op->op)
+		{
+			case SingleQubitOp::Operator::X: return true;
+			case SingleQubitOp::Operator::Z: return true;
+			case SingleQubitOp::Operator::H: return false;
+			case SingleQubitOp::Operator::S: return false;
+			default: LSTK_UNREACHABLE;
+		}
+	}
+	else if (std::get_if<RotateSingleCellPatch>(&instruction.operation))
+		return false;
+	else if (std::get_if<BusyRegion>(&instruction.operation))
+		return false;
+	else if (std::get_if<PatchReset>(&instruction.operation))
+		return true;
+	else
+		LSTK_UNREACHABLE;
 }
 	
 bool WaveScheduler::try_schedule_immediately(InstructionID instruction_id, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res)

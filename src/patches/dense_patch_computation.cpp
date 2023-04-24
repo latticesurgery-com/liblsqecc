@@ -275,9 +275,9 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
             if (target_patch.is_active())
                 return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Patch ", p->target, " is active")), {}};
             
-            target_patch.activity = PatchActivity::Unitary;
             if (p->op == SingleQubitOp::Operator::H)
             {
+                target_patch.activity = PatchActivity::Unitary;
                 target_patch.boundaries.instant_rotate();
             }
                 

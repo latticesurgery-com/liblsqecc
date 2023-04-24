@@ -157,7 +157,7 @@
    [
       {
          "activity": {
-            "activity_type": null
+            "activity_type": "Unitary"
          },
          "edges": {
             "Bottom": "Dashed",
