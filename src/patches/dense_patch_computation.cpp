@@ -482,7 +482,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         else 
         {
             return {std::make_unique<std::runtime_error>(
-                    std::string{"Could not get magic state"}), {}};           
+                    lstk::cat(instruction,";Could not get magic state")), {}};           
         }
     }
     else if (auto* yr = std::get_if<YStateRequest>(&instruction.operation))
@@ -521,7 +521,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
             else 
             {
                 return {std::make_unique<std::runtime_error>(
-                        std::string{"Could not get Y state"}), {}};           
+                        lstk::cat(instruction,";Could not get Y state")), {}};          
             }
         }
 

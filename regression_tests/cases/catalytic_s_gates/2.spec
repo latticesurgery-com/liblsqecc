@@ -8,7 +8,7 @@
 
 
 
-RequestMagicState 25;MultiBodyMeasure 0:Z,25:Z;
+RequestMagicState 25 0;MultiBodyMeasure 0:Z,25:Z;
 MeasureSinglePatch 25 X;RequestYState 26 0;BellPairInit 27 28 0:Z,26:X;
 BusyRegion (5,4),(5,5),(6,5),StepsToClear(1);
 BusyRegion (5,4),(5,5),(6,5),StepsToClear(0);MultiBodyMeasure 0:Z,27:Z;MultiBodyMeasure 28:X,26:X;
