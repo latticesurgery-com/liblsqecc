@@ -5465,7 +5465,11 @@
       },
       {
          "activity": {
+<<<<<<< HEAD
             "activity_type": "Measurement"
+=======
+            "activity_type": null
+>>>>>>> 6b278dd (Added wave statistics)
          },
          "edges": {
             "Bottom": "Dashed",
@@ -5981,7 +5985,23 @@
          "patch_type": "DistillationQubit",
          "text": ""
       },
+<<<<<<< HEAD
       null,
+=======
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 2"
+      },
+>>>>>>> 6b278dd (Added wave statistics)
       null,
       {
          "activity": {
@@ -5998,10 +6018,17 @@
       },
       {
          "activity": {
+<<<<<<< HEAD
             "activity_type": "Unitary"
          },
          "edges": {
             "Bottom": "Solid",
+=======
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+>>>>>>> 6b278dd (Added wave statistics)
             "Left": "Dashed",
             "Right": "Dashed",
             "Top": "Solid"
@@ -6009,14 +6036,34 @@
          "patch_type": "Qubit",
          "text": "Id: 1"
       },
+<<<<<<< HEAD
       null,
+=======
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "AncillaJoin",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+>>>>>>> 6b278dd (Added wave statistics)
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
             "Bottom": "Dashed",
+<<<<<<< HEAD
             "Left": "Solid",
+=======
+            "Left": "SolidStiched",
+>>>>>>> 6b278dd (Added wave statistics)
             "Right": "Solid",
             "Top": "Dashed"
          },
@@ -6080,8 +6127,37 @@
       null,
       null,
       null,
+<<<<<<< HEAD
       null,
       null,
+=======
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "AncillaJoin"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "AncillaJoin"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+>>>>>>> 6b278dd (Added wave statistics)
       null,
       {
          "activity": {
@@ -6463,7 +6539,23 @@
          "patch_type": "DistillationQubit",
          "text": ""
       },
+<<<<<<< HEAD
       null,
+=======
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 2"
+      },
+>>>>>>> 6b278dd (Added wave statistics)
       null,
       {
          "activity": {
@@ -6485,7 +6577,11 @@
          "edges": {
             "Bottom": "SolidStiched",
             "Left": "Dashed",
+<<<<<<< HEAD
             "Right": "Dashed",
+=======
+            "Right": "DashedStiched",
+>>>>>>> 6b278dd (Added wave statistics)
             "Top": "Solid"
          },
          "patch_type": "Qubit",
@@ -6497,8 +6593,13 @@
          },
          "edges": {
             "Bottom": "AncillaJoin",
+<<<<<<< HEAD
             "Left": "None",
             "Right": "AncillaJoin",
+=======
+            "Left": "AncillaJoin",
+            "Right": "None",
+>>>>>>> 6b278dd (Added wave statistics)
             "Top": "None"
          },
          "patch_type": "Ancilla",
@@ -6510,7 +6611,11 @@
          },
          "edges": {
             "Bottom": "Dashed",
+<<<<<<< HEAD
             "Left": "SolidStiched",
+=======
+            "Left": "Solid",
+>>>>>>> 6b278dd (Added wave statistics)
             "Right": "Solid",
             "Top": "Dashed"
          },
@@ -6993,8 +7098,11 @@
          "patch_type": "DistillationQubit",
          "text": ""
       },
+<<<<<<< HEAD
       null,
       null,
+=======
+>>>>>>> 6b278dd (Added wave statistics)
       {
          "activity": {
             "activity_type": null
@@ -7006,13 +7114,20 @@
             "Top": "Dashed"
          },
          "patch_type": "Qubit",
+<<<<<<< HEAD
          "text": "Id: 0"
       },
+=======
+         "text": "Id: 2"
+      },
+      null,
+>>>>>>> 6b278dd (Added wave statistics)
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
+<<<<<<< HEAD
             "Bottom": "SolidStiched",
             "Left": "Dashed",
             "Right": "DashedStiched",
@@ -7020,12 +7135,22 @@
          },
          "patch_type": "Qubit",
          "text": "Id: 1"
+=======
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 0"
+>>>>>>> 6b278dd (Added wave statistics)
       },
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
+<<<<<<< HEAD
             "Bottom": "AncillaJoin",
             "Left": "AncillaJoin",
             "Right": "None",
@@ -7037,6 +7162,20 @@
       {
          "activity": {
             "activity_type": "Measurement"
+=======
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 1"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+>>>>>>> 6b278dd (Added wave statistics)
          },
          "edges": {
             "Bottom": "Dashed",
@@ -7104,6 +7243,7 @@
       null,
       null,
       null,
+<<<<<<< HEAD
       {
          "activity": {
             "activity_type": null
@@ -7130,6 +7270,10 @@
          "patch_type": "Ancilla",
          "text": ""
       },
+=======
+      null,
+      null,
+>>>>>>> 6b278dd (Added wave statistics)
       null,
       {
          "activity": {
@@ -7506,6 +7650,7 @@
       null,
       null
    ]
+<<<<<<< HEAD
 ],
 [
    [
@@ -8012,4 +8157,6 @@
       null,
       null
    ]
+=======
+>>>>>>> 6b278dd (Added wave statistics)
 ]]

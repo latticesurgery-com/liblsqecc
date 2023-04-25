@@ -53,17 +53,24 @@ WaveScheduler::WaveScheduler(LSInstructionStream&& stream, bool local_instructio
 	}
 }
 	
-void WaveScheduler::schedule_wave(DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res)
+WaveStats WaveScheduler::schedule_wave(DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res)
 {
-	schedule_instructions(current_wave_.high_priority_heads, slice, instruction_visitor, res);
-	schedule_instructions(current_wave_.heads, slice, instruction_visitor, res);
+	size_t applied_count = 0;
+	applied_count += schedule_instructions(current_wave_.high_priority_heads, slice, instruction_visitor, res);
+	applied_count += schedule_instructions(current_wave_.heads, slice, instruction_visitor, res);
+	
+	WaveStats wave_stats = { .wave_size = current_wave_.size(), .applied_wave_size = applied_count };
 	
 	std::swap(current_wave_, next_wave_);
     next_wave_.clear();
+    
+    return wave_stats;
 }
 
-void WaveScheduler::schedule_instructions(const std::vector<InstructionID>& instruction_ids, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res)
+size_t WaveScheduler::schedule_instructions(const std::vector<InstructionID>& instruction_ids, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res)
 {
+	size_t applied_count = 0;
+	
 	for (auto instruction_id : instruction_ids)
 	{
 		assert(dependency_counts_[instruction_id] == 0);
@@ -73,6 +80,7 @@ void WaveScheduler::schedule_instructions(const std::vector<InstructionID>& inst
 		
 		if (!application_result.maybe_error)
 		{
+			++applied_count;
 		    ++res.ls_instructions_count_;
 		    instruction_visitor(instruction);
 		    schedule_dependent_instructions(instruction_id, application_result.followup_instructions, slice, instruction_visitor, res);
@@ -90,6 +98,8 @@ void WaveScheduler::schedule_instructions(const std::vector<InstructionID>& inst
 		    next_wave_.high_priority_heads.push_back(instruction_id);
 		}
 	}
+	
+	return applied_count;
 }
 	
 void WaveScheduler::schedule_dependent_instructions(InstructionID instruction_id, const std::vector<LSInstruction>& followup_instructions, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res)

@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <vector>
 
+#include <lstk/lstk.hpp>
+
 #include <lsqecc/layout/layout.hpp>
 #include <lsqecc/layout/router.hpp>
 #include <lsqecc/ls_instructions/ls_instructions.hpp>
@@ -13,6 +15,11 @@
 
 namespace lsqecc {
 
+struct WaveStats
+{
+	size_t wave_size; // number of instructions in wave
+	size_t applied_wave_size; // number of instructions in wave that were actually applied
+};
 
 class WaveScheduler
 {
@@ -21,7 +28,7 @@ public:
 	WaveScheduler(LSInstructionStream&& stream, bool local_instructions, const Layout& layout);
 	
 	bool done() const { return current_wave_.high_priority_heads.empty() && current_wave_.heads.empty(); }
-	void schedule_wave(DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res);
+	WaveStats schedule_wave(DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res);
 	
 private:
 	
@@ -47,7 +54,8 @@ private:
 		size_t size() const { return heads.size() + high_priority_heads.size(); }
 	};
 	
-	void schedule_instructions(const std::vector<InstructionID>& instruction_ids, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res);
+	// returns number of instruction_ids that were applied
+	size_t schedule_instructions(const std::vector<InstructionID>& instruction_ids, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res);
 	void schedule_dependent_instructions(InstructionID instruction_id, const std::vector<LSInstruction>& followup_instructions, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res);
 	
 	bool is_immediate(const LSInstruction& instruction);
