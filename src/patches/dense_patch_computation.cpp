@@ -335,7 +335,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
 
         return {nullptr, {}};
     }
-    else if (auto* bell_init = std::get_if<BellPairInit>(&instruction.operation)) 
+    else if (auto* bell_init = std::get_if<BellPairInit>(&instruction.operation))
     {
         if (!slice.has_patch(bell_init->loc1.target))
             return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Patch ", bell_init->loc1.target, " not on lattice")), {}};
@@ -344,17 +344,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
 
         if (!local_instructions)
         {
-            auto routing_region = router.find_routing_ancilla(slice, bell_init->loc1.target, bell_init->loc1.op, bell_init->loc2.target, bell_init->loc2.op);
-            if(!routing_region) {
-                return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; No valid route found for Bell pair creation")), {}};
-            }
-
-            apply_routing_region(slice, *routing_region);
-
-            std::vector<SparsePatch> bell_state;
-            bell_state.push_back(LayoutHelpers::basic_square_patch(routing_region->cells.back().cell, bell_init->side1));
-            bell_state.push_back(LayoutHelpers::basic_square_patch(routing_region->cells.front().cell, bell_init->side2));
-            return {nullptr, {{{BusyRegion{routing_region.value(), 1, bell_state}}}}};
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; not implemented for local instruction compilation")), {}};
         }
         else 
         {
@@ -413,6 +403,79 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                     return InstructionApplicationResult{std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Followup local instructions not implemented")), {}};
 
                 bell_init->counter->second++;
+            }
+            return {nullptr, {}};
+        }
+    }
+    else if (auto* bell_cnot = std::get_if<BellBasedCNOT>(&instruction.operation))
+    {
+        if (!slice.has_patch(bell_cnot->control))
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Patch ", bell_cnot->control, " not on lattice")), {}};
+        if (!slice.has_patch(bell_cnot->target)) 
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Patch ", bell_cnot->target, " not on lattice")), {}};
+
+        if (!local_instructions)
+        {
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; not implemented for local instruction compilation")), {}};
+        }
+        else 
+        {
+            if (!bell_cnot->counter.has_value())
+            {
+                auto routing_region = router.find_routing_ancilla(slice, bell_cnot->control, PauliOperator::Z, bell_cnot->target, PauliOperator::X);
+                if(!routing_region) 
+                {
+                    return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; No valid route found for Bell pair creation")), {}};
+                }
+                else if (routing_region->cells.size() < 2) 
+                {
+                    return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Shortest route cannot be used for Bell pair creation")), {}};
+                }
+
+                std::vector<LocalInstruction::LocalLSInstruction> local_instructions;
+                local_instructions.reserve(routing_region->cells.size());
+                std::optional<PatchId> id1; std::optional<PatchId> id2;
+                for (size_t i=0; i<routing_region->cells.size()-1; i=i+2)
+                {
+                    // Push a BellPrepare instruction with PatchID's depending on the case
+                    id1 = std::nullopt; id2 = std::nullopt;
+                    if (i==0) 
+                        // TRL 04/25/23: Need a way to give ID's here. Should potentially also give ID's to all initialized patches
+                        id1 = bell_cnot->side2;
+                    if (i==routing_region->cells.size()-2)
+                        id2 = bell_cnot->side1;
+
+                    local_instructions.push_back({LocalInstruction::BellPrepare{id1, id2, routing_region->cells[i].cell, routing_region->cells[i+1].cell}});
+                }
+                for (size_t i=2; i<routing_region->cells.size()-1; i=i+2)
+                {
+                    // Push a complementary layer of BellMeasure instructions
+                    local_instructions.push_back({LocalInstruction::BellMeasure{routing_region->cells[i-1].cell, routing_region->cells[i].cell}});
+                }
+                // Take care of the case of an odd route
+                if ((routing_region->cells.size()%2 == 1))
+                {
+                    local_instructions.push_back({LocalInstruction::Move{
+                        routing_region->cells[routing_region->cells.size()-2].cell, 
+                        routing_region->cells[routing_region->cells.size()-1].cell,
+                        bell_cnot->side1
+                    }});
+                }
+
+                bell_cnot->local_instructions = std::move(local_instructions);
+                bell_cnot->counter = std::pair<unsigned int, unsigned int>(0, 0);
+            }
+
+            bell_cnot->counter->first = bell_cnot->counter->second;
+            for (unsigned int i = bell_cnot->counter->first; i < bell_cnot->local_instructions.value().size(); i++)
+            {
+                InstructionApplicationResult r = try_apply_local_instruction(slice, bell_cnot->local_instructions.value()[i], layout, router);
+                if (r.maybe_error && r.followup_instructions.empty())
+                    return InstructionApplicationResult{nullptr, {instruction}};
+                if (!r.followup_instructions.empty())
+                    return InstructionApplicationResult{std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Followup local instructions not implemented")), {}};
+
+                bell_cnot->counter->second++;
             }
             return {nullptr, {}};
         }

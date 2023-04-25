@@ -58,6 +58,7 @@ struct PatchInit {
 
     bool operator==(const PatchInit&) const = default;
 };
+
 struct BellPairInit {
     PatchId side1;
     PatchId side2; 
@@ -84,7 +85,6 @@ struct YStateRequest {
     static const size_t DEFAULT_WAIT = 8;
     bool operator==(const YStateRequest&) const = default;
 };
-
 
 struct RotateSingleCellPatch {
     PatchId target;
@@ -116,6 +116,16 @@ struct BusyRegion{
     bool operator==(const BusyRegion&) const = default;
 };
 
+struct BellBasedCNOT {
+    PatchId control;
+    PatchId target;
+
+    std::optional<std::vector<LocalInstruction::LocalLSInstruction>> local_instructions;
+    std::optional<std::pair<unsigned int, unsigned int>> counter;
+
+    bool operator==(const BellBasedCNOT&) const = default;
+};
+
 struct LSInstruction {
 
     static constexpr size_t DEFAULT_MAX_WAIT = 3; // Allows for rotations to finish
@@ -130,7 +140,8 @@ struct LSInstruction {
             YStateRequest,
             SingleQubitOp,
             RotateSingleCellPatch,
-            BusyRegion
+            BusyRegion,
+            BellBasedCNOT
             > operation;
 
     size_t wait_at_most_for = DEFAULT_MAX_WAIT;
@@ -159,6 +170,7 @@ std::ostream& operator<<(std::ostream& os, const YStateRequest& instruction);
 std::ostream& operator<<(std::ostream& os, const SingleQubitOp& instruction);
 std::ostream& operator<<(std::ostream& os, const RotateSingleCellPatch& instruction);
 std::ostream& operator<<(std::ostream& os, const BusyRegion& instruction);
+std::ostream& operator<<(std::ostream& os, const BellBasedCNOT& instruction);
 
 template <class T>
 struct LSInstructionPrint{};
@@ -184,6 +196,7 @@ template<>
 struct LSInstructionPrint<PatchInit>{
     static constexpr std::string_view name = "Init";
 };
+
 template<>
 struct LSInstructionPrint<BellPairInit>{
     static constexpr std::string_view name = "BellPairInit";
@@ -193,6 +206,7 @@ template<>
 struct LSInstructionPrint<MagicStateRequest>{
     static constexpr std::string_view name = "RequestMagicState";
 };
+
 template<>
 struct LSInstructionPrint<YStateRequest>{
     static constexpr std::string_view name = "RequestYState";
@@ -212,6 +226,11 @@ struct LSInstructionPrint<RotateSingleCellPatch>
 template<>
 struct LSInstructionPrint<BusyRegion>{
     static constexpr std::string_view name = "BusyRegion";
+};
+
+template<>
+struct LSInstructionPrint<BellBasedCNOT>{
+    static constexpr std::string_view name = "BellBasedCNOT";
 };
 
 template <PatchInit::InitializeableStates State>

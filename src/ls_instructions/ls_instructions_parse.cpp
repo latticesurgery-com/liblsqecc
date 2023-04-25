@@ -134,6 +134,12 @@ LSInstruction parse_ls_instruction(std::string_view line)
         auto patch_id2 = parse_patch_id(get_next_arg());
         return {YStateRequest{patch_id1, patch_id2}, YStateRequest::DEFAULT_WAIT};
     }
+    else if (instruction == "BellBasedCNOT" || instruction == "10")
+    {
+        auto control = parse_patch_id(get_next_arg());
+        auto target = parse_patch_id(get_next_arg());
+        return {BellBasedCNOT{control, target}};
+    }  
     else
     {
         throw InstructionParseException(std::string{"Operation not supported: "}+std::string{instruction});
