@@ -494,14 +494,16 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
 
             if (min_cell)
             {
-                slice.patch_at(min_cell.value()).value().id = yr->target;
-                return {nullptr, {}};
+                auto& patch = slice.patch_at(min_cell.value());
+                if (patch)
+                {
+                    slice.patch_at(min_cell.value()).value().id = yr->target;
+                    return {nullptr, {}};
+                }
+
             }
-            else 
-            {
-                return {std::make_unique<std::runtime_error>(
-                        std::string{"Could not get Y state"}), {}};           
-            }
+            return {std::make_unique<std::runtime_error>(
+                    std::string{"Could not get Y state"}), {}};           
         }
 
     }

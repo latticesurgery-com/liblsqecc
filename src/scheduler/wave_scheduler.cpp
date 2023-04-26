@@ -156,6 +156,8 @@ bool WaveScheduler::is_immediate(const LSInstruction& instruction)
 		return false;
 	else if (std::get_if<MagicStateRequest>(&instruction.operation))
 		return true;
+	else if (std::get_if<YStateRequest>(&instruction.operation))
+		return true;
 	else if (auto* op = std::get_if<SingleQubitOp>(&instruction.operation))
 	{
 		switch(op->op)
