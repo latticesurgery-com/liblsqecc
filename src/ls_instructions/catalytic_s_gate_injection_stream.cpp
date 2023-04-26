@@ -36,7 +36,7 @@ LSInstruction CatalyticSGateInjectionStream::get_next_instruction()
         const PatchId ystate_id = id_generator_.new_id();
 
         // Request Y state
-        next_instructions_.push({.operation={YStateRequest{ystate_id, gate->target}}, .wait_at_most_for=YStateRequest::DEFAULT_WAIT});
+        next_instructions_.push({.operation={YStateRequest{ystate_id, gate->target}}, .wait_at_most_for=YStateRequest::DEFAULT_WAIT, .clients={gate->target}});
     
         // Add gates
         auto instructions = instruction_generator_.make_cnot_instructions(
