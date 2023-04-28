@@ -55,7 +55,7 @@ std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_cnot_instructio
         PatchId id2 = id_generator_.new_id();
         next_instructions.push({.operation={BellBasedCNOT{control_id, target_id, id1, id2}}});
 
-        if (cnot_correction_mode != CNOTCorrectionMode::ALWAYS) 
+        if (cnot_correction_mode != CNOTCorrectionMode::NEVER) 
                 {throw std::logic_error("Pauli corrections not implemented for Bell Based CNOTs");}
     }
     
