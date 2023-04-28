@@ -195,7 +195,9 @@ bool WaveScheduler::try_schedule_immediately(InstructionID instruction_id, Dense
 		++res.ls_instructions_count_;
 		instruction_visitor(instruction);
 		
-		if (!(application_result.followup_instructions.size() == 1 && application_result.followup_instructions[0] == instruction)) // instruction hasn't rescheduled itself
+		if (application_result.followup_instructions.size() == 1 && application_result.followup_instructions[0] == instruction) // instruction has rescheduled itself
+			next_wave_.heads.push_back(instruction_id);
+		else
 			schedule_dependent_instructions(instruction_id, application_result.followup_instructions, slice, instruction_visitor, res);
 		
 		return true;
