@@ -405,7 +405,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
             {
                 InstructionApplicationResult r = try_apply_local_instruction(slice, bell_init->local_instructions.value()[i], layout, router);
                 if (r.maybe_error && r.followup_instructions.empty())
-                    return InstructionApplicationResult{std::make_unique<std::runtime_error>("BellPairInit partially completed"), {instruction}};
+                    return InstructionApplicationResult{nullptr, {instruction}};
                 if (!r.followup_instructions.empty())
                     return InstructionApplicationResult{std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Followup local instructions not implemented")), {}};
 
