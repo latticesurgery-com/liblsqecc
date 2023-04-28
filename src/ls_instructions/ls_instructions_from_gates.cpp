@@ -55,29 +55,8 @@ std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_cnot_instructio
         PatchId id2 = id_generator_.new_id();
         next_instructions.push({.operation={BellBasedCNOT{control_id, target_id, id1, id2}}});
 
-        // PatchId id1 = id_generator_.new_id();
-        // PatchId id2 = id_generator_.new_id();
-        // next_instructions.push({.operation={
-        //         BellPairInit{id1, id2, PlaceNexTo{control_id, PauliOperator::Z}, PlaceNexTo{target_id, PauliOperator::X}}}});
-        // next_instructions.push({.operation={
-        //         MultiPatchMeasurement{.observable={
-        //                 {control_id, PauliOperator::Z},
-        //                 {id1, PauliOperator::Z},
-        //         },.is_negative=false}}});
-        // next_instructions.push({.operation={
-        //         MultiPatchMeasurement{.observable={
-        //                 {id2,PauliOperator::X},
-        //                 {target_id,PauliOperator::X},
-        //         },.is_negative=false}}});
-        // next_instructions.push({.operation={SinglePatchMeasurement{id1, PauliOperator::X, false}}});
-        // next_instructions.push({.operation={SinglePatchMeasurement{id2, PauliOperator::Z, false}}});
-
-        // if(cnot_correction_mode == CNOTCorrectionMode::ALWAYS) {
-        //         next_instructions.push({.operation={
-        //                 SingleQubitOp{control_id, SingleQubitOp::Operator::Z}}});
-        //         next_instructions.push({.operation={
-        //                 SingleQubitOp{target_id, SingleQubitOp::Operator::X}}});
-        // }
+        if (cnot_correction_mode != CNOTCorrectionMode::ALWAYS) 
+                {throw std::logic_error("Pauli corrections not implemented for Bell Based CNOTs");}
     }
     
     else {
