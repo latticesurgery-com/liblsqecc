@@ -164,15 +164,9 @@ InstructionApplicationResult try_apply_local_instruction(
     if (const auto* bellprep = std::get_if<LocalInstruction::BellPrepare>(&instruction.operation))
     {
         if (!slice.is_cell_free(bellprep->cell1)) 
-        {
-            std::cout << lstk::cat("Cell ", bellprep->cell1, " is not free") << std::endl;
-            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Cell ", bellprep->cell1, " is not free")), {}};
-        }
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Cell ", bellprep->cell1, " is not free, cannot prepare state")), {}};
         else if (!slice.is_cell_free(bellprep->cell2))
-        {
-            std::cout << lstk::cat("Cell ", bellprep->cell2, " is not free") << std::endl;
-            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Cell ", bellprep->cell2, " is not free")), {}};
-        }
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Cell ", bellprep->cell2, " is not free, cannot prepare state")), {}};
 
         slice.place_sparse_patch(LayoutHelpers::basic_square_patch(bellprep->cell1, bellprep->side1), false);
         slice.place_sparse_patch(LayoutHelpers::basic_square_patch(bellprep->cell2, bellprep->side2), false);
@@ -184,14 +178,15 @@ InstructionApplicationResult try_apply_local_instruction(
 
     else if (const auto* bellmeas = std::get_if<LocalInstruction::BellMeasure>(&instruction.operation))
     {
-        if (slice.patch_at(bellmeas->cell1)->is_active())
-        {
-            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Patch at ", bellmeas->cell1, " is active")), {}};
-        }
+        if (!slice.patch_at(bellmeas->cell1).has_value())
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; No Patch at ", bellmeas->cell1, ", cannot measure")), {}};
+        else if (!slice.patch_at(bellmeas->cell2).has_value())
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; No Patch at ", bellmeas->cell2, ", cannot measure")), {}};
+        else if (slice.patch_at(bellmeas->cell1)->is_active())
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Patch at ", bellmeas->cell1, " is active, cannot measure")), {}};
         else if (slice.patch_at(bellmeas->cell2)->is_active())
-        {
-            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Patch at ", bellmeas->cell2, " is active")), {}};
-        }
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Patch at ", bellmeas->cell2, " is active, cannot measure")), {}};
+
         slice.get_boundary_between_or_fail(bellmeas->cell1,bellmeas->cell2).get().is_active=true;
         slice.get_boundary_between_or_fail(bellmeas->cell2,bellmeas->cell1).get().is_active=true;
         slice.patch_at(bellmeas->cell1).value().activity = PatchActivity::Measurement;
@@ -212,34 +207,60 @@ InstructionApplicationResult try_apply_local_instruction(
         SparsePatch new_patch = LayoutHelpers::basic_square_patch(move->target_cell);
         new_patch.id = move->new_id_for_target ? move->new_id_for_target : slice.patch_at(move->source_cell)->id;
         slice.place_sparse_patch(new_patch, false);
-        slice.get_boundary_between(move->source_cell, move->target_cell)->get().is_active=true;
-        slice.get_boundary_between(move->target_cell, move->source_cell)->get().is_active=true;
+        slice.get_boundary_between_or_fail(move->source_cell, move->target_cell).get().is_active=true;
+        slice.get_boundary_between_or_fail(move->target_cell, move->source_cell).get().is_active=true;
         slice.patch_at(move->source_cell)->activity = PatchActivity::Measurement;
         slice.patch_at(move->source_cell)->id = std::nullopt;
+
         return {nullptr, {}};
     }
     else if (const auto* localmeas = std::get_if<LocalInstruction::TwoPatchMeasure>(&instruction.operation))
     {
-        if (slice.patch_at(localmeas->cell1)->is_active())
-        {
-            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Patch at ", localmeas->cell1, " is active")), {}};
-        }
+        if (!slice.patch_at(localmeas->cell1).has_value())
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; No Patch at ", localmeas->cell1, ", cannot measure")), {}};
+        else if (!slice.patch_at(localmeas->cell2).has_value())
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; No Patch at ", localmeas->cell2, ", cannot measure")), {}};
+        else if (slice.patch_at(localmeas->cell1)->is_active())
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Patch at ", localmeas->cell1, " is active, cannot measure")), {}};
         else if (slice.patch_at(localmeas->cell2)->is_active())
-        {
-            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Patch at ", localmeas->cell2, " is active")), {}};
-        }
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Patch at ", localmeas->cell2, " is active, cannot measure")), {}};
+
         slice.get_boundary_between_or_fail(localmeas->cell1,localmeas->cell2).get().is_active=true;
         slice.get_boundary_between_or_fail(localmeas->cell2,localmeas->cell1).get().is_active=true;
 
         return {nullptr, {}};
 }
-    else if (std::holds_alternative<LocalInstruction::ExtendSplit>(instruction.operation))
+    else if (const auto* extendsplit = std::get_if<LocalInstruction::ExtendSplit>(&instruction.operation))
     {
-        LSTK_NOT_IMPLEMENTED;
+        if (!slice.patch_at(extendsplit->target_cell).has_value())
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; No Patch at ", extendsplit->target_cell, ", cannot extend")), {}};
+        else if (slice.patch_at(extendsplit->target_cell)->is_active())
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Patch at ", extendsplit->target_cell, " is active, cannot extend")), {}};
+        else if (!slice.is_cell_free(extendsplit->extension_cell))
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Cell ", extendsplit->extension_cell, " is not free, cannot extend")), {}};
+
+        slice.place_sparse_patch(LayoutHelpers::basic_square_patch(extendsplit->extension_cell, extendsplit->extension_id), false);
+        slice.get_boundary_between(extendsplit->extension_cell, extendsplit->target_cell)->get().is_active=true;
+        slice.get_boundary_between(extendsplit->target_cell, extendsplit->extension_cell)->get().is_active=true;
+
+        return {nullptr, {}};
     }
-    else if (std::holds_alternative<LocalInstruction::MergeContract>(instruction.operation))
+    else if (const auto* mergecont = std::get_if<LocalInstruction::MergeContract>(&instruction.operation))
     {
-        LSTK_NOT_IMPLEMENTED;
+        if (!slice.patch_at(mergecont->preserved_cell).has_value())
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; No Patch at ", mergecont->preserved_cell, ", cannot merge")), {}};
+        else if (!slice.patch_at(mergecont->measured_cell).has_value())
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; No Patch at ", mergecont->measured_cell, ", cannot merge")), {}};
+        else if (slice.patch_at(mergecont->preserved_cell)->is_active())
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Patch at ", mergecont->preserved_cell, " is active, cannot merge")), {}};
+        else if (slice.patch_at(mergecont->measured_cell)->is_active())
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Patch at ", mergecont->measured_cell, " is active, cannot merge")), {}};
+
+        slice.get_boundary_between_or_fail(mergecont->preserved_cell,mergecont->measured_cell).get().is_active=true;
+        slice.get_boundary_between_or_fail(mergecont->measured_cell,mergecont->preserved_cell).get().is_active=true;
+        slice.patch_at(mergecont->measured_cell).value().activity = PatchActivity::Measurement;
+
+        return {nullptr, {}};
     }
     LSTK_UNREACHABLE;
 }
@@ -446,7 +467,6 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                 if (!even_route)
                 {
                     local_instructions.push_back({LocalInstruction::ExtendSplit{
-                        bell_cnot->control,
                         std::nullopt,
                         slice.get_cell_by_id(bell_cnot->control).value(), 
                         routing_region->cells[routing_region->cells.size()-1].cell

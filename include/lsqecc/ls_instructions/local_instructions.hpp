@@ -42,8 +42,7 @@ struct TwoPatchMeasure {
 };
 
 struct ExtendSplit {
-    std::optional<PatchId> side1;
-    std::optional<PatchId> side2;
+    std::optional<PatchId> extension_id;
     Cell target_cell;
     Cell extension_cell;
 
