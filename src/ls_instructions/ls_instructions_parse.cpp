@@ -138,7 +138,9 @@ LSInstruction parse_ls_instruction(std::string_view line)
     {
         auto control = parse_patch_id(get_next_arg());
         auto target = parse_patch_id(get_next_arg());
-        return {BellBasedCNOT{control, target}};
+        auto id1 = parse_patch_id(get_next_arg());
+        auto id2 = parse_patch_id(get_next_arg());
+        return {BellBasedCNOT{control, target, id1, id2}};
     }  
     else
     {

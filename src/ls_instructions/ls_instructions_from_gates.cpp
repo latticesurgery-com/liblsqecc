@@ -51,7 +51,9 @@ std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_cnot_instructio
     std::queue<LSInstruction> next_instructions;
 
     if ((cnot_type == gates::CNOTType::BELL_BASED) || local_instructions_== true) {
-        next_instructions.push({.operation={BellBasedCNOT{control_id, target_id}}});
+        PatchId id1 = id_generator_.new_id();
+        PatchId id2 = id_generator_.new_id();
+        next_instructions.push({.operation={BellBasedCNOT{control_id, target_id, id1, id2}}});
 
         // PatchId id1 = id_generator_.new_id();
         // PatchId id2 = id_generator_.new_id();

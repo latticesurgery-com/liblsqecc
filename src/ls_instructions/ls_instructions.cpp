@@ -47,6 +47,8 @@ tsl::ordered_set<PatchId> LSInstruction::get_operating_patches() const
         [&](const BellBasedCNOT& op) {
             ret.insert(op.control);
             ret.insert(op.target);
+            ret.insert(op.side1);
+            ret.insert(op.side2);
         },
         [&](const DeclareLogicalQubitPatches& op){
             LSTK_NOOP;
@@ -161,7 +163,7 @@ std::ostream& operator<<(std::ostream& os, const BusyRegion& instruction)
 std::ostream& operator<<(std::ostream& os, const BellBasedCNOT& instruction)
 {
     os << LSInstructionPrint<BellBasedCNOT>::name
-        << " " << instruction.control << " " << instruction.target;
+        << " " << instruction.control << " " << instruction.target << " " << instruction.side1 << " " << instruction.side2;
 
     if (instruction.counter.has_value() && instruction.local_instructions.has_value()) 
     {

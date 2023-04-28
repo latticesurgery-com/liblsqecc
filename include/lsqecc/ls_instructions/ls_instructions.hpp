@@ -119,6 +119,8 @@ struct BusyRegion{
 struct BellBasedCNOT {
     PatchId control;
     PatchId target;
+    PatchId side1;
+    PatchId side2;
 
     std::optional<std::vector<LocalInstruction::LocalLSInstruction>> local_instructions;
     std::optional<std::pair<unsigned int, unsigned int>> counter;

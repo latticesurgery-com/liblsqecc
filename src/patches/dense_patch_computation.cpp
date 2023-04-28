@@ -416,7 +416,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
 
         if (!local_instructions)
         {
-            return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; not implemented for local instruction compilation")), {}};
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; not implemented unless local instruction flag is given")), {}};
         }
         else 
         {
@@ -433,33 +433,45 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                 }
 
                 std::vector<LocalInstruction::LocalLSInstruction> local_instructions;
-                local_instructions.reserve(routing_region->cells.size());
+                local_instructions.reserve(2*routing_region->cells.size());
+
+                // Offset boolean for even vs. odd routes
+                bool even_route = (routing_region->cells.size()%2 == 0);
+
+                // See PRX Quantum 3, 020342 (2022) Fig. 19a and c for even vs. odd route compilation
+                if (!even_route)
+                {
+                    local_instructions.push_back({LocalInstruction::ExtendSplit{
+                        bell_cnot->control,
+                        std::nullopt,
+                        slice.get_cell_by_id(bell_cnot->control).value(), 
+                        routing_region->cells[routing_region->cells.size()-1].cell
+                    }});
+                }
+
                 std::optional<PatchId> id1; std::optional<PatchId> id2;
                 for (size_t i=0; i<routing_region->cells.size()-1; i=i+2)
                 {
                     // Push a BellPrepare instruction with PatchID's depending on the case
                     id1 = std::nullopt; id2 = std::nullopt;
                     if (i==0) 
-                        // TRL 04/25/23: Need a way to give ID's here. Should potentially also give ID's to all initialized patches
                         id1 = bell_cnot->side2;
                     if (i==routing_region->cells.size()-2)
                         id2 = bell_cnot->side1;
 
                     local_instructions.push_back({LocalInstruction::BellPrepare{id1, id2, routing_region->cells[i].cell, routing_region->cells[i+1].cell}});
                 }
-                for (size_t i=2; i<routing_region->cells.size()-1; i=i+2)
+                for (size_t i=2; i<routing_region->cells.size()-even_route; i=i+2)
                 {
                     // Push a complementary layer of BellMeasure instructions
                     local_instructions.push_back({LocalInstruction::BellMeasure{routing_region->cells[i-1].cell, routing_region->cells[i].cell}});
                 }
-                // Take care of the case of an odd route
-                if ((routing_region->cells.size()%2 == 1))
+
+                // Add final measurement 
+                local_instructions.push_back({LocalInstruction::MergeContract{slice.get_cell_by_id(bell_cnot->target).value(), slice.get_cell_by_id(bell_cnot->side2).value()}});
+                if (even_route)
                 {
-                    local_instructions.push_back({LocalInstruction::Move{
-                        routing_region->cells[routing_region->cells.size()-2].cell, 
-                        routing_region->cells[routing_region->cells.size()-1].cell,
-                        bell_cnot->side1
-                    }});
+                    local_instructions.push_back({LocalInstruction::MergeContract{slice.get_cell_by_id(bell_cnot->control).value(), slice.get_cell_by_id(bell_cnot->side1).value()}});                    
                 }
 
                 bell_cnot->local_instructions = std::move(local_instructions);
