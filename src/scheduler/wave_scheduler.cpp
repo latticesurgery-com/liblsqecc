@@ -153,7 +153,7 @@ bool WaveScheduler::is_immediate(const LSInstruction& instruction)
 	else if (std::get_if<PatchInit>(&instruction.operation))
 		return true;
 	else if (std::get_if<BellPairInit>(&instruction.operation))
-		return false;
+		return true;
 	else if (std::get_if<MagicStateRequest>(&instruction.operation))
 		return true;
 	else if (std::get_if<YStateRequest>(&instruction.operation))
