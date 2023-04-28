@@ -472,15 +472,14 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                         routing_region->cells[routing_region->cells.size()-1].cell
                     }});
                 }
-
                 std::optional<PatchId> id1; std::optional<PatchId> id2;
                 for (size_t i=0; i<routing_region->cells.size()-1; i=i+2)
                 {
                     // Push a BellPrepare instruction with PatchID's depending on the case
                     id1 = std::nullopt; id2 = std::nullopt;
-                    if (i==0) 
+                    if (i==0)
                         id1 = bell_cnot->side2;
-                    if (i==routing_region->cells.size()-2)
+                    if (i==routing_region->cells.size()-2-!even_route)
                         id2 = bell_cnot->side1;
 
                     local_instructions.push_back({LocalInstruction::BellPrepare{id1, id2, routing_region->cells[i].cell, routing_region->cells[i+1].cell}});
@@ -490,14 +489,12 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                     // Push a complementary layer of BellMeasure instructions
                     local_instructions.push_back({LocalInstruction::BellMeasure{routing_region->cells[i-1].cell, routing_region->cells[i].cell}});
                 }
-
                 // Add final measurements
-                local_instructions.push_back({LocalInstruction::MergeContract{slice.get_cell_by_id(bell_cnot->target).value(), slice.get_cell_by_id(bell_cnot->side2).value()}});
+                local_instructions.push_back({LocalInstruction::MergeContract{slice.get_cell_by_id(bell_cnot->target).value(), routing_region->cells[0].cell}});
                 if (even_route)
                 {
-                    local_instructions.push_back({LocalInstruction::MergeContract{slice.get_cell_by_id(bell_cnot->control).value(), slice.get_cell_by_id(bell_cnot->side1).value()}});                    
+                    local_instructions.push_back({LocalInstruction::MergeContract{slice.get_cell_by_id(bell_cnot->control).value(), routing_region->cells[routing_region->cells.size()-1].cell}});                    
                 }
-
                 bell_cnot->local_instructions = std::move(local_instructions);
                 bell_cnot->counter = std::pair<unsigned int, unsigned int>(0, 0);
             }
