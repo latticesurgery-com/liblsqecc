@@ -237,6 +237,10 @@ InstructionApplicationResult try_apply_local_instruction(
     {
         LSTK_NOT_IMPLEMENTED;
     }
+    else if (std::holds_alternative<LocalInstruction::MergeContract>(instruction.operation))
+    {
+        LSTK_NOT_IMPLEMENTED;
+    }
     LSTK_UNREACHABLE;
 }
 
@@ -467,7 +471,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                     local_instructions.push_back({LocalInstruction::BellMeasure{routing_region->cells[i-1].cell, routing_region->cells[i].cell}});
                 }
 
-                // Add final measurement 
+                // Add final measurements
                 local_instructions.push_back({LocalInstruction::MergeContract{slice.get_cell_by_id(bell_cnot->target).value(), slice.get_cell_by_id(bell_cnot->side2).value()}});
                 if (even_route)
                 {

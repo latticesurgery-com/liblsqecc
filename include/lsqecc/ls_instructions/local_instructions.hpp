@@ -50,6 +50,13 @@ struct ExtendSplit {
     bool operator==(const ExtendSplit&) const = default;
 };
 
+struct MergeContract {
+    Cell preserved_cell;
+    Cell measured_cell;
+
+    bool operator==(const MergeContract&) const = default;
+};
+
 struct Move {
     Cell source_cell;
     Cell target_cell;
@@ -65,6 +72,7 @@ struct LocalLSInstruction {
             BellMeasure,
             TwoPatchMeasure,
             ExtendSplit,
+            MergeContract,
             Move
             > operation;
 
@@ -77,6 +85,7 @@ std::ostream& operator<<(std::ostream& os, const BellMeasure& instruction);
 std::ostream& operator<<(std::ostream& os, const Move& instruction);
 std::ostream& operator<<(std::ostream& os, const TwoPatchMeasure& instruction);
 std::ostream& operator<<(std::ostream& os, const ExtendSplit& instruction);
+std::ostream& operator<<(std::ostream& os, const MergeContract& instruction);
 
 template <class T>
 struct LocalInstructionPrint{};
@@ -99,6 +108,11 @@ struct LocalInstructionPrint<LocalInstruction::TwoPatchMeasure>{
 template<>
 struct LocalInstructionPrint<LocalInstruction::ExtendSplit>{
     static constexpr std::string_view name = "ExtendSplit";
+};
+
+template<>
+struct LocalInstructionPrint<LocalInstruction::MergeContract>{
+    static constexpr std::string_view name = "MergeContract";
 };
 
 template<>
