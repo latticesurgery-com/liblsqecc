@@ -139,6 +139,15 @@ static inline std::vector<std::string> split_on_get_strings(std::string_view s, 
     return ret;
 }
 
+static inline std::vector<std::string_view> split_on_first(std::string_view s, char delim)
+{
+    auto first_delim = s.find(delim);
+    if (first_delim == std::string_view::npos)
+        throw std::logic_error("Attempt to split string on nonexistent delimiter");
+    else
+        return {s.substr(0, first_delim), s.substr(first_delim + 1, s.size())};
+}
+
 static inline bool contains(std::string_view s, char target)
 {
     return s.find(target) != std::string_view::npos;
