@@ -514,23 +514,8 @@ namespace lsqecc
             }
             
             if ( output_format_mode == OutputFormatMode::Stats)
-            {
-                auto get_percentage_volume = [&](size_t x) -> double {
-                    return static_cast<double>(x) / static_cast<double>(slice_stats.totals.volume) * 100.0;
-                };
-                out_stream << "Total volume: " << slice_stats.totals.volume << std::endl;
-                out_stream << "Distillation volume: " 
-                    << slice_stats.totals.distillation_volume 
-                    << " (" << get_percentage_volume(slice_stats.totals.distillation_volume) << "%)" << std::endl;
-                out_stream << "Unused routing volume: " 
-                    << slice_stats.totals.unused_routing_volume 
-                    << " (" << get_percentage_volume(slice_stats.totals.unused_routing_volume) << "%)" << std::endl;
-            out_stream << "Other active volume: " 
-                    << slice_stats.totals.unused_routing_volume 
-                    << " (" << get_percentage_volume(
-                        slice_stats.totals.volume - slice_stats.totals.unused_routing_volume - slice_stats.totals.distillation_volume) 
-                    << "%)" << std::endl;
-            }
+                out_stream << slice_stats << std::endl; 
+                
         }
         
         if(print_slices)
