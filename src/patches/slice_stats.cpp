@@ -17,11 +17,10 @@ std::ostream& operator<<(std::ostream& os, const SliceStats& slice_stats)
     os << "Dead volume: "
         << slice_stats.totals.dead
         << " (" << get_percentage_volume(slice_stats.totals.dead) << "%)" << std::endl;
+    auto other_volume = slice_stats.totals.volume - slice_stats.totals.unused_routing_volume - slice_stats.totals.distillation_volume - slice_stats.totals.dead;
     os << "Other active volume: " 
-        << slice_stats.totals.unused_routing_volume 
-        << " (" << get_percentage_volume(
-            slice_stats.totals.volume - slice_stats.totals.unused_routing_volume - slice_stats.totals.distillation_volume - slice_stats.totals.dead) 
-        << "%)";
+        << other_volume
+        << " (" << get_percentage_volume(other_volume) << "%)";
     return os;
 }
 
