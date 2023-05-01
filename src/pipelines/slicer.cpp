@@ -13,6 +13,7 @@
 #include <lsqecc/layout/dynamic_layouts/edpc_layout.hpp>
 #include <lsqecc/patches/slices_to_json.hpp>
 #include <lsqecc/patches/slice.hpp>
+#include <lsqecc/patches/slice_stats.hpp>
 #include <lsqecc/patches/dense_patch_computation.hpp>
 #include <lsqecc/patches/slice_variant.hpp>
 
@@ -50,10 +51,9 @@ namespace lsqecc
         return std::string{buffer.str()};
     }
 
-
     enum class OutputFormatMode
     {
-        Progress, NoProgress, Machine
+        Progress, NoProgress, Machine, Stats
     };
 
     enum class PrintDagMode {
@@ -111,7 +111,7 @@ namespace lsqecc
                 .required(false);
         parser.add_argument()
                 .names({"-f", "--output-format"})
-                .description("Requires -o, STDOUT output format: progress, noprogress, machine")
+                .description("Requires -o, STDOUT output format: progress, noprogress, machine, stats")
                 .required(false);
         parser.add_argument()
                 .names({"-t", "--timeout"})
@@ -210,6 +210,8 @@ namespace lsqecc
                 output_format_mode = OutputFormatMode::NoProgress;
             else if (mode_arg=="machine")
                 output_format_mode = OutputFormatMode::Machine;
+            else if (mode_arg=="stats")
+                output_format_mode = OutputFormatMode::Stats;
             else
             {
                 err_stream << "Unknown output format mode " << mode_arg << std::endl;
@@ -456,6 +458,16 @@ namespace lsqecc
         }
 
 
+        SliceStats slice_stats;
+        if (output_format_mode == OutputFormatMode::Stats)
+        {
+            slice_visitor = [&, slice_visitor](const DenseSlice & s)
+            {
+                slice_visitor(s);
+                slice_stats.totals += compute_volume_counts(s);
+            };
+        }
+
         LSInstructionVisitor instruction_visitor{[&](const LSInstruction& i){}};
         if (lli_print_mode == LLIPrintMode::Sliced)
         {
@@ -494,12 +506,16 @@ namespace lsqecc
                 out_stream << computation_result->ls_instructions_count() << ","
                            << computation_result->slice_count() << ","
                            << lstk::seconds_since(start) << std::endl;
-            } else if (output_format_mode == OutputFormatMode::Progress)
+            } else if (output_format_mode == OutputFormatMode::Progress || output_format_mode == OutputFormatMode::Stats )
             {
                 out_stream << "LS Instructions read  " << computation_result->ls_instructions_count() << std::endl;
                 out_stream << "Slices " << computation_result->slice_count() << std::endl;
                 out_stream << "Made patch computation. Took " << lstk::seconds_since(start) << "s." << std::endl;
             }
+            
+            if ( output_format_mode == OutputFormatMode::Stats)
+                out_stream << slice_stats << std::endl; 
+                
         }
         
         if(print_slices)
