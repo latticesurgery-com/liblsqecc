@@ -75,7 +75,7 @@ struct MagicStateRequest {
     PatchId target;
     PatchId near_patch; // TODO make optional for backwards compatibility
     
-    static const size_t DEFAULT_WAIT = 100;
+    static const size_t DEFAULT_WAIT = std::numeric_limits<size_t>::max();
     bool operator==(const MagicStateRequest&) const = default;
 };
 
@@ -83,7 +83,7 @@ struct YStateRequest {
     PatchId target;
     PatchId near_patch;
 
-    static const size_t DEFAULT_WAIT = 8;
+    static const size_t DEFAULT_WAIT = std::numeric_limits<size_t>::max();
     bool operator==(const YStateRequest&) const = default;
 };
 
@@ -139,7 +139,7 @@ struct PatchReset {
 
 struct LSInstruction {
 
-    static constexpr size_t DEFAULT_MAX_WAIT = 100; // Allows for rotations to finish
+    static constexpr size_t DEFAULT_MAX_WAIT = std::numeric_limits<size_t>::max();
 
     std::variant<
             DeclareLogicalQubitPatches,

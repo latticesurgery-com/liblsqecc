@@ -87,7 +87,7 @@ size_t WaveScheduler::schedule_instructions(const std::vector<InstructionID>& in
 			if (application_result.followup_instructions.size() == 1 && application_result.followup_instructions[0] == instruction) // instruction has rescheduled itself
 				next_wave_.high_priority_heads.push_back(instruction_id);
 			else
-		    	schedule_dependent_instructions(instruction_id, application_result.followup_instructions, slice, instruction_visitor, res);
+				schedule_dependent_instructions(instruction_id, application_result.followup_instructions, slice, instruction_visitor, res);
 		}
 		else
 		{
