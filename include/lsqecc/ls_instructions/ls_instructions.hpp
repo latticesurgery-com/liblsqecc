@@ -248,6 +248,8 @@ struct LSInstructionPrint<BellBasedCNOT>{
     static constexpr std::string_view name = "BellBasedCNOT";
 
 };
+
+template<>
 struct LSInstructionPrint<PatchReset>{
     static constexpr std::string_view name = "Reset";
 };
