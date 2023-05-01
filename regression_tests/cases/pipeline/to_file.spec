@@ -162,7 +162,7 @@ out.json: (should have content)
    [
       {
          "activity": {
-            "activity_type": "Unitary"
+            "activity_type": null
          },
          "edges": {
             "Bottom": "Dashed",

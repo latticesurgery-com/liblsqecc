@@ -141,6 +141,13 @@ LSInstruction LSInstructionStreamFromGateStream::get_next_instruction()
             }
 
         }
+        else if(const auto* reset = std::get_if<gates::Reset>(&next_gate))
+        {
+            if (reset->register_name != gate_stream_.get_qreg().name)
+                throw std::logic_error{"Invalid 'reset' register name"};
+            
+            next_instructions_.push({.operation={PatchReset{reset->target_qubit}}});
+        }
         else
         {
             LSTK_UNREACHABLE;

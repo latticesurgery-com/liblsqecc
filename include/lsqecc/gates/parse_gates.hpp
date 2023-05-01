@@ -28,6 +28,7 @@ struct Qreg
     QubitNum size;
 };
 
+
 using ParseGateResult = std::variant<gates::Gate, IgnoredInstruction, Qreg>;
 ParseGateResult parse_gate(std::string_view str_line);
 

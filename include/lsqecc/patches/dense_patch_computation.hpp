@@ -18,6 +18,10 @@
 
 namespace lsqecc {
 
+enum class PipelineMode {
+    Stream, Dag, Wave
+};
+
 using DenseSliceVisitor = std::function<void(const DenseSlice& slice)>;
 using LSInstructionVisitor = std::function<void(const LSInstruction& slice)>;
 
@@ -36,7 +40,7 @@ struct DensePatchComputationResult : public PatchComputationResult {
 
 DensePatchComputationResult run_through_dense_slices(
         LSInstructionStream&& instruction_stream,
-        bool dag_pipeline,
+        PipelineMode pipeline_mode,
         bool local_instructions,
         const Layout& layout,
         Router& router,
@@ -47,6 +51,22 @@ DensePatchComputationResult run_through_dense_slices(
 
 
 static constexpr size_t MAX_INSTRUCTION_APPLICATION_RETRIES_DAG_PIPELINE = 100;
+
+
+
+// TODO replace with a variant
+struct InstructionApplicationResult
+{
+    std::unique_ptr<std::exception> maybe_error;
+    std::vector<LSInstruction> followup_instructions;
+};
+
+InstructionApplicationResult try_apply_instruction_direct_followup(
+        DenseSlice& slice,
+        LSInstruction& instruction,
+        bool local_instructions,
+        const Layout& layout,
+        Router& router);
 
 
 }

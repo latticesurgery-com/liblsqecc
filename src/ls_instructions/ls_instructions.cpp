@@ -9,7 +9,7 @@ namespace lsqecc {
 
 tsl::ordered_set<PatchId> LSInstruction::get_operating_patches() const
 {
-    tsl::ordered_set<PatchId> ret;
+    tsl::ordered_set<PatchId> ret = clients;
     std::visit(lstk::overloaded{
         [&](const SinglePatchMeasurement& op){
             ret.insert(op.target);
@@ -52,6 +52,9 @@ tsl::ordered_set<PatchId> LSInstruction::get_operating_patches() const
         },
         [&](const DeclareLogicalQubitPatches& op){
             LSTK_NOOP;
+        },
+        [&](const PatchReset& op){
+            ret.insert(op.target);
         },
         [&](const auto& op){
             LSTK_UNREACHABLE;
@@ -179,6 +182,11 @@ std::ostream& operator<<(std::ostream& os, const BellBasedCNOT& instruction)
     }
 
     return os;
+}
+
+std::ostream& operator<<(std::ostream& os, const PatchReset& instruction)
+{
+    return os << LSInstructionPrint<PatchReset>::name << " " << instruction.target;
 }
 
 }

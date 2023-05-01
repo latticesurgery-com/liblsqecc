@@ -88,6 +88,13 @@ struct ControlledGate
 };
 
 
+struct Reset
+{
+    std::string register_name;
+    QubitNum target_qubit;  
+};
+
+
 
 #define MAKE_BASIC_GATE(G)\
 inline constexpr BasicSingleQubitGate G(QubitNum target_qubit){\
@@ -119,7 +126,7 @@ inline constexpr ControlledGate CRZ(
     return {control_qubit, RZ{target_qubit, pi_fraction}, cnot_type, cnot_ancilla_placement};
 }
 
-using Gate = std::variant<BasicSingleQubitGate, RZ, ControlledGate>;
+using Gate = std::variant<BasicSingleQubitGate, RZ, ControlledGate, Reset>;
 
 std::vector<Gate> decompose(const Gate& gate, double rz_precision_log_ten_negative);
 bool is_decomposed(const Gate& gate);

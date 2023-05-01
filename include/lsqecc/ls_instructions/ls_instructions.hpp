@@ -73,9 +73,9 @@ struct BellPairInit {
 
 struct MagicStateRequest {
     PatchId target;
-    PatchId near_patch;
+    PatchId near_patch; // TODO make optional for backwards compatibility
     
-    static const size_t DEFAULT_WAIT = 10;
+    static const size_t DEFAULT_WAIT = 100;
     bool operator==(const MagicStateRequest&) const = default;
 };
 
@@ -131,9 +131,15 @@ struct BellBasedCNOT {
     bool operator==(const BellBasedCNOT&) const = default;
 };
 
+struct PatchReset {
+    PatchId target;
+
+    bool operator==(const PatchReset&) const = default;
+};
+
 struct LSInstruction {
 
-    static constexpr size_t DEFAULT_MAX_WAIT = 3; // Allows for rotations to finish
+    static constexpr size_t DEFAULT_MAX_WAIT = 100; // Allows for rotations to finish
 
     std::variant<
             DeclareLogicalQubitPatches,
@@ -146,12 +152,15 @@ struct LSInstruction {
             SingleQubitOp,
             RotateSingleCellPatch,
             BusyRegion,
-            BellBasedCNOT
+            BellBasedCNOT,
+            PatchReset
             > operation;
 
     size_t wait_at_most_for = DEFAULT_MAX_WAIT;
-
+    tsl::ordered_set<PatchId> clients; // these are artificial dependencies
+    
     tsl::ordered_set<PatchId> get_operating_patches() const;
+    tsl::ordered_set<PatchId> get_patch_dependencies() const { return lstk::set_union(get_operating_patches(), clients); }
     bool operator==(const LSInstruction&) const = default;
 };
 
@@ -176,6 +185,7 @@ std::ostream& operator<<(std::ostream& os, const SingleQubitOp& instruction);
 std::ostream& operator<<(std::ostream& os, const RotateSingleCellPatch& instruction);
 std::ostream& operator<<(std::ostream& os, const BusyRegion& instruction);
 std::ostream& operator<<(std::ostream& os, const BellBasedCNOT& instruction);
+std::ostream& operator<<(std::ostream& os, const PatchReset& instruction);
 
 template <class T>
 struct LSInstructionPrint{};
@@ -236,6 +246,10 @@ struct LSInstructionPrint<BusyRegion>{
 template<>
 struct LSInstructionPrint<BellBasedCNOT>{
     static constexpr std::string_view name = "BellBasedCNOT";
+
+};
+struct LSInstructionPrint<PatchReset>{
+    static constexpr std::string_view name = "Reset";
 };
 
 template <PatchInit::InitializeableStates State>
