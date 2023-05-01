@@ -43,6 +43,13 @@ std::ostream& operator<<(std::ostream& os, const ExtendSplit& instruction)
 
     return os;
 }
+std::ostream& operator<<(std::ostream& os, const MergeContract& instruction)
+{
+    os << LocalInstructionPrint<MergeContract>::name
+        << " " << instruction.preserved_cell << "," << instruction.measured_cell;
+
+    return os;
+}
 std::ostream& operator<<(std::ostream& os, const Move& instruction)
 {
     os << LocalInstructionPrint<Move>::name

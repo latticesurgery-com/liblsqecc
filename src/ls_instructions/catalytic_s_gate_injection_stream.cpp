@@ -42,8 +42,8 @@ LSInstruction CatalyticSGateInjectionStream::get_next_instruction()
         auto instructions = instruction_generator_.make_cnot_instructions(
                                     gate->target,
                                     ystate_id,
-                                    gates::CNOTType::BELL_BASED,
-                                    gates::CNOTAncillaPlacement::ANCILLA_FREE_PLACEMENT,
+                                    gates::CNOTType::ZX_WITH_MBM_CONTROL_FIRST,
+                                    gates::CNOTAncillaPlacement::ANCILLA_NEXT_TO_CONTROL,
                                     CNOTCorrectionMode::NEVER);
         lstk::queue_extend(next_instructions_, instructions);
 
@@ -57,8 +57,8 @@ LSInstruction CatalyticSGateInjectionStream::get_next_instruction()
         instructions = instruction_generator_.make_cnot_instructions(
                                     gate->target,
                                     ystate_id,
-                                    gates::CNOTType::BELL_BASED,
-                                    gates::CNOTAncillaPlacement::ANCILLA_FREE_PLACEMENT,
+                                    gates::CNOTType::ZX_WITH_MBM_CONTROL_FIRST,
+                                    gates::CNOTAncillaPlacement::ANCILLA_NEXT_TO_CONTROL,
                                     CNOTCorrectionMode::NEVER);
         lstk::queue_extend(next_instructions_, instructions);
 

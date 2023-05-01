@@ -44,6 +44,12 @@ tsl::ordered_set<PatchId> LSInstruction::get_operating_patches() const
                 if(patch.id) ret.insert(*patch.id);
             }
         },
+        [&](const BellBasedCNOT& op) {
+            ret.insert(op.control);
+            ret.insert(op.target);
+            ret.insert(op.side1);
+            ret.insert(op.side2);
+        },
         [&](const DeclareLogicalQubitPatches& op){
             LSTK_NOOP;
         },
@@ -101,6 +107,7 @@ std::ostream& operator<<(std::ostream& os, const PatchInit& instruction)
 
     return os;
 }
+
 std::ostream& operator<<(std::ostream& os, const BellPairInit& instruction)
 {
     os << LSInstructionPrint<BellPairInit>::name
@@ -127,11 +134,13 @@ std::ostream& operator<<(std::ostream& os, const MagicStateRequest& instruction)
     return os << LSInstructionPrint<MagicStateRequest>::name
         << " " << instruction.target;
 }
+
 std::ostream& operator<<(std::ostream& os, const YStateRequest& instruction)
 {
     return os << LSInstructionPrint<YStateRequest>::name
         << " " << instruction.target << " " << instruction.near_patch;
 }
+
 std::ostream& operator<<(std::ostream& os, const SingleQubitOp& instruction)
 {
     return os << SingleQuibitOperatorName_to_string(instruction.op)
@@ -142,12 +151,34 @@ std::ostream& operator<<(std::ostream& os, const RotateSingleCellPatch& instruct
 {
     return os << LSInstructionPrint<RotateSingleCellPatch>::name << " " << instruction.target;
 }
+
 std::ostream& operator<<(std::ostream& os, const BusyRegion& instruction)
 {
     os << LSInstructionPrint<BusyRegion>::name << " ";
     for (const auto &cell: instruction.region.cells)
         os << "(" << cell.cell.row << "," << cell.cell.col << "),";
     return os << "StepsToClear(" << instruction.steps_to_clear <<")";
+}
+
+std::ostream& operator<<(std::ostream& os, const BellBasedCNOT& instruction)
+{
+    os << LSInstructionPrint<BellBasedCNOT>::name
+        << " " << instruction.control << " " << instruction.target << " " << instruction.side1 << " " << instruction.side2;
+
+    if (instruction.counter.has_value() && instruction.local_instructions.has_value()) 
+    {
+        os << " [";
+        for (unsigned int i = instruction.counter->first; i < instruction.counter->second; i++) 
+        {
+            os << instruction.local_instructions.value()[i];
+            if (i != instruction.counter->second - 1) 
+                os << ";";
+        }
+        os << "]";
+
+    }
+
+    return os;
 }
 
 }
