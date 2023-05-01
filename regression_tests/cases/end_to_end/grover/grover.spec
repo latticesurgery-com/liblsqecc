@@ -1,15 +1,16 @@
 Running grover_3
-Encountered exception: MultiBodyMeasure 2:Z; Multi patch measurement only supports 2 patches currently. Got:
-MultiBodyMeasure 2:Z
+Encountered exception: Encountered parsing exception at line 19:
+Out of arguments
 Halting slicing
-LS Instructions read  31
-Slices 8
+LS Instructions read  25
+Slices 9
 Made patch computation. Took <time_removed_by_case_script>
 
 Running grover_5
-Encountered exception: SGate 3; Could not do S gate routing on 3
+Encountered exception: Encountered parsing exception at line 11:
+Out of arguments
 Halting slicing
-LS Instructions read  43
-Slices 8
+LS Instructions read  9
+Slices 1
 Made patch computation. Took <time_removed_by_case_script>
 
