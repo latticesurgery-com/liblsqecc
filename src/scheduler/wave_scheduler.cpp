@@ -174,7 +174,7 @@ bool WaveScheduler::is_immediate(const LSInstruction& instruction)
 		}
 	}
 	else if (std::get_if<RotateSingleCellPatch>(&instruction.operation))
-		return false;
+		return true;
 	else if (std::get_if<BusyRegion>(&instruction.operation))
 		return false;
 	else if (std::get_if<PatchReset>(&instruction.operation))

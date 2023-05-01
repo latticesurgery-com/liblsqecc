@@ -62017,18 +62017,30 @@
       },
       {
          "activity": {
-            "activity_type": "Unitary"
+            "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
          },
-         "patch_type": "Qubit",
-         "text": "Id: 28"
+         "patch_type": "Ancilla",
+         "text": ""
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
       {
          "activity": {
             "activity_type": null
@@ -83798,18 +83810,30 @@
       },
       {
          "activity": {
-            "activity_type": "Unitary"
+            "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
          },
-         "patch_type": "Qubit",
-         "text": "Id: 28"
+         "patch_type": "Ancilla",
+         "text": ""
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
       {
          "activity": {
             "activity_type": null

@@ -539,7 +539,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
 
         std::vector<SparsePatch> final_state{stages.final_state};
 
-        return {nullptr, {{BusyRegion{std::move(stages.stage_2), 1, final_state}}}};
+        return {nullptr, {{BusyRegion{std::move(stages.stage_2), 2, final_state}}}};
     }
     else if (auto* mr = std::get_if<MagicStateRequest>(&instruction.operation))
     {
