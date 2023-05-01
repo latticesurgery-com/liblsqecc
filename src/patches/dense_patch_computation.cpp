@@ -273,11 +273,10 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         auto maybe_target_patch = slice.get_patch_by_id(s->target);
         if(!maybe_target_patch)
             return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Patch ", s->target, " not on lattice")), {}};
-        auto& target_patch = maybe_target_patch->get();
 
-        if (target_patch.is_active())
-            return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Patch ", s->target, " is active")), {}};
+        auto& target_patch = maybe_target_patch->get();
         target_patch.activity = PatchActivity::Measurement;
+        
         return {nullptr, {}};
     }
     else if (const auto* p = std::get_if<SingleQubitOp>(&instruction.operation))
