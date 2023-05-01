@@ -132,7 +132,7 @@ std::ostream& operator<<(std::ostream& os, const BellPairInit& instruction)
 std::ostream& operator<<(std::ostream& os, const MagicStateRequest& instruction)
 {
     return os << LSInstructionPrint<MagicStateRequest>::name
-        << " " << instruction.target;
+        << " " << instruction.target << " " << instruction.near_patch;
 }
 
 std::ostream& operator<<(std::ostream& os, const YStateRequest& instruction)

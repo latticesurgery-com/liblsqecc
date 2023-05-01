@@ -1,4 +1,4 @@
-RequestMagicState 25
+RequestMagicState 25 0
 MultiBodyMeasure 0:Z,25:Z
 MeasureSinglePatch 25 X
 RequestYState 26 0

@@ -83,7 +83,7 @@ void advance_slice(DenseSlice& slice, const Layout& layout)
                 SparsePatch magic_state_patch = LayoutHelpers::basic_square_patch(*magic_state_cell);
                 magic_state_patch.type = PatchType::PreparedState;
                 slice.place_sparse_patch(magic_state_patch, true);
-                slice.magic_state_queue.push(*magic_state_cell);
+                slice.magic_states.insert(*magic_state_cell);
             }
             time_to_magic_state_here = layout.distillation_times()[distillation_region_index];
         }
@@ -549,19 +549,37 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         const auto& d_times = layout.distillation_times();
         if (!d_times.size()) throw std::logic_error("No distillation times");
 
-        if (slice.magic_state_queue.size()>0)
+        if (slice.magic_states.size()>0)
         {
-            const Cell newly_bound_magic_state_cell = lstk::queue_pop(slice.magic_state_queue);
-            auto& newly_bound_magic_state = slice.patch_at(newly_bound_magic_state_cell).value();
-            newly_bound_magic_state.id = mr->target;
-            newly_bound_magic_state.type = PatchType::Qubit;
-            newly_bound_magic_state.activity = PatchActivity::None;
-            return {nullptr, {}};
-        }
-        else
-            return {std::make_unique<std::runtime_error>(
-                    lstk::cat(instruction,";Could not get magic state")), {}};
+            std::optional<Cell> min_cell;
+            double min_dist = std::numeric_limits<double>::max();
+            double dist;
+            // 
+            for (const Cell& cell : slice.magic_states)
+            {
+                dist = abs(cell.col - slice.get_cell_by_id(mr->near_patch).value().col) + abs(cell.row - slice.get_cell_by_id(mr->near_patch).value().row);
+                if (dist < min_dist)
+                {
+                    min_dist = dist;
+                    min_cell = cell;
+                }
+            }
 
+            if (min_cell)
+            {
+                auto& newly_bound_magic_state = slice.patch_at(min_cell.value()).value();
+                newly_bound_magic_state.id = mr->target;
+                newly_bound_magic_state.type = PatchType::Qubit;
+                newly_bound_magic_state.activity = PatchActivity::None;
+                slice.magic_states.erase(min_cell.value());
+                return {nullptr, {}};
+            }
+        }
+        else 
+        {
+            return {std::make_unique<std::runtime_error>(
+                    lstk::cat(instruction,";Could not get magic state")), {}};           
+        }
     }
     else if (auto* yr = std::get_if<YStateRequest>(&instruction.operation))
     {
@@ -599,7 +617,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
             else 
             {
                 return {std::make_unique<std::runtime_error>(
-                        std::string{"Could not get Y state"}), {}};           
+                        lstk::cat(instruction,";Could not get Y state")), {}};          
             }
         }
 

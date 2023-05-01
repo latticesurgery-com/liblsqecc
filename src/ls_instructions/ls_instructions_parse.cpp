@@ -82,8 +82,9 @@ LSInstruction parse_ls_instruction(std::string_view line)
     }
     else if(instruction == "RequestMagicState" || instruction == "3")
     {
-        auto patch_id = parse_patch_id(get_next_arg());
-        return {MagicStateRequest{patch_id}, MagicStateRequest::DEFAULT_WAIT};
+        auto target = parse_patch_id(get_next_arg());
+        auto near_patch = parse_patch_id(get_next_arg());
+        return {MagicStateRequest{target, near_patch}, MagicStateRequest::DEFAULT_WAIT};
     }
     else if (instruction == "LogicalPauli" || instruction == "4")
     {
@@ -130,9 +131,9 @@ LSInstruction parse_ls_instruction(std::string_view line)
     }      
     else if(instruction == "RequestYState" || instruction == "9")
     {
-        auto patch_id1 = parse_patch_id(get_next_arg());
-        auto patch_id2 = parse_patch_id(get_next_arg());
-        return {YStateRequest{patch_id1, patch_id2}, YStateRequest::DEFAULT_WAIT};
+        auto target = parse_patch_id(get_next_arg());
+        auto near_patch = parse_patch_id(get_next_arg());
+        return {YStateRequest{target, near_patch}, YStateRequest::DEFAULT_WAIT};
     }
     else if (instruction == "BellBasedCNOT" || instruction == "10")
     {
