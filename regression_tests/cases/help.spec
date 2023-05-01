@@ -4,7 +4,7 @@ Options:
     -q, --qasm             File name of file with QASM. When not provided will read as LLI (not QASM)
     -l, --layout           File name of file with layout spec, otherwise the layout is auto-generated (configure with -L)
     -o, --output           File name of output. When not provided outputs to stdout
-    -f, --output-format    Requires -o, STDOUT output format: progress, noprogress, machine
+    -f, --output-format    Requires -o, STDOUT output format: progress, noprogress, machine, stats
     -t, --timeout          Set a timeout in seconds after which stop producing slices
     -r, --router           Set a router: graph_search (default), graph_search_cached
     -P, --pipeline         pipeline mode: stream (default), dag

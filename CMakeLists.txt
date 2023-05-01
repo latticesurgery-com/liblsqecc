@@ -59,6 +59,7 @@ add_library(
         src/patches/patches.cpp
         src/patches/sparse_slice.cpp
         src/patches/slices_to_json.cpp
+        src/patches/slice_stats.cpp
         src/pipelines/slicer.cpp
         src/layout/dynamic_layouts/compact_layout.cpp
 	src/layout/dynamic_layouts/edpc_layout.cpp
