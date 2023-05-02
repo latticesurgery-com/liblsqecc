@@ -8,19 +8,17 @@
 
 
 
-RequestMagicState 25 0;BellPairInit 26 27 0:Z,25:X [BellPrepare (5,6),(5,5)];
-BellPairInit 26 27 0:Z,25:X [Move (5,5),(6,5)];
-MultiBodyMeasure 0:Z,26:Z;MultiBodyMeasure 27:X,25:X;
-MeasureSinglePatch 26 X;MeasureSinglePatch 27 Z;MeasureSinglePatch 25 Z;RequestYState 28 0;
-BellPairInit 29 30 0:Z,28:X [BellPrepare (5,4),(5,5)];
-BellPairInit 29 30 0:Z,28:X [Move (5,5),(6,5)];
-MultiBodyMeasure 0:Z,29:Z;MultiBodyMeasure 30:X,28:X;
-MeasureSinglePatch 29 X;MeasureSinglePatch 30 Z;HGate 28;RotateSingleCellPatch 28;
+RequestMagicState 25 0;BellBasedCNOT 0 25 26 27 [ExtendSplit (6,6),(6,5);BellPrepare (5,6),(5,5)];
+BellBasedCNOT 0 25 26 27 [BellMeasure (5,5),(6,5);MergeContract (4,6),(5,6)];MeasureSinglePatch 25 Z;RequestYState 28 0;
+BellBasedCNOT 0 28 29 30 [ExtendSplit (6,6),(6,5);BellPrepare (5,4),(5,5)];
+BellBasedCNOT 0 28 29 30 [BellMeasure (5,5),(6,5);MergeContract (4,4),(5,4)];
+HGate 28;RotateSingleCellPatch 28;
+BusyRegion (4,4),(4,5),StepsToClear(2);
 BusyRegion (4,4),(4,5),StepsToClear(1);
-BusyRegion (4,4),(4,5),StepsToClear(0);BellPairInit 31 32 0:Z,28:X [BellPrepare (5,4),(5,5)];
-BellPairInit 31 32 0:Z,28:X [Move (5,5),(6,5)];
-MultiBodyMeasure 0:Z,31:Z;MultiBodyMeasure 32:X,28:X;
-MeasureSinglePatch 31 X;MeasureSinglePatch 32 Z;HGate 28;RotateSingleCellPatch 28;
+BusyRegion (4,4),(4,5),StepsToClear(0);BellBasedCNOT 0 28 31 32 [ExtendSplit (6,6),(6,5);BellPrepare (5,4),(5,5)];
+BellBasedCNOT 0 28 31 32 [BellMeasure (5,5),(6,5);MergeContract (4,4),(5,4)];
+HGate 28;RotateSingleCellPatch 28;
+BusyRegion (4,4),(4,5),StepsToClear(2);
 BusyRegion (4,4),(4,5),StepsToClear(1);
 BusyRegion (4,4),(4,5),StepsToClear(0);RequestYState 28 0;
 
