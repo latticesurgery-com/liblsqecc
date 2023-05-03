@@ -56,8 +56,8 @@ WaveScheduler::WaveScheduler(LSInstructionStream&& stream, bool local_instructio
 WaveStats WaveScheduler::schedule_wave(DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res)
 {
 	size_t applied_count = 0;
-	applied_count += schedule_instructions(current_wave_.high_priority_heads, slice, instruction_visitor, res);
-	applied_count += schedule_instructions(current_wave_.heads, slice, instruction_visitor, res);
+	applied_count += schedule_instructions(current_wave_.proximate_heads_, slice, instruction_visitor, res, true);
+	applied_count += schedule_instructions(current_wave_.heads, slice, instruction_visitor, res, false);
 	
 	WaveStats wave_stats = { .wave_size = current_wave_.size(), .applied_wave_size = applied_count };
 	
@@ -67,7 +67,7 @@ WaveStats WaveScheduler::schedule_wave(DenseSlice& slice, LSInstructionVisitor i
     return wave_stats;
 }
 
-size_t WaveScheduler::schedule_instructions(const std::vector<InstructionID>& instruction_ids, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res)
+size_t WaveScheduler::schedule_instructions(const std::vector<InstructionID>& instruction_ids, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res, bool proximate)
 {
 	size_t applied_count = 0;
 	
@@ -79,18 +79,25 @@ size_t WaveScheduler::schedule_instructions(const std::vector<InstructionID>& in
 		auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions_, layout_, router_);
 		
 		if (!application_result.maybe_error)
-		{
+		{   
 			++applied_count;
 		    ++res.ls_instructions_count_;
 		    instruction_visitor(instruction);
 
 			if (application_result.followup_instructions.size() == 1 && application_result.followup_instructions[0] == instruction) // instruction has rescheduled itself
-				next_wave_.high_priority_heads.push_back(instruction_id);
+				next_wave_.proximate_heads_.push_back(instruction_id);
 			else
 				schedule_dependent_instructions(instruction_id, application_result.followup_instructions, slice, instruction_visitor, res);
 		}
 		else
 		{
+			if (proximate)
+                throw std::runtime_error{lstk::cat(
+                    "Could not apply proximate instruction:\n",
+                    instruction,"\n",
+                    "Caused by:\n",
+                    application_result.maybe_error->what())};
+            
 		    if (instruction.wait_at_most_for == 0)
 	            throw std::runtime_error{lstk::cat(
 	                "Could not apply instruction after max retries:\n",
@@ -99,7 +106,7 @@ size_t WaveScheduler::schedule_instructions(const std::vector<InstructionID>& in
 	                application_result.maybe_error->what())};
 		    
 		    --instruction.wait_at_most_for;
-		    next_wave_.high_priority_heads.push_back(instruction_id);
+		    next_wave_.heads.push_back(instruction_id);
 		}
 	}
 	
@@ -143,7 +150,7 @@ void WaveScheduler::schedule_dependent_instructions(InstructionID instruction_id
 	    	dependency_counts_.push_back(0);
 	    	
 	    	if (!try_schedule_immediately(followup_id, slice, instruction_visitor, res))
-	    		next_wave_.high_priority_heads.push_back(followup_id);
+	    		next_wave_.proximate_heads_.push_back(followup_id);
 	    }
 	}
 }
@@ -202,7 +209,7 @@ bool WaveScheduler::try_schedule_immediately(InstructionID instruction_id, Dense
 		instruction_visitor(instruction);
 		
 		if (application_result.followup_instructions.size() == 1 && application_result.followup_instructions[0] == instruction) // instruction has rescheduled itself
-			next_wave_.high_priority_heads.push_back(instruction_id);
+			next_wave_.proximate_heads_.push_back(instruction_id);
 		else
 			schedule_dependent_instructions(instruction_id, application_result.followup_instructions, slice, instruction_visitor, res);
 		

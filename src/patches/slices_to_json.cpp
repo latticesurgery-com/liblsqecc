@@ -84,6 +84,7 @@ json dense_patch_to_json(const DensePatch& p)
                         case PatchActivity::Unitary: return json("Unitary");
                         case PatchActivity::Distillation: return json();
                         case PatchActivity::Dead: return json();
+                        case PatchActivity::Busy: return json();
                         }
                         LSTK_UNREACHABLE;
                     }()

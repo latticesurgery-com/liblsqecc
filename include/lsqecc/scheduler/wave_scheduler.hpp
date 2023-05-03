@@ -27,7 +27,7 @@ public:
 	
 	WaveScheduler(LSInstructionStream&& stream, bool local_instructions, const Layout& layout);
 	
-	bool done() const { return current_wave_.high_priority_heads.empty() && current_wave_.heads.empty(); }
+	bool done() const { return current_wave_.proximate_heads_.empty() && current_wave_.heads.empty(); }
 	WaveStats schedule_wave(DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res);
 	
 private:
@@ -43,19 +43,19 @@ private:
 	struct Wave
 	{
 		std::vector<InstructionID> heads;
-		std::vector<InstructionID> high_priority_heads;
+		std::vector<InstructionID> proximate_heads_;
 				
 		void clear()
 		{
 			heads.clear();
-			high_priority_heads.clear();
+			proximate_heads_.clear();
 		}
 		
-		size_t size() const { return heads.size() + high_priority_heads.size(); }
+		size_t size() const { return heads.size() + proximate_heads_.size(); }
 	};
 	
 	// returns number of instruction_ids that were applied
-	size_t schedule_instructions(const std::vector<InstructionID>& instruction_ids, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res);
+	size_t schedule_instructions(const std::vector<InstructionID>& instruction_ids, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res, bool proximate);
 	void schedule_dependent_instructions(InstructionID instruction_id, const std::vector<LSInstruction>& followup_instructions, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res);
 	
 	bool is_immediate(const LSInstruction& instruction);

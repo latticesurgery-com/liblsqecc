@@ -61,7 +61,8 @@ enum class PatchActivity : uint8_t
     Measurement,
     Unitary,
     Distillation,
-    Dead
+    Dead,
+    Busy
 };
 
 
@@ -111,9 +112,14 @@ struct Patch {
     PatchType type;
     PatchActivity activity;
     std::optional<PatchId> id;
+    std::string debug_str = "";
+    
+    // Patch& operator=(const Patch& other)
 
     bool operator==(const Patch&) const = default;
 };
+
+std::ostream& operator<<(std::ostream& os, const Patch& p);
 
 
 struct SparsePatch : public Patch {

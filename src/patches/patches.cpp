@@ -62,6 +62,78 @@ std::ostream& operator<<(std::ostream& os, const Cell& c)
     return os << "(" << c.row << "," << c.col << ")";
 }
 
+std::ostream& operator<<(std::ostream& os, const Patch& p)
+{
+    os << "{ type: ";
+    
+    switch (p.type)
+    {
+    case PatchType::Distillation:
+        os << "Distillation";
+        break;
+        
+    case PatchType::PreparedState:
+        os << "PreparedState";
+        break;
+        
+    case PatchType::Qubit:
+        os << "Qubit";
+        break;
+        
+    case PatchType::Routing:
+        os << "Routing";
+        break;
+        
+    case PatchType::Dead:
+        os << "Dead";
+        break;
+    
+    default:
+        LSTK_UNREACHABLE;
+    }
+    
+    os << ", activity: ";
+    
+    switch (p.activity)
+    {
+        case PatchActivity::None:
+            os << "None";
+            break;
+            
+        case PatchActivity::Measurement:
+            os << "Measurement";
+            break;
+            
+        case PatchActivity::Unitary:
+            os << "Unitary";
+            break;
+            
+        case PatchActivity::Distillation:
+            os << "Distillation";
+            break;
+            
+        case PatchActivity::Dead:
+            os << "Dead";
+            break;
+            
+        case PatchActivity::Busy:
+            os << "Busy";
+            break;
+        
+        default:
+            LSTK_UNREACHABLE;
+    }
+    
+    if (p.id)
+        os << ", id: " << p.id.value();
+    
+    if (p.debug_str != "")
+        os << ", debug_str: " << p.debug_str;
+    
+    os << " }";
+    return os;
+}
+
 void SparsePatch::visit_individual_cells_mut(std::function<void (SingleCellOccupiedByPatch&)> f)
 {
     if(SingleCellOccupiedByPatch* patch = std::get_if<SingleCellOccupiedByPatch>(&cells))
