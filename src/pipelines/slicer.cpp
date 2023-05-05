@@ -434,7 +434,7 @@ namespace lsqecc
                     is_first_slice = false;
                 }
                 else
-                    bulk_output_stream.get() << ",\n" << slice_to_json(s).dump(3);
+                    bulk_output_stream.get() << ",\n" << slice_to_json(s).dump(3) << std::flush;
             };
         }
 

@@ -11,15 +11,20 @@ namespace lsqecc
 std::optional<Cell> find_place_for_magic_state(const DenseSlice& slice, const Layout& layout, size_t distillation_region_idx)
 {
     for(const auto& cell: layout.distilled_state_locations(distillation_region_idx))
+    {
         if (layout.magic_states_reserved()) {
             if (slice.patch_at(cell)->type == PatchType::Distillation)
+            {
                 return cell;
+            }
         }
         else {
             if(slice.is_cell_free(cell))
+            {
                 return cell;
+            }
         }
-
+    }
     return std::nullopt;
 }
 
@@ -55,7 +60,7 @@ void advance_slice(DenseSlice& slice, const Layout& layout)
         p->boundaries.left.is_active = false;
         p->boundaries.right.is_active = false;
 
-        if(p->type == PatchType::Routing || p->activity == PatchActivity::Measurement)
+        if((p->type == PatchType::Routing && p->activity != PatchActivity::Busy) || p->activity == PatchActivity::Measurement)
         {
             p = std::nullopt;
             return;
@@ -83,7 +88,7 @@ void advance_slice(DenseSlice& slice, const Layout& layout)
             auto magic_state_cell = find_place_for_magic_state(slice, layout, distillation_region_index);
             if(magic_state_cell)
             {
-                SparsePatch magic_state_patch = LayoutHelpers::basic_square_patch(*magic_state_cell);
+                SparsePatch magic_state_patch = LayoutHelpers::basic_square_patch(*magic_state_cell, std::nullopt, "Magic State");
                 magic_state_patch.type = PatchType::PreparedState;
                 slice.place_sparse_patch(magic_state_patch, true);
                 slice.magic_states.insert(*magic_state_cell);
@@ -117,9 +122,38 @@ void stitch_boundaries(
 
 void apply_routing_region(DenseSlice& slice, const RoutingRegion& routing_region)
 {
-    for(const auto& occupied_cell : routing_region.cells)
-        slice.place_sparse_patch(SparsePatch{{PatchType::Routing,PatchActivity::None},occupied_cell}, false);
+    for (const auto& occupied_cell : routing_region.cells)
+        slice.place_sparse_patch(SparsePatch{{PatchType::Routing, PatchActivity::None},occupied_cell}, false);
 }
+
+void mark_busy_region(DenseSlice& slice, const RoutingRegion& routing_region)
+{
+    for (const auto& occupied_cell : routing_region.cells)
+    {
+        auto& patch = slice.patch_at(occupied_cell.cell);
+        if (patch)
+        {
+            assert(patch->activity == PatchActivity::Busy);
+        }
+        else
+        {
+            slice.place_sparse_patch(SparsePatch{{PatchType::Routing, PatchActivity::Busy},occupied_cell}, false);
+        }
+        
+    }
+}
+
+void clear_busy_region(DenseSlice& slice, const RoutingRegion& routing_region)
+{
+    for (const auto& occupied_cell : routing_region.cells)
+    {
+        auto cell = occupied_cell.cell;
+        auto& patch = slice.patch_at(cell);
+        assert(patch && patch->activity == PatchActivity::Busy);
+        patch = std::nullopt;
+    }
+}
+
 
 /*
  * Returns true iff merge was successful
@@ -159,13 +193,17 @@ InstructionApplicationResult try_apply_local_instruction(
 
     if (const auto* bellprep = std::get_if<LocalInstruction::BellPrepare>(&instruction.operation))
     {
-        if (!slice.is_cell_free(bellprep->cell1)) 
-            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Cell ", bellprep->cell1, " is not free, cannot prepare state")), {}};
+        if (!slice.is_cell_free(bellprep->cell1))
+        {
+            throw std::runtime_error(lstk::cat(instruction, "; Cell ", bellprep->cell1, " is not free, cannot prepare state"));
+        }
         else if (!slice.is_cell_free(bellprep->cell2))
-            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Cell ", bellprep->cell2, " is not free, cannot prepare state")), {}};
+        {
+            throw std::runtime_error(lstk::cat(instruction, "; Cell ", bellprep->cell2, " is not free, cannot prepare state"));
+        }
 
-        slice.place_sparse_patch(LayoutHelpers::basic_square_patch(bellprep->cell1, bellprep->side1), false);
-        slice.place_sparse_patch(LayoutHelpers::basic_square_patch(bellprep->cell2, bellprep->side2), false);
+        slice.place_sparse_patch(LayoutHelpers::basic_square_patch(bellprep->cell1, bellprep->side1, "Bell 1"), false);
+        slice.place_sparse_patch(LayoutHelpers::basic_square_patch(bellprep->cell2, bellprep->side2, "Bell 2"), false);
         slice.get_boundary_between_or_fail(bellprep->cell1, bellprep->cell2).get().is_active=true;
         slice.get_boundary_between_or_fail(bellprep->cell2, bellprep->cell1).get().is_active=true;
 
@@ -200,7 +238,7 @@ InstructionApplicationResult try_apply_local_instruction(
         else if (!slice.is_cell_free(move->target_cell))
             return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Cell ", move->target_cell, " is not free, cannot move")), {}};
         
-        SparsePatch new_patch = LayoutHelpers::basic_square_patch(move->target_cell);
+        SparsePatch new_patch = LayoutHelpers::basic_square_patch(move->target_cell, std::nullopt, "Move");
         new_patch.id = move->new_id_for_target ? move->new_id_for_target : slice.patch_at(move->source_cell)->id;
         slice.place_sparse_patch(new_patch, false);
         slice.get_boundary_between_or_fail(move->source_cell, move->target_cell).get().is_active=true;
@@ -228,14 +266,15 @@ InstructionApplicationResult try_apply_local_instruction(
 }
     else if (const auto* extendsplit = std::get_if<LocalInstruction::ExtendSplit>(&instruction.operation))
     {
+        
         if (!slice.patch_at(extendsplit->target_cell).has_value())
-            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; No Patch at ", extendsplit->target_cell, ", cannot extend")), {}};
+            throw std::runtime_error(lstk::cat(instruction, "; No Patch at ", extendsplit->target_cell, ", cannot extend"));
         else if (slice.patch_at(extendsplit->target_cell)->is_active())
-            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Patch at ", extendsplit->target_cell, " is active, cannot extend")), {}};
+            throw std::runtime_error(lstk::cat(instruction, "; Patch at ", extendsplit->target_cell, " is active, cannot extend"));
         else if (!slice.is_cell_free(extendsplit->extension_cell))
-            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Cell ", extendsplit->extension_cell, " is not free, cannot extend")), {}};
+            throw std::runtime_error(lstk::cat(instruction, "; Cell ", extendsplit->extension_cell, " is not free, cannot extend"));
 
-        slice.place_sparse_patch(LayoutHelpers::basic_square_patch(extendsplit->extension_cell, extendsplit->extension_id), false);
+        slice.place_sparse_patch(LayoutHelpers::basic_square_patch(extendsplit->extension_cell, extendsplit->extension_id, "Extended"), false);
         slice.get_boundary_between(extendsplit->extension_cell, extendsplit->target_cell)->get().is_active=true;
         slice.get_boundary_between(extendsplit->target_cell, extendsplit->extension_cell)->get().is_active=true;
 
@@ -351,7 +390,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         if (!location) return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Could not allocate ancilla")), {}};
 
         slice.patch_at(*location);
-        slice.place_sparse_patch(LayoutHelpers::basic_square_patch(*location), false);
+        slice.place_sparse_patch(LayoutHelpers::basic_square_patch(*location, std::nullopt, "Init"), false);
         slice.patch_at(*location)->id = init->target;
 
         return {nullptr, {}};
@@ -372,7 +411,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
             if (!bell_init->counter.has_value())
             {
                 auto routing_region = router.find_routing_ancilla(slice, bell_init->loc1.target, bell_init->loc1.op, bell_init->loc2.target, bell_init->loc2.op);
-                if(!routing_region) 
+                if(!routing_region)
                 {
                     return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; No valid route found for Bell pair creation")), {}};
                 }
@@ -434,7 +473,15 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
             return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Patch ", bell_cnot->control, " not on lattice")), {}};
         if (!slice.has_patch(bell_cnot->target)) 
             return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Patch ", bell_cnot->target, " not on lattice")), {}};
-
+        
+        auto control_patch = slice.get_patch_by_id(bell_cnot->control);
+        auto target_patch = slice.get_patch_by_id(bell_cnot->target);
+        
+        if (control_patch.value().get().is_active())
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Patch ", bell_cnot->control, " is active")), {}};
+        if (target_patch.value().get().is_active())
+            return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Patch ", bell_cnot->target, " is active")), {}};
+        
         if (!local_instructions)
         {
             return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; not implemented unless local instruction flag is given")), {}};
@@ -494,8 +541,8 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                 bell_cnot->local_instructions = std::move(local_instructions);
                 bell_cnot->counter = std::pair<unsigned int, unsigned int>(0, 0);
             }
-
             bell_cnot->counter->first = bell_cnot->counter->second;
+            
             for (unsigned int i = bell_cnot->counter->first; i < bell_cnot->local_instructions.value().size(); i++)
             {
                 InstructionApplicationResult r = try_apply_local_instruction(slice, bell_cnot->local_instructions.value()[i], layout, router);
@@ -534,7 +581,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                 slice.patch_at(target_cell)->to_sparse_patch(target_cell), *free_neighbour)};
 
         slice.patch_at(target_cell) = std::nullopt;
-        apply_routing_region(slice,stages.stage_1);
+        mark_busy_region(slice,stages.stage_1);
 
         std::vector<SparsePatch> final_state{stages.final_state};
 
@@ -623,6 +670,8 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
     {
         if(busy_region->steps_to_clear <= 0)
         {
+            clear_busy_region(slice, busy_region->region);
+            
             for (const SparsePatch& patch : busy_region->state_after_clearing) {
                 bool could_not_find_space_for_patch = false;
                 patch.visit_individual_cells(
@@ -648,11 +697,16 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         else
         {
             for(const auto& occupied_cell: busy_region->region.cells)
-                if(!slice.is_cell_free(occupied_cell.cell))
+            {
+                auto& patch = slice.patch_at(occupied_cell.cell);
+                if(!patch && patch->activity != PatchActivity::Busy)
+                {                    
                     return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Could not find free cell in BusyRegion")),
                             {instruction}};
-
-            apply_routing_region(slice, busy_region->region);
+                }
+            }
+            mark_busy_region(slice, busy_region->region);
+            
             return {nullptr,{{BusyRegion{
                     busy_region->region,
                     busy_region->steps_to_clear-1,
@@ -829,6 +883,7 @@ void run_through_dense_slices_wave(
         
         slice_visitor(slice);
         advance_slice(slice, layout);
+        
         res.slice_count_++;
     }
 }

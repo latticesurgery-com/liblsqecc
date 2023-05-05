@@ -82,7 +82,7 @@ std::optional<DensePatch>& DenseSlice::patch_at(const Cell& cell)
 
 const std::optional<DensePatch>& DenseSlice::patch_at(const Cell& cell) const
 {
-    return const_cast<DenseSlice*>(this)->patch_at(cell);
+    return cells.at(cell.row).at(cell.col);
 }
 
 void DenseSlice::delete_patch_by_id(PatchId id)

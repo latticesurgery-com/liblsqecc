@@ -9,6 +9,6 @@ do
         echo "t q[$j];" >> cases/edpc_t_layers/t_layer_$(($i*$i))qubits.qasm
         j=$(($j+1))
     done
-    ./../build/lsqecc_slicer -q -i "cases/edpc_t_layers/t_layer_$(($i*$i))qubits.qasm" -L edpc --nostagger -P wave --noslices -f stats
+    ./../build/lsqecc_slicer -q -i "cases/edpc_t_layers/t_layer_$(($i*$i))qubits.qasm" -L edpc --nostagger -P wave --noslices -f stats > cases/edpc_t_layers/out$i
     i=$(($i+1))
 done
