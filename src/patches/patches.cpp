@@ -127,8 +127,8 @@ std::ostream& operator<<(std::ostream& os, const Patch& p)
     if (p.id)
         os << ", id: " << p.id.value();
     
-    if (p.debug_str != "")
-        os << ", debug_str: " << p.debug_str;
+    if (p.label)
+        os << ", label: " << p.label.value();
     
     os << " }";
     return os;
