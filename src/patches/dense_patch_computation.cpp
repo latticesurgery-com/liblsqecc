@@ -12,17 +12,16 @@ std::optional<Cell> find_place_for_magic_state(const DenseSlice& slice, const La
 {
     for(const auto& cell: layout.distilled_state_locations(distillation_region_idx))
     {
-        if (layout.magic_states_reserved()) {
+        if (layout.magic_states_reserved()) 
+        {   // Case where magic states queues are reserved.
+            // TODO how do we know slice.patch_at(cell) is not null.
             if (slice.patch_at(cell)->type == PatchType::Distillation)
-            {
                 return cell;
-            }
         }
-        else {
+        else 
+        {   // Regular case where magic states are queued on the boundary of the distillation region.
             if(slice.is_cell_free(cell))
-            {
                 return cell;
-            }
         }
     }
     return std::nullopt;

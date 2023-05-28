@@ -141,7 +141,7 @@ gates::Reset parse_reset(const std::vector<std::string_view>& args)
 gates::Gate parse_qasm_gate(const Line& line)
 {
     if(line.instruction == "x") return gates::X(get_index_arg(line.args.at(0)));
-    if(line.instruction == "y") return gates::Z(get_index_arg(line.args.at(0))); // TODO: Implement this properly
+    // if(line.instruction == "y") return gates::Y(get_index_arg(line.args.at(0))); // TODO: Implement this properly
     if(line.instruction == "z") return gates::Z(get_index_arg(line.args.at(0)));
     if(line.instruction == "s") return gates::S(get_index_arg(line.args.at(0)));
     if(line.instruction == "t") return gates::T(get_index_arg(line.args.at(0)));
