@@ -3,9 +3,9 @@
 
 namespace lsqecc {
 
-SparsePatch LayoutHelpers::basic_square_patch(Cell placement, std::optional<PatchId> id, std::string debug_str)
+SparsePatch LayoutHelpers::basic_square_patch(Cell placement, std::optional<PatchId> id)
 {
-    SparsePatch result{
+    return SparsePatch{
             {.type=PatchType::Qubit,
              .activity=PatchActivity::None,
              .id=id,
@@ -18,8 +18,6 @@ SparsePatch LayoutHelpers::basic_square_patch(Cell placement, std::optional<Patc
                     placement
             },
     };
-    result.debug_str = debug_str;
-    return result;
 }
 SingleCellOccupiedByPatch LayoutHelpers::make_distillation_region_cell(Cell placement)
 {
