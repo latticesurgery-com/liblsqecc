@@ -112,6 +112,9 @@ struct Patch {
     PatchType type;
     PatchActivity activity;
     std::optional<PatchId> id;
+    std::string debug_str = "";
+    
+    // Patch& operator=(const Patch& other)
 
     bool operator==(const Patch&) const = default;
 };
