@@ -59,7 +59,7 @@ void advance_slice(DenseSlice& slice, const Layout& layout)
         p->boundaries.left.is_active = false;
         p->boundaries.right.is_active = false;
 
-        if((p->type == PatchType::Routing && p->activity != PatchActivity::Busy) || p->activity == PatchActivity::Measurement)
+        if((p->type == PatchType::Routing) || p->activity == PatchActivity::Measurement)
         {
             p = std::nullopt;
             return;
@@ -129,11 +129,11 @@ void apply_routing_region(
         auto& patch = slice.patch_at(occupied_cell.cell);
         if (!fail_on_already_busy_cell && patch)
         {
-            assert(patch->activity == PatchActivity::Busy);
+            // assert(patch->activity == PatchActivity::Busy)
         }
         else
         {
-            slice.place_single_cell_sparse_patch(SparsePatch{{PatchType::Routing, PatchActivity::Busy},occupied_cell}, false);
+            slice.place_single_cell_sparse_patch(SparsePatch{{PatchType::Routing, PatchActivity::BusyClearNextSetp},occupied_cell}, false);
         }
     }
 }
@@ -144,7 +144,7 @@ void clear_busy_region(DenseSlice& slice, const RoutingRegion& routing_region)
     {
         auto cell = occupied_cell.cell;
         auto& patch = slice.patch_at(cell);
-        assert(patch && patch->activity == PatchActivity::Busy);
+        // assert(patch && patch->activity == PatchActivity::BusyDontClear);
         patch = std::nullopt;
     }
 }
@@ -663,7 +663,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         {
             // TODO, why was this added? any busy region should have been cleared by slice advancing
             clear_busy_region(slice, busy_region->region);
-            
+
             for (const SparsePatch& patch : busy_region->state_after_clearing) {
                 bool could_not_find_space_for_patch = false;
                 patch.visit_individual_cells(
@@ -682,15 +682,6 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         }
         else
         {
-            for(const auto& occupied_cell: busy_region->region.cells)
-            {
-                auto& patch = slice.patch_at(occupied_cell.cell);
-                if(!patch && patch->activity != PatchActivity::Busy)
-                {                    
-                    return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Could not find free cell in BusyRegion")),
-                            {instruction}};
-                }
-            }
             // TODO this makes the assumption that the busy region is already applied
             // need to fix the clearing mechanism so that we don't ignore the underlying busy
             // cells (false flag)
