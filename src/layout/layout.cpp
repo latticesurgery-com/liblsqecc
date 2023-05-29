@@ -31,7 +31,7 @@ SingleCellOccupiedByPatch LayoutHelpers::make_distillation_region_cell(Cell plac
                 placement
         };
 }
-LayoutHelpers::SinglePatchRotationALaLitinskiStages LayoutHelpers::single_patch_rotation_a_la_litinski(
+BusyRegion LayoutHelpers::single_patch_rotation_a_la_litinski(
         const SparsePatch& target_patch, const Cell& free_neighbour)
 {
     if(!std::holds_alternative<SingleCellOccupiedByPatch>(target_patch.cells))
@@ -63,7 +63,7 @@ LayoutHelpers::SinglePatchRotationALaLitinskiStages LayoutHelpers::single_patch_
    SparsePatch new_patch{target_patch};
    std::get<SingleCellOccupiedByPatch>(new_patch.cells).instant_rotate();
 
-   return {.stage_1 = occupied_space, .stage_2 = occupied_space, .final_state = new_patch};
+   return {.region = occupied_space, .steps_to_clear=3, .state_after_clearing = {new_patch}};
 }
 
 }

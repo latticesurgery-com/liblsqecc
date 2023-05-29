@@ -119,18 +119,15 @@ void stitch_boundaries(
 }
 
 
-void apply_routing_region(DenseSlice& slice, const RoutingRegion& routing_region)
-{
-    for (const auto& occupied_cell : routing_region.cells)
-        slice.place_single_cell_sparse_patch(SparsePatch{{PatchType::Routing, PatchActivity::None},occupied_cell}, false);
-}
-
-void mark_busy_region(DenseSlice& slice, const RoutingRegion& routing_region)
+void apply_routing_region(
+    DenseSlice& slice, 
+    const RoutingRegion& routing_region,
+    bool fail_on_already_busy_cell = true)
 {
     for (const auto& occupied_cell : routing_region.cells)
     {
         auto& patch = slice.patch_at(occupied_cell.cell);
-        if (patch)
+        if (!fail_on_already_busy_cell && patch)
         {
             assert(patch->activity == PatchActivity::Busy);
         }
@@ -138,7 +135,6 @@ void mark_busy_region(DenseSlice& slice, const RoutingRegion& routing_region)
         {
             slice.place_single_cell_sparse_patch(SparsePatch{{PatchType::Routing, PatchActivity::Busy},occupied_cell}, false);
         }
-        
     }
 }
 
@@ -576,15 +572,14 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
             slice.patch_at(target_cell)->activity = PatchActivity::None;
         }
 
-        auto stages{LayoutHelpers::single_patch_rotation_a_la_litinski(
+        BusyRegion rotation_instruction{LayoutHelpers::single_patch_rotation_a_la_litinski(
                 slice.patch_at(target_cell)->to_sparse_patch(target_cell), *free_neighbour)};
 
         slice.patch_at(target_cell) = std::nullopt;
-        mark_busy_region(slice,stages.stage_1);
+        apply_routing_region(slice, rotation_instruction.region);
 
-        std::vector<SparsePatch> final_state{stages.final_state};
-
-        return {nullptr, {{BusyRegion{std::move(stages.stage_2), 2, final_state}}}};
+        rotation_instruction.steps_to_clear--;
+        return {nullptr, {{rotation_instruction}}};
     }
     else if (auto* mr = std::get_if<MagicStateRequest>(&instruction.operation))
     {
@@ -596,7 +591,6 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
             std::optional<Cell> min_cell;
             double min_dist = std::numeric_limits<double>::max();
             double dist;
-            // 
             for (const Cell& cell : slice.magic_states)
             {
                 dist = abs(cell.col - slice.get_cell_by_id(mr->near_patch).value().col) + abs(cell.row - slice.get_cell_by_id(mr->near_patch).value().row);
@@ -607,15 +601,13 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                 }
             }
 
-            if (min_cell)
-            {
-                auto& newly_bound_magic_state = slice.patch_at(min_cell.value()).value();
-                newly_bound_magic_state.id = mr->target;
-                newly_bound_magic_state.type = PatchType::Qubit;
-                newly_bound_magic_state.activity = PatchActivity::None;
-                slice.magic_states.erase(min_cell.value());
-                return {nullptr, {}};
-            }
+            assert(min_cell.has_value());
+            auto& newly_bound_magic_state = slice.patch_at(min_cell.value()).value();
+            newly_bound_magic_state.id = mr->target;
+            newly_bound_magic_state.type = PatchType::Qubit;
+            newly_bound_magic_state.activity = PatchActivity::None;
+            slice.magic_states.erase(min_cell.value());
+            return {nullptr, {}};
         }
         else 
         {
@@ -699,7 +691,10 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                             {instruction}};
                 }
             }
-            mark_busy_region(slice, busy_region->region);
+            // TODO this makes the assumption that the busy region is already applied
+            // need to fix the clearing mechanism so that we don't ignore the underlying busy
+            // cells (false flag)
+            apply_routing_region(slice, busy_region->region, false);
             
             return {nullptr,{{BusyRegion{
                     busy_region->region,
