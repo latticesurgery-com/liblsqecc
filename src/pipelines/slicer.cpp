@@ -339,7 +339,7 @@ namespace lsqecc
             }
             else if (parser.get<std::string>("layoutgenerator") == "edpc") 
             {
-                layout = make_edpc_layout(instruction_stream->core_qubits().size(), 1, distillation_options);
+                layout = make_edpc_layout(instruction_stream->core_qubits().size(), 1, false, distillation_options);
                 instruction_stream = std::make_unique<CatalyticSGateInjectionStream>(std::move(instruction_stream), id_generator, compile_mode == CompilationMode::Local);
             }
             else
