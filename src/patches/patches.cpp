@@ -116,12 +116,12 @@ std::ostream& operator<<(std::ostream& os, const Patch& p)
             os << "Dead";
             break;
             
-        case PatchActivity::BusyClearNextSetp:
-            os << "BusyClearNextSetp";
+        case PatchActivity::MultiPatchMeasurement:
+            os << "MultiPatchMeasurement";
             break;
             
-        case PatchActivity::BusyDontClear:
-            os << "BusyDontClear";
+        case PatchActivity::Rotation:
+            os << "Rotation";
             break;
         
         default:
