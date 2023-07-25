@@ -3,7 +3,6 @@
 
 
 #include <lsqecc/patches/patches.hpp>
-#include <lsqecc/ls_instructions/ls_instructions.hpp>
 #include <lstk/lstk.hpp>
 
 #include <tuple>
@@ -39,9 +38,6 @@ struct DistillationOptions{
 namespace LayoutHelpers{
     SparsePatch basic_square_patch(Cell placement, std::optional<PatchId> id = std::nullopt, std::optional<std::string> debug_label = std::nullopt);
     SingleCellOccupiedByPatch make_distillation_region_cell(Cell placement);
-
-    BusyRegion single_patch_rotation_a_la_litinski(const SparsePatch& target_patch, const Cell& free_neighbour);
-
 }
 
 

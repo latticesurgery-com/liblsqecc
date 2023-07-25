@@ -270,7 +270,7 @@ namespace lsqecc
         IdGenerator id_generator;
         std::unique_ptr<LSInstructionStream> instruction_stream;
         std::unique_ptr<GateStream> gate_stream;
-
+        
         CompilationMode compile_mode = CompilationMode::Nonlocal;
         if (parser.exists("local"))
             compile_mode = CompilationMode::Local;

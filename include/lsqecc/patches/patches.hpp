@@ -62,8 +62,8 @@ enum class PatchActivity : uint8_t
     Unitary,
     Distillation,
     Dead,
-    BusyClearNextSetp,
-    BusyDontClear
+    MultiPatchMeasurement,
+    Rotation
 };
 
 

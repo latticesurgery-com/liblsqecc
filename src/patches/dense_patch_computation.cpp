@@ -8,6 +8,42 @@ namespace lsqecc
 {
 
 
+BusyRegion single_patch_rotation_a_la_litinski(
+        const SparsePatch& target_patch, const Cell& free_neighbour)
+{
+    if(!std::holds_alternative<SingleCellOccupiedByPatch>(target_patch.cells))
+        throw std::logic_error{lstk::cat("Trying to rotate patch ", target_patch.id.value_or(-1), "which is not single cell")};
+
+    auto target = std::get<SingleCellOccupiedByPatch>(target_patch.cells);
+
+    RoutingRegion occupied_space;
+
+    occupied_space.cells.emplace_back(SingleCellOccupiedByPatch{
+            {.top={BoundaryType::None,false},
+             .bottom={BoundaryType::None,false},
+             .left={BoundaryType::None,false},
+             .right={BoundaryType::None,false}},
+            target.cell});
+    occupied_space.cells.emplace_back(SingleCellOccupiedByPatch{
+            {.top={BoundaryType::None,false},
+             .bottom={BoundaryType::None,false},
+             .left={BoundaryType::None,false},
+             .right={BoundaryType::None,false}},
+            free_neighbour});
+
+    occupied_space.cells[0].get_mut_boundary_with(occupied_space.cells[1].cell)
+        ->get() = {.boundary_type=BoundaryType::Connected, .is_active=true};
+    occupied_space.cells[1].get_mut_boundary_with(occupied_space.cells[0].cell)
+        ->get() = {.boundary_type=BoundaryType::Connected, .is_active=true};
+
+
+   SparsePatch new_patch{target_patch};
+   std::get<SingleCellOccupiedByPatch>(new_patch.cells).instant_rotate();
+
+   return {.region = occupied_space, .steps_to_clear=3, .state_after_clearing = {new_patch}};
+}
+
+
 std::optional<Cell> find_place_for_magic_state(const DenseSlice& slice, const Layout& layout, size_t distillation_region_idx)
 {
     for(const auto& cell: layout.distilled_state_locations(distillation_region_idx))
@@ -59,7 +95,7 @@ void advance_slice(DenseSlice& slice, const Layout& layout)
         p->boundaries.left.is_active = false;
         p->boundaries.right.is_active = false;
 
-        if((p->type == PatchType::Routing) || p->activity == PatchActivity::Measurement)
+        if((p->activity == PatchActivity::MultiPatchMeasurement) || p->activity == PatchActivity::Measurement)
         {
             p = std::nullopt;
             return;
@@ -118,33 +154,19 @@ void stitch_boundaries(
     }
 }
 
-
-void apply_routing_region(
-    DenseSlice& slice, 
-    const RoutingRegion& routing_region,
-    bool fail_on_already_busy_cell = true)
+void mark_routing_region(DenseSlice& slice, const RoutingRegion& routing_region, PatchActivity activity)
 {
     for (const auto& occupied_cell : routing_region.cells)
-    {
-        auto& patch = slice.patch_at(occupied_cell.cell);
-        if (!fail_on_already_busy_cell && patch)
-        {
-            // assert(patch->activity == PatchActivity::Busy)
-        }
-        else
-        {
-            slice.place_single_cell_sparse_patch(SparsePatch{{PatchType::Routing, PatchActivity::BusyClearNextSetp},occupied_cell}, false);
-        }
-    }
+        slice.place_sparse_patch(SparsePatch{{PatchType::Routing, activity}, occupied_cell}, false);
 }
 
-void clear_busy_region(DenseSlice& slice, const RoutingRegion& routing_region)
+void clear_routing_region(DenseSlice& slice, const RoutingRegion& routing_region)
 {
     for (const auto& occupied_cell : routing_region.cells)
     {
         auto cell = occupied_cell.cell;
         auto& patch = slice.patch_at(cell);
-        // assert(patch && patch->activity == PatchActivity::BusyDontClear);
+        assert(patch && patch->type == PatchType::Routing);
         patch = std::nullopt;
     }
 }
@@ -164,16 +186,20 @@ bool merge_patches(
 
     // TODO remove duplicate cell/patch search
     if(slice.get_patch_by_id(source)->get().is_active() || slice.get_patch_by_id(target)->get().is_active())
+    {
         return false;
+    }
 
     auto routing_region = router.find_routing_ancilla(slice, source, source_op, target, target_op);
     if(!routing_region)
+    {
         return false;
+    }
 
     // TODO check that the path is actually free when caching
 
     stitch_boundaries(slice, *slice.get_cell_by_id(source), *slice.get_cell_by_id(target), *routing_region);
-    apply_routing_region(slice, *routing_region);
+    mark_routing_region(slice, *routing_region, PatchActivity::MultiPatchMeasurement);
 
     return true;
 }
@@ -353,6 +379,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
 
         if (!slice.has_patch(source_id))
             return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Patch ", source_id, " not on lattice")), {}};
+        
         if (!slice.has_patch(target_id))
             return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Patch ", target_id, " not on lattice")), {}};
 
@@ -360,6 +387,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         {
             if (!merge_patches(slice, router, source_id, source_op, target_id, target_op))
                 return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Couldn't find room to route")), {}};
+            
             return {nullptr, {}};
         }
         else
@@ -572,11 +600,10 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
             slice.patch_at(target_cell)->activity = PatchActivity::None;
         }
 
-        BusyRegion rotation_instruction{LayoutHelpers::single_patch_rotation_a_la_litinski(
-                slice.patch_at(target_cell)->to_sparse_patch(target_cell), *free_neighbour)};
+        BusyRegion rotation_instruction{single_patch_rotation_a_la_litinski(slice.patch_at(target_cell)->to_sparse_patch(target_cell), *free_neighbour)};
 
         slice.patch_at(target_cell) = std::nullopt;
-        apply_routing_region(slice, rotation_instruction.region);
+        mark_routing_region(slice, rotation_instruction.region, PatchActivity::Rotation);
 
         rotation_instruction.steps_to_clear--;
         return {nullptr, {{rotation_instruction}}};
@@ -661,8 +688,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
     {
         if(busy_region->steps_to_clear <= 0)
         {
-            // TODO, why was this added? any busy region should have been cleared by slice advancing
-            clear_busy_region(slice, busy_region->region);
+            clear_routing_region(slice, busy_region->region);
 
             for (const SparsePatch& patch : busy_region->state_after_clearing) {
                 bool could_not_find_space_for_patch = false;
@@ -682,10 +708,11 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         }
         else
         {
-            // TODO this makes the assumption that the busy region is already applied
-            // need to fix the clearing mechanism so that we don't ignore the underlying busy
-            // cells (false flag)
-            apply_routing_region(slice, busy_region->region, false);
+            for(const auto& occupied_cell: busy_region->region.cells)
+            {
+                auto& patch = slice.patch_at(occupied_cell.cell);
+                assert(patch && "Busy region route is uninitialized");
+            }
             
             return {nullptr,{{BusyRegion{
                     busy_region->region,

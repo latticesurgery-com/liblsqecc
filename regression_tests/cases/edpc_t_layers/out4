@@ -1,0 +1,8 @@
+LS Instructions read  368
+Slices 39
+Made patch computation. Took 0.314541s.
+Total volume: 13718
+Distillation volume: 5242 (38.2126%)
+Unused routing volume: 2782 (20.2799%)
+Dead volume: 4104 (29.9169%)
+Other active volume: 1590 (11.5906%)
