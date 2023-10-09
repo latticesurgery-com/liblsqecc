@@ -154,6 +154,15 @@ namespace lsqecc
                     " - edpc: Uses a layout specified in the EDPC paper by Beverland et. al. (https://arxiv.org/abs/2110.11493)"
                 )
                 .required(false);
+        parser.add_argument()
+                .names({"--numlanes"})
+                .description("Only compatible with -L edpc. Configures number of free lanes for routing.")
+                .required(false);
+        parser.add_argument()
+                    .names({"--condensed"})
+                    .description("Only compatible with -L edpc. Packs logical qubits more compactly.")
+                    .required(false);
+                        
         #ifdef USE_GRIDSYNTH
         parser.add_argument()
                 .names({"--rzprecision"})
@@ -339,7 +348,16 @@ namespace lsqecc
             }
             else if (parser.get<std::string>("layoutgenerator") == "edpc") 
             {
-                layout = make_edpc_layout(instruction_stream->core_qubits().size(), 1, false, distillation_options);
+                size_t num_lanes = 1;
+                bool condensed = false;
+                
+                if(parser.exists("numlanes"))
+                    num_lanes = parser.get<size_t>("numlanes");
+                
+                if(parser.exists("condensed"))
+                    condensed = parser.get<bool>("condensed");
+                
+                layout = make_edpc_layout(instruction_stream->core_qubits().size(), num_lanes, condensed, distillation_options);
                 instruction_stream = std::make_unique<CatalyticSGateInjectionStream>(std::move(instruction_stream), id_generator, compile_mode == CompilationMode::Local);
             }
             else
