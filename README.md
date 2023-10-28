@@ -111,7 +111,7 @@ However due to the Haskell platform's own portability challenges and some low le
 
 ## Contributors
 
-Liblsqecc was primarily developed at Aalto University by [George Watkins](https://github.com/gwwatkin) under Dr. [Alexandru Paler](https://github.com/alexandrupaler)'s supervision, and is now maintained by George Watkins.
+Liblsqecc was primarily developed at Aalto University by [George Watkins](https://github.com/gwwatkin) under [Alexandru Paler](https://github.com/alexandrupaler)'s supervision, and is now maintained by George Watkins.
 
 A special thanks to [Tyler LeBlond](https://github.com/tylerrleblond) for adding the EDPC layout and other contributions.
 
