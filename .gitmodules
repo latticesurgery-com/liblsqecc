@@ -3,22 +3,22 @@
 	url = https://github.com/nlohmann/json.git
 [submodule "external/include/cppitertools"]
 	path = external/include/cppitertools
-	url = git@github.com:ryanhaining/cppitertools.git
+	url = https://github.com/ryanhaining/cppitertools.git
 [submodule "external/include/argparse"]
 	path = external/include/argparse
-	url = git@github.com:jamolnng/argparse.git
+	url = https://github.com/jamolnng/argparse.git
 [submodule "external/ordered-map"]
 	path = external/ordered-map
 	url = https://github.com/Tessil/ordered-map.git
 [submodule "external/include/infint"]
 	path = external/include/infint
-	url = git@github.com:sercantutar/infint.git
+	url = https://github.com/sercantutar/infint.git
 [submodule "external/crystalmountain"]
 	path = external/crystalmountain
-	url = git@github.com:gwwatkin/crystalmountain.git
+	url = https://github.com/gwwatkin/crystalmountain.git
 [submodule "external/googletest"]
 	path = external/googletest
 	url = https://github.com/google/googletest
 [submodule "external/rotation-decomposer"]
 	path = external/rotation-decomposer
-	url = git@github.com:latticesurgery-com/rotation-decomposer.git
+	url = https://github.com/latticesurgery-com/rotation-decomposer.git
