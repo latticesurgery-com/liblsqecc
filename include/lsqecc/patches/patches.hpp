@@ -62,7 +62,8 @@ enum class PatchActivity : uint8_t
     Unitary,
     Distillation,
     Dead,
-    Busy
+    MultiPatchMeasurement,
+    Rotation
 };
 
 
@@ -112,7 +113,7 @@ struct Patch {
     PatchType type;
     PatchActivity activity;
     std::optional<PatchId> id;
-    std::string debug_str = "";
+    std::optional<std::string> label;
     
     // Patch& operator=(const Patch& other)
 

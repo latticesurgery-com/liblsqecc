@@ -27,7 +27,7 @@ struct BellPrepare { // TODO rename to BellPrepareNeighbours
     bool operator==(const BellPrepare&) const = default;
 };
 
-struct BellMeasure {
+struct BellMeasure { // TODO find the difference with the one below and give a more descriptive name
     Cell cell1;
     Cell cell2;
 

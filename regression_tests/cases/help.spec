@@ -18,6 +18,8 @@ Options:
                             - compact (default): Uses Litinski's Game of Surace Code compact layout (https://arxiv.org/abs/1808.02892)
                             - compact_no_clogging: same as compact, but fewer cells for ancillas and magic state queues
                             - edpc: Uses a layout specified in the EDPC paper by Beverland et. al. (https://arxiv.org/abs/2110.11493)
+    --numlanes             Only compatible with -L edpc. Configures number of free lanes for routing.
+    --condensed            Only compatible with -L edpc. Packs logical qubits more compactly.
     --nostagger            Turns off staggered distillation block timing
     --disttime             Set the distillation time (default 10)
     --local                Compile gates using a local lattice surgery instruction set

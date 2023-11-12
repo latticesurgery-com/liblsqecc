@@ -59,7 +59,7 @@ struct PatchInit {
     bool operator==(const PatchInit&) const = default;
 };
 
-struct BellPairInit {
+struct BellPairInit { // TODO rename to InitBellPairNextToPatches
     PatchId side1;
     PatchId side2; 
     PlaceNexTo loc1;
@@ -111,7 +111,7 @@ struct SingleQubitOp {
     bool operator==(const SingleQubitOp&) const = default;
 };
 
-struct BusyRegion{
+struct BusyRegion { // TODO rename to PlaceholderRegion
     RoutingRegion region;
     size_t steps_to_clear;
     std::vector<SparsePatch> state_after_clearing;

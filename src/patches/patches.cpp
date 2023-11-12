@@ -116,8 +116,12 @@ std::ostream& operator<<(std::ostream& os, const Patch& p)
             os << "Dead";
             break;
             
-        case PatchActivity::Busy:
-            os << "Busy";
+        case PatchActivity::MultiPatchMeasurement:
+            os << "MultiPatchMeasurement";
+            break;
+            
+        case PatchActivity::Rotation:
+            os << "Rotation";
             break;
         
         default:
@@ -127,8 +131,8 @@ std::ostream& operator<<(std::ostream& os, const Patch& p)
     if (p.id)
         os << ", id: " << p.id.value();
     
-    if (p.debug_str != "")
-        os << ", debug_str: " << p.debug_str;
+    if (p.label)
+        os << ", label: " << p.label.value();
     
     os << " }";
     return os;
@@ -234,6 +238,7 @@ SparsePatch DensePatch::to_sparse_patch(const Cell& c) const
 DensePatch DensePatch::from_sparse_patch(const SparsePatch& sp)
 {
     auto* occupied_cell = std::get_if<SingleCellOccupiedByPatch>(&sp.cells);
+    if(!occupied_cell) throw std::runtime_error{"DensePatch::from_sparse_patch called with a SparsePatch that occupies multiple cells"};
 
     return DensePatch{static_cast<Patch>(sp),
                       {.top=occupied_cell->top,
