@@ -66371,7 +66371,7 @@
          "edges": {
             "Bottom": "None",
             "Left": "None",
-            "Right": "AncillaJoin",
+            "Right": "None",
             "Top": "None"
          },
          "patch_type": "Ancilla",
@@ -66383,7 +66383,7 @@
          },
          "edges": {
             "Bottom": "None",
-            "Left": "AncillaJoin",
+            "Left": "None",
             "Right": "None",
             "Top": "None"
          },
@@ -70720,7 +70720,7 @@
          "edges": {
             "Bottom": "None",
             "Left": "None",
-            "Right": "AncillaJoin",
+            "Right": "None",
             "Top": "None"
          },
          "patch_type": "Ancilla",
@@ -70732,7 +70732,7 @@
          },
          "edges": {
             "Bottom": "None",
-            "Left": "AncillaJoin",
+            "Left": "None",
             "Right": "None",
             "Top": "None"
          },
@@ -88164,7 +88164,7 @@
          "edges": {
             "Bottom": "None",
             "Left": "None",
-            "Right": "AncillaJoin",
+            "Right": "None",
             "Top": "None"
          },
          "patch_type": "Ancilla",
@@ -88176,7 +88176,7 @@
          },
          "edges": {
             "Bottom": "None",
-            "Left": "AncillaJoin",
+            "Left": "None",
             "Right": "None",
             "Top": "None"
          },
@@ -92513,7 +92513,7 @@
          "edges": {
             "Bottom": "None",
             "Left": "None",
-            "Right": "AncillaJoin",
+            "Right": "None",
             "Top": "None"
          },
          "patch_type": "Ancilla",
@@ -92525,7 +92525,7 @@
          },
          "edges": {
             "Bottom": "None",
-            "Left": "AncillaJoin",
+            "Left": "None",
             "Right": "None",
             "Top": "None"
          },

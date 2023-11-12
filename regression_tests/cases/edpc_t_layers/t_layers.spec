@@ -1,70 +1,70 @@
-./../build/lsqecc_slicer -q -i "cases/edpc_t_layers/t_layer_16qubits.qasm" -L edpc --nostagger -P wave --noslices -f stats
-LS Instructions read  368
-Slices 39
+./../build/lsqecc_slicer -q -i "cases/edpc_t_layers/t_layer_16qubits.qasm" -L edpc --nostagger --local -P wave --noslices -f stats
+LS Instructions read  320
+Slices 41
 Made patch computation. Took <time_removed_by_case_script>
-Total volume: 13718
-Distillation volume: 5242 (38.2126%)
-Unused routing volume: 2782 (20.2799%)
-Dead volume: 4104 (29.9169%)
-Other active volume: 1590 (11.5906%)
+Total volume: 14440
+Distillation volume: 5500 (38.0886%)
+Unused routing volume: 2716 (18.8089%)
+Dead volume: 4320 (29.9169%)
+Other active volume: 1904 (13.1856%)
 
-./../build/lsqecc_slicer -q -i "cases/edpc_t_layers/t_layer_25qubits.qasm" -L edpc --nostagger -P wave --noslices -f stats
-LS Instructions read  575
-Slices 49
+./../build/lsqecc_slicer -q -i "cases/edpc_t_layers/t_layer_25qubits.qasm" -L edpc --nostagger --local -P wave --noslices -f stats
+LS Instructions read  500
+Slices 46
 Made patch computation. Took <time_removed_by_case_script>
-Total volume: 21168
-Distillation volume: 7197 (33.9994%)
-Unused routing volume: 4840 (22.8647%)
-Dead volume: 6144 (29.0249%)
-Other active volume: 2987 (14.1109%)
+Total volume: 19845
+Distillation volume: 6762 (34.0741%)
+Unused routing volume: 4120 (20.7609%)
+Dead volume: 5760 (29.0249%)
+Other active volume: 3203 (16.1401%)
 
-./../build/lsqecc_slicer -q -i "cases/edpc_t_layers/t_layer_36qubits.qasm" -L edpc --nostagger -P wave --noslices -f stats
-LS Instructions read  828
-Slices 53
+./../build/lsqecc_slicer -q -i "cases/edpc_t_layers/t_layer_36qubits.qasm" -L edpc --nostagger --local -P wave --noslices -f stats
+LS Instructions read  720
+Slices 60
 Made patch computation. Took <time_removed_by_case_script>
-Total volume: 27508
-Distillation volume: 9757 (35.4697%)
-Unused routing volume: 6783 (24.6583%)
-Dead volume: 6448 (23.4405%)
-Other active volume: 4520 (16.4316%)
+Total volume: 31211
+Distillation volume: 10975 (35.1639%)
+Unused routing volume: 7147 (22.899%)
+Dead volume: 7316 (23.4405%)
+Other active volume: 5773 (18.4967%)
 
-./../build/lsqecc_slicer -q -i "cases/edpc_t_layers/t_layer_49qubits.qasm" -L edpc --nostagger -P wave --noslices -f stats
-LS Instructions read  1127
-Slices 61
+./../build/lsqecc_slicer -q -i "cases/edpc_t_layers/t_layer_49qubits.qasm" -L edpc --nostagger --local -P wave --noslices -f stats
+LS Instructions read  980
+Slices 69
 Made patch computation. Took <time_removed_by_case_script>
-Total volume: 37500
-Distillation volume: 12011 (32.0293%)
-Unused routing volume: 9936 (26.496%)
-Dead volume: 8640 (23.04%)
-Other active volume: 6913 (18.4347%)
+Total volume: 42500
+Distillation volume: 13494 (31.7506%)
+Unused routing volume: 10440 (24.5647%)
+Dead volume: 9792 (23.04%)
+Other active volume: 8774 (20.6447%)
 
-./../build/lsqecc_slicer -q -i "cases/edpc_t_layers/t_layer_64qubits.qasm" -L edpc --nostagger -P wave --noslices -f stats
-LS Instructions read  1472
-Slices 71
+./../build/lsqecc_slicer -q -i "cases/edpc_t_layers/t_layer_64qubits.qasm" -L edpc --nostagger --local -P wave --noslices -f stats
+LS Instructions read  1280
+Slices 88
 Made patch computation. Took <time_removed_by_case_script>
-Total volume: 51030
-Distillation volume: 16558 (32.4476%)
-Unused routing volume: 14182 (27.7915%)
-Dead volume: 9800 (19.2044%)
-Other active volume: 10490 (20.5565%)
+Total volume: 63423
+Distillation volume: 20406 (32.1744%)
+Unused routing volume: 16867 (26.5945%)
+Dead volume: 12180 (19.2044%)
+Other active volume: 13970 (22.0267%)
 
-./../build/lsqecc_slicer -q -i "cases/edpc_t_layers/t_layer_81qubits.qasm" -L edpc --nostagger -P wave --noslices -f stats
-LS Instructions read  1863
-Slices 81
+./../build/lsqecc_slicer -q -i "cases/edpc_t_layers/t_layer_81qubits.qasm" -L edpc --nostagger --local -P wave --noslices -f stats
+LS Instructions read  1620
+Slices 96
 Made patch computation. Took <time_removed_by_case_script>
-Total volume: 67280
-Distillation volume: 19852 (29.5065%)
-Unused routing volume: 19767 (29.3802%)
-Dead volume: 12800 (19.025%)
-Other active volume: 14861 (22.0883%)
+Total volume: 79895
+Distillation volume: 23426 (29.321%)
+Unused routing volume: 22464 (28.1169%)
+Dead volume: 15200 (19.025%)
+Other active volume: 18805 (23.5371%)
 
-./../build/lsqecc_slicer -q -i "cases/edpc_t_layers/t_layer_100qubits.qasm" -L edpc --nostagger -P wave --noslices -f stats
-LS Instructions read  2300
-Slices 83
+./../build/lsqecc_slicer -q -i "cases/edpc_t_layers/t_layer_100qubits.qasm" -L edpc --nostagger --local -P wave --noslices -f stats
+LS Instructions read  2000
+Slices 104
 Made patch computation. Took <time_removed_by_case_script>
-Total volume: 78802
-Distillation volume: 23451 (29.7594%)
-Unused routing volume: 24154 (30.6515%)
-Dead volume: 12792 (16.2331%)
-Other active volume: 18405 (23.356%)
+Total volume: 98983
+Distillation volume: 29136 (29.4354%)
+Unused routing volume: 29339 (29.6404%)
+Dead volume: 16068 (16.2331%)
+Other active volume: 24440 (24.6911%)
 
