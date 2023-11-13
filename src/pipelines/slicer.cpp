@@ -423,6 +423,10 @@ namespace lsqecc
             }
         }
 
+        if (parser.exists("a"))
+        {
+            out_stream << "{\"slices\":";
+        }
 
         bool print_slices = !parser.exists("noslices") && lli_print_mode == LLIPrintMode::None;
         DenseSliceVisitor slice_visitor = [](const DenseSlice& s) -> void {LSTK_UNUSED(s);};
@@ -436,7 +440,7 @@ namespace lsqecc
                     is_first_slice = false;
                 }
                 else
-                    bulk_output_stream.get() << ",\n" << slice_to_json(s).dump(3);
+                    bulk_output_stream.get() << ",\n" << slice_to_json(s).dump(3) << std::flush;
             };
         }
 
@@ -468,6 +472,7 @@ namespace lsqecc
             };
         }
 
+        std::vector<std::vector<LSInstruction>> sliced_instructions_annotations = {{}};
         LSInstructionVisitor instruction_visitor{[&](const LSInstruction& i){}};
         if (lli_print_mode == LLIPrintMode::Sliced)
         {
@@ -481,8 +486,21 @@ namespace lsqecc
                 slice_visitor(s);
                 bulk_output_stream.get() << std::endl;
             };
-        }
+        } else if(parser.exists("-a")) 
+        {
+            instruction_visitor = [&, instruction_visitor](const LSInstruction& i)
+            {
+                instruction_visitor(i);
+                sliced_instructions_annotations.back().push_back(i);
+            }; 
 
+            slice_visitor = [&,slice_visitor](const DenseSlice & s) 
+            {
+                slice_visitor(s);
+                sliced_instructions_annotations.push_back({});
+            }; 
+        }
+            
 
         auto start = lstk::now();
 
@@ -522,6 +540,21 @@ namespace lsqecc
             bulk_output_stream.get() << "]" <<std::endl;
         if (lli_print_mode == LLIPrintMode::Sliced)
             bulk_output_stream.get() << std::endl;
+
+
+        if (parser.exists("a"))
+        {
+            out_stream << ",\"slice_annotations\":[";
+            for(auto& si: sliced_instructions_annotations){
+                out_stream << "{\"instuction_annotations\":[";
+                for(auto& i: si)
+                {
+                    out_stream << "{\"instruction_text\":\""<<i<<"\"},";
+                } 
+                out_stream << "{\"instruction_text\":\"\"}]},";
+            }
+            out_stream << "{\"instuction_annotations\":[]}],\"compilation_text\":\"Slices were annotated\"}";
+        }
 
         return 0;
     }
