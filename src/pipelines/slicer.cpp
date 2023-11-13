@@ -100,6 +100,9 @@ namespace lsqecc
         parser.add_argument()
                 .names({"-q", "--qasm"})
                 .description("File name of file with QASM. When not provided will read as LLI (not QASM)")
+                .required(false);        parser.add_argument()
+                .names({"--dbinput",})
+                .description("Read instructions from Ioana's databse, e.g postgresql://postgres@localhost:5432/dbcopt")
                 .required(false);
         parser.add_argument()
                 .names({"-l", "--layout"})
@@ -291,8 +294,14 @@ namespace lsqecc
         }
         if(parser.exists("q"))
         {
-            gate_stream = std::make_unique<GateStreamFromFile>(input_file_stream.get());
-
+            if (parser.exists("dbinput"))
+            {
+                gate_stream =  std::make_unique<GateStreamFromStreamFromDB>(parser.get<std::string>("dbinput"));
+            }
+            else
+            {
+                gate_stream = std::make_unique<GateStreamFromFile>(input_file_stream.get());
+            }
             if (print_dag_mode == PrintDagMode::Input)
             {
                 auto dag = dag::full_dependency_dag_from_gate_stream(*gate_stream);

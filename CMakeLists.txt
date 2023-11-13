@@ -43,6 +43,12 @@ include_directories(external/json/include)
 # Packages that have their headers at the top level
 include_directories(external/include)
 
+# NOTE: requires (or eqivalent)
+# sudo apt-get install libpq-dev
+add_subdirectory(external/libpqxx)
+include_directories(external/libpqxx/include)
+
+
 ###################################################
 # Library setup
 

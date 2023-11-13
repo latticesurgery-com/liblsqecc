@@ -2,8 +2,11 @@
 
 #include <lstk/lstk.hpp>
 
+#include <pqxx/pqxx>
+
 #include <vector>
 #include <stdexcept>
+#include <iostream>
 
 namespace lsqecc {
 
@@ -270,5 +273,93 @@ gates::Gate GateStreamFromFile::get_next_gate()
     advance_gate();
     return gate;
 }
+
+
+
+
+GateStreamFromStreamFromDB::GateStreamFromStreamFromDB(std::string_view db_conn_string)
+    :db_connection_("postgresql://postgres@localhost:5432/dbcopt"),
+     qreg_([&](){
+        pqxx::work tx{db_connection_};
+        QubitNum max_wire = tx.query_value<QubitNum>("SELECT max(q1) FROM sliced_circuit;");
+        return Qreg{
+            .name="db_register",
+            .size=max_wire+1
+        };
+     }()),
+     max_moment([&](){
+        pqxx::work tx{db_connection_};
+        return tx.query_value<size_t>("SELECT max(moment) FROM sliced_circuit;");
+     }())
+{
+}
+
+void GateStreamFromStreamFromDB::advance_moment_cache() const
+{
+    if(!gates_batch_.empty())
+    {
+        throw std::logic_error("Cannot advance moment while there are still gates in the current moment");
+    }
+    else
+    {
+        pqxx::work tx{db_connection_};
+        auto gate_rows = tx.query<std::string, long, long, size_t>(lstk::cat(
+            "SELECT tip, q1, q2, moment FROM sliced_circuit ORDER by moment LIMIT ", k_offset_increase ," OFFSET ", current_offset_, ";"));
+        for(const auto& [tip, q1, q2, moment] : gate_rows)
+        {
+
+            if (tip == "h")
+            {
+                gates_batch_.emplace_back(gates::H(q1));
+            }
+            else if (tip == "t") {
+                gates_batch_.emplace_back(gates::T(q1));
+            }
+            else if (tip == "cx") 
+            {
+                auto control = q1;
+                auto target = q2;
+                gates_batch_.emplace_back(gates::CNOT(target,control));
+            }
+            else 
+            {
+                throw std::runtime_error{lstk::cat("Unrecognized gate type ", tip)};
+            }
+        }
+        current_offset_+=k_offset_increase;
+    }
+}
+
+bool GateStreamFromStreamFromDB::has_next_gate() const
+{
+    if(!gates_batch_.empty())
+        return true;
+
+    advance_moment_cache();
+
+    return !gates_batch_.empty();
+}
+
+gates::Gate GateStreamFromStreamFromDB::get_next_gate()
+{
+    if(has_next_gate())
+    {
+        gates::Gate gate = gates_batch_.front();
+        gates_batch_.pop_front();
+        return gate;
+    }
+    else
+    {
+        throw std::logic_error("No more gates");
+    }
+}
+
+const Qreg& GateStreamFromStreamFromDB::get_qreg() const
+{
+    return qreg_;
+}
+
+
+
 
 }

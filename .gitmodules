@@ -22,3 +22,10 @@
 [submodule "external/rotation-decomposer"]
 	path = external/rotation-decomposer
 	url = https://github.com/latticesurgery-com/rotation-decomposer.git
+[submodule "external/libpqxx"]
+	path = external/libpqxx
+	url = https://github.com/jtv/libpqxx.git
+[submodule "external/postgres"]
+	path = external/postgres
+	url = https://github.com/postgres/postgres.git
+

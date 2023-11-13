@@ -3,6 +3,8 @@
 
 #include <lsqecc/gates/gates.hpp>
 
+#include <pqxx/pqxx>
+
 #include <string_view>
 #include <istream>
 #include <vector>
@@ -60,6 +62,30 @@ private:
     size_t line_number_ = 0;
 
     void advance_gate();
+};
+
+
+class GateStreamFromStreamFromDB : public GateStream
+{
+public:
+    explicit GateStreamFromStreamFromDB(std::string_view db_conn_string);
+
+    gates::Gate get_next_gate() override;
+    bool has_next_gate() const override;
+    const Qreg& get_qreg() const override;
+private:
+    // TODO implement has_next_gate with a lookup instead, so these don't need to 
+    // be mutable
+    mutable pqxx::connection db_connection_;
+    Qreg qreg_;
+    size_t max_moment;
+
+    mutable size_t current_offset_ = 0;    
+    mutable std::deque<gates::Gate> gates_batch_;
+    
+    const size_t k_offset_increase = 100000;
+
+    void advance_moment_cache() const;
 };
 
 
