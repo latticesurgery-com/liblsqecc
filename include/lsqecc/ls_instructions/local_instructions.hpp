@@ -27,7 +27,7 @@ struct BellPrepare { // TODO rename to BellPrepareNeighbours
     bool operator==(const BellPrepare&) const = default;
 };
 
-struct BellMeasure {
+struct BellMeasure { // TODO find the difference with the one below and give a more descriptive name
     Cell cell1;
     Cell cell2;
 
@@ -42,12 +42,18 @@ struct TwoPatchMeasure {
 };
 
 struct ExtendSplit {
-    std::optional<PatchId> side1;
-    std::optional<PatchId> side2;
+    std::optional<PatchId> extension_id;
     Cell target_cell;
     Cell extension_cell;
 
     bool operator==(const ExtendSplit&) const = default;
+};
+
+struct MergeContract {
+    Cell preserved_cell;
+    Cell measured_cell;
+
+    bool operator==(const MergeContract&) const = default;
 };
 
 struct Move {
@@ -65,6 +71,7 @@ struct LocalLSInstruction {
             BellMeasure,
             TwoPatchMeasure,
             ExtendSplit,
+            MergeContract,
             Move
             > operation;
 
@@ -77,6 +84,7 @@ std::ostream& operator<<(std::ostream& os, const BellMeasure& instruction);
 std::ostream& operator<<(std::ostream& os, const Move& instruction);
 std::ostream& operator<<(std::ostream& os, const TwoPatchMeasure& instruction);
 std::ostream& operator<<(std::ostream& os, const ExtendSplit& instruction);
+std::ostream& operator<<(std::ostream& os, const MergeContract& instruction);
 
 template <class T>
 struct LocalInstructionPrint{};
@@ -99,6 +107,11 @@ struct LocalInstructionPrint<LocalInstruction::TwoPatchMeasure>{
 template<>
 struct LocalInstructionPrint<LocalInstruction::ExtendSplit>{
     static constexpr std::string_view name = "ExtendSplit";
+};
+
+template<>
+struct LocalInstructionPrint<LocalInstruction::MergeContract>{
+    static constexpr std::string_view name = "MergeContract";
 };
 
 template<>

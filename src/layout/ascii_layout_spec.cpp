@@ -134,7 +134,15 @@ bool is_already_in_some_distillation_region(const std::vector<MultipleCellsOccup
 void LayoutFromSpec::init_cache(const AsciiLayoutSpec& spec, const DistillationOptions& distillation_options)
 {
     cached_furthest_cell_ = spec.furthest_cell();
+    
 
+    // TODO refactor:
+    // There is a built in invariant here, that if there is a single CellType::ReservedForMagicState for magic state, the 
+    // magic_states_reserved_ flag is set and then the the allocation behavior changes. 
+    // See dense_patch_computation.cpp:find_place_for_magic_state() to see how that changes, but in essence, when 
+    // magic_states_reserved_ is set, the reserved spots are kept as magic states that are not bound, rather than empty cells.
+    // It should be possible to drop the magic_states_reserved_ and remove the logic in find_place_for_magic_state
+    // by just making the queuing behaviour consistent.
     auto reserved_for_magic_state_cells = spec.find_all_cells_of_type(AsciiLayoutSpec::CellType::ReservedForMagicState);
     magic_states_reserved_ = reserved_for_magic_state_cells.size() == 0 ? false : true;
 

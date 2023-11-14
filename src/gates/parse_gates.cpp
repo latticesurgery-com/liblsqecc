@@ -125,9 +125,23 @@ Fraction parse_angle(std::string_view s)
             try_parse_int<ArbitraryPrecisionInteger>(split.at(1))};
 }
 
+gates::Reset parse_reset(const std::vector<std::string_view>& args)
+{
+    if(args.size() != 1)
+        throw GateParseException(lstk::cat("Encountered reset with ", args.size(), "args"));
+    
+    if (args[0].find('[') == std::string_view::npos)
+        throw GateParseException("Resetting a whole register is not implemented");
+        
+    auto parts = lstk::split_on(args[0], '[');
+    QubitNum i = get_index_arg(args[0]);
+    return { std::string{parts[0]}, i };
+}
+
 gates::Gate parse_qasm_gate(const Line& line)
 {
     if(line.instruction == "x") return gates::X(get_index_arg(line.args.at(0)));
+    // if(line.instruction == "y") return gates::Y(get_index_arg(line.args.at(0))); // TODO: Implement this properly
     if(line.instruction == "z") return gates::Z(get_index_arg(line.args.at(0)));
     if(line.instruction == "s") return gates::S(get_index_arg(line.args.at(0)));
     if(line.instruction == "t") return gates::T(get_index_arg(line.args.at(0)));
@@ -167,6 +181,9 @@ gates::Gate parse_qasm_gate(const Line& line)
                     "Can only parse pi/n for n power of 2 angles as crz args, got ",line.instruction)};
         }
     }
+    
+    if (line.instruction == "reset")
+        return parse_reset(line.args);
 
     throw GateParseException{lstk::cat("Instruction not implemented ",line.instruction)};
 }

@@ -255,6 +255,16 @@ tsl::ordered_set<T> set_intersection(const tsl::ordered_set<T>& a, const tsl::or
     return ret;
 }
 
+// set operations
+template<class T>
+tsl::ordered_set<T> set_union(const tsl::ordered_set<T>& a, const tsl::ordered_set<T>& b)
+{
+    tsl::ordered_set<T> ret = a;
+    for(const auto& item: b)
+        ret.insert(item);
+    return ret;
+}
+
 
 // Variant visitor helper
 template<class... Ts> struct overloaded : Ts... { using Ts::operator()...; };

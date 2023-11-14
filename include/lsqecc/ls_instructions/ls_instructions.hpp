@@ -58,7 +58,8 @@ struct PatchInit {
 
     bool operator==(const PatchInit&) const = default;
 };
-struct BellPairInit {
+
+struct BellPairInit { // TODO rename to InitBellPairNextToPatches
     PatchId side1;
     PatchId side2; 
     PlaceNexTo loc1;
@@ -72,7 +73,9 @@ struct BellPairInit {
 
 struct MagicStateRequest {
     PatchId target;
-    static const size_t DEFAULT_WAIT = 10;
+    PatchId near_patch; // TODO make optional for backwards compatibility
+    
+    static const size_t DEFAULT_WAIT = std::numeric_limits<size_t>::max();
     bool operator==(const MagicStateRequest&) const = default;
 };
 
@@ -80,7 +83,7 @@ struct YStateRequest {
     PatchId target;
     PatchId near_patch;
 
-    static const size_t DEFAULT_WAIT = 8;
+    static const size_t DEFAULT_WAIT = std::numeric_limits<size_t>::max();
     bool operator==(const YStateRequest&) const = default;
 };
 
@@ -108,7 +111,7 @@ struct SingleQubitOp {
     bool operator==(const SingleQubitOp&) const = default;
 };
 
-struct BusyRegion{
+struct BusyRegion { // TODO rename to PlaceholderRegion
     RoutingRegion region;
     size_t steps_to_clear;
     std::vector<SparsePatch> state_after_clearing;
@@ -116,9 +119,27 @@ struct BusyRegion{
     bool operator==(const BusyRegion&) const = default;
 };
 
+struct BellBasedCNOT {
+    PatchId control;
+    PatchId target;
+    PatchId side1;
+    PatchId side2;
+
+    std::optional<std::vector<LocalInstruction::LocalLSInstruction>> local_instructions;
+    std::optional<std::pair<unsigned int, unsigned int>> counter;
+
+    bool operator==(const BellBasedCNOT&) const = default;
+};
+
+struct PatchReset {
+    PatchId target;
+
+    bool operator==(const PatchReset&) const = default;
+};
+
 struct LSInstruction {
 
-    static constexpr size_t DEFAULT_MAX_WAIT = 3; // Allows for rotations to finish
+    static constexpr size_t DEFAULT_MAX_WAIT = std::numeric_limits<size_t>::max();
 
     std::variant<
             DeclareLogicalQubitPatches,
@@ -130,12 +151,16 @@ struct LSInstruction {
             YStateRequest,
             SingleQubitOp,
             RotateSingleCellPatch,
-            BusyRegion
+            BusyRegion,
+            BellBasedCNOT,
+            PatchReset
             > operation;
 
     size_t wait_at_most_for = DEFAULT_MAX_WAIT;
-
+    tsl::ordered_set<PatchId> clients; // these are artificial dependencies
+    
     tsl::ordered_set<PatchId> get_operating_patches() const;
+    tsl::ordered_set<PatchId> get_patch_dependencies() const { return lstk::set_union(get_operating_patches(), clients); }
     bool operator==(const LSInstruction&) const = default;
 };
 
@@ -159,6 +184,8 @@ std::ostream& operator<<(std::ostream& os, const YStateRequest& instruction);
 std::ostream& operator<<(std::ostream& os, const SingleQubitOp& instruction);
 std::ostream& operator<<(std::ostream& os, const RotateSingleCellPatch& instruction);
 std::ostream& operator<<(std::ostream& os, const BusyRegion& instruction);
+std::ostream& operator<<(std::ostream& os, const BellBasedCNOT& instruction);
+std::ostream& operator<<(std::ostream& os, const PatchReset& instruction);
 
 template <class T>
 struct LSInstructionPrint{};
@@ -184,6 +211,7 @@ template<>
 struct LSInstructionPrint<PatchInit>{
     static constexpr std::string_view name = "Init";
 };
+
 template<>
 struct LSInstructionPrint<BellPairInit>{
     static constexpr std::string_view name = "BellPairInit";
@@ -193,6 +221,7 @@ template<>
 struct LSInstructionPrint<MagicStateRequest>{
     static constexpr std::string_view name = "RequestMagicState";
 };
+
 template<>
 struct LSInstructionPrint<YStateRequest>{
     static constexpr std::string_view name = "RequestYState";
@@ -212,6 +241,17 @@ struct LSInstructionPrint<RotateSingleCellPatch>
 template<>
 struct LSInstructionPrint<BusyRegion>{
     static constexpr std::string_view name = "BusyRegion";
+};
+
+template<>
+struct LSInstructionPrint<BellBasedCNOT>{
+    static constexpr std::string_view name = "BellBasedCNOT";
+
+};
+
+template<>
+struct LSInstructionPrint<PatchReset>{
+    static constexpr std::string_view name = "Reset";
 };
 
 template <PatchInit::InitializeableStates State>

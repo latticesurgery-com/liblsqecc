@@ -82,7 +82,7 @@ std::optional<DensePatch>& DenseSlice::patch_at(const Cell& cell)
 
 const std::optional<DensePatch>& DenseSlice::patch_at(const Cell& cell) const
 {
-    return const_cast<DenseSlice*>(this)->patch_at(cell);
+    return cells.at(cell.row).at(cell.col);
 }
 
 void DenseSlice::delete_patch_by_id(PatchId id)
@@ -115,14 +115,14 @@ DenseSlice::DenseSlice(const lsqecc::Layout &layout, const tsl::ordered_set<Patc
     for (const SparsePatch& p : layout.core_patches())
     {
         if(core_qubit_ids_itr == core_qubit_ids.end()) break;
-        Cell cell = place_sparse_patch(p,false);
+        Cell cell = place_single_cell_sparse_patch(p,false);
         patch_at(cell)->id = *core_qubit_ids_itr++;
     }
 
     for (const Cell& cell: layout.predistilled_y_states())
     {
         SparsePatch p = LayoutHelpers::basic_square_patch(cell);
-        place_sparse_patch(p,false);
+        place_single_cell_sparse_patch(p,false);
     }
 
     for(const MultipleCellsOccupiedByPatch& distillation_region: layout.distillation_regions())
@@ -164,7 +164,7 @@ bool DenseSlice::is_cell_free(const Cell& cell) const
     return !patch_at(cell).has_value();
 }
 
-Cell DenseSlice::place_sparse_patch(const SparsePatch& sparse_patch, bool distillation)
+Cell DenseSlice::place_single_cell_sparse_patch(const SparsePatch& sparse_patch, bool distillation)
 {
     auto* occupied_cell = std::get_if<SingleCellOccupiedByPatch>(&sparse_patch.cells);
     if(!occupied_cell)
@@ -178,30 +178,15 @@ Cell DenseSlice::place_sparse_patch(const SparsePatch& sparse_patch, bool distil
     patch_at(occupied_cell->cell) = DensePatch::from_sparse_patch(sparse_patch);
     return occupied_cell->cell;
 }
-void DenseSlice::place_sparse_patch_multiple_cells(const SparsePatch& sparse_patch){
+void DenseSlice::place_sparse_patch(const SparsePatch& sparse_patch, bool distillation)
+{
     auto* occupied_cells = std::get_if<MultipleCellsOccupiedByPatch>(&sparse_patch.cells);
-    if (!occupied_cells) {place_sparse_patch(sparse_patch, false);}
-    else {
-        for (const SingleCellOccupiedByPatch& patch : occupied_cells->sub_cells) {
-            if (is_cell_free(patch.cell)) {
-                SparsePatch a{
-                    {.type=PatchType::Qubit,
-                    .activity=PatchActivity::None,
-                    .id=std::nullopt},
-                    SingleCellOccupiedByPatch{
-                            {.top={BoundaryType::Rough,false},
-                            .bottom={BoundaryType::Rough,false},
-                            .left={BoundaryType::Smooth,false},
-                            .right={BoundaryType::Smooth,false}},
-                            patch.cell
-                    }};
-                patch_at(patch.cell) = DensePatch::from_sparse_patch(a);
-            }
-            else {
-                throw std::logic_error(lstk::cat("Double patch occupation at ", patch.cell, "\n",
-                    "Found patch: ", patch_at(patch.cell)->id.value_or(-1)));
-            }
-        }
+    if (!occupied_cells) 
+        place_single_cell_sparse_patch(sparse_patch, distillation);
+    else 
+    {
+        for (const SingleCellOccupiedByPatch& patch : occupied_cells->sub_cells)
+            place_single_cell_sparse_patch(SparsePatch{.cells=patch}, distillation);
     }
 }
 

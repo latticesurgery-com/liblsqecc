@@ -38,8 +38,11 @@ LSInstruction TeleportedSGateInjectionStream::get_next_instruction()
     {
         const PatchId new_ancilla_id = id_generator_.new_id();
 
-        next_instructions_.push({.operation={PatchInit{
-                new_ancilla_id, PatchInit::InitializeableStates::Plus}}});
+        next_instructions_.push(
+            {
+                .operation={PatchInit{new_ancilla_id, PatchInit::InitializeableStates::Plus}},
+                .clients = { sgate->target }
+            });
         // S-Gate distillation
         next_instructions_.push({.operation={
                 SingleQubitOp{

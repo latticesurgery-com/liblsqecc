@@ -60,10 +60,6 @@ namespace lsqecc
         None, Input, ProcessedLli
      };
 
-    enum class PipelineMode {
-        Stream, Dag
-    };
-
     enum class LLIPrintMode
     {
         None, BeforeSlicing, Sliced
@@ -158,6 +154,15 @@ namespace lsqecc
                     " - edpc: Uses a layout specified in the EDPC paper by Beverland et. al. (https://arxiv.org/abs/2110.11493)"
                 )
                 .required(false);
+        parser.add_argument()
+                .names({"--numlanes"})
+                .description("Only compatible with -L edpc. Configures number of free lanes for routing.")
+                .required(false);
+        parser.add_argument()
+                    .names({"--condensed"})
+                    .description("Only compatible with -L edpc. Packs logical qubits more compactly.")
+                    .required(false);
+                        
         #ifdef USE_GRIDSYNTH
         parser.add_argument()
                 .names({"--rzprecision"})
@@ -249,6 +254,8 @@ namespace lsqecc
                 pipeline_mode = PipelineMode::Stream;
             else if (mode_arg=="dag")
                 pipeline_mode = PipelineMode::Dag;
+            else if (mode_arg=="wave")
+                pipeline_mode = PipelineMode::Wave;
             else
             {
                 err_stream << "Unknown pipeline mode " << mode_arg << std::endl;
@@ -272,7 +279,7 @@ namespace lsqecc
         IdGenerator id_generator;
         std::unique_ptr<LSInstructionStream> instruction_stream;
         std::unique_ptr<GateStream> gate_stream;
-
+        
         CompilationMode compile_mode = CompilationMode::Nonlocal;
         if (parser.exists("local"))
             compile_mode = CompilationMode::Local;
@@ -341,7 +348,16 @@ namespace lsqecc
             }
             else if (parser.get<std::string>("layoutgenerator") == "edpc") 
             {
-                layout = make_edpc_layout(instruction_stream->core_qubits().size(), distillation_options);
+                size_t num_lanes = 1;
+                bool condensed = false;
+                
+                if(parser.exists("numlanes"))
+                    num_lanes = parser.get<size_t>("numlanes");
+                
+                if(parser.exists("condensed"))
+                    condensed = parser.get<bool>("condensed");
+                
+                layout = make_edpc_layout(instruction_stream->core_qubits().size(), num_lanes, condensed, distillation_options);
                 instruction_stream = std::make_unique<CatalyticSGateInjectionStream>(std::move(instruction_stream), id_generator, compile_mode == CompilationMode::Local);
             }
             else
@@ -436,7 +452,7 @@ namespace lsqecc
                     is_first_slice = false;
                 }
                 else
-                    bulk_output_stream.get() << ",\n" << slice_to_json(s).dump(3);
+                    bulk_output_stream.get() << ",\n" << slice_to_json(s).dump(3) << std::flush;
             };
         }
 
@@ -489,7 +505,7 @@ namespace lsqecc
         std::unique_ptr<PatchComputationResult> computation_result = 
             std::make_unique<DensePatchComputationResult>(run_through_dense_slices(
                     std::move(*instruction_stream),
-                    pipeline_mode == PipelineMode::Dag,
+                    pipeline_mode,
                     compile_mode == CompilationMode::Local,
                     *layout,
                     *router,
