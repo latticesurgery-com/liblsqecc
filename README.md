@@ -52,8 +52,8 @@ Options:
     -f, --output-format    Requires -o, STDOUT output format: progress, noprogress, machine, stats
     -t, --timeout          Set a timeout in seconds after which stop producing slices
     -r, --router           Set a router: graph_search (default), graph_search_cached
-    -P, --pipeline         pipeline mode: stream (default), dag
-    -g, --graph-search     Set a graph search provider: djikstra (default), astar, boost (not always available)
+    -P, --pipeline         pipeline mode: stream (default), dag, wave
+    -g, --graph-search     Set a graph search provider: djikstra (default), astar, boost (not always available) [ignored by -P wave pipeline, which uses astar]
     --graceful             If there is an error when slicing, print the error and terminate
     --printlli             Output LLI instead of JSONs. options: before (default), sliced (prints lli on the same slice separated by semicolons)
     --printdag             Prints a dependancy dag of the circuit. Modes: input (default), processedlli
@@ -76,7 +76,7 @@ In general, OpenQASMmin should be valid OpenQASM, with the restrictions below:
  * Program must begin with `OPENQASM 2.0;` in the first line
  * Only one register is allowed (whether the names match will not be checked)
  * Max one gate per line
- * Single qubit gates must be in the form `g q[n];` where `g` is one of `h`,`x`,`z`,`s`,`t` and `n` is a non-negative integer
+ * Single qubit gates must be in the form `g q[n];` where `g` is one of `h`,`x`,`z`,`s`,`t`, `sdg`, `tdg`, `reset` and `n` is a non-negative integer
  * `rz(expr)` and `crz(expr)` where `expr` has form `pi/m` or `n*pi/m` for n, m integers. No whitespace.
  * CNOTs must be in the form `cx q[n],q[m];` where `n` and `m` are non-negative. Target comes first, as per [OpenQASM convention (Fig 2)](https://arxiv.org/pdf/1707.03429.pdf)
  * No classical control is supported
@@ -107,11 +107,22 @@ However due to the Haskell platform's own portability challenges and some low le
 
 **Note**: Other ways are probably possible with Cabal or Stack
 
+### Realistic Resource Estimates using Direct Clifford+T Compilation
+![LSC2](https://github.com/latticesurgery-com/liblsqecc/assets/12632882/4e9a83c5-2933-4edf-9ad4-fbe63791aab9)
+
+To generate results according to the compilation scheme written about in [our recent paper](https://arxiv.org), use the following options:
+
+``` shell
+lsqecc_slicer -q -i {qasm_filename} -L edpc --disttime 1 --nostagger --local -P wave --printlli sliced -o {lli_filename} -f stats > {stats_filename}
+```
+
+Results in that paper were generated using [PR #98](https://github.com/latticesurgery-com/liblsqecc/pull/98), and should be reproducible using the current release.
+
 # Contributors
 
 Liblsqecc was primarily developed at Aalto University by [George Watkins](https://github.com/gwwatkin) under [Alexandru Paler](https://github.com/alexandrupaler)'s supervision, and is now maintained by George Watkins.
 
-A special thanks to [Tyler LeBlond](https://github.com/tylerrleblond) for adding the EDPC layout and other contributions.
+A special thanks to [Tyler LeBlond (Oak Ridge National Laboratory)](https://github.com/tylerrleblond) and [Christopher Dean (Dalhousie University)](https://github.com/christopherjdean) for adding the EDPC layout family, the local compilation layer, the wave pipeline, and other contributions according to the compilation strategy outlined in [their recent paper](https://arxiv.org).
 
 [Alex Nguyen](https://github.com/alexnguyenn) maintains the NPM package and associated infrastructure.
 
