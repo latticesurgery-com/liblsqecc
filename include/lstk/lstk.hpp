@@ -23,6 +23,7 @@
 
 #define LSTK_UNREACHABLE throw std::logic_error(std::string{"Not meant to be unreachable: "}+__FILE__+":"+std::to_string(__LINE__))
 #define LSTK_NOT_IMPLEMENTED throw std::logic_error(std::string{"Not implemented: "}+__FILE__+":"+std::to_string(__LINE__))
+#define LSTK_NOT_IMPLEMENTED_USE(v) throw std::logic_error(lstk::cat("Not implemented (",v,"): ",__FILE__,":",__LINE__))
 
 namespace lstk
 {
@@ -206,6 +207,12 @@ void vector_extend(std::vector<T> &target, const std::vector<T> &extend_with)
 }
 
 template<class T>
+std::optional<T> first(const std::vector<T> &v)
+{
+    return v.empty() ? std::nullopt : std::make_optional(v[0]);
+}
+
+template<class T>
 T queue_pop(std::queue<T>& queue)
 {
     T v{std::move(queue.front())};
@@ -291,6 +298,16 @@ T get_or_throw(const std::optional<T>& opt, const std::exception& e)
         return opt.value();
     else
         throw e;
+}
+
+// map
+template<class R, class T>
+std::optional<R> map(const std::optional<T>& opt, std::function<R(T)> f)
+{
+    if(opt.has_value())
+        return std::make_optional(f(opt.value()));
+    else
+        return std::nullopt;
 }
 
 

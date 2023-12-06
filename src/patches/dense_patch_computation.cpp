@@ -1,6 +1,7 @@
 #include <lsqecc/patches/dense_patch_computation.hpp>
 #include <lsqecc/dag/domain_dags.hpp>
 #include <lsqecc/scheduler/wave_scheduler.hpp>
+#include <lsqecc/patches/voxel_slicing.hpp>
 
 #include <algorithm>
 
@@ -44,24 +45,7 @@ BusyRegion single_patch_rotation_a_la_litinski(
 }
 
 
-std::optional<Cell> find_place_for_magic_state(const DenseSlice& slice, const Layout& layout, size_t distillation_region_idx)
-{
-    for(const auto& cell: layout.distilled_state_locations(distillation_region_idx))
-    {
-        if (layout.magic_states_reserved()) 
-        {   // Case where magic states queues are reserved.
-            // TODO how do we know slice.patch_at(cell) is not null.
-            if (slice.patch_at(cell)->type == PatchType::Distillation)
-                return cell;
-        }
-        else 
-        {   // Regular case where magic states are queued on the boundary of the distillation region.
-            if(slice.is_cell_free(cell))
-                return cell;
-        }
-    }
-    return std::nullopt;
-}
+
 
 std::optional<Cell> find_free_ancilla_location(const Layout& layout, const DenseSlice& slice)
 {
@@ -81,58 +65,6 @@ std::optional<Cell> place_ancilla_next_to(const DenseSlice& slice, PatchId targe
             return possible_ancilla_location;
     }
     return std::nullopt;
-}
-
-void advance_slice(DenseSlice& slice, const Layout& layout)
-{
-    slice.traverse_cells_mut([&](const Cell& c, std::optional<DensePatch>& p) {
-        if(!p) return;
-        if(p->activity == PatchActivity::Unitary)
-            p->activity = PatchActivity::None;
-
-        p->boundaries.top.is_active = false;
-        p->boundaries.bottom.is_active = false;
-        p->boundaries.left.is_active = false;
-        p->boundaries.right.is_active = false;
-
-        if((p->activity == PatchActivity::MultiPatchMeasurement) || p->activity == PatchActivity::Measurement)
-        {
-            p = std::nullopt;
-            return;
-        }
-    });
-
-    size_t distillation_region_index = 0;
-    for (auto& time_to_magic_state_here: slice.time_to_next_magic_state_by_distillation_region)
-    {
-        if (layout.magic_states_reserved()) {
-            for (const Cell& cell: layout.distilled_state_locations(distillation_region_index)) {
-                if (slice.is_cell_free(cell)) {
-                    slice.patch_at(cell) = DensePatch{
-                        Patch{PatchType::Distillation,PatchActivity::Distillation,std::nullopt},
-                        CellBoundaries{Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false},
-                            Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false}}};
-                }
-            }            
-        }
-        
-        time_to_magic_state_here--;
-
-        if(time_to_magic_state_here == 0){
-
-            auto magic_state_cell = find_place_for_magic_state(slice, layout, distillation_region_index);
-            if(magic_state_cell)
-            {
-                SparsePatch magic_state_patch = LayoutHelpers::basic_square_patch(*magic_state_cell, std::nullopt, "Magic State");
-                magic_state_patch.type = PatchType::PreparedState;
-                slice.place_single_cell_sparse_patch(magic_state_patch, true);
-                slice.magic_states.insert(*magic_state_cell);
-            }
-            time_to_magic_state_here = layout.distillation_times()[distillation_region_index];
-        }
-
-        distillation_region_index++;
-    }
 }
 
 
@@ -156,7 +88,7 @@ void stitch_boundaries(
 
 void mark_routing_region(DenseSlice& slice, const RoutingRegion& routing_region, PatchActivity activity)
 {
-    for (const auto& occupied_cell : routing_region.cells)
+    for (const SingleCellOccupiedByPatch& occupied_cell : routing_region.cells)
         slice.place_sparse_patch(SparsePatch{{PatchType::Routing, activity}, occupied_cell}, false);
 }
 
@@ -647,6 +579,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         // Unbind Y state patch if already bound
         if (slice.get_patch_by_id(yr->target))
         {
+            // TODO check: shouldn't this throw an exception instead?
             slice.get_patch_by_id(yr->target)->get().id = std::nullopt;
             return{nullptr, {}};
         }
@@ -896,6 +829,58 @@ void run_through_dense_slices_wave(
 }
 
 
+void run_through_dense_slices_3d_routing(
+        dag::DependencyDag<LSInstruction>&& dag,
+        const tsl::ordered_set<PatchId>& core_qubits,
+        bool local_instructions,
+        const Layout& layout,
+        Router& router,
+        std::optional<std::chrono::seconds> timeout,
+        DenseSliceVisitor slice_visitor,
+        LSInstructionVisitor instruction_visitor,
+        bool graceful,
+        DensePatchComputationResult& res)
+{
+
+    std::vector<DenseSlice> volume;
+    volume.emplace_back(layout, core_qubits);
+
+    while (!dag.empty())
+    {
+        tsl::ordered_map<dag::label_t, VoxelizedInstructionResult> voxelized_heads;
+
+        for (dag::label_t instruction_l: dag.applicable_instructions())
+        {
+            // Find route on volume
+            voxelized_heads.emplace(instruction_l, voxelize_instruction_on_volume(
+                volume, // note: expensive copy
+                dag.at(instruction_l),
+                local_instructions,
+                layout,
+                slice_visitor
+            ));
+        }
+
+        // Choose the instruction with the lowest cost
+        dag::label_t best_instruction_l = std::min_element(voxelized_heads.begin(), voxelized_heads.end(),
+            [](const auto& a, const auto& b) { return a.second.new_slice_count < b.second.new_slice_count; })->first;
+
+        // Apply the instruction
+        volume = voxelized_heads.at(best_instruction_l).volume_after_application;
+        instruction_visitor(dag.at(best_instruction_l));
+        res.ls_instructions_count_++;
+
+        dag.pop_head(best_instruction_l);
+    }
+
+    for(const DenseSlice& slice: volume)
+    {
+        slice_visitor(slice);
+        res.slice_count_++;
+    }
+}
+
+
 DensePatchComputationResult run_through_dense_slices(
         LSInstructionStream&& instruction_stream,
         PipelineMode pipeline_mode,
@@ -964,6 +949,18 @@ DensePatchComputationResult run_through_dense_slices(
         case PipelineMode::Wave:
             return run_through_dense_slices_wave(
                 std::move(instruction_stream),
+                local_instructions,
+                layout,
+                router,
+                timeout,
+                slice_visitor,
+                instruction_visitor,
+                graceful,
+                res);
+        case PipelineMode::ThreeDimensional:
+            return run_through_dense_slices_3d_routing(
+                dag::full_dependency_dag_from_instruction_stream(instruction_stream),
+                instruction_stream.core_qubits(),
                 local_instructions,
                 layout,
                 router,

@@ -63,6 +63,13 @@ struct DenseSlice : public Slice
     SurfaceCodeTimestep time_to_next_magic_state(size_t distillation_region_id) const override;
 };
 
+
+std::optional<Cell> find_place_for_magic_state(const DenseSlice& slice, const Layout& layout, size_t distillation_region_idx);
+
+void advance_slice(DenseSlice& slice, const Layout& layout);
+
+std::vector<Cell> get_magic_states_as_vector(const DenseSlice& slice);
+
 }
 
 #endif //LSQECC_DENSE_SLICE_HPP

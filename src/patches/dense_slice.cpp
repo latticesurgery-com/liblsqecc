@@ -237,5 +237,85 @@ SurfaceCodeTimestep DenseSlice::time_to_next_magic_state(size_t distillation_reg
     return time_to_next_magic_state_by_distillation_region[distillation_region_id];
 }
 
+std::optional<Cell> find_place_for_magic_state(const DenseSlice& slice, const Layout& layout, size_t distillation_region_idx)
+{
+    for(const auto& cell: layout.distilled_state_locations(distillation_region_idx))
+    {
+        if (layout.magic_states_reserved()) 
+        {   // Case where magic states queues are reserved.
+            // TODO how do we know slice.patch_at(cell) is not null.
+            if (slice.patch_at(cell)->type == PatchType::Distillation)
+                return cell;
+        }
+        else 
+        {   // Regular case where magic states are queued on the boundary of the distillation region.
+            if(slice.is_cell_free(cell))
+                return cell;
+        }
+    }
+    return std::nullopt;
+}
+
+void advance_slice(DenseSlice& slice, const Layout& layout)
+{
+    slice.traverse_cells_mut([&](const Cell& c, std::optional<DensePatch>& p) {
+        if(!p) return;
+        if(p->activity == PatchActivity::Unitary)
+            p->activity = PatchActivity::None;
+
+        p->boundaries.top.is_active = false;
+        p->boundaries.bottom.is_active = false;
+        p->boundaries.left.is_active = false;
+        p->boundaries.right.is_active = false;
+
+        if((p->activity == PatchActivity::MultiPatchMeasurement) || p->activity == PatchActivity::Measurement)
+        {
+            p = std::nullopt;
+            return;
+        }
+    });
+
+    size_t distillation_region_index = 0;
+    for (auto& time_to_magic_state_here: slice.time_to_next_magic_state_by_distillation_region)
+    {
+        if (layout.magic_states_reserved()) {
+            for (const Cell& cell: layout.distilled_state_locations(distillation_region_index)) {
+                if (slice.is_cell_free(cell)) {
+                    slice.patch_at(cell) = DensePatch{
+                        Patch{PatchType::Distillation,PatchActivity::Distillation,std::nullopt},
+                        CellBoundaries{Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false},
+                            Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false}}};
+                }
+            }            
+        }
+        
+        time_to_magic_state_here--;
+
+        if(time_to_magic_state_here == 0){
+
+            auto magic_state_cell = find_place_for_magic_state(slice, layout, distillation_region_index);
+            if(magic_state_cell)
+            {
+                SparsePatch magic_state_patch = LayoutHelpers::basic_square_patch(*magic_state_cell, std::nullopt, "Magic State");
+                magic_state_patch.type = PatchType::PreparedState;
+                slice.place_single_cell_sparse_patch(magic_state_patch, true);
+                slice.magic_states.insert(*magic_state_cell);
+            }
+            time_to_magic_state_here = layout.distillation_times()[distillation_region_index];
+        }
+
+        distillation_region_index++;
+    }
+}
+
+std::vector<Cell> get_magic_states_as_vector(const DenseSlice& slice)
+{
+    std::vector<Cell> magic_states;
+    for(const auto& cell: slice.magic_states)
+        magic_states.push_back(cell);
+    return magic_states;
+}
+
+
 }
 

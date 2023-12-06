@@ -19,7 +19,7 @@
 namespace lsqecc {
 
 enum class PipelineMode {
-    Stream, Dag, Wave
+    Stream, Dag, Wave, ThreeDimensional
 };
 
 using DenseSliceVisitor = std::function<void(const DenseSlice& slice)>;

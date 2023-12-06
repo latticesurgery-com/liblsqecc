@@ -1,0 +1,7 @@
+DeclareLogicalQubitPatches 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+MultiBodyMeasure 0:Z,15:Z
+MultiBodyMeasure 4:X,2:Z
+MultiBodyMeasure 8:Z,6:Z
+MultiBodyMeasure 12:Z,10:Z
+MultiBodyMeasure 14:X,11:X
+

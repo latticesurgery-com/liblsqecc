@@ -119,7 +119,7 @@ namespace lsqecc
                 .required(false);
         parser.add_argument()
                 .names({"-P", "--pipeline"})
-                .description("pipeline mode: stream (default), dag")
+                .description("pipeline mode: stream (default), dag, wave, 3d")
                 .required(false);
         parser.add_argument()
                 .names({"-g", "--graph-search"})
@@ -256,6 +256,8 @@ namespace lsqecc
                 pipeline_mode = PipelineMode::Dag;
             else if (mode_arg=="wave")
                 pipeline_mode = PipelineMode::Wave;
+            else if (mode_arg=="3d")
+                pipeline_mode = PipelineMode::ThreeDimensional;
             else
             {
                 err_stream << "Unknown pipeline mode " << mode_arg << std::endl;
