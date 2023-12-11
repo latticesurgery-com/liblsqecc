@@ -1,5 +1,6 @@
 
 #include <lsqecc/patches/slices_to_json.hpp>
+#include <iostream>
 
 using namespace nlohmann;
 
@@ -92,6 +93,11 @@ json dense_patch_to_json(const DensePatch& p)
             }
     };
 
+    if (p.boundaries.routing_connect_to_next)
+        visual_array_cell["routing_connect_to_next"] = true;
+    if (p.boundaries.routing_connect_to_prec)
+        visual_array_cell["routing_connect_to_prec"] = true;
+    
     if(p.id)
         visual_array_cell["text"] = std::string{"Id: "} + std::to_string(*p.id);
     else if ((p.type==PatchType::Distillation && p.activity == PatchActivity::None) ||  p.type ==PatchType::Qubit)

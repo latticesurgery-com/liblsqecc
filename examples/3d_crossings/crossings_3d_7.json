@@ -51,6 +51,7 @@
             "Top": "None"
          },
          "patch_type": "Ancilla",
+         "routing_connect_to_next": true,
          "text": ""
       },
       {
@@ -93,6 +94,7 @@
             "Top": "None"
          },
          "patch_type": "Ancilla",
+         "routing_connect_to_next": true,
          "text": ""
       },
       {
@@ -165,6 +167,7 @@
             "Top": "None"
          },
          "patch_type": "Ancilla",
+         "routing_connect_to_next": true,
          "text": ""
       },
       {
@@ -191,6 +194,7 @@
             "Top": "None"
          },
          "patch_type": "Ancilla",
+         "routing_connect_to_next": true,
          "text": ""
       },
       {
@@ -301,6 +305,7 @@
             "Top": "None"
          },
          "patch_type": "Ancilla",
+         "routing_connect_to_next": true,
          "text": ""
       },
       {
@@ -421,6 +426,7 @@
             "Top": "None"
          },
          "patch_type": "Ancilla",
+         "routing_connect_to_next": true,
          "text": ""
       },
       {
@@ -447,6 +453,7 @@
             "Top": "AncillaJoin"
          },
          "patch_type": "Ancilla",
+         "routing_connect_to_next": true,
          "text": ""
       }
    ],
@@ -501,6 +508,7 @@
             "Top": "None"
          },
          "patch_type": "Ancilla",
+         "routing_connect_to_next": true,
          "text": ""
       },
       {
@@ -570,6 +578,7 @@
             "Top": "None"
          },
          "patch_type": "Ancilla",
+         "routing_connect_to_next": true,
          "text": ""
       },
       {
@@ -596,6 +605,7 @@
             "Top": "None"
          },
          "patch_type": "Ancilla",
+         "routing_connect_to_prec": true,
          "text": ""
       },
       {
@@ -638,6 +648,7 @@
             "Top": "None"
          },
          "patch_type": "Ancilla",
+         "routing_connect_to_prec": true,
          "text": ""
       },
       {
@@ -708,6 +719,7 @@
             "Top": "None"
          },
          "patch_type": "Ancilla",
+         "routing_connect_to_next": true,
          "text": ""
       },
       {
@@ -734,6 +746,7 @@
             "Top": "None"
          },
          "patch_type": "Ancilla",
+         "routing_connect_to_prec": true,
          "text": ""
       },
       {
@@ -760,6 +773,7 @@
             "Top": "None"
          },
          "patch_type": "Ancilla",
+         "routing_connect_to_prec": true,
          "text": ""
       },
       {
@@ -829,6 +843,7 @@
             "Top": "AncillaJoin"
          },
          "patch_type": "Ancilla",
+         "routing_connect_to_next": true,
          "text": ""
       },
       null
@@ -858,6 +873,7 @@
             "Top": "AncillaJoin"
          },
          "patch_type": "Ancilla",
+         "routing_connect_to_prec": true,
          "text": ""
       },
       {
@@ -884,6 +900,7 @@
             "Top": "None"
          },
          "patch_type": "Ancilla",
+         "routing_connect_to_next": true,
          "text": ""
       },
       {
@@ -942,6 +959,7 @@
             "Top": "None"
          },
          "patch_type": "Ancilla",
+         "routing_connect_to_prec": true,
          "text": ""
       },
       {
@@ -968,6 +986,7 @@
             "Top": "None"
          },
          "patch_type": "Ancilla",
+         "routing_connect_to_prec": true,
          "text": ""
       }
    ],
@@ -1010,6 +1029,7 @@
             "Top": "AncillaJoin"
          },
          "patch_type": "Ancilla",
+         "routing_connect_to_prec": true,
          "text": ""
       },
       {
@@ -1067,6 +1087,7 @@
             "Top": "None"
          },
          "patch_type": "Ancilla",
+         "routing_connect_to_prec": true,
          "text": ""
       },
       {
@@ -1157,6 +1178,7 @@
             "Top": "AncillaJoin"
          },
          "patch_type": "Ancilla",
+         "routing_connect_to_prec": true,
          "text": ""
       },
       {
@@ -1242,6 +1264,7 @@
             "Top": "None"
          },
          "patch_type": "Ancilla",
+         "routing_connect_to_prec": true,
          "text": ""
       },
       null
@@ -1285,6 +1308,7 @@
             "Top": "AncillaJoin"
          },
          "patch_type": "Ancilla",
+         "routing_connect_to_prec": true,
          "text": ""
       },
       {

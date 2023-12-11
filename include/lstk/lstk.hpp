@@ -311,6 +311,21 @@ std::optional<R> map(const std::optional<T>& opt, std::function<R(T)> f)
 }
 
 
+// numeric
+
+template<class T>
+inline T max(const T& a, const T& b)
+{
+    return a >= b ? a : b;
+}
+
+template<class T>
+inline T min(const T& a, const T& b)
+{
+    return a <= b ? a : b;
+}
+
+
 } // namespace lstk
 
 #define LSTK_THROW(exception_name, args) \

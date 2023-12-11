@@ -76,11 +76,14 @@ struct Boundary {
 
 
 
-struct CellBoundaries {
+struct CellBoundaries { // TODO rename to something more descriptive like CellStructure
     Boundary top;
     Boundary bottom;
     Boundary left;
     Boundary right;
+
+    bool routing_connect_to_next = false;
+    bool routing_connect_to_prec = false;
 
     bool has_active_boundary() const;
 
@@ -88,6 +91,8 @@ struct CellBoundaries {
 
     void instant_rotate();
 };
+
+
 
 struct SingleCellOccupiedByPatch : public CellBoundaries {
 

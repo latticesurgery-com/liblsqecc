@@ -366,11 +366,18 @@ std::optional<RoutingSpace> do_volume_search(
                     curr_cell3d.second,
             });
 
+        // In slice stitching
         if(prec_cell3d.first == curr_cell3d.first)
             stitch_cells3d(region_on_this_slice.back(), volume_searcher, curr_cell3d, prec_cell3d);       
         if(curr_cell3d.first == next_cell3d.first)
-            stitch_cells3d(region_on_this_slice.back(), volume_searcher, curr_cell3d, next_cell3d);       
-        
+            stitch_cells3d(region_on_this_slice.back(), volume_searcher, curr_cell3d, next_cell3d);        
+
+        // Inter slice stitching
+        if(prec_cell3d.second == curr_cell3d.second)
+        {
+            ret.regions_by_slice_number.at(lstk::max(curr_cell3d.first, prec_cell3d.first)).cells.back().routing_connect_to_prec = true;
+            ret.regions_by_slice_number.at(lstk::min(curr_cell3d.first, prec_cell3d.first)).cells.back().routing_connect_to_next = true;
+        }
 
         prec = curr;
         curr = next;

@@ -244,7 +244,10 @@ DensePatch DensePatch::from_sparse_patch(const SparsePatch& sp)
                       {.top=occupied_cell->top,
                        .bottom=occupied_cell->bottom,
                         .left=occupied_cell->left,
-                       .right=occupied_cell->right}};
+                        .right=occupied_cell->right,
+                        .routing_connect_to_next=occupied_cell->routing_connect_to_next,
+                        .routing_connect_to_prec=occupied_cell->routing_connect_to_prec
+                       }};
 }
 bool DensePatch::is_active() const
 {
