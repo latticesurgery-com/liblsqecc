@@ -110,7 +110,7 @@ However due to the Haskell platform's own portability challenges and some low le
 ### Realistic Resource Estimates using Direct Clifford+T Compilation
 ![LSC2](https://github.com/latticesurgery-com/liblsqecc/assets/12632882/4e9a83c5-2933-4edf-9ad4-fbe63791aab9)
 
-To generate results according to the compilation scheme written about in [our recent paper](https://arxiv.org), use the following options:
+To generate results according to the compilation scheme written about in [our recent paper](https://arxiv.org/abs/2311.10686), use the following options:
 
 ``` shell
 lsqecc_slicer -q -i {qasm_filename} -L edpc --disttime 1 --nostagger --local -P wave --printlli sliced -o {lli_filename} -f stats > {stats_filename}
@@ -122,7 +122,7 @@ Results in that paper were generated using [PR #98](https://github.com/latticesu
 
 Liblsqecc was primarily developed at Aalto University by [George Watkins](https://github.com/gwwatkin) under [Alexandru Paler](https://github.com/alexandrupaler)'s supervision, and is now maintained by George Watkins.
 
-A special thanks to [Tyler LeBlond (Oak Ridge National Laboratory)](https://github.com/tylerrleblond) and [Christopher Dean (Dalhousie University)](https://github.com/christopherjdean) for adding the EDPC layout family, the local compilation layer, the wave pipeline, and other contributions according to the compilation strategy outlined in [their recent paper](https://arxiv.org).
+A special thanks to [Tyler LeBlond (Oak Ridge National Laboratory)](https://github.com/tylerrleblond) and [Christopher Dean (Dalhousie University)](https://github.com/christopherjdean) for adding the EDPC layout family, the local compilation layer, the wave pipeline, and other contributions according to the compilation strategy outlined in [their recent paper](https://arxiv.org/abs/2311.10686).
 
 [Alex Nguyen](https://github.com/alexnguyenn) maintains the NPM package and associated infrastructure.
 
