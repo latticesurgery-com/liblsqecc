@@ -153,10 +153,7 @@ public:
     };
 
     VertexLabel make_vertex(std::pair<size_t,Cell> cell3d) const
-    {
-        // std::cout << cell3d.first << "," << cell3d.second.row << "," << cell3d.second.col << " -> " << cell3d.first*(furthest_cell_on_slice().col+1)*(furthest_cell_on_slice().row+1) +
-        // cell3d.second.row*(furthest_cell_on_slice().col+1)+cell3d.second.col << std::endl;
-        
+    {        
         return cell3d.first*(furthest_cell_on_slice().col+1)*(furthest_cell_on_slice().row+1) +
         cell3d.second.row*(furthest_cell_on_slice().col+1)+cell3d.second.col;
     }
@@ -167,8 +164,6 @@ public:
         auto slice_n = v/(furthest_cell_on_slice().col+1)/(furthest_cell_on_slice().row+1);
         auto slice_index = v%((furthest_cell_on_slice().col+1)*(furthest_cell_on_slice().row+1));
         auto col = slice_index%(furthest_cell_on_slice().col+1);
-
-        // std::cout << vertex << " -> " << slice_n << "," << (slice_index)/(furthest_cell_on_slice().col+1) << "," << col << std::endl;
         return {slice_n, Cell{(slice_index)/(furthest_cell_on_slice().col+1), col}};
     };
 
@@ -258,22 +253,17 @@ void stitch_cells3d(
     const std::pair<size_t,Cell>& a, 
     const std::pair<size_t,Cell>& b)
 {
-    // std::cout << "(" << a.first << "," << a.second.row << "," << a.second.col << ")";
     for (const std::pair<size_t, Cell>& neighbour: volume_searcher.get_neighbours(a, /* undirected */ true))
     {
-        // std::cout << " - " << neighbour.first << "," << neighbour.second.row << "," << neighbour.second.col;
         if (neighbour.first != b.first) continue; // TODO add here indication for inter-slice connection
         if (b==neighbour || b==neighbour)
         {
-            // std::cout << "C";
             auto boundary = cell_to_stitch.get_mut_boundary_with(neighbour.second);
             if (boundary.has_value()) {
-                // std::cout << "S";
                 boundary->get() = {.boundary_type=BoundaryType::Connected, .is_active=true};
             }
         }
     }
-    // std::cout << std::endl;
 } 
 
 
@@ -330,17 +320,7 @@ std::optional<RoutingSpace> do_volume_search(
         }
     }
 
-#if false
 
-    std::cout<< source_vertex << " to " << target_vertex<<std::endl;
-
-    for (size_t i = 0; i<predecessor_map.size(); ++i)
-        std::cout << i << "->" << predecessor_map[i].predecessor
-                  << " (" << (predecessor_map[i].distance ? std::to_string(*predecessor_map[i].distance) : "N/A") << ")" << std::endl;
-#endif
-
-
-    // TODO refactor this to be shared with the boost implementation
     RoutingSpace ret;
     ret.regions_by_slice_number = std::vector<RoutingRegion>(volume.size(), RoutingRegion{.cells={}});
 
