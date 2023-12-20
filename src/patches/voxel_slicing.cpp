@@ -1,5 +1,6 @@
 #include <lsqecc/patches/voxel_slicing.hpp>
 
+#include <array>
 #include <iostream>
 
 namespace lsqecc
@@ -496,7 +497,7 @@ std::vector<std::pair<size_t,Cell>> find_dedicated_locations(std::vector<DenseSl
                 // return the whole lattice
                 for (Cell::CoordinateType row = 0; row <= volume.at(i).layout.get().furthest_cell().row; ++row)
                     for (Cell::CoordinateType col = 0; col <= volume.at(i).layout.get().furthest_cell().col; ++col)
-                        all_cells.emplace_back(row, col);
+                        all_cells.emplace_back(Cell::from_ints(row, col));
                 return all_cells;
             }
         }();
