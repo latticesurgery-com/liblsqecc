@@ -62,6 +62,82 @@ std::ostream& operator<<(std::ostream& os, const Cell& c)
     return os << "(" << c.row << "," << c.col << ")";
 }
 
+std::ostream& operator<<(std::ostream& os, const Patch& p)
+{
+    os << "{ type: ";
+    
+    switch (p.type)
+    {
+    case PatchType::Distillation:
+        os << "Distillation";
+        break;
+        
+    case PatchType::PreparedState:
+        os << "PreparedState";
+        break;
+        
+    case PatchType::Qubit:
+        os << "Qubit";
+        break;
+        
+    case PatchType::Routing:
+        os << "Routing";
+        break;
+        
+    case PatchType::Dead:
+        os << "Dead";
+        break;
+    
+    default:
+        LSTK_UNREACHABLE;
+    }
+    
+    os << ", activity: ";
+    
+    switch (p.activity)
+    {
+        case PatchActivity::None:
+            os << "None";
+            break;
+            
+        case PatchActivity::Measurement:
+            os << "Measurement";
+            break;
+            
+        case PatchActivity::Unitary:
+            os << "Unitary";
+            break;
+            
+        case PatchActivity::Distillation:
+            os << "Distillation";
+            break;
+            
+        case PatchActivity::Dead:
+            os << "Dead";
+            break;
+            
+        case PatchActivity::MultiPatchMeasurement:
+            os << "MultiPatchMeasurement";
+            break;
+            
+        case PatchActivity::Rotation:
+            os << "Rotation";
+            break;
+        
+        default:
+            LSTK_UNREACHABLE;
+    }
+    
+    if (p.id)
+        os << ", id: " << p.id.value();
+    
+    if (p.label)
+        os << ", label: " << p.label.value();
+    
+    os << " }";
+    return os;
+}
+
 void SparsePatch::visit_individual_cells_mut(std::function<void (SingleCellOccupiedByPatch&)> f)
 {
     if(SingleCellOccupiedByPatch* patch = std::get_if<SingleCellOccupiedByPatch>(&cells))
@@ -162,6 +238,7 @@ SparsePatch DensePatch::to_sparse_patch(const Cell& c) const
 DensePatch DensePatch::from_sparse_patch(const SparsePatch& sp)
 {
     auto* occupied_cell = std::get_if<SingleCellOccupiedByPatch>(&sp.cells);
+    if(!occupied_cell) throw std::runtime_error{"DensePatch::from_sparse_patch called with a SparsePatch that occupies multiple cells"};
 
     return DensePatch{static_cast<Patch>(sp),
                       {.top=occupied_cell->top,

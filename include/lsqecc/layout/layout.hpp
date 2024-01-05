@@ -36,19 +36,8 @@ struct DistillationOptions{
 };
 
 namespace LayoutHelpers{
-    SparsePatch basic_square_patch(Cell placement, std::optional<PatchId> id = std::nullopt);
+    SparsePatch basic_square_patch(Cell placement, std::optional<PatchId> id = std::nullopt, std::optional<std::string> debug_label = std::nullopt);
     SingleCellOccupiedByPatch make_distillation_region_cell(Cell placement);
-
-
-    struct SinglePatchRotationALaLitinskiStages
-    {
-        RoutingRegion stage_1;
-        RoutingRegion stage_2;
-        SparsePatch final_state;
-    };
-    SinglePatchRotationALaLitinskiStages single_patch_rotation_a_la_litinski(
-            const SparsePatch& target_patch, const Cell& free_neighbour);
-
 }
 
 

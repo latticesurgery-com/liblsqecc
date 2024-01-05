@@ -7,6 +7,7 @@
 
 #include <functional>
 #include <unordered_map>
+#include <set>
 #include <tsl/ordered_set.h>
 
 namespace lsqecc
@@ -20,7 +21,7 @@ struct DenseSlice : public Slice
 
     using RowStore = std::vector<std::optional<DensePatch>>;
     std::vector<RowStore> cells;
-    std::queue<Cell> magic_state_queue;
+    std::set<Cell> magic_states;
     DistillationTimeMap time_to_next_magic_state_by_distillation_region;
     std::reference_wrapper<const Layout> layout;
 
@@ -50,8 +51,8 @@ struct DenseSlice : public Slice
     bool have_boundary_of_type_with(const Cell& target, const Cell& neighbour, PauliOperator op) const override;
 
     // Return a cell of the placed patch
-    Cell place_sparse_patch(const SparsePatch& sparse_patch, bool distillation);
-    void place_sparse_patch_multiple_cells(const SparsePatch& sparse_patch);
+    Cell place_single_cell_sparse_patch(const SparsePatch& sparse_patch, bool distillation);
+    void place_sparse_patch(const SparsePatch& sparse_patch, bool distillation);
 
     void delete_patch_by_id(PatchId id);
 

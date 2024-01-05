@@ -36,14 +36,14 @@ LSInstruction CatalyticSGateInjectionStream::get_next_instruction()
         const PatchId ystate_id = id_generator_.new_id();
 
         // Request Y state
-        next_instructions_.push({.operation={YStateRequest{ystate_id, gate->target}}, .wait_at_most_for=YStateRequest::DEFAULT_WAIT});
+        next_instructions_.push({.operation={YStateRequest{ystate_id, gate->target}}, .wait_at_most_for=YStateRequest::DEFAULT_WAIT, .clients={gate->target}});
     
         // Add gates
         auto instructions = instruction_generator_.make_cnot_instructions(
                                     gate->target,
                                     ystate_id,
-                                    gates::CNOTType::BELL_BASED,
-                                    gates::CNOTAncillaPlacement::ANCILLA_FREE_PLACEMENT,
+                                    gates::CNOTType::ZX_WITH_MBM_CONTROL_FIRST,
+                                    gates::CNOTAncillaPlacement::ANCILLA_NEXT_TO_CONTROL,
                                     CNOTCorrectionMode::NEVER);
         lstk::queue_extend(next_instructions_, instructions);
 
@@ -57,8 +57,8 @@ LSInstruction CatalyticSGateInjectionStream::get_next_instruction()
         instructions = instruction_generator_.make_cnot_instructions(
                                     gate->target,
                                     ystate_id,
-                                    gates::CNOTType::BELL_BASED,
-                                    gates::CNOTAncillaPlacement::ANCILLA_FREE_PLACEMENT,
+                                    gates::CNOTType::ZX_WITH_MBM_CONTROL_FIRST,
+                                    gates::CNOTAncillaPlacement::ANCILLA_NEXT_TO_CONTROL,
                                     CNOTCorrectionMode::NEVER);
         lstk::queue_extend(next_instructions_, instructions);
 

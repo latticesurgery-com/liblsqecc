@@ -49,9 +49,10 @@ std::vector<Gate> decompose_CRZ_gate(const ControlledGate &crz_gate, double rz_p
 
 std::vector<Gate> decompose(const Gate &gate, double rz_precision_log_ten_negative)
 {
-    if (const auto *basic_gate = std::get_if<BasicSingleQubitGate>(&gate)) {
+    if (const auto *basic_gate = std::get_if<BasicSingleQubitGate>(&gate))
         return {*basic_gate};
-    }
+    else if (const auto *reset = std::get_if<Reset>(&gate))
+        return{*reset};
     else if (const auto *rz_gate = std::get_if<RZ>(&gate))
         return approximate_RZ_gate(*rz_gate, rz_precision_log_ten_negative);
     else
@@ -70,9 +71,9 @@ std::vector<Gate> decompose(const Gate &gate, double rz_precision_log_ten_negati
 bool is_decomposed(const Gate& gate)
 {
     if (std::holds_alternative<BasicSingleQubitGate>(gate))
-    {
         return true;
-    }
+    else if (std::holds_alternative<Reset>(gate))
+        return true;
     else if (std::holds_alternative<RZ>(gate))
         return false;
     else
@@ -160,6 +161,9 @@ tsl::ordered_set<QubitNum> get_operating_qubits(const Gate& gate)
                 [&](const RZ& tg){
                     res.insert(tg.target_qubit);
                 },
+                [&](const Reset& reset){
+                    res.insert(reset.target_qubit);
+                },
                 [&](const auto&){
                     LSTK_UNREACHABLE;
                 }
@@ -238,6 +242,9 @@ std::ostream& operator<<(std::ostream& os, const gates::Gate& gate)
                 },
             }, ctrld.target_gate);
         },
+        [&](const Reset& reset){
+            os << "reset" << "q[" << reset.target_qubit << "]";
+        }
     }, gate);
 
     return os;

@@ -1,10 +1,16 @@
 Running grover_3
-LS Instructions read  385
-Slices 63
+Encountered exception: Encountered parsing exception at line 19:
+Out of arguments
+Halting slicing
+LS Instructions read  25
+Slices 9
 Made patch computation. Took <time_removed_by_case_script>
 
 Running grover_5
-LS Instructions read  4528
-Slices 1157
+Encountered exception: Encountered parsing exception at line 11:
+Out of arguments
+Halting slicing
+LS Instructions read  9
+Slices 1
 Made patch computation. Took <time_removed_by_case_script>
 

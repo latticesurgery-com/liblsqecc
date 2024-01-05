@@ -38,6 +38,11 @@ struct Cell {
     }
 
     bool operator==(const Cell&) const = default;
+
+    bool operator<(const Cell& cell_comparison) const
+    {
+        return row<cell_comparison.row || (row == cell_comparison.row && col<cell_comparison.col);
+    }
 };
 
 std::ostream& operator<<(std::ostream& os, const Cell& c);
@@ -56,7 +61,9 @@ enum class PatchActivity : uint8_t
     Measurement,
     Unitary,
     Distillation,
-    Dead
+    Dead,
+    MultiPatchMeasurement,
+    Rotation
 };
 
 
@@ -106,9 +113,14 @@ struct Patch {
     PatchType type;
     PatchActivity activity;
     std::optional<PatchId> id;
+    std::optional<std::string> label;
+    
+    // Patch& operator=(const Patch& other)
 
     bool operator==(const Patch&) const = default;
 };
+
+std::ostream& operator<<(std::ostream& os, const Patch& p);
 
 
 struct SparsePatch : public Patch {
