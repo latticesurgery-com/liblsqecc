@@ -32,6 +32,7 @@ struct BasicSingleQubitGate{
     enum class Type : uint8_t
     {
         X = static_cast<uint8_t>(PauliOperator::X),
+        Y = static_cast<uint8_t>(PauliOperator::Y),
         Z = static_cast<uint8_t>(PauliOperator::Z),
         S,
         T,
@@ -103,6 +104,7 @@ inline constexpr BasicSingleQubitGate G(QubitNum target_qubit){\
 }
 
 MAKE_BASIC_GATE(X);
+MAKE_BASIC_GATE(Y);
 MAKE_BASIC_GATE(Z);
 MAKE_BASIC_GATE(S);
 MAKE_BASIC_GATE(T);
