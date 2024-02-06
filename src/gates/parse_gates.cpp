@@ -171,6 +171,9 @@ gates::Gate parse_qasm_gate(const Line& line)
 
     if(line.instruction.substr(0,2) == "rz")
     {
+        if (get_arg_in_brackets(line.instruction) == "pi*-1")
+            return gates::Z(get_index_arg(line.args.at(0)));
+
         return gates::RZ{
             get_index_arg(line.args[0]),
             parse_angle(get_arg_in_brackets(line.instruction))};
