@@ -100,6 +100,7 @@ struct SingleQubitOp {
 
     enum class Operator : uint8_t {
         X = static_cast<uint8_t>(PauliOperator::X),
+        Y = static_cast<uint8_t>(PauliOperator::Y),
         Z = static_cast<uint8_t>(PauliOperator::Z),
         H,
         S
@@ -277,6 +278,7 @@ static inline std::string_view SingleQuibitOperatorName_to_string(SingleQubitOp:
     switch(op)
     {
         case SingleQubitOp::Operator::X: return "X"sv;
+        case SingleQubitOp::Operator::Y: return "Y"sv;
         case SingleQubitOp::Operator::Z: return "Z"sv;
         case SingleQubitOp::Operator::H: return "H"sv;
         case SingleQubitOp::Operator::S: return "S"sv;

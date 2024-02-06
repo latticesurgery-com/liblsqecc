@@ -79,6 +79,7 @@ LSInstruction LSInstructionStreamFromGateStream::get_next_instruction()
                     break;
                 SINGLE_QUBIT_OP_CASE(Z)
                 SINGLE_QUBIT_OP_CASE(X)
+                SINGLE_QUBIT_OP_CASE(Y)
                 SINGLE_QUBIT_OP_CASE(H)
                 SINGLE_QUBIT_OP_CASE(S)
 #undef SINGLE_QUBIT_OP_CASE
