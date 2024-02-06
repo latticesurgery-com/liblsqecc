@@ -128,7 +128,16 @@ LSInstruction LSInstructionStreamFromGateStream::get_next_instruction()
                 }
                 else if (target_gate->gate_type == gates::BasicSingleQubitGate::Type::Z)
                 {
-                    LSTK_NOT_IMPLEMENTED; // See RZ below, as CZ = CRZ(pi)
+                    // There may be better ways to implement CZ in lattice surgery (see e.g. arXiv:1808.06709)
+                    next_instructions_.push({.operation={SingleQubitOp{target_gate->target_qubit,SingleQubitOp::Operator::H}}});
+                    auto instructions = instruction_generator_.make_cnot_instructions(
+                            controlled_gate->control_qubit,
+                            target_gate->target_qubit,
+                            controlled_gate->cnot_type,
+                            controlled_gate->cnot_ancilla_placement,
+                            cnot_correction_mode_);
+                    lstk::queue_extend(next_instructions_, instructions);
+                    next_instructions_.push({.operation={SingleQubitOp{target_gate->target_qubit,SingleQubitOp::Operator::H}}});
                 }
                 else
                     throw std::runtime_error{lstk::cat(

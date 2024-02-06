@@ -173,6 +173,16 @@ gates::Gate parse_qasm_gate(const Line& line)
                 determine_cnot_ancilla_placement(line.annotations));
     }
 
+    if(line.instruction == "cz")
+    {
+        if(line.args.size() != 2) throw GateParseException{lstk::cat("cz gate must have 2 args")};
+        return gates::CZ(
+                get_index_arg(line.args.at(1)),
+                get_index_arg(line.args.at(0)),
+                determine_cnot_type(line.annotations),
+                determine_cnot_ancilla_placement(line.annotations));
+    }
+
     if(line.instruction.substr(0,2) == "rz")
     {
         Fraction fraction = parse_angle(get_arg_in_brackets(line.instruction));

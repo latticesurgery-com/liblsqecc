@@ -124,6 +124,15 @@ inline constexpr ControlledGate CNOT(
     return {control_qubit, X(target_qubit), cnot_type, cnot_ancilla_placement};
 }
 
+inline constexpr ControlledGate CZ(
+        QubitNum target_qubit, 
+        QubitNum control_qubit,
+        CNOTType cnot_type = CNOTType::ZX_WITH_MBM_CONTROL_FIRST,
+        CNOTAncillaPlacement cnot_ancilla_placement = CNOTAncillaPlacement::ANCILLA_NEXT_TO_CONTROL
+){
+    return {control_qubit, Z(target_qubit), cnot_type, cnot_ancilla_placement};
+}
+
 inline constexpr ControlledGate CRZ(
         QubitNum target_qubit, QubitNum control_qubit, Fraction pi_fraction, CNOTType cnot_type, CNOTAncillaPlacement cnot_ancilla_placement){
     return {control_qubit, RZ{target_qubit, pi_fraction}, cnot_type, cnot_ancilla_placement};
