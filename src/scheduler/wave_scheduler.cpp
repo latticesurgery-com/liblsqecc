@@ -174,6 +174,7 @@ bool WaveScheduler::is_immediate(const LSInstruction& instruction)
 		switch(op->op)
 		{
 			case SingleQubitOp::Operator::X: return true;
+			case SingleQubitOp::Operator::Y: return true;
 			case SingleQubitOp::Operator::Z: return true;
 			case SingleQubitOp::Operator::H: return false;
 			case SingleQubitOp::Operator::S: return false;

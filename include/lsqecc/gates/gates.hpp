@@ -31,6 +31,7 @@ struct BasicSingleQubitGate{
     enum class Type : uint8_t
     {
         X = static_cast<uint8_t>(PauliOperator::X),
+        Y = static_cast<uint8_t>(PauliOperator::Y),
         Z = static_cast<uint8_t>(PauliOperator::Z),
         S,
         T,
@@ -102,6 +103,7 @@ inline constexpr BasicSingleQubitGate G(QubitNum target_qubit){\
 }
 
 MAKE_BASIC_GATE(X);
+MAKE_BASIC_GATE(Y);
 MAKE_BASIC_GATE(Z);
 MAKE_BASIC_GATE(S);
 MAKE_BASIC_GATE(T);
@@ -119,6 +121,15 @@ inline constexpr ControlledGate CNOT(
         CNOTAncillaPlacement cnot_ancilla_placement = CNOTAncillaPlacement::ANCILLA_NEXT_TO_CONTROL
 ){
     return {control_qubit, X(target_qubit), cnot_type, cnot_ancilla_placement};
+}
+
+inline constexpr ControlledGate CZ(
+        QubitNum target_qubit, 
+        QubitNum control_qubit,
+        CNOTType cnot_type = CNOTType::ZX_WITH_MBM_CONTROL_FIRST,
+        CNOTAncillaPlacement cnot_ancilla_placement = CNOTAncillaPlacement::ANCILLA_NEXT_TO_CONTROL
+){
+    return {control_qubit, Z(target_qubit), cnot_type, cnot_ancilla_placement};
 }
 
 inline constexpr ControlledGate CRZ(
