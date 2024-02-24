@@ -8,3 +8,4 @@ build
 *.vscode
 tests_*
 .DS_Store
+*.github

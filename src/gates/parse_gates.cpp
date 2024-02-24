@@ -2,6 +2,7 @@
 
 #include <lstk/lstk.hpp>
 
+#include <iostream>
 #include <vector>
 #include <stdexcept>
 
@@ -216,6 +217,17 @@ Qreg parse_qreg(std::vector<std::string_view>& args)
 
 ParseGateResult parse_gate(std::string_view str_line)
 {
+    // trim
+    std::string sline {str_line};
+    lstk::ltrim(sline);
+    str_line = std::string_view { sline };
+
+    // check for comment at beginning of line
+    if (str_line[0]=='/' && str_line[1] == '/')
+    {
+        return IgnoredInstruction{};
+    }
+
     Line line = split_instruction_and_args(str_line);
     if (!is_ignored_instruction(line.instruction))
     {
@@ -231,13 +243,14 @@ ParseGateResult parse_gate(std::string_view str_line)
 
 void GateStreamFromFile::advance_gate()
 {
-
     ParseGateResult maybe_gate = IgnoredInstruction{};
     while(!std::holds_alternative<gates::Gate>(maybe_gate))
     {
         std::string line;
         while(!gate_file_.eof() && line.size() ==0)
         {
+            std::cout << line;
+
             std::getline(gate_file_, line);
             line_number_++;
         }
