@@ -125,13 +125,19 @@ Fraction parse_angle(std::string_view s)
 
     // use split on with *pi/ as delimiter
     auto split = lstk::split_on(s,"*pi/");
-    if(split.size() != 2)
-        throw GateParseException{lstk::cat("Could not parse angle ", s, " as n*pi/m")};
+    if(split.size() != 2) {
+        //Is this an angle of the form 3*pi?
+        // not sure why but maybe we need something like
+        std::string ns = std::string(s) + "/1";
 
-     return Fraction{
-                    try_parse_int<ArbitraryPrecisionInteger>(split.at(0)),
-                    try_parse_int<ArbitraryPrecisionInteger>(split.at(1)),
-                    is_negative};
+        split = lstk::split_on(ns,"*pi/");
+        if(split.size() != 2)
+            throw GateParseException{lstk::cat("Could not parse angle ", s, " as n*pi/m")};
+    }
+
+    ArbitraryPrecisionInteger num = try_parse_int<ArbitraryPrecisionInteger>(split.at(0));
+    ArbitraryPrecisionInteger den = try_parse_int<ArbitraryPrecisionInteger>(split.at(1));
+    return Fraction{num, den, is_negative};
 }
 
 gates::Reset parse_reset(const std::vector<std::string_view>& args)
@@ -170,9 +176,18 @@ gates::Gate parse_qasm_gate(const Line& line)
 
     if(line.instruction.substr(0,2) == "rz")
     {
+        Fraction fraction = parse_angle(get_arg_in_brackets(line.instruction));
+
+        if(fraction.den == 1)
+        {
+            // Multiples of PI are Z with a global phase
+            return gates::Z(get_index_arg(line.args.at(0)));
+        }
+
         return gates::RZ{
             get_index_arg(line.args[0]),
-            parse_angle(get_arg_in_brackets(line.instruction))};
+            fraction
+            };
     }
     if(line.instruction.substr(0,3) == "crz")
     {
