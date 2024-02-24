@@ -113,8 +113,15 @@ gates::CNOTAncillaPlacement determine_cnot_ancilla_placement(const std::vector<s
 
 Fraction parse_angle(std::string_view s)
 {
+    bool is_negative = false;
+    // check if negative
+    if(s.starts_with("-")) {
+        is_negative = true;
+        s = s.substr(1);
+    }
+
     if(s.starts_with("pi/"))
-        return Fraction{1,try_parse_int<ArbitraryPrecisionInteger>(s.substr(3))};
+        return Fraction{1,try_parse_int<ArbitraryPrecisionInteger>(s.substr(3)), is_negative};
 
     // use split on with *pi/ as delimiter
     auto split = lstk::split_on(s,"*pi/");
@@ -122,8 +129,9 @@ Fraction parse_angle(std::string_view s)
         throw GateParseException{lstk::cat("Could not parse angle ", s, " as n*pi/m")};
 
      return Fraction{
-            try_parse_int<ArbitraryPrecisionInteger>(split.at(0)),
-            try_parse_int<ArbitraryPrecisionInteger>(split.at(1))};
+                    try_parse_int<ArbitraryPrecisionInteger>(split.at(0)),
+                    try_parse_int<ArbitraryPrecisionInteger>(split.at(1)),
+                    is_negative};
 }
 
 gates::Reset parse_reset(const std::vector<std::string_view>& args)
