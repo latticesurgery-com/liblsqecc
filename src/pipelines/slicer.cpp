@@ -376,6 +376,12 @@ namespace lsqecc
             instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
         }
 
+        // Override the choice of ancilla placements when no location is provided
+        if(layout->ancilla_location().empty())
+        {
+            gates::ControlledGate::default_ancilla_placement = gates::CNOTAncillaPlacement::ANCILLA_NEXT_TO_TARGET;
+        }
+
         LLIPrintMode lli_print_mode = LLIPrintMode::None;
         if(parser.exists("printlli"))
         {
