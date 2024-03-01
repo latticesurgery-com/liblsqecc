@@ -272,8 +272,6 @@ void GateStreamFromFile::advance_gate()
         std::string line;
         while(!gate_file_.eof() && line.size() ==0)
         {
-            std::cout << line;
-
             std::getline(gate_file_, line);
             line_number_++;
         }
