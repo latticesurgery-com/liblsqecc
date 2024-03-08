@@ -118,7 +118,7 @@ std::string_view CNOTAncillaPlacement_toString(CNOTAncillaPlacement v)
     using namespace std::string_view_literals;
     switch (v)
     {
-        case CNOTAncillaPlacement::ANCILLA_FREE_PLACEMENT:
+        case CNOTAncillaPlacement::USE_DEDICATED_CELL:
             return "AncillaFreePlacement"sv;
         case CNOTAncillaPlacement::ANCILLA_NEXT_TO_CONTROL:
             return "AncillaNextToControl"sv;
@@ -130,8 +130,8 @@ std::string_view CNOTAncillaPlacement_toString(CNOTAncillaPlacement v)
 
 std::optional<CNOTAncillaPlacement> CNOTAncillaPlacement_fromString(std::string_view s)
 {
-    if (s == CNOTAncillaPlacement_toString(CNOTAncillaPlacement::ANCILLA_FREE_PLACEMENT))
-        return CNOTAncillaPlacement::ANCILLA_FREE_PLACEMENT;
+    if (s == CNOTAncillaPlacement_toString(CNOTAncillaPlacement::USE_DEDICATED_CELL))
+        return CNOTAncillaPlacement::USE_DEDICATED_CELL;
     if (s == CNOTAncillaPlacement_toString(CNOTAncillaPlacement::ANCILLA_NEXT_TO_CONTROL))
         return CNOTAncillaPlacement::ANCILLA_NEXT_TO_CONTROL;
     if (s == CNOTAncillaPlacement_toString(CNOTAncillaPlacement::ANCILLA_NEXT_TO_TARGET))
@@ -175,6 +175,10 @@ tsl::ordered_set<QubitNum> get_operating_qubits(const Gate& gate)
     }, gate);
     return res;
 }
+
+
+CNOTAncillaPlacement ControlledGate::default_ancilla_placement = CNOTAncillaPlacement::USE_DEDICATED_CELL;
+
 
 } // namespace lsqecc::gates
 

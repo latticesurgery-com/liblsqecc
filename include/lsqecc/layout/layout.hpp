@@ -12,6 +12,7 @@ namespace lsqecc {
 using SurfaceCodeTimestep = uint32_t;
 using DistillationTimeMap = std::vector<SurfaceCodeTimestep>;
 
+
 struct Layout {
 
     virtual const std::vector<SparsePatch>& core_patches() const = 0;
