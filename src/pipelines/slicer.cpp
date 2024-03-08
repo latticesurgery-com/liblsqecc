@@ -30,6 +30,8 @@
 #include <fstream>
 #include <chrono>
 
+#include <string>
+
 
 #define CONSOLE_HELP_NEWLINE_ALIGN "\n                           "
 
