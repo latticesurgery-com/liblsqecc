@@ -52,7 +52,7 @@ struct Comparator
     }
 
     Cell target_cell;
-    const std::vector<PredecessorData> predecessor_map;
+    std::vector<PredecessorData>& predecessor_map;
     const SliceSearcher& slice_searcher;
 };
 
