@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <stdexcept>
+#include <iostream>
 
 namespace lsqecc {
 
@@ -106,6 +107,7 @@ gates::CNOTAncillaPlacement determine_cnot_ancilla_placement(const std::vector<s
         auto t = gates::CNOTAncillaPlacement_fromString(annotation);
         if(t) return * t;
     }
+    std::cout<<"Defaulting to "<<static_cast<int>(gates::ControlledGate::default_ancilla_placement)<<std::endl;
     return gates::ControlledGate::default_ancilla_placement;
 }
 

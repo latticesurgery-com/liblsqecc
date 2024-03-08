@@ -67,7 +67,7 @@ std::optional<CNOTType> CNOTType_fromString(std::string_view s);
 
 enum class CNOTAncillaPlacement
 {
-    ANCILLA_FREE_PLACEMENT,
+    USE_DEDICATED_CELL,
     ANCILLA_NEXT_TO_CONTROL,
     ANCILLA_NEXT_TO_TARGET
 };
@@ -84,7 +84,10 @@ struct ControlledGate
     CNOTAncillaPlacement cnot_ancilla_placement;
 
     static constexpr CNOTType default_cnot_type = CNOTType::ZX_WITH_MBM_CONTROL_FIRST;
-    static constexpr CNOTAncillaPlacement default_ancilla_placement = CNOTAncillaPlacement::ANCILLA_FREE_PLACEMENT;
+    
+    // Initialized in source file. This value is updated depending on the type of layout.
+    // TODO consider using a more robust pattern if we have to support multiple layouts per lsqecc_slicer execution.
+    static CNOTAncillaPlacement default_ancilla_placement;
 };
 
 

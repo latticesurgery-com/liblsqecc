@@ -70,6 +70,13 @@ namespace lsqecc
         Local, Nonlocal
     };
 
+    enum class AutoLayoutMode // Layouts specified with -L
+    {
+        Compact, CompactNoClogging, Edpc
+    };
+
+    using LayoutMode = std::variant<AutoLayoutMode, std::unique_ptr<LayoutFromSpec>>; // LayoutFromSpec is for -l
+
     DistillationOptions make_distillation_options(argparse::ArgumentParser& parser)
     {
         DistillationOptions distillation_options;
@@ -195,6 +202,34 @@ namespace lsqecc
         {
             parser.print_help();
             return 0;
+        }
+
+        DistillationOptions distillation_options = make_distillation_options(parser);
+
+        LayoutMode layout_mode = AutoLayoutMode::Compact;
+        if (parser.exists("layoutgenerator"))
+        {
+            if (parser.get<std::string>("layoutgenerator") == "compact")
+            {
+                layout_mode = AutoLayoutMode::Compact;
+            } else if (parser.get<std::string>("layoutgenerator") == "compact_no_clogging")
+            {
+                layout_mode = AutoLayoutMode::CompactNoClogging;
+            }
+            else if (parser.get<std::string>("layoutgenerator") == "edpc") 
+            {
+                layout_mode = AutoLayoutMode::Edpc;
+            }
+            else
+            {
+                err_stream << "Unknown layout generator: " << parser.get<std::string>("layoutgenerator") << std::endl;
+                return -1;
+            }
+        }
+        else if(parser.exists("l"))
+            layout_mode = std::make_unique<LayoutFromSpec>(file_to_string(parser.get<std::string>("l")), distillation_options);
+        else {
+            // Default to Litinsiki's compact layout
         }
 
         std::reference_wrapper<std::ostream> bulk_output_stream = std::ref(out_stream);
@@ -332,21 +367,20 @@ namespace lsqecc
 
 
         std::unique_ptr<Layout> layout;
-        DistillationOptions distillation_options = make_distillation_options(parser);
-        if (parser.exists("layoutgenerator"))
+        if (AutoLayoutMode* auto_layout_mode = std::get_if<AutoLayoutMode>(&layout_mode))
         {
-            if (parser.get<std::string>("layoutgenerator") == "compact")
+            if (*auto_layout_mode == AutoLayoutMode::Compact)
             {
                 layout = make_compact_layout(instruction_stream->core_qubits().size(), distillation_options);
                 instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
                 instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
-            } else if (parser.get<std::string>("layoutgenerator") == "compact_no_clogging")
+            } else if (*auto_layout_mode == AutoLayoutMode::CompactNoClogging)
             {
                 layout = make_compact_layout(instruction_stream->core_qubits().size(), distillation_options, true);
                 instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
                 instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
             }
-            else if (parser.get<std::string>("layoutgenerator") == "edpc") 
+            else if (*auto_layout_mode == AutoLayoutMode::Edpc) 
             {
                 size_t num_lanes = 1;
                 bool condensed = false;
@@ -362,19 +396,11 @@ namespace lsqecc
             }
             else
             {
-                err_stream << "Unknown layout generator: " << parser.get<std::string>("layoutgenerator") << std::endl;
-                return -1;
+                LSTK_NOT_IMPLEMENTED;
             }
         }
-        else if(parser.exists("l"))
-            layout = std::make_unique<LayoutFromSpec>(file_to_string(parser.get<std::string>("l")), distillation_options);
-        else
-        {
-            // Default to Litinsiki's compact layout
-            layout = make_compact_layout(instruction_stream->core_qubits().size(), distillation_options);
-            instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
-            instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
-        }
+        else if(std::unique_ptr<LayoutFromSpec>* custom_layout_path = std::get_if<std::unique_ptr<LayoutFromSpec>>(&layout_mode))
+            layout = std::move(*custom_layout_path);
 
         // Override the choice of ancilla placements when no location is provided
         if(layout->ancilla_location().empty())
