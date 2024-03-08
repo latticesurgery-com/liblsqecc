@@ -122,7 +122,7 @@ public:
     const std::vector<SurfaceCodeTimestep>& distillation_times() const override {return cached_distillation_times_;};
     const std::vector<Cell>& ancilla_location() const override {return cached_ancilla_locations_;}
     const std::vector<Cell>& dead_location() const override {return cached_dead_cells_;}
-    const std::vector<Cell>& predistilled_y_states() const override {return cached_y_states_;}
+    const std::vector<Cell>& predistilled_y_states() const override {return cached_y_states_;}  
     const std::vector<Cell>& distilled_state_locations(size_t distillation_region_idx) const override
     {
         return cached_distilled_state_locations_[distillation_region_idx];
