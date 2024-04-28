@@ -21,6 +21,10 @@
 #include <chrono>
 #include <sstream>
 
+#include <algorithm>
+#include <cctype>
+#include <locale>
+
 #define LSTK_UNREACHABLE throw std::logic_error(std::string{"Not meant to be unreachable: "}+__FILE__+":"+std::to_string(__LINE__))
 #define LSTK_NOT_IMPLEMENTED throw std::logic_error(std::string{"Not implemented: "}+__FILE__+":"+std::to_string(__LINE__))
 
@@ -152,6 +156,24 @@ static inline bool contains(std::string_view s, char target)
 {
     return s.find(target) != std::string_view::npos;
 }
+
+// https://stackoverflow.com/questions/216823/how-to-trim-a-stdstring
+// trim from start (in place)
+inline void ltrim(std::string &s) {
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+        return !std::isspace(ch);
+    }));
+}
+
+// https://stackoverflow.com/questions/216823/how-to-trim-a-stdstring
+// trim from end (in place)
+inline void rtrim(std::string &s) {
+    s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
+        return !std::isspace(ch);
+    }).base(), s.end());
+}
+
+
 
 // String manipulation
 

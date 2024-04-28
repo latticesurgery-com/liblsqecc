@@ -2,6 +2,7 @@
 
 #include <lstk/lstk.hpp>
 
+#include <iostream>
 #include <vector>
 #include <stdexcept>
 #include <iostream>
@@ -113,17 +114,31 @@ gates::CNOTAncillaPlacement determine_cnot_ancilla_placement(const std::vector<s
 
 Fraction parse_angle(std::string_view s)
 {
+    bool is_negative = false;
+    // check if negative
+    if(s.starts_with("-")) {
+        is_negative = true;
+        s = s.substr(1);
+    }
+
     if(s.starts_with("pi/"))
-        return Fraction{1,try_parse_int<ArbitraryPrecisionInteger>(s.substr(3))};
+        return Fraction{1,try_parse_int<ArbitraryPrecisionInteger>(s.substr(3)), is_negative};
 
     // use split on with *pi/ as delimiter
     auto split = lstk::split_on(s,"*pi/");
-    if(split.size() != 2)
-        throw GateParseException{lstk::cat("Could not parse angle ", s, " as n*pi/m")};
+    if(split.size() != 2) {
+        //Is this an angle of the form 3*pi?
+        // not sure why but maybe we need something like
+        std::string ns = std::string(s) + "/1";
 
-     return Fraction{
-            try_parse_int<ArbitraryPrecisionInteger>(split.at(0)),
-            try_parse_int<ArbitraryPrecisionInteger>(split.at(1))};
+        split = lstk::split_on(ns,"*pi/");
+        if(split.size() != 2)
+            throw GateParseException{lstk::cat("Could not parse angle ", s, " as n*pi/m")};
+    }
+
+    ArbitraryPrecisionInteger num = try_parse_int<ArbitraryPrecisionInteger>(split.at(0));
+    ArbitraryPrecisionInteger den = try_parse_int<ArbitraryPrecisionInteger>(split.at(1));
+    return Fraction{num, den, is_negative};
 }
 
 gates::Reset parse_reset(const std::vector<std::string_view>& args)
@@ -162,9 +177,18 @@ gates::Gate parse_qasm_gate(const Line& line)
 
     if(line.instruction.substr(0,2) == "rz")
     {
+        Fraction fraction = parse_angle(get_arg_in_brackets(line.instruction));
+
+        if(fraction.den == 1)
+        {
+            // Multiples of PI are Z with a global phase
+            return gates::Z(get_index_arg(line.args.at(0)));
+        }
+
         return gates::RZ{
             get_index_arg(line.args[0]),
-            parse_angle(get_arg_in_brackets(line.instruction))};
+            fraction
+            };
     }
     if(line.instruction.substr(0,3) == "crz")
     {
@@ -217,6 +241,17 @@ Qreg parse_qreg(std::vector<std::string_view>& args)
 
 ParseGateResult parse_gate(std::string_view str_line)
 {
+    // trim
+    std::string sline {str_line};
+    lstk::ltrim(sline);
+    str_line = std::string_view { sline };
+
+    // check for comment at beginning of line
+    if (str_line[0]=='/' && str_line[1] == '/')
+    {
+        return IgnoredInstruction{};
+    }
+
     Line line = split_instruction_and_args(str_line);
     if (!is_ignored_instruction(line.instruction))
     {
@@ -232,7 +267,6 @@ ParseGateResult parse_gate(std::string_view str_line)
 
 void GateStreamFromFile::advance_gate()
 {
-
     ParseGateResult maybe_gate = IgnoredInstruction{};
     while(!std::holds_alternative<gates::Gate>(maybe_gate))
     {
