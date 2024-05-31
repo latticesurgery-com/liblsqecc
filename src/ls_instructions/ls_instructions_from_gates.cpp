@@ -19,7 +19,7 @@ std::queue<LSInstruction> LSIinstructionFromGatesGenerator::make_t_gate_instruct
                             target_id,
                             new_magic_state_id,
                             gates::CNOTType::BELL_BASED,
-                            gates::CNOTAncillaPlacement::ANCILLA_FREE_PLACEMENT,
+                            gates::CNOTAncillaPlacement::USE_DEDICATED_CELL,
                             CNOTCorrectionMode::NEVER);
         lstk::queue_extend(next_instructions, instructions);
         next_instructions.push({.operation={SinglePatchMeasurement{new_magic_state_id, PauliOperator::Z, false}}});
