@@ -72,6 +72,11 @@ namespace lsqecc
         Local, Nonlocal
     };
 
+    enum class SGateMode
+    {
+        Catalytic, Twists
+    };
+
     DistillationOptions make_distillation_options(argparse::ArgumentParser& parser)
     {
         DistillationOptions distillation_options;
@@ -188,6 +193,10 @@ namespace lsqecc
                 .names({"--local"})
                 .description("Compile gates using a local lattice surgery instruction set")
                 .required(false);
+        parser.add_argument()
+                .names({"--notwists"})
+                .description("Compile S gates using twist-based Y state initialization (Gidney, 2024)")
+                .required(false);
         parser.enable_help();
 
         auto err = parser.parse(argc, argv);
@@ -290,6 +299,10 @@ namespace lsqecc
         if (parser.exists("local"))
             compile_mode = CompilationMode::Local;
 
+        SGateMode sgate_mode = SGateMode::Twists;
+        if (parser.exists("notwists"))
+            sgate_mode = SGateMode::Catalytic;
+
         if(!parser.exists("q"))
         {
             instruction_stream = std::make_unique<LSInstructionStreamFromFile>(input_file_stream.get());
@@ -343,16 +356,26 @@ namespace lsqecc
         {
             if (parser.get<std::string>("layoutgenerator") == "compact")
             {
+                if (sgate_mode == SGateMode::Catalytic) 
+                {
+                    err_stream << "Catalytic S Gates incompatible with layout: " << parser.get<std::string>("layoutgenerator") <<std::endl;
+                    return -1;
+                }
                 layout = make_compact_layout(instruction_stream->core_qubits().size(), distillation_options);
                 instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
                 instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
             } else if (parser.get<std::string>("layoutgenerator") == "compact_no_clogging")
             {
+                if (sgate_mode == SGateMode::Catalytic) 
+                {
+                    err_stream << "Catalytic S Gates incompatible with layout: " << parser.get<std::string>("layoutgenerator") <<std::endl;
+                    return -1;
+                }
                 layout = make_compact_layout(instruction_stream->core_qubits().size(), distillation_options, true);
                 instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
                 instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
             }
-            else if (parser.get<std::string>("layoutgenerator") == "edpc") 
+            else if ((parser.get<std::string>("layoutgenerator") == "edpc") || (sgate_mode == SGateMode::Catalytic))
             {
                 size_t num_lanes = 1;
                 bool condensed = false;
@@ -368,7 +391,12 @@ namespace lsqecc
                     factories_explicit = true;
                 
                 layout = make_edpc_layout(instruction_stream->core_qubits().size(), num_lanes, condensed, factories_explicit, distillation_options);
-                instruction_stream = std::make_unique<CatalyticSGateInjectionStream>(std::move(instruction_stream), id_generator, compile_mode == CompilationMode::Local);
+
+                if (sgate_mode == SGateMode::Catalytic)
+                    instruction_stream = std::make_unique<CatalyticSGateInjectionStream>(std::move(instruction_stream), id_generator, compile_mode == CompilationMode::Local);
+
+                else if (sgate_mode == SGateMode::Twists)
+                    instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
             }
             else
             {
@@ -377,7 +405,14 @@ namespace lsqecc
             }
         }
         else if(parser.exists("l"))
+        {
             layout = std::make_unique<LayoutFromSpec>(file_to_string(parser.get<std::string>("l")), distillation_options);
+            if ((sgate_mode == SGateMode::Catalytic) && (layout->predistilled_y_states().size() == 0))
+            {
+                err_stream << "Catalytic S Gates require pre-distilled Y states to be specified by 'Y' in layout ASCII." << std::endl;
+                return -1;
+            }
+        }
         else
         {
             // Default to Litinsiki's compact layout
@@ -517,6 +552,7 @@ namespace lsqecc
                     std::move(*instruction_stream),
                     pipeline_mode,
                     compile_mode == CompilationMode::Local,
+                    sgate_mode == SGateMode::Twists,
                     *layout,
                     *router,
                     timeout,

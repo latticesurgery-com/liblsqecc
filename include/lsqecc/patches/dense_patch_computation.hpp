@@ -42,6 +42,7 @@ DensePatchComputationResult run_through_dense_slices(
         LSInstructionStream&& instruction_stream,
         PipelineMode pipeline_mode,
         bool local_instructions,
+        bool allow_twists,
         const Layout& layout,
         Router& router,
         std::optional<std::chrono::seconds> timeout,
@@ -65,6 +66,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         DenseSlice& slice,
         LSInstruction& instruction,
         bool local_instructions,
+        bool allow_twists,
         const Layout& layout,
         Router& router);
 
