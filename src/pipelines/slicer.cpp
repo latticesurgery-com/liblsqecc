@@ -79,6 +79,11 @@ namespace lsqecc
 
     using LayoutMode = std::variant<AutoLayoutMode, std::unique_ptr<LayoutFromSpec>>; // LayoutFromSpec is for -l
 
+    enum class SGateMode
+    {
+        Catalytic, Twists
+    };
+
     DistillationOptions make_distillation_options(argparse::ArgumentParser& parser)
     {
         DistillationOptions distillation_options;
@@ -194,6 +199,10 @@ namespace lsqecc
         parser.add_argument()
                 .names({"--local"})
                 .description("Compile gates using a local lattice surgery instruction set")
+                .required(false);
+        parser.add_argument()
+                .names({"--notwists"})
+                .description("Compile S gates using twist-based Y state initialization (Gidney, 2024)")
                 .required(false);
         parser.enable_help();
 
@@ -325,6 +334,10 @@ namespace lsqecc
         if (parser.exists("local"))
             compile_mode = CompilationMode::Local;
 
+        SGateMode sgate_mode = SGateMode::Twists;
+        if (parser.exists("notwists"))
+            sgate_mode = SGateMode::Catalytic;
+
         if(!parser.exists("q"))
         {
             instruction_stream = std::make_unique<LSInstructionStreamFromFile>(input_file_stream.get());
@@ -377,11 +390,21 @@ namespace lsqecc
         {
             if (*auto_layout_mode == AutoLayoutMode::Compact)
             {
+                if (sgate_mode == SGateMode::Catalytic) 
+                {
+                    err_stream << "Catalytic S Gates incompatible with layout: " << parser.get<std::string>("layoutgenerator") <<std::endl;
+                    return -1;
+                }
                 layout = make_compact_layout(instruction_stream->core_qubits().size(), distillation_options);
                 instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
                 instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
             } else if (*auto_layout_mode == AutoLayoutMode::CompactNoClogging)
             {
+                if (sgate_mode == SGateMode::Catalytic) 
+                {
+                    err_stream << "Catalytic S Gates incompatible with layout: " << parser.get<std::string>("layoutgenerator") <<std::endl;
+                    return -1;
+                }
                 layout = make_compact_layout(instruction_stream->core_qubits().size(), distillation_options, true);
                 instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
                 instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
@@ -402,7 +425,12 @@ namespace lsqecc
                     factories_explicit = true;
                 
                 layout = make_edpc_layout(instruction_stream->core_qubits().size(), num_lanes, condensed, factories_explicit, distillation_options);
-                instruction_stream = std::make_unique<CatalyticSGateInjectionStream>(std::move(instruction_stream), id_generator, compile_mode == CompilationMode::Local);
+
+                if (sgate_mode == SGateMode::Catalytic)
+                    instruction_stream = std::make_unique<CatalyticSGateInjectionStream>(std::move(instruction_stream), id_generator, compile_mode == CompilationMode::Local);
+
+                else if (sgate_mode == SGateMode::Twists)
+                    instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
             }
             else
             {
@@ -410,7 +438,14 @@ namespace lsqecc
             }
         }
         else if(std::unique_ptr<LayoutFromSpec>* custom_layout_path = std::get_if<std::unique_ptr<LayoutFromSpec>>(&layout_mode))
+        {
             layout = std::move(*custom_layout_path);
+            if ((sgate_mode == SGateMode::Catalytic) && (layout->predistilled_y_states().size() == 0))
+            {
+                err_stream << "Catalytic S Gates require pre-distilled Y states to be specified by 'Y' in layout ASCII." << std::endl;
+                return -1;
+            }
+        }
 
         // Override the choice of ancilla placements when no location is provided
         if(layout->ancilla_location().empty())
@@ -549,6 +584,7 @@ namespace lsqecc
                     std::move(*instruction_stream),
                     pipeline_mode,
                     compile_mode == CompilationMode::Local,
+                    sgate_mode == SGateMode::Twists,
                     *layout,
                     *router,
                     timeout,

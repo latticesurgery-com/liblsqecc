@@ -58594,8 +58594,89 @@
       }
    ],
    [
+<<<<<<< HEAD
       null,
       null,
+=======
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "SolidStiched",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 72"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "SolidStiched",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 71"
+      },
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
       null,
       null,
       null,
@@ -58725,6 +58806,7 @@
             "activity_type": null
          },
          "edges": {
+<<<<<<< HEAD
             "Bottom": "Dashed",
             "Left": "Solid",
             "Right": "SolidStiched",
@@ -58732,12 +58814,22 @@
          },
          "patch_type": "Qubit",
          "text": "Id: 72"
+=======
+            "Bottom": "None",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": "Time to next magic state:8"
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
       },
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
+<<<<<<< HEAD
             "Bottom": "Dashed",
             "Left": "SolidStiched",
             "Right": "Solid",
@@ -58746,6 +58838,44 @@
          "patch_type": "Qubit",
          "text": "Id: 71"
       },
+=======
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      null,
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
       null,
       null,
       null,
@@ -59415,8 +59545,89 @@
       }
    ],
    [
+<<<<<<< HEAD
       null,
       null,
+=======
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "DashedStiched",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 72"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "DashedStiched",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 71"
+      },
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
       null,
       null,
       null,
@@ -59435,10 +59646,66 @@
             "activity_type": null
          },
          "edges": {
+<<<<<<< HEAD
             "Bottom": "DashedStiched",
+=======
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
             "Left": "Solid",
             "Right": "Solid",
-            "Top": "Dashed"
+            "Top": "DashedStiched"
          },
          "patch_type": "Qubit",
          "text": "Id: 68"
@@ -59448,10 +59715,10 @@
             "activity_type": "Measurement"
          },
          "edges": {
-            "Bottom": "DashedStiched",
+            "Bottom": "Dashed",
             "Left": "Solid",
             "Right": "Solid",
-            "Top": "Dashed"
+            "Top": "DashedStiched"
          },
          "patch_type": "Qubit",
          "text": "Not bound"
@@ -59543,6 +59810,7 @@
    [
       {
          "activity": {
+<<<<<<< HEAD
             "activity_type": "Measurement"
          },
          "edges": {
@@ -59567,6 +59835,60 @@
          "patch_type": "Qubit",
          "text": "Id: 71"
       },
+=======
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": "Time to next magic state:7"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      null,
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
       null,
       null,
       null,
@@ -99009,8 +99331,89 @@
       }
    ],
    [
+<<<<<<< HEAD
       null,
       null,
+=======
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": "Time to next magic state:9"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "SolidStiched",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 107"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "SolidStiched",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 106"
+      },
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
       null,
       null,
       null,
@@ -99140,6 +99543,7 @@
             "activity_type": null
          },
          "edges": {
+<<<<<<< HEAD
             "Bottom": "Dashed",
             "Left": "Solid",
             "Right": "SolidStiched",
@@ -99147,12 +99551,22 @@
          },
          "patch_type": "Qubit",
          "text": "Id: 107"
+=======
+            "Bottom": "Solid",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
       },
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
+<<<<<<< HEAD
             "Bottom": "Dashed",
             "Left": "SolidStiched",
             "Right": "Solid",
@@ -99161,6 +99575,44 @@
          "patch_type": "Qubit",
          "text": "Id: 106"
       },
+=======
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      null,
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
       null,
       null,
       null,
@@ -99716,10 +100168,117 @@
       }
    ],
    [
+<<<<<<< HEAD
       null,
       null,
       null,
       null,
+=======
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "SolidStiched",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 110"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "SolidStiched",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "SolidStiched",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "SolidStiched",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
       null,
       null,
       null,
@@ -99758,7 +100317,19 @@
          "patch_type": "Qubit",
          "text": "Id: 5"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "DashedStiched",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -99835,27 +100406,84 @@
             "activity_type": null
          },
          "edges": {
+<<<<<<< HEAD
             "Bottom": "Dashed",
+=======
+            "Bottom": "None",
             "Left": "Solid",
-            "Right": "SolidStiched",
-            "Top": "Dashed"
+            "Right": "None",
+            "Top": "Solid"
          },
-         "patch_type": "Qubit",
-         "text": "Id: 110"
+         "patch_type": "DistillationQubit",
+         "text": "Time to next magic state:8"
       },
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Dashed",
-            "Left": "SolidStiched",
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "DashedStiched",
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
+            "Left": "Solid",
             "Right": "Solid",
             "Top": "Dashed"
          },
          "patch_type": "Qubit",
-         "text": "Not bound"
+         "text": "Id: 107"
       },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "DashedStiched",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 106"
+      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -99863,21 +100491,8 @@
          "edges": {
             "Bottom": "Dashed",
             "Left": "Solid",
-            "Right": "SolidStiched",
-            "Top": "Dashed"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Dashed",
-            "Left": "SolidStiched",
             "Right": "Solid",
-            "Top": "Dashed"
+            "Top": "DashedStiched"
          },
          "patch_type": "Qubit",
          "text": "Id: 109"
@@ -99898,10 +100513,10 @@
             "activity_type": "Measurement"
          },
          "edges": {
-            "Bottom": "DashedStiched",
+            "Bottom": "Dashed",
             "Left": "Solid",
             "Right": "Solid",
-            "Top": "Dashed"
+            "Top": "DashedStiched"
          },
          "patch_type": "Qubit",
          "text": "Id: 105"
@@ -99911,10 +100526,10 @@
             "activity_type": "Measurement"
          },
          "edges": {
-            "Bottom": "DashedStiched",
+            "Bottom": "Dashed",
             "Left": "Solid",
             "Right": "Solid",
-            "Top": "Dashed"
+            "Top": "DashedStiched"
          },
          "patch_type": "Qubit",
          "text": "Not bound"
@@ -100018,6 +100633,7 @@
    [
       {
          "activity": {
+<<<<<<< HEAD
             "activity_type": "Measurement"
          },
          "edges": {
@@ -100042,6 +100658,60 @@
          "patch_type": "Qubit",
          "text": "Id: 106"
       },
+=======
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      null,
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
       null,
       null,
       null,
@@ -100597,10 +101267,117 @@
       }
    ],
    [
+<<<<<<< HEAD
       null,
       null,
       null,
       null,
+=======
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "DashedStiched",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 110"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "SolidStiched",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "SolidStiched",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "DashedStiched",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
       null,
       null,
       null,
@@ -100617,10 +101394,66 @@
             "activity_type": null
          },
          "edges": {
+<<<<<<< HEAD
             "Bottom": "DashedStiched",
+=======
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
             "Left": "Solid",
             "Right": "Solid",
-            "Top": "Dashed"
+            "Top": "DashedStiched"
          },
          "patch_type": "Qubit",
          "text": "Id: 108"
@@ -100639,7 +101472,19 @@
          "patch_type": "Qubit",
          "text": "Id: 5"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "DashedStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -100713,6 +101558,7 @@
    [
       {
          "activity": {
+<<<<<<< HEAD
             "activity_type": "Measurement"
          },
          "edges": {
@@ -100750,6 +101596,61 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+=======
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": "Time to next magic state:7"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      null,
+      null,
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
       {
          "activity": {
             "activity_type": "Measurement"
@@ -107677,6 +108578,1009 @@
             "Right": "Solid",
             "Top": "Dashed"
          },
+<<<<<<< HEAD
+=======
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      }
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": "Time to next magic state:8"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": "Time to next magic state:8"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 0"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 1"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 2"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 3"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 4"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 5"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 6"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 7"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 8"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 9"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      }
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": "Time to next magic state:8"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "SolidStiched",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 115"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "SolidStiched",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "SolidStiched",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "SolidStiched",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 114"
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": "Time to next magic state:8"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
          "patch_type": "Qubit",
          "text": "Id: 113"
       },
@@ -107752,13 +109656,17 @@
       }
    ],
    [
+<<<<<<< HEAD
       null,
       null,
+=======
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
+<<<<<<< HEAD
             "Bottom": "Dashed",
             "Left": "Solid",
             "Right": "SolidStiched",
@@ -107800,16 +109708,26 @@
             "Left": "Solid",
             "Right": "Solid",
             "Top": "Dashed"
+=======
+            "Bottom": "Solid",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "None"
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
          },
          "patch_type": "DistillationQubit",
          "text": ""
       },
+<<<<<<< HEAD
       null,
+=======
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
+<<<<<<< HEAD
             "Bottom": "Dashed",
             "Left": "Solid",
             "Right": "Solid",
@@ -108073,6 +109991,9 @@
          },
          "edges": {
             "Bottom": "None",
+=======
+            "Bottom": "Solid",
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
             "Left": "None",
             "Right": "None",
             "Top": "None"
@@ -108080,6 +110001,7 @@
          "patch_type": "DistillationQubit",
          "text": ""
       },
+<<<<<<< HEAD
       null,
       {
          "activity": {
@@ -108120,6 +110042,38 @@
          "patch_type": "Qubit",
          "text": "Id: 11"
       },
+=======
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      null,
+      null,
+      null,
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
       null,
       {
          "activity": {
@@ -108985,6 +110939,61 @@
          "patch_type": "Qubit",
          "text": "Id: 114"
       },
+<<<<<<< HEAD
+=======
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "DashedStiched",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 115"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "SolidStiched",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "SolidStiched",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "DashedStiched",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 114"
+      },
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
       null,
       {
          "activity": {
@@ -109013,10 +111022,65 @@
             "activity_type": null
          },
          "edges": {
+<<<<<<< HEAD
+=======
+            "Bottom": "None",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
             "Bottom": "Dashed",
             "Left": "Solid",
             "Right": "Solid",
-            "Top": "Dashed"
+            "Top": "DashedStiched"
          },
          "patch_type": "DistillationQubit",
          "text": ""
@@ -109131,6 +111195,65 @@
       }
    ],
    [
+<<<<<<< HEAD
+=======
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      null,
+      null,
+      null,
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
       null,
       null,
       null,
@@ -116968,7 +119091,6 @@
       null,
       null,
       null,
-      null,
       {
          "activity": {
             "activity_type": null
@@ -116980,7 +119102,7 @@
             "Top": "Dashed"
          },
          "patch_type": "Qubit",
-         "text": "Id: 123"
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -116993,13 +119115,70 @@
             "Top": "Dashed"
          },
          "patch_type": "Qubit",
-         "text": "Not bound"
+         "text": "Id: 123"
       },
       null,
       null,
       null,
       null,
+<<<<<<< HEAD
       null
+=======
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": "Time to next magic state:7"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
    ],
    [
       {
@@ -117043,20 +119222,6 @@
          "patch_type": "Qubit",
          "text": "Id: 1"
       },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Dashed",
-            "Left": "Solid",
-            "Right": "Solid",
-            "Top": "Dashed"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 2"
-      },
       {
          "activity": {
             "activity_type": null
@@ -117070,6 +119235,20 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 2"
+      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -117118,8 +119297,6 @@
       null,
       null,
       null,
-      null,
-      null,
       {
          "activity": {
             "activity_type": null
@@ -117137,7 +119314,65 @@
       null,
       null,
       null,
+<<<<<<< HEAD
       null
+=======
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
    ],
    [
       {
@@ -117181,20 +119416,6 @@
          "patch_type": "Qubit",
          "text": "Id: 6"
       },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Dashed",
-            "Left": "Solid",
-            "Right": "Solid",
-            "Top": "Dashed"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 7"
-      },
       {
          "activity": {
             "activity_type": null
@@ -117208,6 +119429,20 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 7"
+      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -117256,8 +119491,6 @@
       null,
       null,
       null,
-      null,
-      null,
       {
          "activity": {
             "activity_type": null
@@ -117275,7 +119508,65 @@
       null,
       null,
       null,
+<<<<<<< HEAD
       null
+=======
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": "Time to next magic state:7"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
    ],
    [
       {
@@ -117319,7 +119610,6 @@
          "patch_type": "Qubit",
          "text": "Id: 11"
       },
-      null,
       {
          "activity": {
             "activity_type": null
@@ -117331,7 +119621,7 @@
             "Top": "Dashed"
          },
          "patch_type": "Qubit",
-         "text": "Id: 12"
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -117344,8 +119634,9 @@
             "Top": "Dashed"
          },
          "patch_type": "Qubit",
-         "text": "Not bound"
+         "text": "Id: 12"
       },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -117835,7 +120126,6 @@
       null,
       null,
       null,
-      null,
       {
          "activity": {
             "activity_type": null
@@ -117847,7 +120137,7 @@
             "Top": "Dashed"
          },
          "patch_type": "Qubit",
-         "text": "Id: 126"
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -117856,6 +120146,19 @@
          "edges": {
             "Bottom": "Dashed",
             "Left": "SolidStiched",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 126"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "DashedStiched",
+            "Left": "Solid",
             "Right": "Solid",
             "Top": "Dashed"
          },
@@ -117875,19 +120178,7 @@
          "patch_type": "Qubit",
          "text": "Id: 123"
       },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "DashedStiched",
-            "Left": "Solid",
-            "Right": "Solid",
-            "Top": "Dashed"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
+      null,
       null,
       null,
       null,
@@ -117922,20 +120213,6 @@
          "patch_type": "Qubit",
          "text": "Id: 0"
       },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Dashed",
-            "Left": "Solid",
-            "Right": "Solid",
-            "Top": "Dashed"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 1"
-      },
       {
          "activity": {
             "activity_type": null
@@ -117960,7 +120237,7 @@
             "Top": "Dashed"
          },
          "patch_type": "Qubit",
-         "text": "Id: 2"
+         "text": "Id: 1"
       },
       {
          "activity": {
@@ -117975,6 +120252,20 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 2"
+      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -118021,8 +120312,6 @@
       null,
       null,
       null,
-      null,
-      null,
       {
          "activity": {
             "activity_type": null
@@ -118054,7 +120343,65 @@
       null,
       null,
       null,
+<<<<<<< HEAD
       null
+=======
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
    ],
    [
       {
@@ -118084,20 +120431,6 @@
          "patch_type": "Qubit",
          "text": "Id: 5"
       },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Dashed",
-            "Left": "Solid",
-            "Right": "Solid",
-            "Top": "Dashed"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 6"
-      },
       {
          "activity": {
             "activity_type": null
@@ -118122,7 +120455,7 @@
             "Top": "Dashed"
          },
          "patch_type": "Qubit",
-         "text": "Id: 7"
+         "text": "Id: 6"
       },
       {
          "activity": {
@@ -118137,6 +120470,20 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 7"
+      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -118183,8 +120530,6 @@
       null,
       null,
       null,
-      null,
-      null,
       {
          "activity": {
             "activity_type": null
@@ -118196,7 +120541,7 @@
             "Top": "DashedStiched"
          },
          "patch_type": "Qubit",
-         "text": "Id: 125"
+         "text": "Not bound"
       },
       null,
       {
@@ -118216,7 +120561,65 @@
       null,
       null,
       null,
+<<<<<<< HEAD
       null
+=======
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": "Time to next magic state:6"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
    ],
    [
       {
@@ -118246,7 +120649,19 @@
          "patch_type": "Qubit",
          "text": "Id: 10"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "DashedStiched",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -118262,13 +120677,13 @@
       },
       {
          "activity": {
-            "activity_type": null
+            "activity_type": "Measurement"
          },
          "edges": {
             "Bottom": "Dashed",
             "Left": "Solid",
-            "Right": "SolidStiched",
-            "Top": "Dashed"
+            "Right": "Solid",
+            "Top": "DashedStiched"
          },
          "patch_type": "Qubit",
          "text": "Not bound"
@@ -118279,8 +120694,8 @@
          },
          "edges": {
             "Bottom": "Dashed",
-            "Left": "SolidStiched",
-            "Right": "Solid",
+            "Left": "Solid",
+            "Right": "SolidStiched",
             "Top": "Dashed"
          },
          "patch_type": "Qubit",
@@ -118288,13 +120703,13 @@
       },
       {
          "activity": {
-            "activity_type": "Measurement"
+            "activity_type": null
          },
          "edges": {
             "Bottom": "Dashed",
-            "Left": "Solid",
+            "Left": "SolidStiched",
             "Right": "Solid",
-            "Top": "DashedStiched"
+            "Top": "Dashed"
          },
          "patch_type": "Qubit",
          "text": "Not bound"
@@ -118345,11 +120760,71 @@
       null,
       null,
       null,
-      null,
-      null,
-      null,
-      null,
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "DashedStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "SolidStiched",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "SolidStiched",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "SolidStiched",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "SolidStiched",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 125"
+      },
       null,
       null,
       null,
@@ -118788,20 +121263,6 @@
       null,
       null,
       null,
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Dashed",
-            "Left": "Solid",
-            "Right": "Solid",
-            "Top": "DashedStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 126"
-      },
       {
          "activity": {
             "activity_type": "Measurement"
@@ -118815,6 +121276,20 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "DashedStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 126"
+      },
+      null,
       null,
       null,
       null,
@@ -118851,20 +121326,6 @@
          "patch_type": "Qubit",
          "text": "Id: 0"
       },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Dashed",
-            "Left": "Solid",
-            "Right": "Solid",
-            "Top": "Dashed"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 1"
-      },
       {
          "activity": {
             "activity_type": "Measurement"
@@ -118878,6 +121339,20 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 1"
+      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -118938,8 +121413,6 @@
       null,
       null,
       null,
-      null,
-      null,
       {
          "activity": {
             "activity_type": "Measurement"
@@ -118959,7 +121432,65 @@
       null,
       null,
       null,
+<<<<<<< HEAD
       null
+=======
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
    ],
    [
       {
@@ -118989,20 +121520,6 @@
          "patch_type": "Qubit",
          "text": "Id: 5"
       },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Dashed",
-            "Left": "Solid",
-            "Right": "Solid",
-            "Top": "Dashed"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 6"
-      },
       {
          "activity": {
             "activity_type": "Measurement"
@@ -119016,6 +121533,20 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 6"
+      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -119076,8 +121607,6 @@
       null,
       null,
       null,
-      null,
-      null,
       {
          "activity": {
             "activity_type": "Measurement"
@@ -119089,7 +121618,7 @@
             "Top": "Dashed"
          },
          "patch_type": "Qubit",
-         "text": "Id: 125"
+         "text": "Not bound"
       },
       null,
       null,
@@ -119097,7 +121626,65 @@
       null,
       null,
       null,
+<<<<<<< HEAD
       null
+=======
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": "Time to next magic state:5"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
    ],
    [
       {
@@ -119127,20 +121714,6 @@
          "patch_type": "Qubit",
          "text": "Id: 10"
       },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Dashed",
-            "Left": "Solid",
-            "Right": "Solid",
-            "Top": "Dashed"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 11"
-      },
       {
          "activity": {
             "activity_type": "Measurement"
@@ -119165,9 +121738,35 @@
             "Top": "Dashed"
          },
          "patch_type": "Qubit",
-         "text": "Id: 12"
+         "text": "Id: 11"
       },
       null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 12"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "DashedStiched",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -119214,11 +121813,71 @@
       null,
       null,
       null,
-      null,
-      null,
-      null,
-      null,
-      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "SolidStiched",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "SolidStiched",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "SolidStiched",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "SolidStiched",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "DashedStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 125"
+      },
       null,
       null,
       null,
@@ -131215,7 +133874,6 @@
       null,
       null,
       null,
-      null,
       {
          "activity": {
             "activity_type": null
@@ -131227,7 +133885,7 @@
             "Top": "Dashed"
          },
          "patch_type": "Qubit",
-         "text": "Id: 136"
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -131240,11 +133898,68 @@
             "Top": "Dashed"
          },
          "patch_type": "Qubit",
-         "text": "Not bound"
+         "text": "Id: 136"
       },
       null,
       null,
+<<<<<<< HEAD
       null
+=======
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": "Time to next magic state:10"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
    ],
    [
       {
@@ -131302,20 +134017,6 @@
          "patch_type": "Qubit",
          "text": "Id: 2"
       },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Dashed",
-            "Left": "Solid",
-            "Right": "Solid",
-            "Top": "Dashed"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 3"
-      },
       {
          "activity": {
             "activity_type": null
@@ -131329,6 +134030,20 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 3"
+      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -131365,8 +134080,6 @@
       null,
       null,
       null,
-      null,
-      null,
       {
          "activity": {
             "activity_type": null
@@ -131382,7 +134095,65 @@
       },
       null,
       null,
+<<<<<<< HEAD
       null
+=======
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
    ],
    [
       {
@@ -131440,20 +134211,6 @@
          "patch_type": "Qubit",
          "text": "Id: 7"
       },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Dashed",
-            "Left": "Solid",
-            "Right": "Solid",
-            "Top": "Dashed"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 8"
-      },
       {
          "activity": {
             "activity_type": null
@@ -131467,6 +134224,20 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 8"
+      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -131503,8 +134274,6 @@
       null,
       null,
       null,
-      null,
-      null,
       {
          "activity": {
             "activity_type": null
@@ -131520,7 +134289,65 @@
       },
       null,
       null,
+<<<<<<< HEAD
       null
+=======
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": "Time to next magic state:10"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
    ],
    [
       {
@@ -131578,7 +134405,6 @@
          "patch_type": "Qubit",
          "text": "Id: 12"
       },
-      null,
       {
          "activity": {
             "activity_type": null
@@ -131590,7 +134416,7 @@
             "Top": "Dashed"
          },
          "patch_type": "Qubit",
-         "text": "Id: 13"
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -131603,8 +134429,9 @@
             "Top": "Dashed"
          },
          "patch_type": "Qubit",
-         "text": "Not bound"
+         "text": "Id: 13"
       },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -132084,20 +134911,6 @@
       null,
       null,
       null,
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Dashed",
-            "Left": "Solid",
-            "Right": "Solid",
-            "Top": "DashedStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 136"
-      },
       {
          "activity": {
             "activity_type": "Measurement"
@@ -132111,6 +134924,20 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "DashedStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 136"
+      },
+      null,
       null,
       null,
       null
@@ -132171,20 +134998,6 @@
          "patch_type": "Qubit",
          "text": "Id: 2"
       },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Dashed",
-            "Left": "Solid",
-            "Right": "Solid",
-            "Top": "Dashed"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 3"
-      },
       {
          "activity": {
             "activity_type": "Measurement"
@@ -132198,6 +135011,20 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 3"
+      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -132234,8 +135061,6 @@
       null,
       null,
       null,
-      null,
-      null,
       {
          "activity": {
             "activity_type": "Measurement"
@@ -132251,7 +135076,65 @@
       },
       null,
       null,
+<<<<<<< HEAD
       null
+=======
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
    ],
    [
       {
@@ -132309,20 +135192,6 @@
          "patch_type": "Qubit",
          "text": "Id: 7"
       },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Dashed",
-            "Left": "Solid",
-            "Right": "Solid",
-            "Top": "Dashed"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 8"
-      },
       {
          "activity": {
             "activity_type": "Measurement"
@@ -132336,6 +135205,20 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 8"
+      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -132372,8 +135255,6 @@
       null,
       null,
       null,
-      null,
-      null,
       {
          "activity": {
             "activity_type": "Measurement"
@@ -132389,7 +135270,65 @@
       },
       null,
       null,
+<<<<<<< HEAD
       null
+=======
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": "Time to next magic state:9"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
    ],
    [
       {
@@ -132447,20 +135386,6 @@
          "patch_type": "Qubit",
          "text": "Id: 12"
       },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Dashed",
-            "Left": "Solid",
-            "Right": "Solid",
-            "Top": "Dashed"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 13"
-      },
       {
          "activity": {
             "activity_type": "Measurement"
@@ -132474,6 +135399,20 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 13"
+      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -149636,8 +152575,89 @@
       }
    ],
    [
+<<<<<<< HEAD
       null,
       null,
+=======
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "Solid",
+            "Right": "SolidStiched",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 152"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+            "Left": "SolidStiched",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 151"
+      },
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
       null,
       null,
       null,
@@ -149767,6 +152787,7 @@
             "activity_type": null
          },
          "edges": {
+<<<<<<< HEAD
             "Bottom": "Dashed",
             "Left": "Solid",
             "Right": "SolidStiched",
@@ -149774,12 +152795,22 @@
          },
          "patch_type": "Qubit",
          "text": "Id: 152"
+=======
+            "Bottom": "None",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": "Time to next magic state:8"
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
       },
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
+<<<<<<< HEAD
             "Bottom": "Dashed",
             "Left": "SolidStiched",
             "Right": "Solid",
@@ -149788,6 +152819,44 @@
          "patch_type": "Qubit",
          "text": "Id: 151"
       },
+=======
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      null,
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
       null,
       null,
       null,
@@ -150457,8 +153526,89 @@
       }
    ],
    [
+<<<<<<< HEAD
       null,
       null,
+=======
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "DashedStiched",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 152"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "DashedStiched",
+            "Left": "Solid",
+            "Right": "Solid",
+            "Top": "Dashed"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 151"
+      },
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
       null,
       null,
       null,
@@ -150477,10 +153627,66 @@
             "activity_type": null
          },
          "edges": {
+<<<<<<< HEAD
             "Bottom": "DashedStiched",
+=======
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Dashed",
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
             "Left": "Solid",
             "Right": "Solid",
-            "Top": "Dashed"
+            "Top": "DashedStiched"
          },
          "patch_type": "Qubit",
          "text": "Id: 148"
@@ -150490,10 +153696,10 @@
             "activity_type": "Measurement"
          },
          "edges": {
-            "Bottom": "DashedStiched",
+            "Bottom": "Dashed",
             "Left": "Solid",
             "Right": "Solid",
-            "Top": "Dashed"
+            "Top": "DashedStiched"
          },
          "patch_type": "Qubit",
          "text": "Not bound"
@@ -150585,6 +153791,7 @@
    [
       {
          "activity": {
+<<<<<<< HEAD
             "activity_type": "Measurement"
          },
          "edges": {
@@ -150609,6 +153816,60 @@
          "patch_type": "Qubit",
          "text": "Id: 151"
       },
+=======
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "Solid",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": "Time to next magic state:7"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "Solid",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      null,
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
       null,
       null,
       null,

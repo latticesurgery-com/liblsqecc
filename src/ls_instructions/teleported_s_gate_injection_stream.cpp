@@ -36,25 +36,21 @@ LSInstruction TeleportedSGateInjectionStream::get_next_instruction()
     const auto* sgate = std::get_if<SingleQubitOp>(&new_instruction.operation);
     if( sgate && sgate->op == SingleQubitOp::Operator::S && core_qubits().contains(sgate->target))
     {
-        const PatchId new_ancilla_id = id_generator_.new_id();
+        const PatchId ystate_id = id_generator_.new_id();
 
-        next_instructions_.push(
-            {
-                .operation={PatchInit{new_ancilla_id, PatchInit::InitializeableStates::Plus}},
-                .clients = { sgate->target }
-            });
-        // S-Gate distillation
-        next_instructions_.push({.operation={
-                SingleQubitOp{
-                    .target = new_ancilla_id,
-                    .op = SingleQubitOp::Operator::S}}});
+        // Request Y state
+        next_instructions_.push({.operation={YStateRequest{ystate_id, sgate->target}}, .wait_at_most_for=YStateRequest::DEFAULT_WAIT, .clients={sgate->target}});
+
         // Teleport the state
         next_instructions_.push({.operation={
                 MultiPatchMeasurement{.observable={
-                        {new_ancilla_id, PauliOperator::Z},
+                        {ystate_id, PauliOperator::Z},
                         {sgate->target, PauliOperator::Z},
                 },.is_negative=false}}});
-        next_instructions_.push({.operation={SinglePatchMeasurement{new_ancilla_id, PauliOperator::Z, false}}});
+        next_instructions_.push({.operation={SinglePatchMeasurement{ystate_id, PauliOperator::X, false}}});
+
+        // This Pauli Z is applied probabilistically according to the XOR of the two measurement outcomes.
+        next_instructions_.push({.operation={SingleQubitOp{sgate->target,SingleQubitOp::Operator::Z}}});
     }
     else
     {

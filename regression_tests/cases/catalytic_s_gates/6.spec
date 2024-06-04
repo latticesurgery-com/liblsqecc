@@ -68,10 +68,17 @@ BusyRegion (0,8),(0,9),StepsToClear(0);RequestYState 60 4;RequestMagicState 65 5
 BellBasedCNOT 5 65 66 67 [BellMeasure (1,1),(2,1);BellMeasure (3,1),(4,1);MergeContract (0,2),(1,2)];MeasureSinglePatch 65 Z;RequestYState 68 5;BellBasedCNOT 5 68 69 70 [ExtendSplit (4,2),(4,3);BellPrepare (5,0),(5,1);BellPrepare (5,2),(5,3)];
 BellBasedCNOT 5 68 69 70 [BellMeasure (5,1),(5,2);BellMeasure (5,3),(4,3);MergeContract (4,0),(5,0)];
 HGate 68;RotateSingleCellPatch 68;
+<<<<<<< HEAD
 BusyRegion (4,0),(4,1),StepsToClear(2);
 BusyRegion (4,0),(4,1),StepsToClear(1);
 BusyRegion (4,0),(4,1),StepsToClear(0);BellBasedCNOT 5 68 71 72 [ExtendSplit (4,2),(4,1);BellPrepare (5,0),(5,1)];
 BellBasedCNOT 5 68 71 72 [BellMeasure (5,1),(4,1);MergeContract (4,0),(5,0)];
+=======
+BusyRegion (8,4),(8,5),StepsToClear(2);
+BusyRegion (8,4),(8,5),StepsToClear(1);
+BusyRegion (8,4),(8,5),StepsToClear(0);BellBasedCNOT 5 68 71 72 [ExtendSplit (8,6),(8,5);BellPrepare (7,4),(7,5)];
+BellBasedCNOT 5 68 71 72 [BellMeasure (7,5),(8,5);MergeContract (8,4),(7,4)];
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
 HGate 68;RotateSingleCellPatch 68;
 BusyRegion (4,0),(4,1),StepsToClear(2);
 BusyRegion (4,0),(4,1),StepsToClear(1);
@@ -117,33 +124,57 @@ BusyRegion (4,12),(4,11),StepsToClear(1);
 BusyRegion (4,12),(4,11),StepsToClear(0);BellBasedCNOT 9 100 103 104 [ExtendSplit (4,10),(4,11);BellPrepare (5,12),(5,11)];
 BellBasedCNOT 9 100 103 104 [BellMeasure (5,11),(4,11);MergeContract (4,12),(5,12)];
 HGate 100;RotateSingleCellPatch 100;
+<<<<<<< HEAD
 BusyRegion (4,12),(4,11),StepsToClear(2);
 BusyRegion (4,12),(4,11),StepsToClear(1);
 BusyRegion (4,12),(4,11),StepsToClear(0);RequestYState 100 9;RequestMagicState 105 10;BellBasedCNOT 10 105 106 107 [ExtendSplit (6,2),(6,1);BellPrepare (7,0),(7,1)];
 BellBasedCNOT 10 105 106 107 [BellMeasure (7,1),(6,1);MergeContract (6,0),(7,0)];MeasureSinglePatch 105 Z;RequestYState 108 10;BellBasedCNOT 10 108 109 110 [ExtendSplit (6,2),(6,3);BellPrepare (5,0),(5,1);BellPrepare (5,2),(5,3)];
 BellBasedCNOT 10 108 109 110 [BellMeasure (5,1),(5,2);BellMeasure (5,3),(6,3);MergeContract (4,0),(5,0)];
+=======
+BusyRegion (8,16),(8,15),StepsToClear(2);
+BusyRegion (8,16),(8,15),StepsToClear(1);
+BusyRegion (8,16),(8,15),StepsToClear(0);RequestYState 100 9;RequestMagicState 105 10;BellBasedCNOT 10 105 106 107 [ExtendSplit (10,6),(10,5);BellPrepare (9,4),(9,5)];
+BellBasedCNOT 10 105 106 107 [BellMeasure (9,5),(10,5);MergeContract (10,4),(9,4)];MeasureSinglePatch 105 Z;RequestYState 108 10;BellBasedCNOT 10 108 109 110 [ExtendSplit (10,6),(10,7);BellPrepare (7,4),(7,5);BellPrepare (7,6),(7,7);BellPrepare (8,7),(9,7)];
+BellBasedCNOT 10 108 109 110 [BellMeasure (7,5),(7,6);BellMeasure (7,7),(8,7);BellMeasure (9,7),(10,7);MergeContract (8,4),(7,4)];
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
 HGate 108;RotateSingleCellPatch 108;
 BusyRegion (4,0),(4,1),StepsToClear(2);
 BusyRegion (4,0),(4,1),StepsToClear(1);
 BusyRegion (4,0),(4,1),StepsToClear(0);BellBasedCNOT 10 108 111 112 [ExtendSplit (6,2),(6,1);BellPrepare (5,0),(5,1)];
 BellBasedCNOT 10 108 111 112 [BellMeasure (5,1),(6,1);MergeContract (4,0),(5,0)];
 HGate 108;RotateSingleCellPatch 108;
+<<<<<<< HEAD
 BusyRegion (4,0),(4,1),StepsToClear(2);
 BusyRegion (4,0),(4,1),StepsToClear(1);
 BusyRegion (4,0),(4,1),StepsToClear(0);RequestYState 108 10;RequestMagicState 113 11;BellBasedCNOT 11 113 114 115 [ExtendSplit (6,4),(6,3);BellPrepare (1,2),(1,3);BellPrepare (2,3),(3,3);BellPrepare (4,3),(5,3)];
 BellBasedCNOT 11 113 114 115 [BellMeasure (1,3),(2,3);BellMeasure (3,3),(4,3);BellMeasure (5,3),(6,3);MergeContract (0,2),(1,2)];MeasureSinglePatch 113 Z;RequestYState 116 11;BellBasedCNOT 11 116 117 118 [ExtendSplit (6,4),(6,5);BellPrepare (1,4),(1,5);BellPrepare (2,5),(3,5);BellPrepare (4,5),(5,5)];
 BellBasedCNOT 11 116 117 118 [BellMeasure (1,5),(2,5);BellMeasure (3,5),(4,5);BellMeasure (5,5),(6,5);MergeContract (0,4),(1,4)];
+=======
+BusyRegion (8,4),(8,5),StepsToClear(2);
+BusyRegion (8,4),(8,5),StepsToClear(1);
+BusyRegion (8,4),(8,5),StepsToClear(0);RequestYState 108 10;RequestMagicState 113 11;BellBasedCNOT 11 113 114 115 [ExtendSplit (10,8),(10,7);BellPrepare (9,4),(9,5);BellPrepare (9,6),(9,7)];
+BellBasedCNOT 11 113 114 115 [BellMeasure (9,5),(9,6);BellMeasure (9,7),(10,7);MergeContract (10,4),(9,4)];MeasureSinglePatch 113 Z;RequestYState 116 11;BellBasedCNOT 11 116 117 118 [ExtendSplit (10,8),(10,9);BellPrepare (5,8),(5,9);BellPrepare (6,9),(7,9);BellPrepare (8,9),(9,9)];
+BellBasedCNOT 11 116 117 118 [BellMeasure (5,9),(6,9);BellMeasure (7,9),(8,9);BellMeasure (9,9),(10,9);MergeContract (4,8),(5,8)];
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
 HGate 116;RotateSingleCellPatch 116;
 BusyRegion (0,4),(0,5),StepsToClear(2);
 BusyRegion (0,4),(0,5),StepsToClear(1);
 BusyRegion (0,4),(0,5),StepsToClear(0);BellBasedCNOT 11 116 119 120 [ExtendSplit (6,4),(6,3);BellPrepare (1,4),(1,3);BellPrepare (2,3),(3,3);BellPrepare (4,3),(5,3)];
 BellBasedCNOT 11 116 119 120 [BellMeasure (1,3),(2,3);BellMeasure (3,3),(4,3);BellMeasure (5,3),(6,3);MergeContract (0,4),(1,4)];
 HGate 116;RotateSingleCellPatch 116;
+<<<<<<< HEAD
 BusyRegion (0,4),(0,5),StepsToClear(2);
 BusyRegion (0,4),(0,5),StepsToClear(1);
 BusyRegion (0,4),(0,5),StepsToClear(0);RequestYState 116 11;RequestMagicState 121 12;BellBasedCNOT 12 121 122 123 [ExtendSplit (6,6),(6,7);BellPrepare (1,6),(1,7);BellPrepare (2,7),(3,7);BellPrepare (4,7),(5,7)];
 BellBasedCNOT 12 121 122 123 [BellMeasure (1,7),(2,7);BellMeasure (3,7),(4,7);BellMeasure (5,7),(6,7);MergeContract (0,6),(1,6)];MeasureSinglePatch 121 Z;RequestYState 124 12;BellBasedCNOT 12 124 125 126 [ExtendSplit (6,6),(6,5);BellPrepare (1,4),(1,5);BellPrepare (2,5),(3,5);BellPrepare (4,5),(5,5)];
 BellBasedCNOT 12 124 125 126 [BellMeasure (1,5),(2,5);BellMeasure (3,5),(4,5);BellMeasure (5,5),(6,5);MergeContract (0,4),(1,4)];
+=======
+BusyRegion (4,8),(4,9),StepsToClear(2);
+BusyRegion (4,8),(4,9),StepsToClear(1);
+BusyRegion (4,8),(4,9),StepsToClear(0);RequestYState 116 11;RequestMagicState 121 12;BellBasedCNOT 12 121 122 123 [ExtendSplit (10,10),(10,9);BellPrepare (5,10),(5,9);BellPrepare (6,9),(7,9);BellPrepare (8,9),(9,9)];
+BellBasedCNOT 12 121 122 123 [BellMeasure (5,9),(6,9);BellMeasure (7,9),(8,9);BellMeasure (9,9),(10,9);MergeContract (4,10),(5,10)];MeasureSinglePatch 121 Z;RequestYState 124 12;BellBasedCNOT 12 124 125 126 [ExtendSplit (10,10),(10,11);BellPrepare (5,8),(5,7);BellPrepare (6,7),(7,7);BellPrepare (8,7),(9,7);BellPrepare (10,7),(11,7);BellPrepare (11,8),(11,9);BellPrepare (11,10),(11,11)];
+BellBasedCNOT 12 124 125 126 [BellMeasure (5,7),(6,7);BellMeasure (7,7),(8,7);BellMeasure (9,7),(10,7);BellMeasure (11,7),(11,8);BellMeasure (11,9),(11,10);BellMeasure (11,11),(10,11);MergeContract (4,8),(5,8)];
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
 HGate 124;RotateSingleCellPatch 124;
 BusyRegion (0,4),(0,5),StepsToClear(2);
 BusyRegion (0,4),(0,5),StepsToClear(1);
@@ -156,10 +187,17 @@ BusyRegion (0,4),(0,5),StepsToClear(0);RequestYState 124 12;RequestMagicState 12
 BellBasedCNOT 13 129 130 131 [BellMeasure (5,11),(5,10);BellMeasure (5,9),(6,9);MergeContract (6,12),(5,12)];MeasureSinglePatch 129 Z;RequestYState 132 13;BellBasedCNOT 13 132 133 134 [ExtendSplit (6,8),(6,7);BellPrepare (1,8),(1,7);BellPrepare (2,7),(3,7);BellPrepare (4,7),(5,7)];
 BellBasedCNOT 13 132 133 134 [BellMeasure (1,7),(2,7);BellMeasure (3,7),(4,7);BellMeasure (5,7),(6,7);MergeContract (0,8),(1,8)];
 HGate 132;RotateSingleCellPatch 132;
+<<<<<<< HEAD
 BusyRegion (0,8),(0,9),StepsToClear(2);
 BusyRegion (0,8),(0,9),StepsToClear(1);
 BusyRegion (0,8),(0,9),StepsToClear(0);BellBasedCNOT 13 132 135 136 [ExtendSplit (6,8),(6,9);BellPrepare (1,8),(1,9);BellPrepare (2,9),(3,9);BellPrepare (4,9),(5,9)];
 BellBasedCNOT 13 132 135 136 [BellMeasure (1,9),(2,9);BellMeasure (3,9),(4,9);BellMeasure (5,9),(6,9);MergeContract (0,8),(1,8)];
+=======
+BusyRegion (4,12),(4,13),StepsToClear(2);
+BusyRegion (4,12),(4,13),StepsToClear(1);
+BusyRegion (4,12),(4,13),StepsToClear(0);BellBasedCNOT 13 132 135 136 [ExtendSplit (10,12),(10,11);BellPrepare (5,12),(5,11);BellPrepare (6,11),(7,11);BellPrepare (8,11),(9,11)];
+BellBasedCNOT 13 132 135 136 [BellMeasure (5,11),(6,11);BellMeasure (7,11),(8,11);BellMeasure (9,11),(10,11);MergeContract (4,12),(5,12)];
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
 HGate 132;RotateSingleCellPatch 132;
 BusyRegion (0,8),(0,9),StepsToClear(2);
 BusyRegion (0,8),(0,9),StepsToClear(1);
@@ -178,10 +216,17 @@ BusyRegion (4,12),(4,11),StepsToClear(0);RequestYState 140 14;RequestMagicState 
 BellBasedCNOT 15 145 146 147 [BellMeasure (7,1),(8,1);MergeContract (6,0),(7,0)];MeasureSinglePatch 145 Z;RequestYState 148 15;BellBasedCNOT 15 148 149 150 [ExtendSplit (8,2),(8,3);BellPrepare (9,0),(9,1);BellPrepare (9,2),(9,3)];
 BellBasedCNOT 15 148 149 150 [BellMeasure (9,1),(9,2);BellMeasure (9,3),(8,3);MergeContract (8,0),(9,0)];
 HGate 148;RotateSingleCellPatch 148;
+<<<<<<< HEAD
 BusyRegion (8,0),(8,1),StepsToClear(2);
 BusyRegion (8,0),(8,1),StepsToClear(1);
 BusyRegion (8,0),(8,1),StepsToClear(0);BellBasedCNOT 15 148 151 152 [ExtendSplit (8,2),(8,1);BellPrepare (9,0),(9,1)];
 BellBasedCNOT 15 148 151 152 [BellMeasure (9,1),(8,1);MergeContract (8,0),(9,0)];
+=======
+BusyRegion (12,4),(12,5),StepsToClear(2);
+BusyRegion (12,4),(12,5),StepsToClear(1);
+BusyRegion (12,4),(12,5),StepsToClear(0);BellBasedCNOT 15 148 151 152 [ExtendSplit (12,6),(12,5);BellPrepare (11,4),(11,5)];
+BellBasedCNOT 15 148 151 152 [BellMeasure (11,5),(12,5);MergeContract (12,4),(11,4)];
+>>>>>>> 4dcc26c (Added twist-based Y state preparation on one tile and updated S gate teleportation protocol.)
 HGate 148;RotateSingleCellPatch 148;
 BusyRegion (8,0),(8,1),StepsToClear(2);
 BusyRegion (8,0),(8,1),StepsToClear(1);

@@ -123,6 +123,7 @@ DenseSlice::DenseSlice(const lsqecc::Layout &layout, const tsl::ordered_set<Patc
     {
         SparsePatch p = LayoutHelpers::basic_square_patch(cell);
         place_single_cell_sparse_patch(p,false);
+        predistilled_ystates_available++;
     }
 
     for(const MultipleCellsOccupiedByPatch& distillation_region: layout.distillation_regions())
