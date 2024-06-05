@@ -48,17 +48,8 @@ std::optional<Cell> find_place_for_magic_state(const DenseSlice& slice, const La
 {
     for(const auto& cell: layout.distilled_state_locations(distillation_region_idx))
     {
-        if (layout.magic_states_reserved()) 
-        {   // Case where magic states queues are reserved.
-            // TODO how do we know slice.patch_at(cell) is not null.
-            if (slice.patch_at(cell)->type == PatchType::Distillation)
-                return cell;
-        }
-        else 
-        {   // Regular case where magic states are queued on the boundary of the distillation region.
-            if(slice.is_cell_free(cell))
-                return cell;
-        }
+        if(slice.is_cell_free(cell))
+            return cell;
     }
     return std::nullopt;
 }
@@ -102,36 +93,61 @@ void advance_slice(DenseSlice& slice, const Layout& layout)
         }
     });
 
-    size_t distillation_region_index = 0;
-    for (auto& time_to_magic_state_here: slice.time_to_next_magic_state_by_distillation_region)
+    // If we have tiles reserved for magic state re-spawn, we loop over them and 
+    //  * If a state was consumed in the last slice, we reset the tile and the re-spawn time
+    //  * Else, if we are waiting for re-spawn, we decrement the re-spawn time
+    //  * If it is time to re-spawn, we add a PreparedState.
+    if (layout.magic_states_reserved()) 
     {
-        if (layout.magic_states_reserved()) {
-            for (const Cell& cell: layout.distilled_state_locations(distillation_region_index)) {
-                if (slice.is_cell_free(cell)) {
-                    slice.patch_at(cell) = DensePatch{
-                        Patch{PatchType::Distillation,PatchActivity::Distillation,std::nullopt},
-                        CellBoundaries{Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false},
-                            Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false}}};
-                }
-            }            
-        }
-        
-        time_to_magic_state_here--;
-
-        if(time_to_magic_state_here == 0){
-
-            auto magic_state_cell = find_place_for_magic_state(slice, layout, distillation_region_index);
-            if(magic_state_cell)
+        size_t reserved_cell_index = 0;
+        for (const Cell& cell: layout.reserved_for_magic_states()) {
+            if (slice.is_cell_free(cell)) 
             {
-                SparsePatch magic_state_patch = LayoutHelpers::basic_square_patch(*magic_state_cell, std::nullopt, "Magic State");
+                slice.patch_at(cell) = DensePatch{
+                    Patch{PatchType::Distillation,PatchActivity::Distillation,std::nullopt},
+                    CellBoundaries{Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false},
+                        Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false}}};
+                slice.time_to_next_magic_state_by_distillation_region[reserved_cell_index] = layout.distillation_times()[reserved_cell_index];
+            }
+            else if (slice.patch_at(cell)->type == PatchType::Distillation)
+            {
+                slice.time_to_next_magic_state_by_distillation_region[reserved_cell_index]--;
+            }
+
+            if (slice.time_to_next_magic_state_by_distillation_region[reserved_cell_index] == 0)
+            {
+                SparsePatch magic_state_patch = LayoutHelpers::basic_square_patch(cell, std::nullopt, "Magic State");
                 magic_state_patch.type = PatchType::PreparedState;
                 slice.place_single_cell_sparse_patch(magic_state_patch, true);
-                slice.magic_states.insert(*magic_state_cell);
+                slice.magic_states.insert(cell);  
             }
-            time_to_magic_state_here = layout.distillation_times()[distillation_region_index];
-        }
+            reserved_cell_index++;
+        }            
+    }
 
-        distillation_region_index++;
+    // Otherwise, we update the factories
+    else
+    {
+        size_t distillation_region_index = 0;
+        for (auto& time_to_magic_state_here: slice.time_to_next_magic_state_by_distillation_region)
+        {        
+            time_to_magic_state_here--;
+
+            if(time_to_magic_state_here == 0){
+
+                auto magic_state_cell = find_place_for_magic_state(slice, layout, distillation_region_index);
+                if(magic_state_cell)
+                {
+                    SparsePatch magic_state_patch = LayoutHelpers::basic_square_patch(*magic_state_cell, std::nullopt, "Magic State");
+                    magic_state_patch.type = PatchType::PreparedState;
+                    slice.place_single_cell_sparse_patch(magic_state_patch, true);
+                    slice.magic_states.insert(*magic_state_cell);
+                }
+                time_to_magic_state_here = layout.distillation_times()[distillation_region_index];
+            }
+
+            distillation_region_index++;
+        }
     }
 }
 
