@@ -135,21 +135,17 @@ void LayoutFromSpec::init_cache(const AsciiLayoutSpec& spec, const DistillationO
 {
     cached_furthest_cell_ = spec.furthest_cell();
     
-
-    // TODO refactor:
-    // There is a built in invariant here, that if there is a single CellType::ReservedForMagicState for magic state, the 
-    // magic_states_reserved_ flag is set and then the the allocation behavior changes. 
-    // See dense_patch_computation.cpp:find_place_for_magic_state() to see how that changes, but in essence, when 
-    // magic_states_reserved_ is set, the reserved spots are kept as magic states that are not bound, rather than empty cells.
-    // It should be possible to drop the magic_states_reserved_ and remove the logic in find_place_for_magic_state
-    // by just making the queuing behaviour consistent.
     auto reserved_for_magic_state_cells = spec.find_all_cells_of_type(AsciiLayoutSpec::CellType::ReservedForMagicState);
     magic_states_reserved_ = reserved_for_magic_state_cells.size() == 0 ? false : true;
 
     for(const AsciiLayoutSpec::CellType distillation_region_char : AsciiLayoutSpec::k_distillation_region_types)
     {
-
         auto cells_of_type = spec.find_all_cells_of_type(distillation_region_char);
+
+        if ((cells_of_type.size() != 0) && magic_states_reserved_)
+        {
+            throw std::logic_error("Choose one of two modes: (a) specify magic state factories OR (b) specify tiles reserved for magic state re-spawn.");
+        }
 
         for (const auto& starting_cell: cells_of_type)
         {
@@ -175,17 +171,13 @@ void LayoutFromSpec::init_cache(const AsciiLayoutSpec& spec, const DistillationO
                 // Define distillation region
                 auto inside_neighbours = cell_occupied_by_patch.cell
                         .get_neigbours_within_bounding_box_inclusive({0,0},cached_furthest_cell_);
-                for(const auto& neighbour: inside_neighbours)
-                    if (!magic_states_reserved_) {
-                        if( spec.get_grid_spec()[neighbour.row][neighbour.col] == AsciiLayoutSpec::CellType::RoutingAncilla) {
-                            queue_for_new_region.push_back(neighbour);
-                        }
+                for(const auto& neighbour: inside_neighbours) 
+                {
+                    if( spec.get_grid_spec()[neighbour.row][neighbour.col] == AsciiLayoutSpec::CellType::RoutingAncilla) 
+                    {
+                        queue_for_new_region.push_back(neighbour);
                     }
-                    else {
-                        if( spec.get_grid_spec()[neighbour.row][neighbour.col] == AsciiLayoutSpec::CellType::ReservedForMagicState) {
-                            queue_for_new_region.push_back(neighbour);
-                        }
-                    }
+                }
             }
 
             cached_distillation_regions_.push_back(new_distillation_region);
@@ -198,16 +190,9 @@ void LayoutFromSpec::init_cache(const AsciiLayoutSpec& spec, const DistillationO
 
     }
 
-    if (magic_states_reserved_) {
-        size_t reserved_count = 0;
-        for (size_t i = 0; i < cached_distilled_state_locations_.size(); i++) {
-            for (size_t j = 0; j< cached_distilled_state_locations_[i].size(); j++) {
-                reserved_count++;
-            }
-        }
-        if (reserved_count != reserved_for_magic_state_cells.size()) {
-            throw std::runtime_error("Cells reserved for magic states must be adjacent to distillation regions. Converting mis-used 'M' to 'r'.");
-        }
+    for (size_t i = 0; i < reserved_for_magic_state_cells.size(); i++) 
+    {
+        cached_distillation_times_.push_back(distillation_options.distillation_time);
     }
 
     for(const auto&[row, row_data]: iter::enumerate(spec.get_grid_spec()))
@@ -215,6 +200,7 @@ void LayoutFromSpec::init_cache(const AsciiLayoutSpec& spec, const DistillationO
             if(cell == AsciiLayoutSpec::LogicalComputationQubit_StandardBorderOrientation)
                 cached_core_patches_.push_back(LayoutHelpers::basic_square_patch(Cell::from_ints(row,col)));
 
+    cached_reserved_cells_ = std::move(reserved_for_magic_state_cells);
     cached_ancilla_locations_ = spec.find_all_cells_of_type(AsciiLayoutSpec::CellType::AncillaQubitLocation);
     cached_dead_cells_ = spec.find_all_cells_of_type(AsciiLayoutSpec::CellType::DeadCell);
     cached_y_states_ = spec.find_all_cells_of_type(AsciiLayoutSpec::CellType::PreDistilledYState);

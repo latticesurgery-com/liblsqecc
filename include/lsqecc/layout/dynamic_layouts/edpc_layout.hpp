@@ -9,7 +9,7 @@
 namespace lsqecc
 {
 
-std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits, size_t num_lanes, bool condensed, const DistillationOptions& distillation_options);
+std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits, size_t num_lanes, bool condensed, bool factories_explicit, const DistillationOptions& distillation_options);
 
 
 } // namespace lsqecc

@@ -164,7 +164,11 @@ namespace lsqecc
                     .names({"--condensed"})
                     .description("Only compatible with -L edpc. Packs logical qubits more compactly.")
                     .required(false);
-                        
+        parser.add_argument()
+                    .names({"--explicitfactories"})
+                    .description("Only compatible with -L edpc. Explicitly specifies factories (otherwise, uses tiles reserved for magic state re-spawn).")
+                    .required(false);
+             
         #ifdef USE_GRIDSYNTH
         parser.add_argument()
                 .names({"--rzprecision"})
@@ -352,14 +356,18 @@ namespace lsqecc
             {
                 size_t num_lanes = 1;
                 bool condensed = false;
+                bool factories_explicit = false;
                 
                 if(parser.exists("numlanes"))
                     num_lanes = parser.get<size_t>("numlanes");
                 
                 if(parser.exists("condensed"))
                     condensed = parser.get<bool>("condensed");
+
+                if (parser.exists("explicitfactories")) 
+                    factories_explicit = true;
                 
-                layout = make_edpc_layout(instruction_stream->core_qubits().size(), num_lanes, condensed, distillation_options);
+                layout = make_edpc_layout(instruction_stream->core_qubits().size(), num_lanes, condensed, factories_explicit, distillation_options);
                 instruction_stream = std::make_unique<CatalyticSGateInjectionStream>(std::move(instruction_stream), id_generator, compile_mode == CompilationMode::Local);
             }
             else

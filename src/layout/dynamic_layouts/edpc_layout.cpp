@@ -7,15 +7,20 @@
 namespace lsqecc
 {
 
-std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits, size_t num_lanes, bool condensed, const DistillationOptions& distillation_options)
+std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits, size_t num_lanes, bool condensed, bool factories_explicit, const DistillationOptions& distillation_options)
 {
 
     // Provides extra padding on the grid to accomodate distillation regions
-    size_t t_distillation_region_cols = 4;
-    size_t t_distillation_region_rows = 4;
+    size_t t_distillation_region_cols = 0;
+    size_t t_distillation_region_rows = 0;
+    if (factories_explicit)
+    {
+        t_distillation_region_cols = 5;
+        t_distillation_region_rows = 5;
+    }
 
     // Calculate number of columns total
-    // (We consider a layout with 15-to-1 distillation regions all along the boundaries)
+    // (If factories_explicit, we consider a layout with 15-to-1 distillation regions all along the boundaries)
     size_t sr = static_cast<size_t>(std::ceil(sqrt(num_core_qubits)));
     size_t core_cols = sr + num_lanes*(sr-1) + 2*num_lanes + 2;
     if (condensed) 
@@ -123,7 +128,8 @@ std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits, size_t num_lane
         if (grid[i][j] == 'Y') {
             a_count++;
             if (a_count%2 == 0) {
-                grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
+                if (!factories_explicit)
+                    grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
                 for (size_t k=i-t_distillation_region_rows; k<i; k++) {
                     for (size_t l=j-1; l<j+2; l++) {
                         grid[k][l] = AsciiLayoutSpec::CellType::DistillationRegion_0;
@@ -140,7 +146,8 @@ std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits, size_t num_lane
         if (grid[i][j] == 'Y') {
             a_count++;
             if (a_count%2 == 0) {
-                grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
+                if (!factories_explicit)
+                    grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
                 for (size_t k=i+1; k<i+t_distillation_region_rows+1; k++) {
                     for (size_t l=j-1; l<j+2; l++) {
                         grid[k][l] = AsciiLayoutSpec::CellType::DistillationRegion_0;
@@ -157,7 +164,8 @@ std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits, size_t num_lane
         if (grid[i][j] == 'Y') {
             a_count++;
             if (a_count%2 == 0) {
-                grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
+                if (!factories_explicit)
+                    grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
                 for (size_t k=i-1; k<i+2; k++) {
                     for (size_t l=j-t_distillation_region_cols; l<j; l++) {
                         grid[k][l] = AsciiLayoutSpec::CellType::DistillationRegion_0;
@@ -174,7 +182,8 @@ std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits, size_t num_lane
         if (grid[i][j] == 'Y') {
             a_count++;
             if (a_count%2 == 0) {
-                grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
+                if (!factories_explicit)
+                    grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
                 for (size_t k=i-1; k<i+2; k++) {
                     for (size_t l=j+1; l<j+t_distillation_region_cols+1; l++) {
                         grid[k][l] = AsciiLayoutSpec::CellType::DistillationRegion_0;
@@ -198,13 +207,13 @@ std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits, size_t num_lane
 
 #ifdef DEBUG_EDPC_LAYOUT_CREATION
     // Print out the grid for the purposes of debugging
-    std::cout << "The number of rows in the grid is: " << grid.size() << std::endl;
-    std::cout << "The number of columns in the grid is: " << grid[grid.size()-1].size() << std::endl;
+    std::cerr << "The number of rows in the grid is: " << grid.size() << std::endl;
+    std::cerr << "The number of columns in the grid is: " << grid[grid.size()-1].size() << std::endl;
     for (size_t i=0; i<grid.size(); i++) {
         for (size_t j=0; j<grid[i].size(); j++) {
-            std::cout << grid[i][j];
+            std::cerr << grid[i][j];
         }
-        std::cout << std::endl;
+        std::cerr << std::endl;
     }
 #endif
 
