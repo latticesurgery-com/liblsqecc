@@ -135,6 +135,19 @@ DenseSlice::DenseSlice(const lsqecc::Layout &layout, const tsl::ordered_set<Patc
         }
     }
 
+    for (const Cell& cell: layout.reserved_for_magic_states()) 
+    {
+        patch_at(cell) = DensePatch{
+                Patch{PatchType::Distillation,PatchActivity::Distillation,std::nullopt},
+                CellBoundaries{Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false},
+                    Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false}}};
+    }
+
+    // Reserved tiles are themselves 'distillation regions'
+    for(auto t : layout.distillation_times())
+        time_to_next_magic_state_by_distillation_region.push_back(t);
+
+
     for(const Cell& cell: layout.dead_location())
     {
         patch_at(cell) = DensePatch{
@@ -142,20 +155,6 @@ DenseSlice::DenseSlice(const lsqecc::Layout &layout, const tsl::ordered_set<Patc
             CellBoundaries{Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false},
                 Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false}}};
     }
-
-    if (layout.magic_states_reserved()) {
-        for (unsigned int i=0; i<layout.distillation_regions().size(); i++) {
-            for (const Cell& cell: layout.distilled_state_locations(i)) {
-                patch_at(cell) = DensePatch{
-                    Patch{PatchType::Distillation,PatchActivity::Distillation,std::nullopt},
-                    CellBoundaries{Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false},
-                        Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false}}};
-            }
-        }
-    }
-    
-    for(auto t : layout.distillation_times())
-        time_to_next_magic_state_by_distillation_region.push_back(t);
 
 }
 
