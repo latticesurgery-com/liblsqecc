@@ -116,10 +116,14 @@ void advance_slice(DenseSlice& slice, const Layout& layout)
 
             if (slice.time_to_next_magic_state_by_distillation_region[reserved_cell_index] == 0)
             {
-                SparsePatch magic_state_patch = LayoutHelpers::basic_square_patch(cell, std::nullopt, "Magic State");
-                magic_state_patch.type = PatchType::PreparedState;
-                slice.place_single_cell_sparse_patch(magic_state_patch, true);
-                slice.magic_states.insert(cell);  
+                if ((slice.patch_at(cell)->type != PatchType::PreparedState) &&
+                    (slice.patch_at(cell)->type != PatchType::Qubit))
+                {
+                    SparsePatch magic_state_patch = LayoutHelpers::basic_square_patch(cell, std::nullopt, "Magic State");
+                    magic_state_patch.type = PatchType::PreparedState;
+                    slice.place_single_cell_sparse_patch(magic_state_patch, true);
+                    slice.magic_states.insert(cell); 
+                }
             }
             reserved_cell_index++;
         }            
