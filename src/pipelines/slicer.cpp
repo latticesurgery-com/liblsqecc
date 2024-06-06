@@ -396,8 +396,8 @@ namespace lsqecc
                     return -1;
                 }
                 layout = make_compact_layout(instruction_stream->core_qubits().size(), distillation_options);
-                instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator, false);
                 instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
+                instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator, false);
             } else if (*auto_layout_mode == AutoLayoutMode::CompactNoClogging)
             {
                 if (sgate_mode == SGateMode::Catalytic) 
@@ -406,8 +406,8 @@ namespace lsqecc
                     return -1;
                 }
                 layout = make_compact_layout(instruction_stream->core_qubits().size(), distillation_options, true);
-                instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator, false);
                 instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
+                instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator, false);
             }
             else if (*auto_layout_mode == AutoLayoutMode::Edpc) 
             {

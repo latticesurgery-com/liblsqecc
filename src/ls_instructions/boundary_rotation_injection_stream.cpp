@@ -46,12 +46,21 @@ LSInstruction BoundaryRotationInjectionStream::get_next_instruction()
                 exposed_operators_.at(patch_id).rotate();
             }
         }
-    } else if (const auto* h_gate = std::get_if<SingleQubitOp>(&new_instruction.operation))
+    } else if (const auto* sq_gate = std::get_if<SingleQubitOp>(&new_instruction.operation))
     {
-        if (exposed_operators_.contains(h_gate->target) && h_gate->op == SingleQubitOp::Operator::H) 
+        if (exposed_operators_.contains(sq_gate->target))
         {
-            exposed_operators_.at(h_gate->target).rotate();
-        }
+            if (sq_gate->op == SingleQubitOp::Operator::H)
+            {
+                exposed_operators_.at(sq_gate->target).rotate();
+            }
+            else if ((sq_gate->op == SingleQubitOp::Operator::S && 
+                    !exposed_operators_.at(sq_gate->target).is_exposed(PauliOperator::Z)))
+            {
+                next_instructions_.push({RotateSingleCellPatch{sq_gate->target}});
+                exposed_operators_.at(sq_gate->target).rotate();                
+            }
+        } 
 
     }
     
