@@ -11,10 +11,10 @@ SparsePatch LayoutHelpers::basic_square_patch(Cell placement, std::optional<Patc
              .id=id,
             },
             SingleCellOccupiedByPatch{
-                    {.top={BoundaryType::Rough,false},
-                     .bottom={BoundaryType::Rough,false},
-                     .left={BoundaryType::Smooth,false},
-                     .right={BoundaryType::Smooth,false}},
+                    {.top={BoundaryType::Smooth,false},
+                     .bottom={BoundaryType::Smooth,false},
+                     .left={BoundaryType::Rough,false},
+                     .right={BoundaryType::Rough,false}},
                     placement
             },
     };
