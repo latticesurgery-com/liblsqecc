@@ -362,8 +362,8 @@ namespace lsqecc
                     return -1;
                 }
                 layout = make_compact_layout(instruction_stream->core_qubits().size(), distillation_options);
-                instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator, false);
                 instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
+                instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator, false);
             } else if (parser.get<std::string>("layoutgenerator") == "compact_no_clogging")
             {
                 if (sgate_mode == SGateMode::Catalytic) 
@@ -372,8 +372,8 @@ namespace lsqecc
                     return -1;
                 }
                 layout = make_compact_layout(instruction_stream->core_qubits().size(), distillation_options, true);
-                instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator, false);
                 instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
+                instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator, false);
             }
             else if ((parser.get<std::string>("layoutgenerator") == "edpc") || (sgate_mode == SGateMode::Catalytic))
             {
@@ -421,8 +421,8 @@ namespace lsqecc
         {
             // Default to Litinsiki's compact layout
             layout = make_compact_layout(instruction_stream->core_qubits().size(), distillation_options);
-            instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator, false);
             instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
+            instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator, false);
         }
 
         LLIPrintMode lli_print_mode = LLIPrintMode::None;

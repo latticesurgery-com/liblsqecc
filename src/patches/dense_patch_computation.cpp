@@ -750,7 +750,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
 
                 if (allow_twists)
                 {
-
+                    
                     // Find all free neighboring cells
                     Cell target_cell = slice.get_cell_by_id(yr->near_patch).value();
                     std::optional<Cell> z_neighbour;
@@ -769,7 +769,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                     {
                         LocalInstruction::LocalLSInstruction local_instruction = {LocalInstruction::PrepareY{yr->target, z_neighbour.value()}};
                         yr->local_instruction = std::move(local_instruction);
-                        InstructionApplicationResult r = try_apply_local_instruction(slice, local_instruction);
+                        InstructionApplicationResult r = try_apply_local_instruction(slice, local_instruction);                       
                         return {nullptr, {}};
                     }
 
