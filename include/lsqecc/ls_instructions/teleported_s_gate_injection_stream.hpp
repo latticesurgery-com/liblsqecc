@@ -13,7 +13,8 @@ class TeleportedSGateInjectionStream : public LSInstructionStream
 public:
     TeleportedSGateInjectionStream(
             std::unique_ptr<LSInstructionStream>&& source,
-            IdGenerator& id_generator
+            IdGenerator& id_generator,
+            bool always_rotate
             );
 
     LSInstruction get_next_instruction() override;
@@ -27,6 +28,7 @@ private:
     std::unique_ptr<LSInstructionStream> source_;
     std::queue<LSInstruction> next_instructions_;
     IdGenerator& id_generator_;
+    bool always_rotate_;
 };
 
 }
