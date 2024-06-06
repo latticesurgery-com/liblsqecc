@@ -423,14 +423,18 @@ namespace lsqecc
 
                 if (parser.exists("explicitfactories")) 
                     factories_explicit = true;
-                
-                layout = make_edpc_layout(instruction_stream->core_qubits().size(), num_lanes, condensed, factories_explicit, distillation_options);
 
-                if (sgate_mode == SGateMode::Catalytic)
+                if (sgate_mode == SGateMode::Catalytic) 
+                {
+                    layout = make_edpc_layout(instruction_stream->core_qubits().size(), num_lanes, condensed, factories_explicit, true, distillation_options);
                     instruction_stream = std::make_unique<CatalyticSGateInjectionStream>(std::move(instruction_stream), id_generator, compile_mode == CompilationMode::Local);
+                }
 
-                else if (sgate_mode == SGateMode::Twists)
+                else if (sgate_mode == SGateMode::Twists) 
+                {
+                    layout = make_edpc_layout(instruction_stream->core_qubits().size(), num_lanes, condensed, factories_explicit, false, distillation_options);
                     instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
+                }
             }
             else
             {

@@ -7,7 +7,7 @@
 namespace lsqecc
 {
 
-std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits, size_t num_lanes, bool condensed, bool factories_explicit, const DistillationOptions& distillation_options)
+std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits, size_t num_lanes, bool condensed, bool factories_explicit, bool predistilled, const DistillationOptions& distillation_options)
 {
 
     // Provides extra padding on the grid to accomodate distillation regions
@@ -136,6 +136,9 @@ std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits, size_t num_lane
                     }
                 }
             }
+            else if (!predistilled) {
+                grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
+            }
         }
     }
 
@@ -153,6 +156,9 @@ std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits, size_t num_lane
                         grid[k][l] = AsciiLayoutSpec::CellType::DistillationRegion_0;
                     }
                 }
+            }
+            else if (!predistilled) {
+                grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
             }
         }
     }
@@ -172,6 +178,9 @@ std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits, size_t num_lane
                     }
                 }
             }
+            else if (!predistilled) {
+                grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
+            }
         }
     }
 
@@ -189,6 +198,9 @@ std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits, size_t num_lane
                         grid[k][l] = AsciiLayoutSpec::CellType::DistillationRegion_0;
                     }
                 }
+            }
+            else if (!predistilled) {
+                grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
             }
         }
     }
