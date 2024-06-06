@@ -14,7 +14,8 @@ public:
     CatalyticSGateInjectionStream(
             std::unique_ptr<LSInstructionStream>&& source,
             IdGenerator& id_generator,
-            bool local_instruction
+            bool local_instruction,
+            bool always_rotate
             );
 
     LSInstruction get_next_instruction() override;
@@ -29,6 +30,7 @@ private:
     std::queue<LSInstruction> next_instructions_;
     IdGenerator& id_generator_;
     LSIinstructionFromGatesGenerator instruction_generator_;
+    bool always_rotate_;
 };
 
 }

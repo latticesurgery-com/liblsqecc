@@ -396,7 +396,7 @@ namespace lsqecc
                     return -1;
                 }
                 layout = make_compact_layout(instruction_stream->core_qubits().size(), distillation_options);
-                instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
+                instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator, false);
                 instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
             } else if (*auto_layout_mode == AutoLayoutMode::CompactNoClogging)
             {
@@ -406,7 +406,7 @@ namespace lsqecc
                     return -1;
                 }
                 layout = make_compact_layout(instruction_stream->core_qubits().size(), distillation_options, true);
-                instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
+                instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator, false);
                 instruction_stream = std::make_unique<BoundaryRotationInjectionStream>(std::move(instruction_stream), *layout);
             }
             else if (*auto_layout_mode == AutoLayoutMode::Edpc) 
@@ -427,13 +427,13 @@ namespace lsqecc
                 if (sgate_mode == SGateMode::Catalytic) 
                 {
                     layout = make_edpc_layout(instruction_stream->core_qubits().size(), num_lanes, condensed, factories_explicit, true, distillation_options);
-                    instruction_stream = std::make_unique<CatalyticSGateInjectionStream>(std::move(instruction_stream), id_generator, compile_mode == CompilationMode::Local);
+                    instruction_stream = std::make_unique<CatalyticSGateInjectionStream>(std::move(instruction_stream), id_generator, compile_mode == CompilationMode::Local, true);
                 }
 
                 else if (sgate_mode == SGateMode::Twists) 
                 {
                     layout = make_edpc_layout(instruction_stream->core_qubits().size(), num_lanes, condensed, factories_explicit, false, distillation_options);
-                    instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator);
+                    instruction_stream = std::make_unique<TeleportedSGateInjectionStream>(std::move(instruction_stream), id_generator, true);
                 }
             }
             else
