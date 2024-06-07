@@ -24,4 +24,5 @@ Options:
     --nostagger            Turns off staggered distillation block timing
     --disttime             Set the distillation time (default 10)
     --local                Compile gates using a local lattice surgery instruction set
+    --notwists             Compile S gates using twist-based Y state initialization (Gidney, 2024)
     -h, --help             Shows this page        

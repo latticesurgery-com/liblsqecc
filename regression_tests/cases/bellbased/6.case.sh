@@ -1,6 +1,6 @@
 INPUT="
 DeclareLogicalQubitPatches 0,1,2,3,4,5,6
-BellPairInit 200 201 6:Z,2:Z
+BellPairInit 200 201 6:X,2:X
 Init 100 +
 RotateSingleCellPatch 100
 HGate 1

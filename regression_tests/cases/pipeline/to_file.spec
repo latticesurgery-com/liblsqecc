@@ -11,10 +11,10 @@ out.json: (should have content)
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Dashed",
-            "Left": "Solid",
-            "Right": "Solid",
-            "Top": "Dashed"
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
          },
          "patch_type": "Qubit",
          "text": "Id: 0"
@@ -165,10 +165,10 @@ out.json: (should have content)
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Dashed",
-            "Left": "Solid",
-            "Right": "Solid",
-            "Top": "Dashed"
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
          },
          "patch_type": "Qubit",
          "text": "Id: 1"
