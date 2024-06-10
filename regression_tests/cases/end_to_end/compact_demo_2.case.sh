@@ -10,4 +10,4 @@ cx q[1],q[3];
 cx q[5],q[7];
 t q[2];
 "
-echo "$INPUT" | lsqecc_slicer -q -L compact
+echo "$INPUT" | lsqecc_slicer -q -L compact --local
