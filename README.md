@@ -116,7 +116,7 @@ To generate results according to the compilation scheme written about in [our re
 lsqecc_slicer -q -i {qasm_filename} -L edpc --disttime 1 --nostagger --local -P wave --printlli sliced -o {lli_filename} -f stats > {stats_filename}
 ```
 
-Results in that paper were generated using [PR #98](https://github.com/latticesurgery-com/liblsqecc/pull/98), and should be reproducible using the current release.
+Results in that paper were generated using [PR #106](https://github.com/latticesurgery-com/liblsqecc/pull/106), and should be reproducible using the current release.
 
 # Contributors
 
