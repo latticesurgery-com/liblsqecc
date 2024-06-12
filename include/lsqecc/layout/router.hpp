@@ -26,6 +26,7 @@ struct Router {
             ) const = 0;
 
     virtual void set_graph_search_provider(GraphSearchProvider graph_search_provider) = 0;
+    virtual void set_EDPC() = 0;
 
     virtual ~Router(){};
 };
@@ -45,8 +46,18 @@ struct CustomDPRouter : public Router
         graph_search_provider_ = graph_search_provider;
     };
 
+    void set_EDPC() override {
+        if (graph_search_provider_ == GraphSearchProvider::Boost) {
+            throw std::logic_error("EDPC not implemented for Boost.");
+        }
+        else {
+            EDPC = 1;
+        }
+    }
+
 private:
     GraphSearchProvider graph_search_provider_ = GraphSearchProvider::Djikstra;
+    bool EDPC = 0;
 
 };
 
@@ -71,6 +82,8 @@ struct CachedRouter : public Router
     void set_graph_search_provider(GraphSearchProvider graph_search_provider) override {
         router_impl_.set_graph_search_provider(graph_search_provider);
     };
+
+    void set_EDPC() override {throw std::logic_error("EDPC not implemented for cached router.");}
 
     struct PathIdentifier {
         Cell source_cell;

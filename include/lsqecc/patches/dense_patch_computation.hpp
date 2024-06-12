@@ -19,7 +19,7 @@
 namespace lsqecc {
 
 enum class PipelineMode {
-    Stream, Dag, Wave
+    Stream, Dag, Wave, EDPC
 };
 
 using DenseSliceVisitor = std::function<void(const DenseSlice& slice)>;
@@ -44,7 +44,7 @@ DensePatchComputationResult run_through_dense_slices(
         bool local_instructions,
         bool allow_twists,
         const Layout& layout,
-        Router& router,
+        std::unique_ptr<Router> router,
         std::optional<std::chrono::seconds> timeout,
         DenseSliceVisitor slice_visitor,
         LSInstructionVisitor instruction_visitor,

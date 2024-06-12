@@ -176,7 +176,8 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
         PatchId source,
         PauliOperator source_op,
         PatchId target,
-        PauliOperator target_op
+        PauliOperator target_op,
+        bool EDPC
 )
 {
 
@@ -304,12 +305,13 @@ std::optional<RoutingRegion> graph_search_route_ancilla_dispatc_heuristic(
         PatchId source,
         PauliOperator source_op,
         PatchId target,
-        PauliOperator target_op
+        PauliOperator target_op,
+        bool EDPC
 )
 {
     return source == target ?
-        do_graph_search_route_ancilla<true, heuristic>(slice, source, source_op, target, target_op):
-        do_graph_search_route_ancilla<false, heuristic>(slice, source, source_op, target, target_op);
+        do_graph_search_route_ancilla<true, heuristic>(slice, source, source_op, target, target_op, EDPC):
+        do_graph_search_route_ancilla<false, heuristic>(slice, source, source_op, target, target_op, EDPC);
 }
 
 
@@ -319,13 +321,14 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
         PauliOperator source_op,
         PatchId target,
         PauliOperator target_op,
-        Heuristic heuristic
+        Heuristic heuristic,
+        bool EDPC
 )
 {
     if(heuristic == Heuristic::None)
-        return graph_search_route_ancilla_dispatc_heuristic<Heuristic::None>(slice, source, source_op, target, target_op);
+        return graph_search_route_ancilla_dispatc_heuristic<Heuristic::None>(slice, source, source_op, target, target_op, EDPC);
     else if(heuristic == Heuristic::Euclidean)
-        return graph_search_route_ancilla_dispatc_heuristic<Heuristic::Euclidean>(slice, source, source_op, target, target_op);
+        return graph_search_route_ancilla_dispatc_heuristic<Heuristic::Euclidean>(slice, source, source_op, target, target_op, EDPC);
     else
         throw std::runtime_error(lstk::cat("Unknown heuristic: ", static_cast<int>(heuristic)));
 }
