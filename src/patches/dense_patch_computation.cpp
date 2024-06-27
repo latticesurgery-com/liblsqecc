@@ -48,17 +48,8 @@ std::optional<Cell> find_place_for_magic_state(const DenseSlice& slice, const La
 {
     for(const auto& cell: layout.distilled_state_locations(distillation_region_idx))
     {
-        if (layout.magic_states_reserved()) 
-        {   // Case where magic states queues are reserved.
-            // TODO how do we know slice.patch_at(cell) is not null.
-            if (slice.patch_at(cell)->type == PatchType::Distillation)
-                return cell;
-        }
-        else 
-        {   // Regular case where magic states are queued on the boundary of the distillation region.
-            if(slice.is_cell_free(cell))
-                return cell;
-        }
+        if(slice.is_cell_free(cell))
+            return cell;
     }
     return std::nullopt;
 }
@@ -102,36 +93,65 @@ void advance_slice(DenseSlice& slice, const Layout& layout)
         }
     });
 
-    size_t distillation_region_index = 0;
-    for (auto& time_to_magic_state_here: slice.time_to_next_magic_state_by_distillation_region)
+    // If we have tiles reserved for magic state re-spawn, we loop over them and 
+    //  * If a state was consumed in the last slice, we reset the tile and the re-spawn time
+    //  * Else, if we are waiting for re-spawn, we decrement the re-spawn time
+    //  * If it is time to re-spawn, we add a PreparedState.
+    if (layout.magic_states_reserved()) 
     {
-        if (layout.magic_states_reserved()) {
-            for (const Cell& cell: layout.distilled_state_locations(distillation_region_index)) {
-                if (slice.is_cell_free(cell)) {
-                    slice.patch_at(cell) = DensePatch{
-                        Patch{PatchType::Distillation,PatchActivity::Distillation,std::nullopt},
-                        CellBoundaries{Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false},
-                            Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false}}};
-                }
-            }            
-        }
-        
-        time_to_magic_state_here--;
-
-        if(time_to_magic_state_here == 0){
-
-            auto magic_state_cell = find_place_for_magic_state(slice, layout, distillation_region_index);
-            if(magic_state_cell)
+        size_t reserved_cell_index = 0;
+        for (const Cell& cell: layout.reserved_for_magic_states()) {
+            if (slice.is_cell_free(cell)) 
             {
-                SparsePatch magic_state_patch = LayoutHelpers::basic_square_patch(*magic_state_cell, std::nullopt, "Magic State");
-                magic_state_patch.type = PatchType::PreparedState;
-                slice.place_single_cell_sparse_patch(magic_state_patch, true);
-                slice.magic_states.insert(*magic_state_cell);
+                slice.patch_at(cell) = DensePatch{
+                    Patch{PatchType::Distillation,PatchActivity::Distillation,std::nullopt},
+                    CellBoundaries{Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false},
+                        Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false}}};
+                slice.time_to_next_magic_state_by_distillation_region[reserved_cell_index] = layout.distillation_times()[reserved_cell_index];
             }
-            time_to_magic_state_here = layout.distillation_times()[distillation_region_index];
-        }
+            else if (slice.patch_at(cell)->type == PatchType::Distillation)
+            {
+                slice.time_to_next_magic_state_by_distillation_region[reserved_cell_index]--;
+            }
 
-        distillation_region_index++;
+            if (slice.time_to_next_magic_state_by_distillation_region[reserved_cell_index] == 0)
+            {
+                if ((slice.patch_at(cell)->type != PatchType::PreparedState) &&
+                    (slice.patch_at(cell)->type != PatchType::Qubit))
+                {
+                    SparsePatch magic_state_patch = LayoutHelpers::basic_square_patch(cell, std::nullopt, "Magic State");
+                    magic_state_patch.type = PatchType::PreparedState;
+                    slice.place_single_cell_sparse_patch(magic_state_patch, true);
+                    slice.magic_states.insert(cell); 
+                }
+            }
+            reserved_cell_index++;
+        }            
+    }
+
+    // Otherwise, we update the factories
+    else
+    {
+        size_t distillation_region_index = 0;
+        for (auto& time_to_magic_state_here: slice.time_to_next_magic_state_by_distillation_region)
+        {        
+            time_to_magic_state_here--;
+
+            if(time_to_magic_state_here == 0){
+
+                auto magic_state_cell = find_place_for_magic_state(slice, layout, distillation_region_index);
+                if(magic_state_cell)
+                {
+                    SparsePatch magic_state_patch = LayoutHelpers::basic_square_patch(*magic_state_cell, std::nullopt, "Magic State");
+                    magic_state_patch.type = PatchType::PreparedState;
+                    slice.place_single_cell_sparse_patch(magic_state_patch, true);
+                    slice.magic_states.insert(*magic_state_cell);
+                }
+                time_to_magic_state_here = layout.distillation_times()[distillation_region_index];
+            }
+
+            distillation_region_index++;
+        }
     }
 }
 
@@ -207,12 +227,25 @@ bool merge_patches(
 
 InstructionApplicationResult try_apply_local_instruction(
         DenseSlice& slice,
-        LocalInstruction::LocalLSInstruction instruction,
-        const Layout& layout,
-        Router& router)
+        LocalInstruction::LocalLSInstruction instruction)
 {
 
-    if (const auto* bellprep = std::get_if<LocalInstruction::BellPrepare>(&instruction.operation))
+    if (const auto* prepy = std::get_if<LocalInstruction::PrepareY>(&instruction.operation))
+    {
+        if (!slice.is_cell_free(prepy->target_cell))
+        {
+            throw std::runtime_error(lstk::cat(instruction, "; Cell ", prepy->target_cell, " is not free, cannot prepare state"));
+        }
+
+        slice.place_single_cell_sparse_patch(LayoutHelpers::basic_square_patch(prepy->target_cell, prepy->target_id, "Y State"), false);
+
+        // PatchActivity::Unitary may or may not be appropriate here
+        slice.patch_at(prepy->target_cell).value().activity = PatchActivity::Unitary;
+
+        return {nullptr, {}};
+    }
+
+    else if (const auto* bellprep = std::get_if<LocalInstruction::BellPrepare>(&instruction.operation))
     {
         if (!slice.is_cell_free(bellprep->cell1))
         {
@@ -325,6 +358,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         DenseSlice& slice,
         LSInstruction& instruction,
         bool local_instructions,
+        bool allow_twists,
         const Layout& layout,
         Router& router)
 {
@@ -368,7 +402,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
             return {nullptr, {}};
         }
     }
-    else if (const auto* m = std::get_if<MultiPatchMeasurement>(&instruction.operation))
+    else if (auto* m = std::get_if<MultiPatchMeasurement>(&instruction.operation))
     {
 
         if (m->observable.size()!=2)
@@ -390,17 +424,35 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
             
             return {nullptr, {}};
         }
+
         else
         {
-            // TODO: break up long-range ops into local ops
-            std::vector<LocalInstruction::LocalLSInstruction> local_instructions;
-            local_instructions.push_back({LocalInstruction::TwoPatchMeasure{slice.get_cell_by_id(source_id).value(), slice.get_cell_by_id(target_id).value()}});
-            InstructionApplicationResult r = try_apply_local_instruction(slice, local_instructions[0], layout, router);
+            // We assume the ability to do ZZ, XX, and XZ local lattice surgery operations, but the appropriate operator edges must already be touching
+            // TODO: insert patch rotations to align the appropriate operator edges if they are misaligned
+            Boundary b1 = slice.get_boundary_between_or_fail(slice.get_cell_by_id(source_id).value(),slice.get_cell_by_id(target_id).value()).get();
+            Boundary b2 = slice.get_boundary_between_or_fail(slice.get_cell_by_id(target_id).value(),slice.get_cell_by_id(source_id).value()).get();
+            if (((b1.boundary_type == BoundaryType::Rough) && (source_op != PauliOperator::X)) ||
+                ((b1.boundary_type == BoundaryType::Smooth) && (source_op != PauliOperator::Z)))
+            {
+                std::logic_error{lstk::cat(instruction,"; Boundary/operator type mismatch")};
+            } 
+            if (((b2.boundary_type == BoundaryType::Rough) && (target_op != PauliOperator::X)) ||
+                ((b2.boundary_type == BoundaryType::Smooth) && (target_op != PauliOperator::Z)))
+            {
+                std::logic_error{lstk::cat(instruction,"; Boundary/operator type mismatch")};
+            } 
+
+            // Apply TwoPatchMeasure local instruction
+            LocalInstruction::LocalLSInstruction local_instruction = {LocalInstruction::TwoPatchMeasure{slice.get_cell_by_id(source_id).value(), slice.get_cell_by_id(target_id).value()}};
+            m->local_instruction = std::move(local_instruction);
+            InstructionApplicationResult r = try_apply_local_instruction(slice, local_instruction);
             if (r.maybe_error && r.followup_instructions.empty())
                 return InstructionApplicationResult{std::move(r.maybe_error), {}};
             if (!r.followup_instructions.empty())
                 return InstructionApplicationResult{std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Followup local instructions not implemented")), {}};
             return {nullptr, {}};
+
+            // TODO: Implement local instruction compilation/decomposition for more general MultiPatchMeasurements
         }
 
 
@@ -479,7 +531,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
             bell_init->counter->first = bell_init->counter->second;
             for (unsigned int i = bell_init->counter->first; i < bell_init->local_instructions.value().size(); i++)
             {
-                InstructionApplicationResult r = try_apply_local_instruction(slice, bell_init->local_instructions.value()[i], layout, router);
+                InstructionApplicationResult r = try_apply_local_instruction(slice, bell_init->local_instructions.value()[i]);
                 if (r.maybe_error && r.followup_instructions.empty())
                     return InstructionApplicationResult{nullptr, {instruction}};
                 if (!r.followup_instructions.empty())
@@ -568,7 +620,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
             
             for (unsigned int i = bell_cnot->counter->first; i < bell_cnot->local_instructions.value().size(); i++)
             {
-                InstructionApplicationResult r = try_apply_local_instruction(slice, bell_cnot->local_instructions.value()[i], layout, router);
+                InstructionApplicationResult r = try_apply_local_instruction(slice, bell_cnot->local_instructions.value()[i]);
                 if (r.maybe_error && r.followup_instructions.empty())
                     return InstructionApplicationResult{nullptr, {instruction}};
                 if (!r.followup_instructions.empty())
@@ -648,37 +700,83 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         if (slice.get_patch_by_id(yr->target))
         {
             slice.get_patch_by_id(yr->target)->get().id = std::nullopt;
+            slice.predistilled_ystates_available++;
             return{nullptr, {}};
         }
-        // Otherwise, get minimum (L1) distance unbound Y state patch
+
+        // Otherwise, bind a new or existing Y state
         else 
         {
-            std::optional<Cell> min_cell;
-            double min_dist = std::numeric_limits<double>::max();
-            double dist;
-            // 
-            for (const Cell& cell : layout.predistilled_y_states())
-            {
-                if (!slice.patch_at(cell)->id.has_value() && !slice.patch_at(cell)->is_active())
+
+            // Use pre-distilled y states if there are any 
+
+            // We don't allow the pre-distilled Y states to be used if both allow_twists and local_instructions are selected, 
+            // since in that case we use the teleported S gate injection stream which relies on ZZ measurement rather than CNOT gates
+            if (!(local_instructions && allow_twists) && (slice.predistilled_ystates_available != 0)) {
+
+                // Get minimum (L1) distance unbound Y state patch
+                std::optional<Cell> min_cell;
+                double min_dist = std::numeric_limits<double>::max();
+                double dist;
+                for (const Cell& cell : layout.predistilled_y_states())
                 {
-                    dist = abs(cell.col - slice.get_cell_by_id(yr->near_patch).value().col) + abs(cell.row - slice.get_cell_by_id(yr->near_patch).value().row);
-                    if (dist < min_dist)
+                    if (!slice.patch_at(cell)->id.has_value() && !slice.patch_at(cell)->is_active())
                     {
-                        min_dist = dist;
-                        min_cell = cell;
+                        dist = abs(cell.col - slice.get_cell_by_id(yr->near_patch).value().col) + abs(cell.row - slice.get_cell_by_id(yr->near_patch).value().row);
+                        if (dist < min_dist)
+                        {
+                            min_dist = dist;
+                            min_cell = cell;
+                        }
+                    }
+                }
+
+                if (min_cell)
+                {
+                    auto& patch = slice.patch_at(min_cell.value());
+                    if (patch)
+                    {
+                        slice.patch_at(min_cell.value()).value().id = yr->target;
+                        slice.predistilled_ystates_available--;
+                        return {nullptr, {}};
                     }
                 }
             }
 
-            if (min_cell)
-            {
-                auto& patch = slice.patch_at(min_cell.value());
-                if (patch)
+            // Otherwise, need to prepare a Y state
+            //     Ideally, it would be at the free cell that has the shortest route to the target qubit by Z edges
+            //     For now, we just place it directly next-door if possible (suitable for local compilation)
+            else {
+
+                if (allow_twists)
                 {
-                    slice.patch_at(min_cell.value()).value().id = yr->target;
-                    return {nullptr, {}};
+                    
+                    // Find all free neighboring cells
+                    Cell target_cell = slice.get_cell_by_id(yr->near_patch).value();
+                    std::optional<Cell> z_neighbour;
+                    for (auto neighbour_cell: slice.get_neigbours_within_slice(target_cell))
+                        if (slice.is_cell_free(neighbour_cell))
+                        {
+                            // Check if Z boundary of target patch is adjacent to this neighbor
+                            Boundary b = slice.get_boundary_between(target_cell, neighbour_cell)->get();
+                            if (b.boundary_type == BoundaryType::Smooth)
+                                z_neighbour = neighbour_cell;
+                        }
+                    if (!z_neighbour)
+                        return {std::make_unique<std::runtime_error>(lstk::cat(
+                                instruction,"; Cannot prepare Y state: ", yr->near_patch, " has no neighbor to its Z edge")), {}};
+                    else
+                    {
+                        LocalInstruction::LocalLSInstruction local_instruction = {LocalInstruction::PrepareY{yr->target, z_neighbour.value()}};
+                        yr->local_instruction = std::move(local_instruction);
+                        InstructionApplicationResult r = try_apply_local_instruction(slice, local_instruction);                       
+                        return {nullptr, {}};
+                    }
+
                 }
+
             }
+
             return {std::make_unique<std::runtime_error>(
                     std::string{"Could not get Y state"}), {}};           
         }
@@ -730,6 +828,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
 void run_through_dense_slices_streamed(
         LSInstructionStream&& instruction_stream,
         bool local_instructions,
+        bool allow_twists,
         const Layout& layout,
         Router& router,
         std::optional<std::chrono::seconds> timeout,
@@ -751,7 +850,7 @@ void run_through_dense_slices_streamed(
             return instruction_stream.get_next_instruction();
         }();
 
-        auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions, layout, router);
+        auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions, allow_twists, layout, router);
         if (!application_result.maybe_error)
             instruction_visitor(instruction);
 
@@ -782,6 +881,7 @@ void run_through_dense_slices_dag(
         dag::DependencyDag<LSInstruction>&& dag,
         const tsl::ordered_set<PatchId>& core_qubits,
         bool local_instructions,
+        bool allow_twists,
         const Layout& layout,
         Router& router,
         std::optional<std::chrono::seconds> timeout,
@@ -819,7 +919,7 @@ void run_through_dense_slices_dag(
         for (dag::label_t instruction_label: proximate_instructions)
         {
             LSInstruction& instruction = dag.at(instruction_label);
-            auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions, layout, router);
+            auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions, allow_twists, layout, router);
             if (application_result.maybe_error)
                 throw std::runtime_error{lstk::cat(
                     "Could not apply proximate instruction:\n",
@@ -840,7 +940,7 @@ void run_through_dense_slices_dag(
         for (dag::label_t instruction_label: non_proximate_instructions)
         {
             LSInstruction& instruction = dag.at(instruction_label);
-            auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions, layout, router);
+            auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions, allow_twists, layout, router);
             if (application_result.maybe_error)
             {
                 increment_attempts(instruction_label);
@@ -873,6 +973,7 @@ void run_through_dense_slices_dag(
 void run_through_dense_slices_wave(
         LSInstructionStream&& instruction_stream,
         bool local_instructions,
+        bool allow_twists,
         const Layout& layout,
         Router& router,
         std::optional<std::chrono::seconds> timeout,
@@ -882,7 +983,7 @@ void run_through_dense_slices_wave(
         DensePatchComputationResult& res)
 {
     DenseSlice slice{layout, instruction_stream.core_qubits()};
-    WaveScheduler scheduler(std::move(instruction_stream), local_instructions, layout);
+    WaveScheduler scheduler(std::move(instruction_stream), local_instructions, allow_twists, layout);
     
     while (!scheduler.done())
     {
@@ -900,6 +1001,7 @@ DensePatchComputationResult run_through_dense_slices(
         LSInstructionStream&& instruction_stream,
         PipelineMode pipeline_mode,
         bool local_instructions,
+        bool allow_twists,
         const Layout& layout,
         Router& router,
         std::optional<std::chrono::seconds> timeout,
@@ -937,6 +1039,7 @@ DensePatchComputationResult run_through_dense_slices(
             return run_through_dense_slices_streamed(
                 std::move(instruction_stream),
                 local_instructions,
+                allow_twists,
                 layout,
                 router,
                 timeout,
@@ -952,6 +1055,7 @@ DensePatchComputationResult run_through_dense_slices(
                 std::move(dag),
                 instruction_stream.core_qubits(),
                 local_instructions,
+                allow_twists,
                 layout,
                 router,
                 timeout,
@@ -965,6 +1069,7 @@ DensePatchComputationResult run_through_dense_slices(
             return run_through_dense_slices_wave(
                 std::move(instruction_stream),
                 local_instructions,
+                allow_twists,
                 layout,
                 router,
                 timeout,

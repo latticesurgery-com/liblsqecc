@@ -8,8 +8,9 @@
 namespace lsqecc {
 
 
-WaveScheduler::WaveScheduler(LSInstructionStream&& stream, bool local_instructions, const Layout& layout):
+WaveScheduler::WaveScheduler(LSInstructionStream&& stream, bool local_instructions, bool allow_twists, const Layout& layout):
 	local_instructions_(local_instructions),
+	allow_twists_(allow_twists),
 	layout_(layout)
 {
 	router_.set_graph_search_provider(GraphSearchProvider::AStar);
@@ -76,7 +77,7 @@ size_t WaveScheduler::schedule_instructions(const std::vector<InstructionID>& in
 		assert(dependency_counts_[instruction_id] == 0);
 		
 		auto& instruction = records_[instruction_id].instruction;
-		auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions_, layout_, router_);
+		auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions_, allow_twists_, layout_, router_);
 		
 		if (!application_result.maybe_error)
 		{   
@@ -160,7 +161,7 @@ bool WaveScheduler::is_immediate(const LSInstruction& instruction)
 	if (std::get_if<SinglePatchMeasurement>(&instruction.operation))
 		return true;
 	else if (std::get_if<MultiPatchMeasurement>(&instruction.operation))
-		return false;
+		return true;
 	else if (std::get_if<PatchInit>(&instruction.operation))
 		return true;
 	else if (std::get_if<BellPairInit>(&instruction.operation))
@@ -200,7 +201,7 @@ bool WaveScheduler::try_schedule_immediately(InstructionID instruction_id, Dense
 	if (!is_immediate(instruction))
 		return false;
 	
-	auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions_, layout_, router_);
+	auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions_, allow_twists_, layout_, router_);
 	
 	if (application_result.maybe_error)
 		return false;

@@ -6,8 +6,9 @@ namespace lsqecc
 
 CatalyticSGateInjectionStream::CatalyticSGateInjectionStream(std::unique_ptr<LSInstructionStream> &&source,
                                                                IdGenerator& id_generator,
-                                                               bool local_instructions)
- : source_(std::move(source)), id_generator_(id_generator), instruction_generator_(id_generator, local_instructions)
+                                                               bool local_instruction,
+                                                               bool always_rotate)
+ : source_(std::move(source)), id_generator_(id_generator), instruction_generator_(id_generator, local_instruction), always_rotate_(always_rotate)
 {}
 
 
@@ -72,7 +73,8 @@ LSInstruction CatalyticSGateInjectionStream::get_next_instruction()
         // Unbind Y state
         next_instructions_.push({.operation={YStateRequest{ystate_id, gate->target}}, .wait_at_most_for=YStateRequest::DEFAULT_WAIT});
     }
-    else if (gate && gate->op == SingleQubitOp::Operator::H && core_qubits().contains(gate->target))
+    else if (always_rotate_ && gate 
+            && gate->op == SingleQubitOp::Operator::H && core_qubits().contains(gate->target))
     {
         next_instructions_.push(new_instruction);
         next_instructions_.push({RotateSingleCellPatch{gate->target}});

@@ -35,6 +35,8 @@ struct MultiPatchMeasurement {
     tsl::ordered_map<PatchId, PauliOperator> observable;
     bool is_negative;
 
+    std::optional<LocalInstruction::LocalLSInstruction> local_instruction;
+
     bool operator==(const MultiPatchMeasurement&) const = default;
 };
 
@@ -82,6 +84,8 @@ struct MagicStateRequest {
 struct YStateRequest {
     PatchId target;
     PatchId near_patch;
+
+    std::optional<LocalInstruction::LocalLSInstruction> local_instruction;
 
     static const size_t DEFAULT_WAIT = std::numeric_limits<size_t>::max();
     bool operator==(const YStateRequest&) const = default;

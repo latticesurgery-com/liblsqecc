@@ -15,8 +15,16 @@
 
 namespace lsqecc {
 
+// TODO: Incorporate operator edge validity checking for ops requiring merges
 namespace LocalInstruction
 {
+
+struct PrepareY {
+    std::optional<PatchId> target_id;
+    Cell target_cell;
+
+    bool operator==(const PrepareY&) const = default;
+};
 
 struct BellPrepare { // TODO rename to BellPrepareNeighbours
     std::optional<PatchId> side1;
@@ -67,6 +75,7 @@ struct Move {
 struct LocalLSInstruction {
 
     std::variant<
+            PrepareY,
             BellPrepare,
             BellMeasure,
             TwoPatchMeasure,
@@ -79,6 +88,7 @@ struct LocalLSInstruction {
 };
 
 std::ostream& operator<<(std::ostream& os, const LocalLSInstruction& instruction);
+std::ostream& operator<<(std::ostream& os, const PrepareY& instruction);
 std::ostream& operator<<(std::ostream& os, const BellPrepare& instruction);
 std::ostream& operator<<(std::ostream& os, const BellMeasure& instruction);
 std::ostream& operator<<(std::ostream& os, const Move& instruction);
@@ -88,6 +98,11 @@ std::ostream& operator<<(std::ostream& os, const MergeContract& instruction);
 
 template <class T>
 struct LocalInstructionPrint{};
+
+template<>
+struct LocalInstructionPrint<LocalInstruction::PrepareY>{
+    static constexpr std::string_view name = "PrepareY";
+};
 
 template<>
 struct LocalInstructionPrint<LocalInstruction::BellPrepare>{
