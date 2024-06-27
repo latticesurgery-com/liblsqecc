@@ -113,7 +113,8 @@ std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits, size_t num_lane
                     }
                     else 
                     {
-                        grid[i][j] = AsciiLayoutSpec::CellType::RoutingAncilla;
+                        if (j >= grid[i].size()- t_distillation_region_cols - (num_lanes+1) - 1) {condense_shift_horiz = 0;}
+                        if (i >= grid.size() - t_distillation_region_rows - (num_lanes+1) - 1) {condense_shift_vert = 0;}
                     }
                 }
             }
