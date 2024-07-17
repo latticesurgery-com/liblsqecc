@@ -141,10 +141,10 @@ public:
                     && slice_.have_boundary_of_type_with(target_cell_, a, target_op_);
 
 
-        if(a == cell_from_vertex(source_vertex_) && slice_.is_cell_free(b))
+        if(a == cell_from_vertex(source_vertex_) && slice_.is_cell_free_or_EDPC(b))
             return slice_.have_boundary_of_type_with(source_cell_, b, source_op_);
 
-        if(slice_.is_cell_free(a) && b == cell_from_vertex(target_vertex_))
+        if(slice_.is_cell_free_or_EDPC(a) && b == cell_from_vertex(target_vertex_))
             return slice_.have_boundary_of_type_with(target_cell_, a, target_op_);
 
         return false;

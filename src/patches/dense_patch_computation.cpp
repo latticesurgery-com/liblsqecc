@@ -86,7 +86,8 @@ void advance_slice(DenseSlice& slice, const Layout& layout)
         p->boundaries.left.is_active = false;
         p->boundaries.right.is_active = false;
 
-        if((p->activity == PatchActivity::MultiPatchMeasurement) || p->activity == PatchActivity::Measurement)
+        // if((p->activity == PatchActivity::MultiPatchMeasurement) || p->activity == PatchActivity::Measurement)
+        if((p->activity == PatchActivity::MultiPatchMeasurement) || p->activity == PatchActivity::Measurement || p->activity == PatchActivity::EDPC)
         {
             p = std::nullopt;
             return;
@@ -194,8 +195,39 @@ void stitch_boundaries(
 
 void mark_routing_region(DenseSlice& slice, const RoutingRegion& routing_region, PatchActivity activity)
 {
+
     for (const auto& occupied_cell : routing_region.cells)
-        slice.place_sparse_patch(SparsePatch{{PatchType::Routing, activity}, occupied_cell}, false);
+    {
+        std::optional<DensePatch>& patch = slice.patch_at(occupied_cell.cell);
+        if (patch.has_value())
+        {
+            if (patch->activity == PatchActivity::EDPC && (activity == PatchActivity::EDPC))
+            {
+                // Check for crossing vertices and mark them as Measurement (just to show the intersection point in vis)
+                auto result = slice.crossing_vertices.insert(occupied_cell.cell);
+                if (!result.second) 
+                {
+                    throw std::runtime_error("Vertices cannot be crossed by more than two paths in EDPC.");
+                }
+                patch->activity = PatchActivity::Measurement;
+
+                // Update boundaries of patch at crossing vertex
+                patch->mark_boundaries_for_crossing_cell(occupied_cell);
+            }
+
+            else
+            {
+                throw std::runtime_error("Attempting to route through a cell that already contains a patch."); 
+            }
+        }
+
+        else
+        {
+            slice.place_sparse_patch(SparsePatch{{PatchType::Routing, activity}, occupied_cell}, false);
+        }
+
+
+    }
 }
 
 void clear_routing_region(DenseSlice& slice, const RoutingRegion& routing_region)
@@ -402,7 +434,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         {
             if (router.get_EDPC())
                 throw std::runtime_error("EDPC is not available for non-local lattice surgery operations.");
-                
+
             if (!merge_patches(slice, router, p->target, PauliOperator::X, p->target, PauliOperator::Z))
                 return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Could not do S gate routing on ", p->target)),
                         {}};
@@ -603,15 +635,11 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                 // If we are using EDPC, we defer local compilation to later and mark boundaries in routing region as 'Reserved'.
                 if (router.get_EDPC()) {
                     
+                    slice.get_boundary_between_or_fail(slice.get_cell_by_id(bell_cnot->target).value(), routing_region->cells[0].cell).get() = {.boundary_type=BoundaryType::Reserved, .is_active=true};
+                    slice.get_boundary_between_or_fail(slice.get_cell_by_id(bell_cnot->control).value(), routing_region->cells[routing_region->cells.size()-1].cell).get() = {.boundary_type=BoundaryType::Reserved, .is_active=true};
                     mark_routing_region(slice, *routing_region, PatchActivity::EDPC);
                     slice.routes_to_EDPC_compile.push_back(routing_region.value());
-
-                    // slice.get_boundary_between_or_fail(slice.get_cell_by_id(bell_cnot->target).value(), routing_region->cells[0].cell).get() = {.boundary_type=BoundaryType::Reserved, .is_active=true};
-                    // slice.get_boundary_between_or_fail(slice.get_cell_by_id(bell_cnot->control).value(), routing_region->cells[routing_region->cells.size()-1].cell).get() = {.boundary_type=BoundaryType::Reserved, .is_active=true};
-                    // for (size_t i=0; i<routing_region->cells.size()-1; i++) {
-                        // auto boundary = routing_region->cells[i].get_mut_boundary_with(routing_region->cells[i+1].cell);
-                        // if (boundary) boundary->get() = {.boundary_type=BoundaryType::Reserved, .is_active=true};
-                    // }
+                    return {nullptr, {}};
 
                 }
 

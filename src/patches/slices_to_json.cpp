@@ -45,7 +45,8 @@ json boundaries_to_array_edges_json(const CellBoundaries& cell_boundaries)
         case BoundaryType::Connected: return boundary.is_active ? "AncillaJoin": "None";
         case BoundaryType::Rough:return boundary.is_active ? "DashedStiched": "Dashed";
         case BoundaryType::Smooth: return boundary.is_active ? "SolidStiched": "Solid";
-        case BoundaryType::Reserved: throw std::logic_error("BoundaryType::Reserved was not converted to activity in local compilation.");
+        // case BoundaryType::Reserved: throw std::logic_error("BoundaryType::Reserved was not converted to activity in local compilation.");
+        case BoundaryType::Reserved: return boundary.is_active ? "AncillaJoin": "None";
         }
         LSTK_UNREACHABLE;
     };
@@ -87,7 +88,8 @@ json dense_patch_to_json(const DensePatch& p)
                         case PatchActivity::Dead: return json();
                         case PatchActivity::MultiPatchMeasurement: return json();
                         case PatchActivity::Rotation: return json();
-                        case PatchActivity::EDPC: throw std::logic_error("PatchActivity::EDPC was not converted during local compilation.");
+                        case PatchActivity::EDPC: return json();
+                        // case PatchActivity::EDPC: throw std::logic_error("PatchActivity::EDPC was not converted during local compilation.");
                         }
                         LSTK_UNREACHABLE;
                     }()

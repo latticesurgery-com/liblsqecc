@@ -26,6 +26,8 @@ struct DenseSlice : public Slice
     std::reference_wrapper<const Layout> layout;
     unsigned int predistilled_ystates_available = 0;
     std::vector<RoutingRegion> routes_to_EDPC_compile;
+    std::set<Cell> crossing_vertices;
+
 
     explicit DenseSlice(const Layout& layout);
     DenseSlice(const Layout& layout, const tsl::ordered_set<PatchId>& core_qubit_ids);

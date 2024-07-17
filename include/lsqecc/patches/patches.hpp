@@ -146,6 +146,7 @@ struct DensePatch : public Patch {
     static DensePatch from_sparse_patch(const SparsePatch& p);
 
     bool is_active() const;
+    void mark_boundaries_for_crossing_cell(const SingleCellOccupiedByPatch& p);
 };
 
 
