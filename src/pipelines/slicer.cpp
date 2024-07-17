@@ -297,6 +297,7 @@ namespace lsqecc
         
 
         PipelineMode pipeline_mode = PipelineMode::Stream;
+        bool pipeline_mode_validity_checker = 1;
         if (parser.exists("pipeline"))
         {
             auto mode_arg = parser.get<std::string>("pipeline");
@@ -307,7 +308,10 @@ namespace lsqecc
             else if (mode_arg=="wave")
                 pipeline_mode = PipelineMode::Wave;
             else if (mode_arg=="edpc")
+            {
                 pipeline_mode = PipelineMode::EDPC;
+                pipeline_mode_validity_checker = 0;
+            }
             else
             {
                 err_stream << "Unknown pipeline mode " << mode_arg << std::endl;
@@ -422,6 +426,14 @@ namespace lsqecc
                 
                 if(parser.exists("condensed"))
                     condensed = parser.get<bool>("condensed");
+                
+                if ((pipeline_mode == PipelineMode::EDPC) &&
+                    (compile_mode == CompilationMode::Local) &&
+                    (num_lanes == 1) &&
+                    (!condensed))
+                {
+                    pipeline_mode_validity_checker = 1;
+                }
 
                 if (parser.exists("explicitfactories")) 
                     factories_explicit = true;
@@ -458,6 +470,9 @@ namespace lsqecc
         {
             gates::ControlledGate::default_ancilla_placement = gates::CNOTAncillaPlacement::ANCILLA_NEXT_TO_TARGET;
         }
+
+        if (!pipeline_mode_validity_checker)
+            throw std::runtime_error("PipelineMode::EDPC only valid when paired with (default) EDPC layout and CompilationMode::Local.");
 
         LLIPrintMode lli_print_mode = LLIPrintMode::None;
         if(parser.exists("printlli"))

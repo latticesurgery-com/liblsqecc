@@ -25,6 +25,7 @@ struct DenseSlice : public Slice
     DistillationTimeMap time_to_next_magic_state_by_distillation_region;
     std::reference_wrapper<const Layout> layout;
     unsigned int predistilled_ystates_available = 0;
+    std::vector<RoutingRegion> routes_to_EDPC_compile;
 
     explicit DenseSlice(const Layout& layout);
     DenseSlice(const Layout& layout, const tsl::ordered_set<PatchId>& core_qubit_ids);
@@ -50,6 +51,7 @@ struct DenseSlice : public Slice
     std::reference_wrapper<Boundary> get_boundary_between_or_fail(const Cell& target, const Cell& neighbour);
     std::optional<std::reference_wrapper<const Boundary>> get_boundary_between(const Cell& target, const Cell& neighbour) const;
     bool have_boundary_of_type_with(const Cell& target, const Cell& neighbour, PauliOperator op) const override;
+    bool is_boundary_reserved(const Cell& target, const Cell& neighbour) const override;
 
     // Return a cell of the placed patch
     Cell place_single_cell_sparse_patch(const SparsePatch& sparse_patch, bool distillation);
@@ -58,6 +60,7 @@ struct DenseSlice : public Slice
     void delete_patch_by_id(PatchId id);
 
     bool is_cell_free(const Cell& cell) const override;
+    bool is_cell_free_or_EDPC(const Cell& cell) const override;
 
     std::vector<Cell> get_neigbours_within_slice(const Cell& cell) const override;
 

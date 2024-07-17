@@ -109,7 +109,32 @@ public:
 
     bool have_directed_edge(const Cell& a, const Cell& b) const
     {
+
+        // If both cells are free, then they have an edge (it is assumed that this function is called only on neighbors!)
         if(slice_.is_cell_free(a) && slice_.is_cell_free(b)) return true;
+
+        // If they are source and/or target, then the appropriate boundaries need to be matched
+        if(a == cell_from_vertex(source_vertex_) && b == cell_from_vertex(target_vertex_))
+            return slice_.have_boundary_of_type_with(source_cell_, b, source_op_)
+                    && slice_.have_boundary_of_type_with(target_cell_, a, target_op_);
+
+
+        if(a == cell_from_vertex(source_vertex_) && slice_.is_cell_free(b))
+            return slice_.have_boundary_of_type_with(source_cell_, b, source_op_);
+
+        if(slice_.is_cell_free(a) && b == cell_from_vertex(target_vertex_))
+            return slice_.have_boundary_of_type_with(target_cell_, a, target_op_);
+
+        return false;
+    };
+
+    bool have_directed_edge_EDPC(const Cell& a, const Cell& b) const
+    {
+
+        // In EDPC a cell that has already been routed through may be used again
+        if ((slice_.is_cell_free_or_EDPC(a) && slice_.is_cell_free_or_EDPC(b))
+            && (!slice_.is_boundary_reserved(a, b)))
+         return true;
 
         if(a == cell_from_vertex(source_vertex_) && b == cell_from_vertex(target_vertex_))
             return slice_.have_boundary_of_type_with(source_cell_, b, source_op_)
@@ -186,7 +211,6 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
 
     const SliceSearchAdaptor<want_cycle> slice_searcher(slice, source_cell, target_cell, source_op, target_op);
 
-
     size_t num_vertices_on_lattice = slice_searcher.num_vertices_on_lattice();
     std::vector<PredecessorData> predecessor_map(num_vertices_on_lattice);
     for (size_t i = 0; i<predecessor_map.size(); ++i)
@@ -208,7 +232,8 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
         auto neighbours = slice_searcher.get_neighbours(source_cell);
         for(const Cell& neighbour_cell : neighbours)
         {
-            if(slice_searcher.have_directed_edge(source_cell, neighbour_cell))
+            if((!EDPC && slice_searcher.have_directed_edge(source_cell, neighbour_cell)) ||
+                (EDPC && slice_searcher.have_directed_edge_EDPC(source_cell, neighbour_cell)))
             {
                 Vertex neighbour = slice_searcher.make_vertex(neighbour_cell);
                 predecessor_map[neighbour] = {1, simulated_source};
@@ -229,8 +254,9 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
         auto neighbours = slice_searcher.get_neighbours(curr);
         for(const Cell& neighbour_cell : neighbours)
         {
-            if(!slice_searcher.have_directed_edge(slice_searcher.cell_from_vertex(curr), neighbour_cell))
-                continue;
+            if((!EDPC && !slice_searcher.have_directed_edge(slice_searcher.cell_from_vertex(curr), neighbour_cell)) ||
+                (EDPC && !slice_searcher.have_directed_edge_EDPC(slice_searcher.cell_from_vertex(curr), neighbour_cell)))
+                    continue;
 
             Vertex neighbour = slice_searcher.make_vertex(neighbour_cell);
             if(!predecessor_map[neighbour].distance)
@@ -282,7 +308,9 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
             if (prec_cell==neighbour || next_cell==neighbour)
             {
                 auto boundary = ret.cells.back().get_mut_boundary_with(neighbour);
-                if (boundary) boundary->get() = {.boundary_type=BoundaryType::Connected, .is_active=true};
+                if (boundary) {
+                    EDPC ? boundary->get() = {.boundary_type=BoundaryType::Reserved, .is_active=true} : boundary->get() = {.boundary_type=BoundaryType::Connected, .is_active=true};
+                }
             }
         }
 

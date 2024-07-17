@@ -18,6 +18,7 @@ enum class BoundaryType : uint8_t {
     Connected, // Used for multi patch
     Rough,
     Smooth,
+    Reserved,
 };
 
 
@@ -63,7 +64,8 @@ enum class PatchActivity : uint8_t
     Distillation,
     Dead,
     MultiPatchMeasurement,
-    Rotation
+    Rotation,
+    EDPC
 };
 
 

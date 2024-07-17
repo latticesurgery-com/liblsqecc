@@ -153,6 +153,24 @@ void advance_slice(DenseSlice& slice, const Layout& layout)
             distillation_region_index++;
         }
     }
+
+    if (slice.routes_to_EDPC_compile.size() > 0) {
+
+
+        // Obtain all crossing vertices
+
+
+
+        // Create two sets of routes
+
+        
+
+        // Locally compile routes
+
+
+        slice.routes_to_EDPC_compile.clear();
+    }
+
 }
 
 
@@ -329,8 +347,8 @@ InstructionApplicationResult try_apply_local_instruction(
             throw std::runtime_error(lstk::cat(instruction, "; Cell ", extendsplit->extension_cell, " is not free, cannot extend"));
 
         slice.place_single_cell_sparse_patch(LayoutHelpers::basic_square_patch(extendsplit->extension_cell, extendsplit->extension_id, "Extended"), false);
-        slice.get_boundary_between(extendsplit->extension_cell, extendsplit->target_cell)->get().is_active=true;
-        slice.get_boundary_between(extendsplit->target_cell, extendsplit->extension_cell)->get().is_active=true;
+        slice.get_boundary_between_or_fail(extendsplit->extension_cell, extendsplit->target_cell).get().is_active=true;
+        slice.get_boundary_between_or_fail(extendsplit->target_cell, extendsplit->extension_cell).get().is_active=true;
 
         return {nullptr, {}};
     }
@@ -382,6 +400,9 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
 
         if (p->op==SingleQubitOp::Operator::S)
         {
+            if (router.get_EDPC())
+                throw std::runtime_error("EDPC is not available for non-local lattice surgery operations.");
+                
             if (!merge_patches(slice, router, p->target, PauliOperator::X, p->target, PauliOperator::Z))
                 return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Could not do S gate routing on ", p->target)),
                         {}};
@@ -419,6 +440,9 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
 
         if (!local_instructions) 
         {
+            if (router.get_EDPC())
+                throw std::runtime_error("EDPC is not available for non-local lattice surgery operations.");
+            
             if (!merge_patches(slice, router, source_id, source_op, target_id, target_op))
                 return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Couldn't find room to route")), {}};
             
@@ -575,46 +599,67 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                     return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Shortest route cannot be used for Bell pair creation")), {}};
                 }
 
-                std::vector<LocalInstruction::LocalLSInstruction> local_instructions;
-                local_instructions.reserve(2*routing_region->cells.size());
 
-                // Offset boolean for even vs. odd routes
-                bool even_route = (routing_region->cells.size()%2 == 0);
+                // If we are using EDPC, we defer local compilation to later and mark boundaries in routing region as 'Reserved'.
+                if (router.get_EDPC()) {
+                    
+                    mark_routing_region(slice, *routing_region, PatchActivity::EDPC);
+                    slice.routes_to_EDPC_compile.push_back(routing_region.value());
 
-                // See PRX Quantum 3, 020342 (2022) Fig. 19a and c for even vs. odd route compilation
-                if (!even_route)
-                {
-                    local_instructions.push_back({LocalInstruction::ExtendSplit{
-                        std::nullopt,
-                        slice.get_cell_by_id(bell_cnot->control).value(), 
-                        routing_region->cells[routing_region->cells.size()-1].cell
-                    }});
-                }
-                std::optional<PatchId> id1; std::optional<PatchId> id2;
-                for (size_t i=0; i<routing_region->cells.size()-1; i=i+2)
-                {
-                    // Push a BellPrepare instruction with PatchID's depending on the case
-                    id1 = std::nullopt; id2 = std::nullopt;
-                    if (i==0)
-                        id1 = bell_cnot->side2;
-                    if (i==routing_region->cells.size()-2-!even_route)
-                        id2 = bell_cnot->side1;
+                    // slice.get_boundary_between_or_fail(slice.get_cell_by_id(bell_cnot->target).value(), routing_region->cells[0].cell).get() = {.boundary_type=BoundaryType::Reserved, .is_active=true};
+                    // slice.get_boundary_between_or_fail(slice.get_cell_by_id(bell_cnot->control).value(), routing_region->cells[routing_region->cells.size()-1].cell).get() = {.boundary_type=BoundaryType::Reserved, .is_active=true};
+                    // for (size_t i=0; i<routing_region->cells.size()-1; i++) {
+                        // auto boundary = routing_region->cells[i].get_mut_boundary_with(routing_region->cells[i+1].cell);
+                        // if (boundary) boundary->get() = {.boundary_type=BoundaryType::Reserved, .is_active=true};
+                    // }
 
-                    local_instructions.push_back({LocalInstruction::BellPrepare{id1, id2, routing_region->cells[i].cell, routing_region->cells[i+1].cell}});
                 }
-                for (size_t i=2; i<routing_region->cells.size()-even_route; i=i+2)
-                {
-                    // Push a complementary layer of BellMeasure instructions
-                    local_instructions.push_back({LocalInstruction::BellMeasure{routing_region->cells[i-1].cell, routing_region->cells[i].cell}});
+
+                else {
+
+                    std::vector<LocalInstruction::LocalLSInstruction> local_instructions;
+                    local_instructions.reserve(2*routing_region->cells.size());
+
+                    // Offset boolean for even vs. odd routes
+                    bool even_route = (routing_region->cells.size()%2 == 0);
+
+                    // See PRX Quantum 3, 020342 (2022) Fig. 19a and c for even vs. odd route compilation
+                    if (!even_route)
+                    {
+                        local_instructions.push_back({LocalInstruction::ExtendSplit{
+                            std::nullopt,
+                            slice.get_cell_by_id(bell_cnot->control).value(), 
+                            routing_region->cells[routing_region->cells.size()-1].cell
+                        }});
+                    }
+                    std::optional<PatchId> id1; std::optional<PatchId> id2;
+                    for (size_t i=0; i<routing_region->cells.size()-1; i=i+2)
+                    {
+                        // Push a BellPrepare instruction with PatchID's depending on the case
+                        id1 = std::nullopt; id2 = std::nullopt;
+                        if (i==0)
+                            id1 = bell_cnot->side2;
+                        if (i==routing_region->cells.size()-2-!even_route)
+                            id2 = bell_cnot->side1;
+
+                        local_instructions.push_back({LocalInstruction::BellPrepare{id1, id2, routing_region->cells[i].cell, routing_region->cells[i+1].cell}});
+                    }
+                    for (size_t i=2; i<routing_region->cells.size()-even_route; i=i+2)
+                    {
+                        // Push a complementary layer of BellMeasure instructions
+                        local_instructions.push_back({LocalInstruction::BellMeasure{routing_region->cells[i-1].cell, routing_region->cells[i].cell}});
+                    }
+                    // Add final measurements
+                    local_instructions.push_back({LocalInstruction::MergeContract{slice.get_cell_by_id(bell_cnot->target).value(), routing_region->cells[0].cell}});
+                    if (even_route)
+                    {
+                        local_instructions.push_back({LocalInstruction::MergeContract{slice.get_cell_by_id(bell_cnot->control).value(), routing_region->cells[routing_region->cells.size()-1].cell}});                    
+                    }
+                    bell_cnot->local_instructions = std::move(local_instructions);
+                    bell_cnot->counter = std::pair<unsigned int, unsigned int>(0, 0);
+
                 }
-                // Add final measurements
-                local_instructions.push_back({LocalInstruction::MergeContract{slice.get_cell_by_id(bell_cnot->target).value(), routing_region->cells[0].cell}});
-                if (even_route)
-                {
-                    local_instructions.push_back({LocalInstruction::MergeContract{slice.get_cell_by_id(bell_cnot->control).value(), routing_region->cells[routing_region->cells.size()-1].cell}});                    
-                }
-                bell_cnot->local_instructions = std::move(local_instructions);
-                bell_cnot->counter = std::pair<unsigned int, unsigned int>(0, 0);
+
             }
             bell_cnot->counter->first = bell_cnot->counter->second;
             

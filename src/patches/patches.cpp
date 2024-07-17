@@ -123,6 +123,9 @@ std::ostream& operator<<(std::ostream& os, const Patch& p)
         case PatchActivity::Rotation:
             os << "Rotation";
             break;
+
+        case PatchActivity::EDPC:
+            throw std::logic_error("PatchActivity::EDPC was not converted in local compilation.");
         
         default:
             LSTK_UNREACHABLE;

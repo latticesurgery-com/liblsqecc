@@ -164,6 +164,12 @@ bool DenseSlice::is_cell_free(const Cell& cell) const
     return !patch_at(cell).has_value();
 }
 
+bool DenseSlice::is_cell_free_or_EDPC(const Cell& cell) const
+{
+    auto patch = patch_at(cell);
+    return (!patch.has_value() || (patch->activity == PatchActivity::EDPC));
+}
+
 Cell DenseSlice::place_single_cell_sparse_patch(const SparsePatch& sparse_patch, bool distillation)
 {
     auto* occupied_cell = std::get_if<SingleCellOccupiedByPatch>(&sparse_patch.cells);
@@ -229,6 +235,12 @@ bool DenseSlice::have_boundary_of_type_with(const Cell& target, const Cell& neig
 {
     const auto b = get_boundary_between(target, neighbour);
     return b ? b->get().boundary_type== boundary_for_operator(op) : false;
+}
+
+bool DenseSlice::is_boundary_reserved(const Cell& target, const Cell& neighbor) const 
+{
+    const auto b = get_boundary_between(target, neighbor);
+    return b ? b->get().boundary_type== BoundaryType::Reserved : false;
 }
 
 

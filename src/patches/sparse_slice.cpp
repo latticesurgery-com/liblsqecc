@@ -78,6 +78,11 @@ bool SparseSlice::is_cell_free(const Cell& cell) const
     return !SparseSlice::get_any_patch_on_cell(cell);
 }
 
+bool SparseSlice::is_cell_free_or_EDPC(const Cell& cell) const
+{
+    throw std::logic_error("PatchActivity::EDPC not implemented for SparseSlice.");
+}
+
 std::vector<Cell> SparseSlice::get_neigbours_within_slice(const Cell& cell) const
 {
     return cell.get_neigbours_within_bounding_box_inclusive({0,0}, layout.get().furthest_cell());
@@ -121,6 +126,16 @@ bool SparseSlice::have_boundary_of_type_with(const Cell& target, const Cell& nei
     const auto* occupied_cell = std::get_if<SingleCellOccupiedByPatch>(&get_qubit_patch_on_cell(target).value().get().cells);
     if(!occupied_cell) return false;
     return occupied_cell->have_boundary_of_type_with(op, neighbour);
+}
+
+bool SparseSlice::is_boundary_reserved(const Cell& target, const Cell& neighbor) const 
+{
+    const auto* occupied_cell = std::get_if<SingleCellOccupiedByPatch>(&get_qubit_patch_on_cell(target).value().get().cells);
+    if(!occupied_cell) return false;
+    std::optional<Boundary> boundary = occupied_cell->get_boundary_with(neighbor);
+    if (boundary && boundary->boundary_type==BoundaryType::Reserved) 
+        return true;
+    else return false;
 }
 
 SurfaceCodeTimestep SparseSlice::time_to_next_magic_state(size_t distillation_region_id) const
