@@ -1,5 +1,7 @@
 #include <lsqecc/patches/dense_slice.hpp>
 
+#include <sstream>
+
 namespace lsqecc
 {
 
@@ -240,13 +242,103 @@ bool DenseSlice::have_boundary_of_type_with(const Cell& target, const Cell& neig
 bool DenseSlice::is_boundary_reserved(const Cell& target, const Cell& neighbor) const 
 {
     const auto b = get_boundary_between(target, neighbor);
-    return b ? b->get().boundary_type== BoundaryType::Reserved : false;
+    return b ? ((b->get().boundary_type == BoundaryType::Reserved_Label1) || (b->get().boundary_type == BoundaryType::Reserved_Label2)) : false;
 }
 
 
 SurfaceCodeTimestep DenseSlice::time_to_next_magic_state(size_t distillation_region_id) const
 {
     return time_to_next_magic_state_by_distillation_region[distillation_region_id];
+}
+
+BoundaryType DenseSlice::mark_boundaries_for_crossing_cell(DensePatch& dp, const SingleCellOccupiedByPatch& p) 
+{
+
+    // Get pointers to boundary labels (so that we can loop over them)
+    std::array<Boundary*, 4> boundary_ptrs = {&dp.boundaries.top, &dp.boundaries.bottom, &dp.boundaries.left, &dp.boundaries.right};
+
+    // Get neighbors of the cell in question
+    std::vector<Cell> neighbors = get_neigbours_within_slice(p.cell);
+
+    // Loop over boundary pointers
+    Boundary* tmp = nullptr;
+    size_t neighbor_counter = 0;
+    size_t tmp_index;
+    size_t reserved_edge_counter = 0;
+    for (Boundary* boundary : boundary_ptrs) {
+
+        // Check validity of existing boundary labels
+        if ((boundary->boundary_type != BoundaryType::None) && 
+            ((boundary->boundary_type == BoundaryType::Reserved_Label1) || (boundary->boundary_type == BoundaryType::Reserved_Label2)))
+        {
+            // Obtain the first Reserved boundary
+            if (tmp == nullptr)
+            {
+                tmp = boundary;
+                tmp_index = neighbor_counter;
+            }
+
+            // If the second one encountered is not the same, check neighbors
+            else if (boundary->boundary_type != tmp->boundary_type)
+            {
+
+                // If the neighbor corresponding with the present boundary is not a crossing vertex, it can safely be flipped
+                if (crossing_vertices.find(neighbors[neighbor_counter]) == crossing_vertices.end()) 
+                {
+                    boundary->boundary_type = !boundary->boundary_type;
+                    auto conjugate_bdry = get_boundary_between(neighbors[neighbor_counter], p.cell);
+                    if (conjugate_bdry.has_value()) {
+                        conjugate_bdry.value().get().boundary_type = boundary->boundary_type;     
+                    } 
+                }
+
+                // Otherwise, we can always safely flip the other one
+                else
+                {
+                    tmp->boundary_type = !tmp->boundary_type;
+                    auto conjugate_bdry = get_boundary_between(neighbors[tmp_index], p.cell);
+                    if (conjugate_bdry.has_value()) {
+                        conjugate_bdry.value().get().boundary_type = tmp->boundary_type;  
+                    } 
+                }
+
+            }
+
+            reserved_edge_counter++;
+            
+        }
+
+        else if (boundary->boundary_type != BoundaryType::None) 
+        {
+            throw std::runtime_error("Invalid BoundaryType for crossing cell in EDPC.");
+        }
+
+        neighbor_counter++;
+    }
+
+    if (reserved_edge_counter != 2)
+    {
+        throw std::runtime_error("Invalid number of reserved boundaries for cell input to mark_boundaries_for_crossing_cell.");
+    }
+
+    // The label that we place is always opposite the one present
+    BoundaryType label_to_place = !tmp->boundary_type;
+
+    // Set remaining boundaries (and their conjugates) to label_to_place
+    neighbor_counter = 0;
+    for (Boundary* boundary : boundary_ptrs) {
+        if (boundary->boundary_type == BoundaryType::None) {
+            boundary->boundary_type = label_to_place;
+            boundary->is_active = true;
+            auto conjugate_bdry = get_boundary_between(neighbors[neighbor_counter], p.cell);
+            if (conjugate_bdry.has_value()) {
+                conjugate_bdry.value().get().boundary_type = label_to_place;     
+            } 
+        }
+        neighbor_counter++;
+    }
+
+    return label_to_place;
 }
 
 }

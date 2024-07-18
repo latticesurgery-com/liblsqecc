@@ -4,7 +4,24 @@
 
 namespace lsqecc {
 
-
+BoundaryType operator!(BoundaryType boundaryType) {
+    switch (boundaryType) {
+        case BoundaryType::None:
+            return BoundaryType::Connected;
+        case BoundaryType::Connected:
+            return BoundaryType::None;
+        case BoundaryType::Rough:
+            return BoundaryType::Smooth;
+        case BoundaryType::Smooth:
+            return BoundaryType::Rough;
+        case BoundaryType::Reserved_Label1:
+            return BoundaryType::Reserved_Label2;
+        case BoundaryType::Reserved_Label2:
+            return BoundaryType::Reserved_Label1;
+        default:
+            return boundaryType;
+    }
+}
 
 BoundaryType boundary_for_operator(PauliOperator op){
     switch (op)
@@ -253,33 +270,6 @@ bool DensePatch::is_active() const
 {
     if(activity!=PatchActivity::None) return true;
     return boundaries.has_active_boundary();
-}
-
-void DensePatch::mark_boundaries_for_crossing_cell(const SingleCellOccupiedByPatch& p) 
-{
-    if ((p.top.is_active) && (!boundaries.top.is_active))
-        boundaries.top = p.top;
-
-    else if ((p.top.is_active) && (boundaries.top.is_active))
-        throw std::runtime_error("Attempting to compile non-edge disjoint paths in one layer of EDPC.");
-
-    if ((p.bottom.is_active) && (!boundaries.bottom.is_active))
-        boundaries.bottom = p.bottom;
-
-    else if ((p.bottom.is_active) && (boundaries.bottom.is_active))
-        throw std::runtime_error("Attempting to compile non-edge disjoint paths in one layer of EDPC.");
-
-    if ((p.left.is_active) && (!boundaries.left.is_active))
-        boundaries.left = p.left;
-
-    else if ((p.left.is_active) && (boundaries.left.is_active))
-        throw std::runtime_error("Attempting to compile non-edge disjoint paths in one layer of EDPC.");
-
-    if ((p.right.is_active) && (!boundaries.right.is_active))
-        boundaries.right = p.right;
-
-    else if ((p.right.is_active) && (boundaries.right.is_active))
-        throw std::runtime_error("Attempting to compile non-edge disjoint paths in one layer of EDPC.");
 }
 
 }

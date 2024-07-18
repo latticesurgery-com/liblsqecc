@@ -133,7 +133,7 @@ bool SparseSlice::is_boundary_reserved(const Cell& target, const Cell& neighbor)
     const auto* occupied_cell = std::get_if<SingleCellOccupiedByPatch>(&get_qubit_patch_on_cell(target).value().get().cells);
     if(!occupied_cell) return false;
     std::optional<Boundary> boundary = occupied_cell->get_boundary_with(neighbor);
-    if (boundary && boundary->boundary_type==BoundaryType::Reserved) 
+    if (boundary && ((boundary->boundary_type==BoundaryType::Reserved_Label1) || (boundary->boundary_type==BoundaryType::Reserved_Label2))) 
         return true;
     else return false;
 }

@@ -81,10 +81,13 @@ void advance_slice(DenseSlice& slice, const Layout& layout)
         if(p->activity == PatchActivity::Unitary)
             p->activity = PatchActivity::None;
 
-        p->boundaries.top.is_active = false;
-        p->boundaries.bottom.is_active = false;
-        p->boundaries.left.is_active = false;
-        p->boundaries.right.is_active = false;
+        if (p->activity != PatchActivity::Rotation)
+        {
+            p->boundaries.top.is_active = false;
+            p->boundaries.bottom.is_active = false;
+            p->boundaries.left.is_active = false;
+            p->boundaries.right.is_active = false;
+        }
 
         // if((p->activity == PatchActivity::MultiPatchMeasurement) || p->activity == PatchActivity::Measurement)
         if((p->activity == PatchActivity::MultiPatchMeasurement) || p->activity == PatchActivity::Measurement || p->activity == PatchActivity::EDPC)
@@ -157,16 +160,15 @@ void advance_slice(DenseSlice& slice, const Layout& layout)
 
     if (slice.routes_to_EDPC_compile.size() > 0) {
 
-
-        // Obtain all crossing vertices
-
-
-
-        // Create two sets of routes
-
-        
-
         // Locally compile routes
+        for (const auto& route : slice.routes_to_EDPC_compile)
+        {
+
+            // Get target and control
+
+
+
+        }
 
 
         slice.routes_to_EDPC_compile.clear();
@@ -193,17 +195,28 @@ void stitch_boundaries(
     }
 }
 
-void mark_routing_region(DenseSlice& slice, const RoutingRegion& routing_region, PatchActivity activity)
+void mark_routing_region(DenseSlice& slice, RoutingRegion& routing_region, PatchActivity activity)
 {
 
-    for (const auto& occupied_cell : routing_region.cells)
+    // For purpose of EDPC
+    BoundaryType current_label = BoundaryType::Reserved_Label1;
+
+    // Loop over cells in routing region
+    for (auto& occupied_cell : routing_region.cells)
     {
+        
+        // Obtain patch at current cell if one exists
         std::optional<DensePatch>& patch = slice.patch_at(occupied_cell.cell);
+
+        // In the case that there is a patch allocated to this cell,
         if (patch.has_value())
         {
+
+            // In the case that it has already been a part of EDPC and that we have found a crossing path,
             if (patch->activity == PatchActivity::EDPC && (activity == PatchActivity::EDPC))
             {
-                // Check for crossing vertices and mark them as Measurement (just to show the intersection point in vis)
+
+                // If this crossing vertex has not been yet seen, add it to the set (mark as a measurement for visualization)
                 auto result = slice.crossing_vertices.insert(occupied_cell.cell);
                 if (!result.second) 
                 {
@@ -211,8 +224,8 @@ void mark_routing_region(DenseSlice& slice, const RoutingRegion& routing_region,
                 }
                 patch->activity = PatchActivity::Measurement;
 
-                // Update boundaries of patch at crossing vertex
-                patch->mark_boundaries_for_crossing_cell(occupied_cell);
+                // Update boundaries of patch at crossing vertex, making sure that the new edges have the opposite label as the old edges
+                current_label = slice.mark_boundaries_for_crossing_cell(patch.value(), occupied_cell);
             }
 
             else
@@ -223,6 +236,17 @@ void mark_routing_region(DenseSlice& slice, const RoutingRegion& routing_region,
 
         else
         {
+            if (activity == PatchActivity::EDPC)
+            {
+                // If a patch has not already been assigned, we assume that we can assign it to VDP set 1 through BoundaryType_ReservedLabel1
+                std::array<Boundary*, 4> boundary_ptrs = {&occupied_cell.top, &occupied_cell.bottom, &occupied_cell.left, &occupied_cell.right};
+                for (Boundary* bdry : boundary_ptrs)
+                {
+                    if ((bdry->boundary_type != BoundaryType::None) && (bdry->boundary_type != current_label))
+                        bdry->boundary_type = current_label;
+                }
+            }
+
             slice.place_sparse_patch(SparsePatch{{PatchType::Routing, activity}, occupied_cell}, false);
         }
 
@@ -634,11 +658,14 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
 
                 // If we are using EDPC, we defer local compilation to later and mark boundaries in routing region as 'Reserved'.
                 if (router.get_EDPC()) {
-                    
-                    slice.get_boundary_between_or_fail(slice.get_cell_by_id(bell_cnot->target).value(), routing_region->cells[0].cell).get() = {.boundary_type=BoundaryType::Reserved, .is_active=true};
-                    slice.get_boundary_between_or_fail(slice.get_cell_by_id(bell_cnot->control).value(), routing_region->cells[routing_region->cells.size()-1].cell).get() = {.boundary_type=BoundaryType::Reserved, .is_active=true};
+
+                    // We add patches with appropriate boundary labels for perorming EDPC
                     mark_routing_region(slice, *routing_region, PatchActivity::EDPC);
+
+                    // Importantly, the boundaries of cells in the routing region were not re-labeled in mark_routing_region
                     slice.routes_to_EDPC_compile.push_back(routing_region.value());
+
+                    // We treat this instruction as though it has been performed, though its compilation has not is reserved for later
                     return {nullptr, {}};
 
                 }

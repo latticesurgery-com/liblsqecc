@@ -67,6 +67,8 @@ struct DenseSlice : public Slice
     std::vector<Cell> get_neigbours_within_slice(const Cell& cell) const override;
 
     SurfaceCodeTimestep time_to_next_magic_state(size_t distillation_region_id) const override;
+
+    BoundaryType mark_boundaries_for_crossing_cell(DensePatch& dp, const SingleCellOccupiedByPatch& p);
 };
 
 }

@@ -18,9 +18,11 @@ enum class BoundaryType : uint8_t {
     Connected, // Used for multi patch
     Rough,
     Smooth,
-    Reserved,
+    Reserved_Label1, // Used by EDPC to denote the two VDP path sets of one EDP set
+    Reserved_Label2,
 };
 
+BoundaryType operator!(BoundaryType boundaryType);
 
 BoundaryType boundary_for_operator(PauliOperator op);
 
@@ -146,7 +148,6 @@ struct DensePatch : public Patch {
     static DensePatch from_sparse_patch(const SparsePatch& p);
 
     bool is_active() const;
-    void mark_boundaries_for_crossing_cell(const SingleCellOccupiedByPatch& p);
 };
 
 

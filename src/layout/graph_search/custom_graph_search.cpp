@@ -309,7 +309,7 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
             {
                 auto boundary = ret.cells.back().get_mut_boundary_with(neighbour);
                 if (boundary) {
-                    EDPC ? boundary->get() = {.boundary_type=BoundaryType::Reserved, .is_active=true} : boundary->get() = {.boundary_type=BoundaryType::Connected, .is_active=true};
+                    EDPC ? boundary->get() = {.boundary_type=BoundaryType::Reserved_Label1, .is_active=true} : boundary->get() = {.boundary_type=BoundaryType::Connected, .is_active=true};
                 }
             }
         }

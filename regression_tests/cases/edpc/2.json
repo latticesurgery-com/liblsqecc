@@ -1376,7 +1376,7 @@
          "edges": {
             "Bottom": "Dashed",
             "Left": "Solid",
-            "Right": "AncillaJoin",
+            "Right": "Solid",
             "Top": "Dashed"
          },
          "patch_type": "Qubit",
@@ -1387,8 +1387,8 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "AncillaJoin",
-            "Left": "AncillaJoin",
+            "Bottom": "SolidStiched",
+            "Left": "SolidStiched",
             "Right": "None",
             "Top": "None"
          },
@@ -1402,7 +1402,7 @@
          "edges": {
             "Bottom": "Dashed",
             "Left": "Solid",
-            "Right": "AncillaJoin",
+            "Right": "Solid",
             "Top": "Dashed"
          },
          "patch_type": "Qubit",
@@ -1413,8 +1413,8 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "AncillaJoin",
-            "Left": "AncillaJoin",
+            "Bottom": "DashedStiched",
+            "Left": "DashedStiched",
             "Right": "None",
             "Top": "None"
          },
@@ -1439,9 +1439,9 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "AncillaJoin",
+            "Bottom": "DashedStiched",
             "Left": "None",
-            "Right": "AncillaJoin",
+            "Right": "DashedStiched",
             "Top": "None"
          },
          "patch_type": "Ancilla",
@@ -1453,7 +1453,7 @@
          },
          "edges": {
             "Bottom": "Dashed",
-            "Left": "AncillaJoin",
+            "Left": "Solid",
             "Right": "Solid",
             "Top": "Dashed"
          },
@@ -1590,8 +1590,8 @@
          "edges": {
             "Bottom": "None",
             "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "AncillaJoin"
+            "Right": "SolidStiched",
+            "Top": "SolidStiched"
          },
          "patch_type": "Ancilla",
          "text": ""
@@ -1602,8 +1602,8 @@
          },
          "edges": {
             "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "AncillaJoin",
+            "Left": "SolidStiched",
+            "Right": "SolidStiched",
             "Top": "None"
          },
          "patch_type": "Ancilla",
@@ -1614,10 +1614,10 @@
             "activity_type": "Measurement"
          },
          "edges": {
-            "Bottom": "AncillaJoin",
-            "Left": "AncillaJoin",
-            "Right": "AncillaJoin",
-            "Top": "AncillaJoin"
+            "Bottom": "DashedStiched",
+            "Left": "SolidStiched",
+            "Right": "SolidStiched",
+            "Top": "DashedStiched"
          },
          "patch_type": "Ancilla",
          "text": ""
@@ -1628,8 +1628,8 @@
          },
          "edges": {
             "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "AncillaJoin",
+            "Left": "SolidStiched",
+            "Right": "SolidStiched",
             "Top": "None"
          },
          "patch_type": "Ancilla",
@@ -1640,10 +1640,10 @@
             "activity_type": "Measurement"
          },
          "edges": {
-            "Bottom": "AncillaJoin",
-            "Left": "AncillaJoin",
-            "Right": "AncillaJoin",
-            "Top": "AncillaJoin"
+            "Bottom": "DashedStiched",
+            "Left": "SolidStiched",
+            "Right": "SolidStiched",
+            "Top": "DashedStiched"
          },
          "patch_type": "Ancilla",
          "text": ""
@@ -1653,8 +1653,8 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "AncillaJoin",
-            "Left": "AncillaJoin",
+            "Bottom": "SolidStiched",
+            "Left": "SolidStiched",
             "Right": "None",
             "Top": "None"
          },
@@ -1815,10 +1815,10 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "AncillaJoin",
+            "Bottom": "SolidStiched",
             "Left": "None",
             "Right": "None",
-            "Top": "AncillaJoin"
+            "Top": "DashedStiched"
          },
          "patch_type": "Ancilla",
          "text": ""
@@ -1841,10 +1841,10 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "AncillaJoin",
+            "Bottom": "DashedStiched",
             "Left": "None",
             "Right": "None",
-            "Top": "AncillaJoin"
+            "Top": "DashedStiched"
          },
          "patch_type": "Ancilla",
          "text": ""
@@ -1857,7 +1857,7 @@
             "Bottom": "Dashed",
             "Left": "Solid",
             "Right": "Solid",
-            "Top": "AncillaJoin"
+            "Top": "Dashed"
          },
          "patch_type": "Qubit",
          "text": "Id: 7"
@@ -1986,59 +1986,59 @@
       null,
       null,
       null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "AncillaJoin",
-            "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "None",
-            "Top": "AncillaJoin"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "AncillaJoin",
-            "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "None",
-            "Top": "AncillaJoin"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
       null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "SolidStiched",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "SolidStiched",
+            "Right": "SolidStiched",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "DashedStiched",
+            "Left": "SolidStiched",
+            "Right": "SolidStiched",
+            "Top": "DashedStiched"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "SolidStiched",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
       null,
       null,
       {
@@ -2183,7 +2183,7 @@
             "Bottom": "Dashed",
             "Left": "Solid",
             "Right": "Solid",
-            "Top": "AncillaJoin"
+            "Top": "Dashed"
          },
          "patch_type": "Qubit",
          "text": "Id: 9"
@@ -2197,12 +2197,24 @@
             "Bottom": "Dashed",
             "Left": "Solid",
             "Right": "Solid",
-            "Top": "AncillaJoin"
+            "Top": "Dashed"
          },
          "patch_type": "Qubit",
          "text": "Id: 10"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "None",
+            "Right": "None",
+            "Top": "DashedStiched"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
       {
          "activity": {
             "activity_type": null
@@ -2343,8 +2355,32 @@
       null,
       null,
       null,
-      null,
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "SolidStiched",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "SolidStiched",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
       null,
       null,
       {
@@ -5269,7 +5305,7 @@
          "edges": {
             "Bottom": "Dashed",
             "Left": "Solid",
-            "Right": "None",
+            "Right": "Solid",
             "Top": "Dashed"
          },
          "patch_type": "Qubit",
@@ -5283,7 +5319,7 @@
          "edges": {
             "Bottom": "Dashed",
             "Left": "Solid",
-            "Right": "None",
+            "Right": "Solid",
             "Top": "Dashed"
          },
          "patch_type": "Qubit",
@@ -5295,7 +5331,7 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "AncillaJoin",
+            "Bottom": "Dashed",
             "Left": "Solid",
             "Right": "Solid",
             "Top": "Dashed"
@@ -5310,7 +5346,7 @@
          },
          "edges": {
             "Bottom": "Dashed",
-            "Left": "None",
+            "Left": "Solid",
             "Right": "Solid",
             "Top": "Dashed"
          },
@@ -5447,9 +5483,9 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "AncillaJoin",
+            "Bottom": "SolidStiched",
             "Left": "None",
-            "Right": "AncillaJoin",
+            "Right": "SolidStiched",
             "Top": "None"
          },
          "patch_type": "Ancilla",
@@ -5461,9 +5497,9 @@
          },
          "edges": {
             "Bottom": "None",
-            "Left": "AncillaJoin",
+            "Left": "SolidStiched",
             "Right": "None",
-            "Top": "AncillaJoin"
+            "Top": "SolidStiched"
          },
          "patch_type": "Ancilla",
          "text": ""
@@ -5626,8 +5662,8 @@
          "edges": {
             "Bottom": "None",
             "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "AncillaJoin"
+            "Right": "SolidStiched",
+            "Top": "SolidStiched"
          },
          "patch_type": "Ancilla",
          "text": ""
@@ -5638,7 +5674,7 @@
          },
          "edges": {
             "Bottom": "Dashed",
-            "Left": "AncillaJoin",
+            "Left": "Solid",
             "Right": "Solid",
             "Top": "Dashed"
          },
@@ -5654,7 +5690,7 @@
             "Bottom": "Dashed",
             "Left": "Solid",
             "Right": "Solid",
-            "Top": "None"
+            "Top": "Dashed"
          },
          "patch_type": "Qubit",
          "text": "Id: 7"
@@ -5932,7 +5968,7 @@
             "Bottom": "Dashed",
             "Left": "Solid",
             "Right": "Solid",
-            "Top": "None"
+            "Top": "Dashed"
          },
          "patch_type": "Qubit",
          "text": "Id: 9"
@@ -5946,7 +5982,7 @@
             "Bottom": "Dashed",
             "Left": "Solid",
             "Right": "Solid",
-            "Top": "None"
+            "Top": "Dashed"
          },
          "patch_type": "Qubit",
          "text": "Id: 10"
