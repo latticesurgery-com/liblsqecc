@@ -44,11 +44,13 @@ private:
 	{
 		std::vector<InstructionID> heads;
 		std::vector<InstructionID> proximate_heads_;
+		std::vector<InstructionID> deferred_to_end;
 				
 		void clear()
 		{
 			heads.clear();
 			proximate_heads_.clear();
+			deferred_to_end.clear();
 		}
 		
 		size_t size() const { return heads.size() + proximate_heads_.size(); }

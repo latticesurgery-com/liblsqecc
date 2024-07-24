@@ -268,8 +268,7 @@ BoundaryType DenseSlice::mark_boundaries_for_crossing_cell(DensePatch& dp, const
     for (Boundary* boundary : boundary_ptrs) {
 
         // Check validity of existing boundary labels
-        if ((boundary->boundary_type != BoundaryType::None) && 
-            ((boundary->boundary_type == BoundaryType::Reserved_Label1) || (boundary->boundary_type == BoundaryType::Reserved_Label2)))
+        if ((boundary->boundary_type == BoundaryType::Reserved_Label1) || (boundary->boundary_type == BoundaryType::Reserved_Label2))
         {
             // Obtain the first Reserved boundary
             if (tmp == nullptr)
@@ -283,7 +282,7 @@ BoundaryType DenseSlice::mark_boundaries_for_crossing_cell(DensePatch& dp, const
             {
 
                 // If the neighbor corresponding with the present boundary is not a crossing vertex, it can safely be flipped
-                if (crossing_vertices.find(neighbors[neighbor_counter]) == crossing_vertices.end()) 
+                if (EDPC_crossing_vertices.find(neighbors[neighbor_counter]) == EDPC_crossing_vertices.end()) 
                 {
                     boundary->boundary_type = !boundary->boundary_type;
                     auto conjugate_bdry = get_boundary_between(neighbors[neighbor_counter], p.cell);
@@ -292,7 +291,8 @@ BoundaryType DenseSlice::mark_boundaries_for_crossing_cell(DensePatch& dp, const
                     } 
                 }
 
-                // Otherwise, we can always safely flip the other one
+                // Otherwise, we can always safely flip the other one 
+                // (may want to treat this as a validity checking condition i.e. make sure that the other neighbor doesn't require it to NOT be flipped, which would imply a collision of constraints causing failure)
                 else
                 {
                     tmp->boundary_type = !tmp->boundary_type;

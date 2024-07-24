@@ -63,6 +63,7 @@ WaveStats WaveScheduler::schedule_wave(DenseSlice& slice, LSInstructionVisitor i
 	size_t applied_count = 0;
 	applied_count += schedule_instructions(current_wave_.proximate_heads_, slice, instruction_visitor, res, true);
 	applied_count += schedule_instructions(current_wave_.heads, slice, instruction_visitor, res, false);
+	applied_count += schedule_instructions(current_wave_.deferred_to_end, slice, instruction_visitor, res, false);
 	
 	WaveStats wave_stats = { .wave_size = current_wave_.size(), .applied_wave_size = applied_count };
 	
@@ -96,6 +97,13 @@ size_t WaveScheduler::schedule_instructions(const std::vector<InstructionID>& in
 		}
 		else
 		{
+			// This should only be touched in the case of EDPC compilation where local compilation cannot be performed until the whole EDP set is constructed
+			if (application_result.followup_instructions.size() == 1 && application_result.followup_instructions[0] == instruction)
+			{
+				current_wave_.deferred_to_end.push_back(instruction_id);
+				continue;
+			}
+
 			if (proximate)
                 throw std::runtime_error{lstk::cat(
                     "Could not apply proximate instruction:\n",
@@ -208,7 +216,17 @@ bool WaveScheduler::try_schedule_immediately(InstructionID instruction_id, Dense
 	auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions_, allow_twists_, layout_, *router_);
 	
 	if (application_result.maybe_error)
+	{
+		// This is the case that compilation of an EDP set is deferred to the end
+		if (application_result.followup_instructions.size() == 1 && application_result.followup_instructions[0] == instruction)
+		{
+			current_wave_.deferred_to_end.push_back(instruction_id);
+			return true;
+		}
+
+		// Otherwise, report that instruction could not be placed
 		return false;
+	}
 	else
 	{
 		++res.ls_instructions_count_;
