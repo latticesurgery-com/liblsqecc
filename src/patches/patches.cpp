@@ -4,8 +4,8 @@
 
 namespace lsqecc {
 
-BoundaryType operator!(BoundaryType boundaryType) {
-    switch (boundaryType) {
+BoundaryType operator!(BoundaryType bt) {
+    switch (bt) {
         case BoundaryType::None:
             return BoundaryType::Connected;
         case BoundaryType::Connected:
@@ -19,9 +19,30 @@ BoundaryType operator!(BoundaryType boundaryType) {
         case BoundaryType::Reserved_Label2:
             return BoundaryType::Reserved_Label1;
         default:
-            return boundaryType;
+            throw std::runtime_error("BoundaryType not supported.");
     }
 }
+
+std::ostream& operator<<(std::ostream& os, BoundaryType bt)
+{
+    switch (bt) {
+        case BoundaryType::None:
+            return os << "BoundaryType::None";
+        case BoundaryType::Connected:
+            return os << "BoundaryType::Connected";
+        case BoundaryType::Rough:
+            return os << "BoundaryType::Rough";
+        case BoundaryType::Smooth:
+            return os << "BoundaryType::Smooth";
+        case BoundaryType::Reserved_Label1:
+            return os << "BoundaryType::Reserved_Label1";
+        case BoundaryType::Reserved_Label2:
+            return os << "BoundaryType::Reserved_Label2";
+        default:
+            throw std::runtime_error("BoundaryType not supported.");
+    }
+}
+
 
 BoundaryType boundary_for_operator(PauliOperator op){
     switch (op)
@@ -142,7 +163,7 @@ std::ostream& operator<<(std::ostream& os, const Patch& p)
             break;
 
         case PatchActivity::EDPC:
-            throw std::logic_error("PatchActivity::EDPC was not converted in local compilation.");
+            os << "EDPC";
         
         default:
             LSTK_UNREACHABLE;

@@ -22,7 +22,9 @@ enum class BoundaryType : uint8_t {
     Reserved_Label2,
 };
 
-BoundaryType operator!(BoundaryType boundaryType);
+BoundaryType operator!(BoundaryType bt);
+
+std::ostream& operator<<(std::ostream& os, BoundaryType bt);
 
 BoundaryType boundary_for_operator(PauliOperator op);
 

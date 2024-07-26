@@ -26,6 +26,8 @@ struct DenseSlice : public Slice
     std::reference_wrapper<const Layout> layout;
     unsigned int predistilled_ystates_available = 0;
     std::set<Cell> EDPC_crossing_vertices;
+    std::vector<std::reference_wrapper<Boundary>> marked_rough_boundaries_EDPC;
+    std::vector<std::reference_wrapper<Boundary>> marked_smooth_boundaries_EDPC;
 
 
     explicit DenseSlice(const Layout& layout);

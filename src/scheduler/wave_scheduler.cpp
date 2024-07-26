@@ -61,9 +61,30 @@ WaveScheduler::WaveScheduler(LSInstructionStream&& stream, bool local_instructio
 WaveStats WaveScheduler::schedule_wave(DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res)
 {
 	size_t applied_count = 0;
-	applied_count += schedule_instructions(current_wave_.proximate_heads_, slice, instruction_visitor, res, true);
-	applied_count += schedule_instructions(current_wave_.heads, slice, instruction_visitor, res, false);
-	applied_count += schedule_instructions(current_wave_.deferred_to_end, slice, instruction_visitor, res, false);
+	applied_count += schedule_instructions(current_wave_.proximate_heads_, slice, instruction_visitor, res, true, false);
+	applied_count += schedule_instructions(current_wave_.heads, slice, instruction_visitor, res, false, false);
+
+	if (router_->get_EDPC())
+	{
+		/* After the routing of edge-disjoint paths for all BellBasedCNOTs in a wave, they are deferred because their specific decomposition depends on the others.
+		   Once all BellBasedCNOTs in a wave have been seen, they are each decomposed into local instructions and then deferred once more (decomposition algorithm requires slice to have EDPC info retained).
+		   Finally, on the third encounter, the first layer of instructions is scheduled, and each instruction reschedules itself.
+		*/
+		applied_count += schedule_instructions(current_wave_.get_deferred(), slice, instruction_visitor, res, false, true);
+
+		// Reset boundaries for data qubits
+		for (auto& bdry : slice.marked_rough_boundaries_EDPC)
+		{
+			bdry.get().boundary_type = BoundaryType::Rough;
+		}
+
+		for (auto& bdry : slice.marked_smooth_boundaries_EDPC)
+		{
+			bdry.get().boundary_type = BoundaryType::Smooth;
+		}
+
+		applied_count += schedule_instructions(current_wave_.get_deferred(), slice, instruction_visitor, res, false, false);
+	}
 	
 	WaveStats wave_stats = { .wave_size = current_wave_.size(), .applied_wave_size = applied_count };
 	
@@ -73,7 +94,7 @@ WaveStats WaveScheduler::schedule_wave(DenseSlice& slice, LSInstructionVisitor i
     return wave_stats;
 }
 
-size_t WaveScheduler::schedule_instructions(const std::vector<InstructionID>& instruction_ids, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res, bool proximate)
+size_t WaveScheduler::schedule_instructions(const std::vector<InstructionID>& instruction_ids, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res, bool proximate, bool deferred)
 {
 	size_t applied_count = 0;
 	
@@ -101,6 +122,12 @@ size_t WaveScheduler::schedule_instructions(const std::vector<InstructionID>& in
 			if (application_result.followup_instructions.size() == 1 && application_result.followup_instructions[0] == instruction)
 			{
 				current_wave_.deferred_to_end.push_back(instruction_id);
+				continue;
+			}
+
+			// The first time we encounter deferred instructions, we decompose into local instructions and return an error, but we want it to run again in the same slice
+			else if (deferred)
+			{
 				continue;
 			}
 

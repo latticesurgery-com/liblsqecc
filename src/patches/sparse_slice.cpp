@@ -80,7 +80,7 @@ bool SparseSlice::is_cell_free(const Cell& cell) const
 
 bool SparseSlice::is_cell_free_or_EDPC(const Cell& cell) const
 {
-    throw std::logic_error("PatchActivity::EDPC not implemented for SparseSlice.");
+    LSTK_NOT_IMPLEMENTED;
 }
 
 std::vector<Cell> SparseSlice::get_neigbours_within_slice(const Cell& cell) const

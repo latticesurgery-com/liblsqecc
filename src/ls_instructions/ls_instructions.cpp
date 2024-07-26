@@ -189,17 +189,19 @@ std::ostream& operator<<(std::ostream& os, const BellBasedCNOT& instruction)
     os << LSInstructionPrint<BellBasedCNOT>::name
         << " " << instruction.control << " " << instruction.target << " " << instruction.side1 << " " << instruction.side2;
 
-    if (instruction.counter.has_value() && instruction.local_instructions.has_value()) 
+    if (instruction.counter_pairs.has_value() && instruction.local_instruction_sets.has_value()) 
     {
         os << " [";
-        for (unsigned int i = instruction.counter->first; i < instruction.counter->second; i++) 
+        for (size_t phase : {0, 1})
         {
-            os << instruction.local_instructions.value()[i];
-            if (i != instruction.counter->second - 1) 
-                os << ";";
+            for (unsigned int i = instruction.counter_pairs.value()[phase].first; i < instruction.counter_pairs.value()[phase].second; i++) 
+            {
+                os << instruction.local_instruction_sets.value()[phase][i];
+                if (i != instruction.counter_pairs.value()[phase].second - 1) 
+                    os << ";";
+            }
+            os << "]";
         }
-        os << "]";
-
     }
 
     return os;

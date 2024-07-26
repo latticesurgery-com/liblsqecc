@@ -131,7 +131,8 @@ public:
     bool have_directed_edge_EDPC(const Cell& a, const Cell& b) const
     {
 
-        // In EDPC a cell that has already been routed through may be used again
+        // In EDPC we assign dummy patches to cells that have been touched and mark them with PatchActivity::EDPC, and also reserve boundaries
+        // Thus here we allow to route through EDPC cells but make sure that boundaries have not yet been reserved
         if ((slice_.is_cell_free_or_EDPC(a) && slice_.is_cell_free_or_EDPC(b))
             && (!slice_.is_boundary_reserved(a, b)))
          return true;

@@ -90,7 +90,6 @@ json dense_patch_to_json(const DensePatch& p)
                         case PatchActivity::MultiPatchMeasurement: return json();
                         case PatchActivity::Rotation: return json();
                         case PatchActivity::EDPC: return json();
-                        // case PatchActivity::EDPC: throw std::logic_error("PatchActivity::EDPC was not converted during local compilation.");
                         }
                         LSTK_UNREACHABLE;
                     }()

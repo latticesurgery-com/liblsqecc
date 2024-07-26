@@ -133,8 +133,6 @@ struct BellBasedCNOT {
     std::optional<RoutingRegion> route;
     std::optional<std::vector<std::pair<unsigned int, unsigned int>>> counter_pairs;
     std::optional<std::vector<std::vector<LocalInstruction::LocalLSInstruction>>> local_instruction_sets;
-    std::optional<std::vector<LocalInstruction::LocalLSInstruction>> local_instructions;
-    std::optional<std::pair<unsigned int, unsigned int>> counter;
 
     bool operator==(const BellBasedCNOT&) const = default;
 };

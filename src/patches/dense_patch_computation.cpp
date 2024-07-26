@@ -83,7 +83,7 @@ void advance_slice(DenseSlice& slice, const Layout& layout)
         if(p->activity == PatchActivity::Unitary)
             p->activity = PatchActivity::None;
 
-        if (p->activity != PatchActivity::Rotation)
+        if ((p->activity != PatchActivity::Rotation) && (p->activity != PatchActivity::EDPC))
         {
             p->boundaries.top.is_active = false;
             p->boundaries.bottom.is_active = false;
@@ -91,8 +91,7 @@ void advance_slice(DenseSlice& slice, const Layout& layout)
             p->boundaries.right.is_active = false;
         }
 
-        // if((p->activity == PatchActivity::MultiPatchMeasurement) || p->activity == PatchActivity::Measurement)
-        if((p->activity == PatchActivity::MultiPatchMeasurement) || p->activity == PatchActivity::Measurement || p->activity == PatchActivity::EDPC)
+        if((p->activity == PatchActivity::MultiPatchMeasurement) || p->activity == PatchActivity::Measurement)
         {
             p = std::nullopt;
             return;
@@ -163,7 +162,6 @@ void advance_slice(DenseSlice& slice, const Layout& layout)
     // Reset EDPC crossing vertices
     slice.EDPC_crossing_vertices.clear();
 
-    // Make to reset everything with PatchActivity::EDPC and BoundaryLabel::Reserved, including data qubit edges!
 }
 
 
@@ -213,7 +211,7 @@ void mark_routing_region(DenseSlice& slice, RoutingRegion& routing_region, Patch
                 {
                     throw std::runtime_error("Vertices cannot be crossed by more than two paths in EDPC.");
                 }
-                patch->activity = PatchActivity::Measurement;
+                // patch->activity = PatchActivity::Measurement;
 
                 // Update boundaries of patch at crossing vertex, making sure that the new edges have the opposite label as the old edges
                 current_label = slice.mark_boundaries_for_crossing_cell(patch.value(), occupied_cell);
@@ -226,7 +224,8 @@ void mark_routing_region(DenseSlice& slice, RoutingRegion& routing_region, Patch
                 {
                     auto bdry = slice.get_boundary_between(occupied_cell.cell, routing_region.cells[1].cell);
                     if (bdry.has_value()) {
-                        bdry.value().get().boundary_type = current_label;     
+                        bdry.value().get().boundary_type = current_label; 
+                        slice.marked_rough_boundaries_EDPC.push_back(bdry.value());
                     }
                     else
                         throw std::runtime_error("Route invalid for target qubit in EDPC.");
@@ -237,7 +236,8 @@ void mark_routing_region(DenseSlice& slice, RoutingRegion& routing_region, Patch
                 {
                     auto bdry = slice.get_boundary_between(occupied_cell.cell, routing_region.cells[routing_region.cells.size()-2].cell);
                     if (bdry.has_value()) {
-                        bdry.value().get().boundary_type = current_label;     
+                        bdry.value().get().boundary_type = current_label; 
+                        slice.marked_smooth_boundaries_EDPC.push_back(bdry.value());    
                     }
                     else
                         throw std::runtime_error("Route invalid for control qubit in EDPC.");
@@ -247,7 +247,6 @@ void mark_routing_region(DenseSlice& slice, RoutingRegion& routing_region, Patch
                 {
                     throw std::runtime_error("Attempting to route through a cell that already contains a patch."); 
                 }
-          
             }
 
             else
@@ -323,10 +322,11 @@ bool merge_patches(
 
 InstructionApplicationResult try_apply_local_instruction(
         DenseSlice& slice,
-        LocalInstruction::LocalLSInstruction instruction)
+        LocalInstruction::LocalLSInstruction instruction,
+        const Layout& layout,
+        Router& router)
 {
-
-    if (const auto* prepy = std::get_if<LocalInstruction::PrepareY>(&instruction.operation))
+        if (const auto* prepy = std::get_if<LocalInstruction::PrepareY>(&instruction.operation))
     {
         if (!slice.is_cell_free(prepy->target_cell))
         {
@@ -343,13 +343,31 @@ InstructionApplicationResult try_apply_local_instruction(
 
     else if (const auto* bellprep = std::get_if<LocalInstruction::BellPrepare>(&instruction.operation))
     {
-        if (!slice.is_cell_free(bellprep->cell1))
+
+        if (router.get_EDPC())
         {
-            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Cell ", bellprep->cell1, " is not free, cannot prepare state")), {}};
+            if (!slice.is_cell_free_or_EDPC(bellprep->cell1))
+            {
+                return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Cell ", bellprep->cell1, " is not free, cannot prepare state")), {}};
+            }
+            else if (!slice.is_cell_free_or_EDPC(bellprep->cell2))
+            {
+                return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Cell ", bellprep->cell2, " is not free, cannot prepare state")), {}};
+            }
+            slice.cells.at(bellprep->cell1.row).at(bellprep->cell1.col) = std::nullopt;
+            slice.cells.at(bellprep->cell2.row).at(bellprep->cell2.col) = std::nullopt;
         }
-        else if (!slice.is_cell_free(bellprep->cell2))
+
+        else
         {
-            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Cell ", bellprep->cell2, " is not free, cannot prepare state")), {}};
+            if (!slice.is_cell_free(bellprep->cell1))
+            {
+                return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Cell ", bellprep->cell1, " is not free, cannot prepare state")), {}};
+            }
+            else if (!slice.is_cell_free(bellprep->cell2))
+            {
+                return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Cell ", bellprep->cell2, " is not free, cannot prepare state")), {}};
+            }
         }
 
         slice.place_single_cell_sparse_patch(LayoutHelpers::basic_square_patch(bellprep->cell1, bellprep->side1, "Bell 1"), false);
@@ -381,12 +399,30 @@ InstructionApplicationResult try_apply_local_instruction(
 
     else if (const auto* move = std::get_if<LocalInstruction::Move>(&instruction.operation))
     {
+
         if (!slice.patch_at(move->source_cell).has_value())
             return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; No Patch at ", move->source_cell, ", cannot move")), {}};
         else if (slice.patch_at(move->source_cell)->is_active())
             return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Patch at ", move->source_cell, " is active, cannot move")), {}};
-        else if (!slice.is_cell_free(move->target_cell))
-            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Cell ", move->target_cell, " is not free, cannot move")), {}};
+
+        if (router.get_EDPC())
+        {
+            if (!slice.is_cell_free_or_EDPC(move->target_cell))
+            {
+                return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Cell ", move->target_cell, " is not free, cannot move")), {}};        
+            }
+
+            else if (slice.patch_at(move->target_cell).value().activity == PatchActivity::EDPC)
+            {
+                slice.cells.at(move->target_cell.row).at(move->target_cell.col) = std::nullopt;
+            }
+        }
+
+        else 
+        {
+            if (!slice.is_cell_free(move->target_cell))
+                return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Cell ", move->target_cell, " is not free, cannot move")), {}};
+        }
         
         SparsePatch new_patch = LayoutHelpers::basic_square_patch(move->target_cell, std::nullopt, "Move");
         new_patch.id = move->new_id_for_target ? move->new_id_for_target : slice.patch_at(move->source_cell)->id;
@@ -398,6 +434,7 @@ InstructionApplicationResult try_apply_local_instruction(
 
         return {nullptr, {}};
     }
+
     else if (const auto* localmeas = std::get_if<LocalInstruction::TwoPatchMeasure>(&instruction.operation))
     {
         if (!slice.patch_at(localmeas->cell1).has_value())
@@ -413,16 +450,34 @@ InstructionApplicationResult try_apply_local_instruction(
         slice.get_boundary_between_or_fail(localmeas->cell2,localmeas->cell1).get().is_active=true;
 
         return {nullptr, {}};
-}
+    }
+
     else if (const auto* extendsplit = std::get_if<LocalInstruction::ExtendSplit>(&instruction.operation))
     {
-        
+
         if (!slice.patch_at(extendsplit->target_cell).has_value())
             return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; No Patch at ", extendsplit->target_cell, ", cannot extend")), {}};
         else if (slice.patch_at(extendsplit->target_cell)->is_active())
             return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Patch at ", extendsplit->target_cell, " is active, cannot extend")), {}};
-        else if (!slice.is_cell_free(extendsplit->extension_cell))
-            return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Cell ", extendsplit->extension_cell, " is not free, cannot extend")), {}};
+
+        if (router.get_EDPC())
+        {
+            if (!slice.is_cell_free_or_EDPC(extendsplit->extension_cell))
+            {
+                return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Cell ", extendsplit->extension_cell, " is not free or marked for EDPC, cannot extend")), {}};        
+            }
+
+            else if (slice.patch_at(extendsplit->extension_cell).value().activity == PatchActivity::EDPC)
+            {
+                slice.cells.at(extendsplit->extension_cell.row).at(extendsplit->extension_cell.col) = std::nullopt;
+            }
+        }
+
+        else 
+        {
+            if (!slice.is_cell_free(extendsplit->extension_cell))
+                return {std::make_unique<std::runtime_error>(lstk::cat(instruction, "; Cell ", extendsplit->extension_cell, " is not free, cannot extend")), {}};
+        }
 
         slice.place_single_cell_sparse_patch(LayoutHelpers::basic_square_patch(extendsplit->extension_cell, extendsplit->extension_id, "Extended"), false);
         slice.get_boundary_between_or_fail(extendsplit->extension_cell, extendsplit->target_cell).get().is_active=true;
@@ -430,6 +485,7 @@ InstructionApplicationResult try_apply_local_instruction(
 
         return {nullptr, {}};
     }
+
     else if (const auto* mergecont = std::get_if<LocalInstruction::MergeContract>(&instruction.operation))
     {
         if (!slice.patch_at(mergecont->preserved_cell).has_value())
@@ -455,8 +511,13 @@ enum class LongRangeBell {
     Prep, Measure, Merge, Split
 };
 
-// Compile long-range Bell-based operations: Bell preparation, Bell measurement, Bell-mediated merge, Bell-mediated split.
-void compile_long_range_Bell(LongRangeBell type, std::vector<LocalInstruction::LocalLSInstruction>& layer1, std::vector<LocalInstruction::LocalLSInstruction>& layer2, RoutingRegion& route, size_t start, size_t end, 
+/* Compile long-range Bell-based operations: Bell preparation, Bell measurement, Bell-mediated merge, Bell-mediated split.
+    - Appends two layers of local instructions to input vectors layer1 and layer2
+    - Local instructions are applied along a RoutingRegion segment defined by route, start, and end
+    - Directionality can be reversed: reverse==false implies Merge/Split occurs at source-end and Moves occur at target-end
+    - PatchIDs can be given for either end of any resultant long-range Bell state
+*/
+void compile_long_range_Bell(LongRangeBell type, std::vector<LocalInstruction::LocalLSInstruction>& layer1, std::vector<LocalInstruction::LocalLSInstruction>& layer2, const RoutingRegion& route, size_t start, size_t end, 
                                     bool reverse = false, std::optional<PatchId> side1 = std::nullopt, std::optional<PatchId> side2 = std::nullopt)
 {
     // Check input validity
@@ -763,7 +824,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
             // Apply TwoPatchMeasure local instruction
             LocalInstruction::LocalLSInstruction local_instruction = {LocalInstruction::TwoPatchMeasure{slice.get_cell_by_id(source_id).value(), slice.get_cell_by_id(target_id).value()}};
             m->local_instruction = std::move(local_instruction);
-            InstructionApplicationResult r = try_apply_local_instruction(slice, m->local_instruction.value());
+            InstructionApplicationResult r = try_apply_local_instruction(slice, m->local_instruction.value(), layout, router);
             if (r.maybe_error && r.followup_instructions.empty())
                 return InstructionApplicationResult{std::move(r.maybe_error), {}};
             if (!r.followup_instructions.empty())
@@ -831,7 +892,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
             bell_init->counter->first = bell_init->counter->second;
             for (unsigned int i = bell_init->counter->first; i < bell_init->local_instructions.value().size(); i++)
             {
-                InstructionApplicationResult r = try_apply_local_instruction(slice, bell_init->local_instructions.value()[i]);
+                InstructionApplicationResult r = try_apply_local_instruction(slice, bell_init->local_instructions.value()[i], layout, router);
                 if (r.maybe_error && r.followup_instructions.empty())
                     return InstructionApplicationResult{nullptr, {instruction}};
                 if (!r.followup_instructions.empty())
@@ -902,7 +963,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                     // Store routing region within the instruction (importantly, boundaries of cells in this routing region object have not been re-labeled!)
                     bell_cnot->route = std::move(routing_region);
 
-                    // We return the instruction back to the scheduler and perform local compilation later
+                    // We return the instruction back to the scheduler and perform local instruction decomposition and compilation later
                     return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; EDPC requires whole EDP set to be found before local compilation can occur")), {instruction}};
                 }
 
@@ -928,23 +989,75 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                         }
                         route_endpoints.push_back(std::make_pair(bell_cnot->route->cells.size()-1, current_type));
 
-                        // Loop over end-points to compile each path separately
-                        /* TODO: Implement the compilation of each segment! 
-                        Should maintain two sets of local instructions for two layers, since there might be issues if phase 2 instructions are compiled early.
-                        Otherwise, can use layer1 and layer2 and add all to local_instructions at the end! */
+                        // Loop over end-points to decompose operation along path into local operations organized into two phases of two layers each                        
+                        std::vector<LocalInstruction::LocalLSInstruction> local_instructions_phase1;
+                        std::vector<LocalInstruction::LocalLSInstruction> phase1_layer1;
+                        std::vector<LocalInstruction::LocalLSInstruction> phase1_layer2;
+
+                        std::vector<LocalInstruction::LocalLSInstruction> local_instructions_phase2;
+                        std::vector<LocalInstruction::LocalLSInstruction> phase2_layer1;
+                        std::vector<LocalInstruction::LocalLSInstruction> phase2_layer2;
+
+                        phase1_layer1.reserve(bell_cnot->route->cells.size());
+                        phase1_layer2.reserve(bell_cnot->route->cells.size());
+                        phase2_layer1.reserve(bell_cnot->route->cells.size());
+                        phase2_layer2.reserve(bell_cnot->route->cells.size());
+
                         for (size_t i=0; i<route_endpoints.size()-1; i++) 
                         {
-                            std::vector<LocalInstruction::LocalLSInstruction> local_instructions;
-                            local_instructions.reserve(2*bell_cnot->route->cells.size());
 
-                            if (route_endpoints[i].second == BoundaryType::Reserved_Label1)
+                            // If there is only one segment, we apply in the same way as without EDPC
+                            if (route_endpoints.size() == 2)
                             {
+                                compile_long_range_Bell(LongRangeBell::Split, phase1_layer1, phase1_layer2, bell_cnot->route.value(), bell_cnot->route->cells.size()-2, bell_cnot->route->cells.size()-1, false);
+                                compile_long_range_Bell(LongRangeBell::Merge, phase1_layer1, phase1_layer2, bell_cnot->route.value(), 0, bell_cnot->route->cells.size()-2, true,  bell_cnot->side1, bell_cnot->side2);
+                            }
 
+                            // Otherwise, check segment type
+                            else if (route_endpoints[i].second == BoundaryType::Reserved_Label1)
+                            {
+                                // Phase 1 operation involving control/target are Bell-based splits. Otherwise, it is a long-range Bell preparation
+                                if (i==0)
+                                {
+                                    // Split target
+                                    compile_long_range_Bell(LongRangeBell::Split, phase1_layer1, phase1_layer2, bell_cnot->route.value(), route_endpoints[i].first, route_endpoints[i+1].first, true,  std::nullopt, bell_cnot->side2);
+                                }
+
+                                else if (i==route_endpoints.size()-2)
+                                {
+                                    // Split control 
+                                    compile_long_range_Bell(LongRangeBell::Split, phase1_layer1, phase1_layer2, bell_cnot->route.value(), route_endpoints[i].first, route_endpoints[i+1].first, false, std::nullopt, bell_cnot->side1); 
+
+                                }
+
+                                else 
+                                {
+                                    // Prepare Bell state
+                                    compile_long_range_Bell(LongRangeBell::Prep, phase1_layer1, phase1_layer2, bell_cnot->route.value(), route_endpoints[i].first, route_endpoints[i+1].first); 
+                                }
                             }
 
                             else if (route_endpoints[i].second == BoundaryType::Reserved_Label2)
                             {
+                                // Phase 2 operation involving control/target are Bell-based merges. Otherwise, it is a long-range Bell measurement
+                                if (i==0)
+                                {
+                                    // Merge target
+                                    compile_long_range_Bell(LongRangeBell::Merge, phase2_layer1, phase2_layer2, bell_cnot->route.value(), route_endpoints[i].first, route_endpoints[i+1].first, true,  std::nullopt, std::nullopt);
+                                }
 
+                                else if (i==route_endpoints.size()-2)
+                                {
+                                    // Merge control 
+                                    compile_long_range_Bell(LongRangeBell::Merge, phase2_layer1, phase2_layer2, bell_cnot->route.value(), route_endpoints[i].first, route_endpoints[i+1].first, false, std::nullopt, std::nullopt); 
+
+                                }
+
+                                else 
+                                {
+                                    // Perform Bell measurement
+                                    compile_long_range_Bell(LongRangeBell::Measure, phase2_layer1, phase2_layer2, bell_cnot->route.value(), route_endpoints[i].first, route_endpoints[i+1].first); 
+                                }
                             }
 
                             else
@@ -952,23 +1065,40 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                                 throw std::runtime_error("Invalid BoundaryType in EDPC compilation.");
                             }
 
+                            local_instructions_phase1.insert(local_instructions_phase1.end(), phase1_layer1.begin(), phase1_layer1.end());
+                            local_instructions_phase1.insert(local_instructions_phase1.end(), phase1_layer2.begin(), phase1_layer2.end());
+                            local_instructions_phase2.insert(local_instructions_phase2.end(), phase2_layer1.begin(), phase2_layer1.end());
+                            local_instructions_phase2.insert(local_instructions_phase2.end(), phase2_layer2.begin(), phase2_layer2.end());
+                            phase1_layer1.clear();
+                            phase1_layer2.clear();
+                            phase2_layer1.clear();
+                            phase2_layer2.clear();
                         }
 
+                        bell_cnot->local_instruction_sets = {std::move(local_instructions_phase1), std::move(local_instructions_phase2)};
+                        bell_cnot->counter_pairs = {std::pair<unsigned int, unsigned int>(0, 0), std::pair<unsigned int, unsigned int>(0, 0)};
+
+                        // We (once again) return the instruction back to the scheduler and apply local instructions later (once the decomposition and scheduling has occurred for all EDP)
+                        return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; EDPC requires all CNOTs to be decomposed into local instructions before slicing can occur.")), {}};
                     }
 
-                    /* TODO: Also need something like this to actually compile local instructions! */
-                    // bell_cnot->counter->first = bell_cnot->counter->second;
-                    
-                    // for (unsigned int i = bell_cnot->counter->first; i < bell_cnot->local_instructions.value().size(); i++)
-                    // {
-                    //     InstructionApplicationResult r = try_apply_local_instruction(slice, bell_cnot->local_instructions.value()[i], layout, router);
-                    //     if (r.maybe_error && r.followup_instructions.empty())
-                    //         return InstructionApplicationResult{nullptr, {instruction}};
-                    //     if (!r.followup_instructions.empty())
-                    //         return InstructionApplicationResult{std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Followup local instructions not implemented")), {}};
-
-                    //     bell_cnot->counter->second++;
-                    // }
+                    // Loop over phases to apply local instructions 
+                    for (size_t phase : {0, 1})
+                    {
+                        bell_cnot->counter_pairs.value()[phase].first = bell_cnot->counter_pairs.value()[phase].second;
+                        
+                        for (unsigned int i = bell_cnot->counter_pairs.value()[phase].first; i < bell_cnot->local_instruction_sets.value()[phase].size(); i++)
+                        {
+                            InstructionApplicationResult r = try_apply_local_instruction(slice, bell_cnot->local_instruction_sets.value()[phase][i], layout, router);
+                            if (r.maybe_error && r.followup_instructions.empty())
+                            {
+                                return InstructionApplicationResult{nullptr, {instruction}};
+                            }
+                            if (!r.followup_instructions.empty())
+                                throw std::runtime_error(lstk::cat(instruction,"; Followup local instructions not implemented"));
+                            bell_cnot->counter_pairs.value()[phase].second++;
+                        }
+                    }
                     
                     return {nullptr, {}};
                 }
@@ -976,7 +1106,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
 
             else {
 
-                if (!bell_cnot->counter.has_value())
+                if (!bell_cnot->counter_pairs.has_value())
                 {
                     auto routing_region = router.find_routing_ancilla(slice, bell_cnot->control, PauliOperator::Z, bell_cnot->target, PauliOperator::X);
                     if(!routing_region) 
@@ -1016,21 +1146,21 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                     local_instructions.insert(local_instructions.end(), layer1.begin(), layer1.end());
                     local_instructions.insert(local_instructions.end(), layer2.begin(), layer2.end());
          
-                    bell_cnot->local_instructions = std::move(local_instructions);
-                    bell_cnot->counter = std::pair<unsigned int, unsigned int>(0, 0);
+                    bell_cnot->local_instruction_sets = {std::move(local_instructions)};
+                    bell_cnot->counter_pairs = {std::pair<unsigned int, unsigned int>(0, 0)};
                 }
 
-                bell_cnot->counter->first = bell_cnot->counter->second;
+                bell_cnot->counter_pairs.value()[0].first = bell_cnot->counter_pairs.value()[0].second;
                 
-                for (unsigned int i = bell_cnot->counter->first; i < bell_cnot->local_instructions.value().size(); i++)
+                for (unsigned int i = bell_cnot->counter_pairs.value()[0].first; i < bell_cnot->local_instruction_sets.value()[0].size(); i++)
                 {
-                    InstructionApplicationResult r = try_apply_local_instruction(slice, bell_cnot->local_instructions.value()[i]);
+                    InstructionApplicationResult r = try_apply_local_instruction(slice, bell_cnot->local_instruction_sets.value()[0][i], layout, router);
                     if (r.maybe_error && r.followup_instructions.empty())
                         return InstructionApplicationResult{nullptr, {instruction}};
                     if (!r.followup_instructions.empty())
                         return InstructionApplicationResult{std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Followup local instructions not implemented")), {}};
 
-                    bell_cnot->counter->second++;
+                    bell_cnot->counter_pairs.value()[0].second++;
                 }
                 return {nullptr, {}};
             }
@@ -1174,7 +1304,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                     {
                         LocalInstruction::LocalLSInstruction local_instruction = {LocalInstruction::PrepareY{yr->target, z_neighbour.value()}};
                         yr->local_instruction = std::move(local_instruction);
-                        InstructionApplicationResult r = try_apply_local_instruction(slice, local_instruction);                       
+                        InstructionApplicationResult r = try_apply_local_instruction(slice, local_instruction, layout, router);                       
                         return {nullptr, {}};
                     }
 

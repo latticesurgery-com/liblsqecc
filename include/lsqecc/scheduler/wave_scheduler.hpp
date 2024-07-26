@@ -52,12 +52,17 @@ private:
 			proximate_heads_.clear();
 			deferred_to_end.clear();
 		}
+
+		std::vector<InstructionID> get_deferred() const
+		{
+			return deferred_to_end;
+		}
 		
 		size_t size() const { return heads.size() + proximate_heads_.size(); }
 	};
 	
 	// returns number of instruction_ids that were applied
-	size_t schedule_instructions(const std::vector<InstructionID>& instruction_ids, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res, bool proximate);
+	size_t schedule_instructions(const std::vector<InstructionID>& instruction_ids, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res, bool proximate, bool deferred);
 	void schedule_dependent_instructions(InstructionID instruction_id, const std::vector<LSInstruction>& followup_instructions, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res);
 	
 	bool is_immediate(const LSInstruction& instruction);
