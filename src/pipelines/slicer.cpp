@@ -165,7 +165,7 @@ namespace lsqecc
                     "Automatically generates a layout for the given number of qubits. Incompatible with -l. Options:" CONSOLE_HELP_NEWLINE_ALIGN
                     " - compact (default): Uses Litinski's Game of Surace Code compact layout (https://arxiv.org/abs/1808.02892)" CONSOLE_HELP_NEWLINE_ALIGN
                     " - compact_no_clogging: same as compact, but fewer cells for ancillas and magic state queues" CONSOLE_HELP_NEWLINE_ALIGN
-                    " - edpc: Uses a layout specified in the EDPC paper by Beverland et. al. (https://arxiv.org/abs/2110.11493)"
+                    " - edpc: Uses a family of layouts based upon the one specified in the EDPC paper by Beverland et. al. (https://arxiv.org/abs/2110.11493)"
                 )
                 .required(false);
         parser.add_argument()
@@ -429,8 +429,7 @@ namespace lsqecc
                 
                 if ((pipeline_mode == PipelineMode::EDPC) &&
                     (compile_mode == CompilationMode::Local) &&
-                    (num_lanes == 1) &&
-                    (!condensed))
+                    (num_lanes == 1))
                 {
                     pipeline_mode_validity_checker = 1;
                 }
@@ -472,7 +471,7 @@ namespace lsqecc
         }
 
         if (!pipeline_mode_validity_checker)
-            throw std::runtime_error("PipelineMode::EDPC only valid when paired with (default) EDPC layout and CompilationMode::Local.");
+            throw std::runtime_error("PipelineMode::EDPC only valid when paired with (default or 1-lane condensed) EDPC layout and CompilationMode::Local.");
 
         LLIPrintMode lli_print_mode = LLIPrintMode::None;
         if(parser.exists("printlli"))

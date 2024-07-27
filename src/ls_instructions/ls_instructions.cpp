@@ -200,8 +200,8 @@ std::ostream& operator<<(std::ostream& os, const BellBasedCNOT& instruction)
                 if (i != instruction.counter_pairs.value()[phase].second - 1) 
                     os << ";";
             }
-            os << "]";
         }
+        os << "]";
     }
 
     return os;

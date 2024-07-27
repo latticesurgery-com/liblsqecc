@@ -1009,8 +1009,17 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                             // If there is only one segment, we apply in the same way as without EDPC
                             if (route_endpoints.size() == 2)
                             {
-                                compile_long_range_Bell(LongRangeBell::Split, phase1_layer1, phase1_layer2, bell_cnot->route.value(), bell_cnot->route->cells.size()-2, bell_cnot->route->cells.size()-1, false);
-                                compile_long_range_Bell(LongRangeBell::Merge, phase1_layer1, phase1_layer2, bell_cnot->route.value(), 0, bell_cnot->route->cells.size()-2, true,  bell_cnot->side1, bell_cnot->side2);
+                                if ((bell_cnot->route->cells.size()%2) == 0)
+                                {
+                                    compile_long_range_Bell(LongRangeBell::Merge, phase1_layer1, phase1_layer2, bell_cnot->route.value(), bell_cnot->route->cells.size()-2, bell_cnot->route->cells.size()-1, false);
+                                    compile_long_range_Bell(LongRangeBell::Merge, phase1_layer1, phase1_layer2, bell_cnot->route.value(), 0, 1, true);
+                                    compile_long_range_Bell(LongRangeBell::Prep, phase1_layer1, phase1_layer2, bell_cnot->route.value(), 1, bell_cnot->route->cells.size()-2, true, bell_cnot->side1, bell_cnot->side2);
+                                }
+                                else
+                                {
+                                    compile_long_range_Bell(LongRangeBell::Split, phase1_layer1, phase1_layer2, bell_cnot->route.value(), bell_cnot->route->cells.size()-2, bell_cnot->route->cells.size()-1, false);
+                                    compile_long_range_Bell(LongRangeBell::Merge, phase1_layer1, phase1_layer2, bell_cnot->route.value(), 0, bell_cnot->route->cells.size()-2, true,  bell_cnot->side1, bell_cnot->side2);
+                                }
                             }
 
                             // Otherwise, check segment type
@@ -1140,12 +1149,21 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                     layer1.reserve(routing_region->cells.size()); layer2.reserve(routing_region->cells.size());
                     local_instructions.reserve(2*routing_region->cells.size());
 
-                    // Add local instructions
-                    compile_long_range_Bell(LongRangeBell::Split, layer1, layer2, routing_region.value(), routing_region->cells.size()-2, routing_region->cells.size()-1, false);
-                    compile_long_range_Bell(LongRangeBell::Merge, layer1, layer2, routing_region.value(), 0, routing_region->cells.size()-2, true,  bell_cnot->side1, bell_cnot->side2);
+                    // Add local instructions (two time-steps requires different compilations)
+                    if ((routing_region->cells.size()%2) == 0)
+                    {
+                        compile_long_range_Bell(LongRangeBell::Merge, layer1, layer2, routing_region.value(), routing_region->cells.size()-2, routing_region->cells.size()-1, false);
+                        compile_long_range_Bell(LongRangeBell::Merge, layer1, layer2, routing_region.value(), 0, 1, true);
+                        compile_long_range_Bell(LongRangeBell::Prep, layer1, layer2, routing_region.value(), 1, routing_region->cells.size()-2, true, bell_cnot->side1, bell_cnot->side2);
+                    }
+                    else
+                    {
+                        compile_long_range_Bell(LongRangeBell::Split, layer1, layer2, routing_region.value(), routing_region->cells.size()-2, routing_region->cells.size()-1, false);
+                        compile_long_range_Bell(LongRangeBell::Merge, layer1, layer2, routing_region.value(), 0, routing_region->cells.size()-2, true,  bell_cnot->side1, bell_cnot->side2);
+                    }
                     local_instructions.insert(local_instructions.end(), layer1.begin(), layer1.end());
                     local_instructions.insert(local_instructions.end(), layer2.begin(), layer2.end());
-         
+
                     bell_cnot->local_instruction_sets = {std::move(local_instructions)};
                     bell_cnot->counter_pairs = {std::pair<unsigned int, unsigned int>(0, 0)};
                 }

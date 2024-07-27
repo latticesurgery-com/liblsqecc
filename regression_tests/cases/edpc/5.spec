@@ -1,0 +1,7 @@
+HGate 1;RotateSingleCellPatch 1;HGate 8;RotateSingleCellPatch 8;BellBasedCNOT 0 7 16 17 [ExtendSplit (6,6),(6,7);BellPrepare (7,12),(7,11);BellPrepare (7,10),(7,9);BellPrepare (7,8),(7,7)];BellBasedCNOT 3 15 20 21 [ExtendSplit (6,12),(6,13);BellPrepare (11,12),(11,13);BellPrepare (10,13),(9,13);BellPrepare (8,13),(7,13)];BellBasedCNOT 6 2 22 23 [ExtendSplit (6,10),(5,10);BellPrepare (5,11),(6,11)];
+BusyRegion (6,8),(6,9),StepsToClear(2);BusyRegion (10,6),(10,7),StepsToClear(2);BellBasedCNOT 0 7 16 17 [MergeContract (8,12),(7,12);BellMeasure (7,11),(7,10);BellMeasure (7,9),(7,8);BellMeasure (7,7),(6,7)];BellBasedCNOT 3 15 20 21 [MergeContract (12,12),(11,12);BellMeasure (11,13),(10,13);BellMeasure (9,13),(8,13);BellMeasure (7,13),(6,13)];BellBasedCNOT 6 2 22 23 [BellMeasure (5,10),(5,11)];
+BusyRegion (6,8),(6,9),StepsToClear(1);BusyRegion (10,6),(10,7),StepsToClear(1);BellBasedCNOT 6 2 22 23 [BellPrepare (8,11),(7,11)];HGate 7;RotateSingleCellPatch 7;
+BusyRegion (6,8),(6,9),StepsToClear(0);BusyRegion (10,6),(10,7),StepsToClear(0);BellBasedCNOT 6 2 22 23 [MergeContract (8,10),(8,11);BellMeasure (6,11),(7,11)];BusyRegion (8,12),(8,13),StepsToClear(2);BellBasedCNOT 1 11 18 19 [ExtendSplit (6,8),(6,9);BellPrepare (9,12),(9,11);BellPrepare (9,10),(9,9);BellPrepare (8,9),(7,9)];
+BusyRegion (8,12),(8,13),StepsToClear(1);BellBasedCNOT 1 11 18 19 [MergeContract (10,12),(9,12);BellMeasure (9,11),(9,10);BellMeasure (9,9),(8,9);BellMeasure (7,9),(6,9)];
+BusyRegion (8,12),(8,13),StepsToClear(0);
+
