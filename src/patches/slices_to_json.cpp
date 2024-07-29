@@ -90,6 +90,7 @@ json dense_patch_to_json(const DensePatch& p)
                         case PatchActivity::MultiPatchMeasurement: return json();
                         case PatchActivity::Rotation: return json();
                         case PatchActivity::EDPC: return json();
+                        case PatchActivity::Reserved: return json();
                         }
                         LSTK_UNREACHABLE;
                     }()

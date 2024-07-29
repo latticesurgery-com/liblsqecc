@@ -166,10 +166,25 @@ bool DenseSlice::is_cell_free(const Cell& cell) const
     return !patch_at(cell).has_value();
 }
 
-bool DenseSlice::is_cell_free_or_EDPC(const Cell& cell) const
+bool DenseSlice::is_cell_free_or_activity(const Cell& cell, std::vector<PatchActivity> activities) const
 {
     auto patch = patch_at(cell);
-    return (!patch.has_value() || (patch->activity == PatchActivity::EDPC));
+
+    if (!patch.has_value())
+    {
+        return true;
+    }
+
+    else
+    {
+        for (auto activity : activities)
+        {
+            if (patch->activity == activity)
+                return true;
+        }
+
+        return false;
+    }
 }
 
 Cell DenseSlice::place_single_cell_sparse_patch(const SparsePatch& sparse_patch, bool distillation)
@@ -266,7 +281,7 @@ BoundaryType DenseSlice::mark_boundaries_for_crossing_cell(DensePatch& dp, const
     size_t tmp_index;
     size_t reserved_edge_counter = 0;
     for (Boundary* boundary : boundary_ptrs) {
-
+        std::cerr << boundary->boundary_type << std::endl;
         // Check validity of existing boundary labels
         if ((boundary->boundary_type == BoundaryType::Reserved_Label1) || (boundary->boundary_type == BoundaryType::Reserved_Label2))
         {
@@ -318,6 +333,7 @@ BoundaryType DenseSlice::mark_boundaries_for_crossing_cell(DensePatch& dp, const
 
     if (reserved_edge_counter != 2)
     {
+        std::cerr << p.cell << std::endl;
         throw std::runtime_error("Invalid number of reserved boundaries for cell input to mark_boundaries_for_crossing_cell.");
     }
 

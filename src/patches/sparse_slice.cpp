@@ -78,7 +78,7 @@ bool SparseSlice::is_cell_free(const Cell& cell) const
     return !SparseSlice::get_any_patch_on_cell(cell);
 }
 
-bool SparseSlice::is_cell_free_or_EDPC(const Cell& cell) const
+bool SparseSlice::is_cell_free_or_activity(const Cell& cell, std::vector<PatchActivity> activities) const
 {
     LSTK_NOT_IMPLEMENTED;
 }

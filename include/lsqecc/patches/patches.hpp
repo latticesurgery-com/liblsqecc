@@ -69,7 +69,8 @@ enum class PatchActivity : uint8_t
     Dead,
     MultiPatchMeasurement,
     Rotation,
-    EDPC
+    EDPC,
+    Reserved
 };
 
 

@@ -45,7 +45,7 @@ struct SparseSlice : public Slice{
     std::optional<std::reference_wrapper<const SparsePatch>> get_magic_state_on_cell(const Cell& cell) const;
     std::optional<std::reference_wrapper<const SparsePatch>> get_any_patch_on_cell(const Cell& cell) const;
     bool is_cell_free(const Cell& cell) const override;
-    bool is_cell_free_or_EDPC(const Cell& cell) const override;
+    bool is_cell_free_or_activity(const Cell& cell, std::vector<PatchActivity> activities) const override;
     std::vector<Cell> get_neigbours_within_slice(const Cell& cell) const override;
     bool have_boundary_of_type_with(const Cell& target, const Cell& neighbour, PauliOperator op) const override;
     bool is_boundary_reserved(const Cell& target, const Cell& neighbour) const override;

@@ -164,6 +164,9 @@ std::ostream& operator<<(std::ostream& os, const Patch& p)
 
         case PatchActivity::EDPC:
             os << "EDPC";
+
+        case PatchActivity::Reserved:
+            os << "Reserved";
         
         default:
             LSTK_UNREACHABLE;

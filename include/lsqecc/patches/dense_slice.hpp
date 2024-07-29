@@ -26,6 +26,8 @@ struct DenseSlice : public Slice
     std::reference_wrapper<const Layout> layout;
     unsigned int predistilled_ystates_available = 0;
     std::set<Cell> EDPC_crossing_vertices;
+    // std::vector<std::pair<Cell, Cell>> marked_rough_boundaries_EDPC;
+    // std::vector<std::pair<Cell, Cell>> marked_smooth_boundaries_EDPC;
     std::vector<std::reference_wrapper<Boundary>> marked_rough_boundaries_EDPC;
     std::vector<std::reference_wrapper<Boundary>> marked_smooth_boundaries_EDPC;
 
@@ -63,7 +65,7 @@ struct DenseSlice : public Slice
     void delete_patch_by_id(PatchId id);
 
     bool is_cell_free(const Cell& cell) const override;
-    bool is_cell_free_or_EDPC(const Cell& cell) const override;
+    bool is_cell_free_or_activity(const Cell& cell, std::vector<PatchActivity> activities) const override;
 
     std::vector<Cell> get_neigbours_within_slice(const Cell& cell) const override;
 

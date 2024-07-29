@@ -133,7 +133,7 @@ public:
 
         // In EDPC we assign dummy patches to cells that have been touched and mark them with PatchActivity::EDPC, and also reserve boundaries
         // Thus here we allow to route through EDPC cells but make sure that boundaries have not yet been reserved
-        if ((slice_.is_cell_free_or_EDPC(a) && slice_.is_cell_free_or_EDPC(b))
+        if ((slice_.is_cell_free_or_activity(a,{PatchActivity::EDPC}) && slice_.is_cell_free_or_activity(b, {PatchActivity::EDPC}))
             && (!slice_.is_boundary_reserved(a, b)))
          return true;
 
@@ -142,10 +142,10 @@ public:
                     && slice_.have_boundary_of_type_with(target_cell_, a, target_op_);
 
 
-        if(a == cell_from_vertex(source_vertex_) && slice_.is_cell_free_or_EDPC(b))
+        if(a == cell_from_vertex(source_vertex_) && slice_.is_cell_free_or_activity(b, {PatchActivity::EDPC}))
             return slice_.have_boundary_of_type_with(source_cell_, b, source_op_);
 
-        if(slice_.is_cell_free_or_EDPC(a) && b == cell_from_vertex(target_vertex_))
+        if(slice_.is_cell_free_or_activity(a, {PatchActivity::EDPC}) && b == cell_from_vertex(target_vertex_))
             return slice_.have_boundary_of_type_with(target_cell_, a, target_op_);
 
         return false;
