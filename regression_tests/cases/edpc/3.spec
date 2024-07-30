@@ -9679,7 +9679,7 @@
             "Bottom": "None",
             "Left": "None",
             "Right": "AncillaJoin",
-            "Top": "Dashed"
+            "Top": "None"
          },
          "patch_type": "Ancilla",
          "text": ""
@@ -13488,7 +13488,7 @@
             "Bottom": "None",
             "Left": "None",
             "Right": "AncillaJoin",
-            "Top": "Dashed"
+            "Top": "None"
          },
          "patch_type": "Ancilla",
          "text": ""
@@ -17297,7 +17297,7 @@
             "Bottom": "None",
             "Left": "None",
             "Right": "AncillaJoin",
-            "Top": "Dashed"
+            "Top": "None"
          },
          "patch_type": "Ancilla",
          "text": ""

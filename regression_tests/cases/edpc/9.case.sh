@@ -168,8 +168,6 @@ tdg q[2];
 t q[17];
 cx q[6], q[2];
 
-
-
 "
-echo "$INPUT" | lsqecc_slicer -q -L edpc --condensed 0 --disttime 1 --nostagger --local -P edpc --printlli sliced
+echo "$INPUT" | lsqecc_slicer -q -L edpc --condensed 0 --disttime 1 --nostagger --local -P edpc
 

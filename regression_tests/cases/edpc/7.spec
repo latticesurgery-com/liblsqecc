@@ -8515,7 +8515,7 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Dashed",
+            "Bottom": "None",
             "Left": "None",
             "Right": "AncillaJoin",
             "Top": "None"
@@ -11936,7 +11936,7 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Dashed",
+            "Bottom": "None",
             "Left": "None",
             "Right": "AncillaJoin",
             "Top": "None"
@@ -15273,7 +15273,7 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Dashed",
+            "Bottom": "None",
             "Left": "None",
             "Right": "AncillaJoin",
             "Top": "None"

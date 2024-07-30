@@ -266,7 +266,7 @@ SurfaceCodeTimestep DenseSlice::time_to_next_magic_state(size_t distillation_reg
     return time_to_next_magic_state_by_distillation_region[distillation_region_id];
 }
 
-BoundaryType DenseSlice::mark_boundaries_for_crossing_cell(DensePatch& dp, const SingleCellOccupiedByPatch& p) 
+BoundaryType DenseSlice::mark_boundaries_for_crossing_cell(DensePatch& dp, const SingleCellOccupiedByPatch& p, const Cell& prev) 
 {
 
     // Get pointers to boundary labels (so that we can loop over them)
@@ -275,28 +275,47 @@ BoundaryType DenseSlice::mark_boundaries_for_crossing_cell(DensePatch& dp, const
     // Get neighbors of the cell in question
     std::vector<Cell> neighbors = get_neigbours_within_slice(p.cell);
 
+    // Get boundary type with the previous cell
+    auto prev_bdry = get_boundary_between(p.cell, prev);
+
     // Loop over boundary pointers
     Boundary* tmp = nullptr;
     size_t neighbor_counter = 0;
     size_t tmp_index;
-    size_t reserved_edge_counter = 0;
     for (Boundary* boundary : boundary_ptrs) {
-        std::cerr << boundary->boundary_type << std::endl;
+
         // Check validity of existing boundary labels
         if ((boundary->boundary_type == BoundaryType::Reserved_Label1) || (boundary->boundary_type == BoundaryType::Reserved_Label2))
         {
-            // Obtain the first Reserved boundary
+            // Ignore the boundary with the neighbor that we previously routed through
+            if (neighbors[neighbor_counter] == prev)
+            {
+                neighbor_counter++;
+                continue;
+            }
+
+            // Otherwise, take note of the first already-Reserved boundary of the patch
             if (tmp == nullptr)
             {
                 tmp = boundary;
                 tmp_index = neighbor_counter;
+
+                // Its type must be made opposite to that of the boundary with the previously routed cell
+                if (tmp->boundary_type == prev_bdry->get().boundary_type)
+                {
+                    tmp->boundary_type = !tmp->boundary_type;
+                    auto conjugate_bdry = get_boundary_between(neighbors[tmp_index], p.cell);
+                    if (conjugate_bdry.has_value()) {
+                        conjugate_bdry.value().get().boundary_type = tmp->boundary_type;  
+                    } 
+                }
             }
 
-            // If the second one encountered is not the same, check neighbors
+            // If the second already-Reserved boundary encountered is not the same as the first, check neighbors
             else if (boundary->boundary_type != tmp->boundary_type)
             {
 
-                // If the neighbor corresponding with the present boundary is not a crossing vertex, it can safely be flipped
+                // If the neighbor corresponding with the present boundary is not a crossing vertex, it can safely be flipped.
                 if (EDPC_crossing_vertices.find(neighbors[neighbor_counter]) == EDPC_crossing_vertices.end()) 
                 {
                     boundary->boundary_type = !boundary->boundary_type;
@@ -306,20 +325,25 @@ BoundaryType DenseSlice::mark_boundaries_for_crossing_cell(DensePatch& dp, const
                     } 
                 }
 
-                // Otherwise, we can always safely flip the other one 
-                // (may want to treat this as a validity checking condition i.e. make sure that the other neighbor doesn't require it to NOT be flipped, which would imply a collision of constraints causing failure)
+                // Otherwise the second boundary label is already constrained. 
                 else
                 {
-                    tmp->boundary_type = !tmp->boundary_type;
-                    auto conjugate_bdry = get_boundary_between(neighbors[tmp_index], p.cell);
-                    if (conjugate_bdry.has_value()) {
-                        conjugate_bdry.value().get().boundary_type = tmp->boundary_type;  
-                    } 
+                    // Check whether we can safely flip the Reserved boundary we encountered first. 
+                    if (prev_bdry->get().boundary_type == BoundaryType::None)
+                    {
+                        tmp->boundary_type = !tmp->boundary_type;
+                        auto conjugate_bdry = get_boundary_between(neighbors[tmp_index], p.cell);
+                        if (conjugate_bdry.has_value()) {
+                            conjugate_bdry.value().get().boundary_type = tmp->boundary_type;  
+                        } 
+                    }
+                    else
+                    {
+                        throw std::runtime_error("Encountered situation where EDPC boundary-labeling constraints cannot be satisfied.");
+                    }
                 }
 
             }
-
-            reserved_edge_counter++;
             
         }
 
@@ -329,12 +353,6 @@ BoundaryType DenseSlice::mark_boundaries_for_crossing_cell(DensePatch& dp, const
         }
 
         neighbor_counter++;
-    }
-
-    if (reserved_edge_counter != 2)
-    {
-        std::cerr << p.cell << std::endl;
-        throw std::runtime_error("Invalid number of reserved boundaries for cell input to mark_boundaries_for_crossing_cell.");
     }
 
     // The label that we place is always opposite the one present

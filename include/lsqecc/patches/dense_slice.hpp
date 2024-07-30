@@ -71,7 +71,7 @@ struct DenseSlice : public Slice
 
     SurfaceCodeTimestep time_to_next_magic_state(size_t distillation_region_id) const override;
 
-    BoundaryType mark_boundaries_for_crossing_cell(DensePatch& dp, const SingleCellOccupiedByPatch& p);
+    BoundaryType mark_boundaries_for_crossing_cell(DensePatch& dp, const SingleCellOccupiedByPatch& p, const Cell& prev);
 };
 
 }
