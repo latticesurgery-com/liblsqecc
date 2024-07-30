@@ -62,9 +62,7 @@ WaveStats WaveScheduler::schedule_wave(DenseSlice& slice, LSInstructionVisitor i
 {
 	size_t applied_count = 0;
 
-	std::cerr << "PROXIMATE HEADS" << std::endl;
 	applied_count += schedule_instructions(current_wave_.proximate_heads_, slice, instruction_visitor, res, true, false);
-	std::cerr << "HEADS" << std::endl;
 	applied_count += schedule_instructions(current_wave_.heads, slice, instruction_visitor, res, false, false);
 
 	if (router_->get_EDPC())
@@ -74,57 +72,21 @@ WaveStats WaveScheduler::schedule_wave(DenseSlice& slice, LSInstructionVisitor i
 		   Finally, on the third encounter, the first layer of instructions is scheduled, and each instruction reschedules itself.
 		*/
 
-		std::cerr << "DEFERRED ROUND 1" << std::endl;
-
-		// for (auto instr_id : current_wave_.get_deferred())
-		// {
-		// 	const auto& instruction = records_[instr_id].instruction;
-		// 	auto* bell_cnot = std::get_if<BellBasedCNOT>(&instruction.operation);
-		// 	if (bell_cnot != nullptr)
-		// 	{
-		// 		std::cerr << *bell_cnot << std::endl;
-		// 		for (size_t i=0; i<bell_cnot->route->cells.size() - 1; i++)
-		// 		{
-		// 			auto bd_type = slice.get_boundary_between(bell_cnot->route->cells[i].cell, bell_cnot->route->cells[i+1].cell).value().get().boundary_type;
-		// 			std::cerr << bell_cnot->route->cells[i].cell << " " << bell_cnot->route->cells[i+1].cell << " " << bd_type << std::endl;
-		// 		} 
-		// 	}
-		// }
 		applied_count += schedule_instructions(current_wave_.get_deferred(), slice, instruction_visitor, res, false, true);
 
 		// Reset boundaries for data qubits
-		// std::cerr << "Rough boundaries" << std::endl;
 		for (const auto& bdry : slice.marked_rough_boundaries_EDPC)
 		{
-			// std::cerr << bdry.first << " " << bdry.second << std::endl;
 			bdry.get().boundary_type = BoundaryType::Rough;
 		}
-		// std::cerr << "Smooth boundaries" << std::endl;
 		for (const auto& bdry : slice.marked_smooth_boundaries_EDPC)
 		{
-			// std::cerr << bdry.first << " " << bdry.second << std::endl;
 			bdry.get().boundary_type = BoundaryType::Smooth;
 		}
-
-		// for (auto instr_id : current_wave_.get_deferred())
-		// {
-		// 	const auto& instruction = records_[instr_id].instruction;
-		// 	auto* bell_cnot = std::get_if<BellBasedCNOT>(&instruction.operation);
-		// 	if (bell_cnot != nullptr)
-		// 	{
-		// 		std::cerr << *bell_cnot << std::endl;
-		// 		for (size_t i=0; i<bell_cnot->route->cells.size() - 1; i++)
-		// 		{
-		// 			auto bd_type = slice.get_boundary_between(bell_cnot->route->cells[i].cell, bell_cnot->route->cells[i+1].cell).value().get().boundary_type;
-		// 			std::cerr << bell_cnot->route->cells[i].cell << " " << bell_cnot->route->cells[i+1].cell << " " << bd_type << std::endl;
-		// 		} 
-		// 	}
-		// }
 
 		slice.marked_rough_boundaries_EDPC.clear();
 		slice.marked_smooth_boundaries_EDPC.clear();
 
-		std::cerr << "DEFERRED ROUND 2" << std::endl;
 		applied_count += schedule_instructions(current_wave_.get_deferred(), slice, instruction_visitor, res, false, true);
 	}
 	
@@ -133,7 +95,6 @@ WaveStats WaveScheduler::schedule_wave(DenseSlice& slice, LSInstructionVisitor i
 	std::swap(current_wave_, next_wave_);
     next_wave_.clear();
     
-	std::cerr << "END OF WAVE" << std::endl;
     return wave_stats;
 }
 
@@ -147,9 +108,7 @@ size_t WaveScheduler::schedule_instructions(const std::vector<InstructionID>& in
 		
 		auto& instruction = records_[instruction_id].instruction;
 
-		std::cerr << "Applying instruction: " << instruction << std::endl;
 		auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions_, layout_, *router_);
-		std::cerr << "Applied instruction: " << instruction << std::endl;
 		
 		if (!application_result.maybe_error)
 		{   
@@ -219,7 +178,6 @@ void WaveScheduler::schedule_dependent_instructions(InstructionID instruction_id
 				if (proximate)
 				{
 					auto& instruction = records_[dependent].instruction;
-					// std::cerr << records_[instruction_id].instruction << " " << instruction << std::endl;
 					if (is_immediate(instruction))
 						current_wave_.heads.push_back(dependent);
 					else
@@ -304,9 +262,7 @@ bool WaveScheduler::try_schedule_immediately(InstructionID instruction_id, Dense
 	if (!is_immediate(instruction))
 		return false;
 	
-	std::cerr << "Applying dependent: " << instruction << std::endl;
 	auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions_, layout_, *router_);
-	std::cerr << "Applied dependent: " << instruction << std::endl;
 
 	if (application_result.maybe_error)
 	{

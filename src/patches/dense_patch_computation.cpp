@@ -217,12 +217,11 @@ void mark_routing_region(DenseSlice& slice, RoutingRegion& routing_region, Patch
 
                 // If this crossing vertex has not been yet seen, add it to the set (and mark it with a measurement for visualization purposes)
                 auto result = slice.EDPC_crossing_vertices.insert(occupied_cell.cell);
-                // std::cerr<< occupied_cell.cell << std::endl;
+
                 if (!result.second) 
                 {
                     throw std::runtime_error("Vertices cannot be crossed by more than two paths in EDPC.");
                 }
-                // patch->activity = PatchActivity::Measurement;
 
                 // Update boundaries of patch at crossing vertex, making sure that the new edges have the opposite label as the old edges
                 current_label = slice.mark_boundaries_for_crossing_cell(patch.value(), occupied_cell, *prev_cell);
@@ -237,7 +236,6 @@ void mark_routing_region(DenseSlice& slice, RoutingRegion& routing_region, Patch
                     if (bdry.has_value()) {
                         bdry.value().get().boundary_type = current_label; 
                         slice.marked_rough_boundaries_EDPC.push_back(bdry.value());
-                        // slice.marked_rough_boundaries_EDPC.emplace_back(occupied_cell.cell, routing_region.cells[1].cell); 
                     }
                     else
                         throw std::runtime_error("Route invalid for target qubit in EDPC.");
@@ -249,9 +247,7 @@ void mark_routing_region(DenseSlice& slice, RoutingRegion& routing_region, Patch
                     auto bdry = slice.get_boundary_between(occupied_cell.cell, routing_region.cells[routing_region.cells.size()-2].cell);
                     if (bdry.has_value()) {
                         bdry.value().get().boundary_type = current_label; 
-                        // std::cerr << occupied_cell.cell << " " << routing_region.cells[routing_region.cells.size()-2].cell << std::endl;
-                        slice.marked_smooth_boundaries_EDPC.push_back(bdry.value());  
-                        // slice.marked_smooth_boundaries_EDPC.emplace_back(occupied_cell.cell, routing_region.cells[routing_region.cells.size()-2].cell);  
+                        slice.marked_smooth_boundaries_EDPC.push_back(bdry.value());   
                     }
                     else
                         throw std::runtime_error("Route invalid for control qubit in EDPC.");
@@ -972,33 +968,10 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                                         .right= {BoundaryType::None, false}},
                                         slice.get_cell_by_id(bell_cnot->target).value()});
 
-                    // We mark the routing region using patches with (Reserved_Label1 or Reserved_Label2) boundary labels to the DenseSlice and the dummy PatchActivity::EDPC
-                    // for (size_t i=0; i<routing_region->cells.size() - 1; i++)
-                    // {
-                        // auto bd_type = slice.get_boundary_between(bell_cnot->route->cells[i].cell, bell_cnot->route->cells[i+1].cell).value().get().boundary_type;
-                        // auto conj_bd_type = slice.get_boundary_between(bell_cnot->route->cells[i+1].cell, bell_cnot->route->cells[i].cell).value().get().boundary_type;
-                        // std::cerr << bell_cnot->route->cells[i].cell << " " << bell_cnot->route->cells[i+1].cell << " " << bd_type << " " << conj_bd_type << std::endl;
-                        // std::cerr << routing_region->cells[i].cell << " " << routing_region->cells[i+1].cell << std::endl;
-                    // } 
                     mark_routing_region(slice, *routing_region, PatchActivity::EDPC);      
 
                     // Store routing region within the instruction (importantly, boundaries of cells in this routing region object have not been re-labeled!)
                     bell_cnot->route = std::move(routing_region);
-
-                    // for (size_t i=0; i<bell_cnot->route->cells.size() - 1; i++)
-                    // {
-                    //     auto bd_type = slice.get_boundary_between(bell_cnot->route->cells[i].cell, bell_cnot->route->cells[i+1].cell).value().get().boundary_type;
-                    //     auto conj_bd_type = slice.get_boundary_between(bell_cnot->route->cells[i+1].cell, bell_cnot->route->cells[i].cell).value().get().boundary_type;
-                    //     std::cerr << bell_cnot->route->cells[i].cell << " " << bell_cnot->route->cells[i+1].cell << " " << bd_type << " " << conj_bd_type << std::endl;
-                    // } 
-
-                    // std::cerr << "Rough boundaries" << std::endl;
-                    // for (const auto& p : slice.marked_rough_boundaries_EDPC)
-                    //     std::cerr << p.first << " " << p.second << std::endl; 
-
-                    // std::cerr << "Smooth boundaries" << std::endl;
-                    // for (const auto& p : slice.marked_smooth_boundaries_EDPC)
-                    //     std::cerr << p.first << " " << p.second << std::endl; 
 
                     // We return the instruction back to the scheduler and perform local instruction decomposition and compilation later
                     return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; EDPC requires whole EDP set to be found before local compilation can occur")), {instruction}};
@@ -1018,7 +991,6 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                         for (size_t i=1; i<bell_cnot->route->cells.size()-1; i++)
                         {  
                             auto new_type = slice.get_boundary_between(bell_cnot->route->cells[i].cell, bell_cnot->route->cells[i+1].cell).value().get().boundary_type;
-                            // std::cerr << bell_cnot->route->cells[i].cell << " " << bell_cnot->route->cells[i+1].cell << " " << new_type << std::endl;
                             if (new_type != current_type)
                             {
                                 current_type = new_type;
@@ -1109,7 +1081,6 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
 
                             else
                             {
-                                // std::cerr << route_endpoints[i].second << std::endl;
                                 throw std::runtime_error("Invalid BoundaryType in EDPC compilation.");
                             }
 
@@ -1125,15 +1096,6 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
 
                         bell_cnot->local_instruction_sets = {std::move(local_instructions_phase1), std::move(local_instructions_phase2)};
                         bell_cnot->counter_pairs = {std::pair<unsigned int, unsigned int>(0, 0), std::pair<unsigned int, unsigned int>(0, 0)};
-
-                        for (size_t phase : {0, 1})
-                        {
-                            for (const auto& instr : bell_cnot->local_instruction_sets.value()[phase])
-                            {
-                                std::cerr << instr;
-                            }
-                            std::cerr << std::endl;
-                        }
 
                         // We (once again) return the instruction back to the scheduler and apply local instructions later (once the decomposition and scheduling has occurred for all EDP)
                         return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; EDPC requires all CNOTs to be decomposed into local instructions before slicing can occur.")), {}};
