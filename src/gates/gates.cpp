@@ -208,6 +208,7 @@ std::ostream& operator<<(std::ostream& os, const gates::Gate& gate)
                 switch (gate.gate_type)
                 {
                     case BasicSingleQubitGate::Type::X: return "x";
+                    case BasicSingleQubitGate::Type::Y: return "y";
                     case BasicSingleQubitGate::Type::Z: return "z";
                     case BasicSingleQubitGate::Type::S: return "s";
                     case BasicSingleQubitGate::Type::T: return "t";
@@ -228,6 +229,7 @@ std::ostream& operator<<(std::ostream& os, const gates::Gate& gate)
                         switch (gate.gate_type)
                         {
                             case BasicSingleQubitGate::Type::X: return "x";
+                            case BasicSingleQubitGate::Type::Y: return "y";
                             case BasicSingleQubitGate::Type::Z: return "z";
                             case BasicSingleQubitGate::Type::S: return "s";
                             case BasicSingleQubitGate::Type::T: return "t";
