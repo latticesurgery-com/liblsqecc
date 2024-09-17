@@ -25,7 +25,7 @@ class WaveScheduler
 {
 public:
 	
-	WaveScheduler(LSInstructionStream&& stream, bool local_instructions, const Layout& layout);
+	WaveScheduler(LSInstructionStream&& stream, bool local_instructions, bool allow_twists, const Layout& layout);
 	
 	bool done() const { return current_wave_.proximate_heads_.empty() && current_wave_.heads.empty(); }
 	WaveStats schedule_wave(DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res);
@@ -62,6 +62,7 @@ private:
 	bool try_schedule_immediately(InstructionID instruction_id, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res);
 	
 	bool local_instructions_;
+	bool allow_twists_;
 	const Layout& layout_;
 	CustomDPRouter router_;
 	

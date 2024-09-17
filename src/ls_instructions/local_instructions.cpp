@@ -15,6 +15,13 @@ std::ostream& operator<<(std::ostream& os, const LocalLSInstruction& instruction
     return os;
 }
 
+std::ostream& operator<<(std::ostream& os, const PrepareY& instruction)
+{
+    os << LocalInstructionPrint<PrepareY>::name
+        << " " << instruction.target_cell;
+
+    return os;
+}
 std::ostream& operator<<(std::ostream& os, const BellPrepare& instruction)
 {
     os << LocalInstructionPrint<BellPrepare>::name

@@ -122,7 +122,8 @@ public:
     const std::vector<SurfaceCodeTimestep>& distillation_times() const override {return cached_distillation_times_;};
     const std::vector<Cell>& ancilla_location() const override {return cached_ancilla_locations_;}
     const std::vector<Cell>& dead_location() const override {return cached_dead_cells_;}
-    const std::vector<Cell>& predistilled_y_states() const override {return cached_y_states_;}  
+    const std::vector<Cell>& reserved_for_magic_states() const override {return cached_reserved_cells_;}
+    const std::vector<Cell>& predistilled_y_states() const override {return cached_y_states_;}
     const std::vector<Cell>& distilled_state_locations(size_t distillation_region_idx) const override
     {
         return cached_distilled_state_locations_[distillation_region_idx];
@@ -131,6 +132,7 @@ public:
 
 private:
     std::vector<SparsePatch> cached_core_patches_;
+    std::vector<Cell> cached_reserved_cells_;
     std::vector<Cell> cached_y_states_;
     Cell cached_furthest_cell_;
     std::vector<MultipleCellsOccupiedByPatch> cached_distillation_regions_;

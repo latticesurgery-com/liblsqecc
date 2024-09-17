@@ -90,7 +90,17 @@ std::ostream& operator<<(std::ostream& os, const MultiPatchMeasurement& instruct
     std::vector<std::string> op_patch_mapping;
     for(const auto& [patch_id, local_observable] : instruction.observable)
         op_patch_mapping.push_back(lstk::cat(patch_id, ":", PauliOperator_to_string(local_observable)));
-    return os << lstk::join(op_patch_mapping,",");
+    os << lstk::join(op_patch_mapping,",");
+
+    if (instruction.local_instruction.has_value())
+    {
+        os << " [";
+        os << instruction.local_instruction.value();
+        os << "]";
+
+    }
+
+    return os;
 }
 
 std::ostream& operator<<(std::ostream& os, const PlaceNexTo& place_next_to)
@@ -140,8 +150,19 @@ std::ostream& operator<<(std::ostream& os, const MagicStateRequest& instruction)
 
 std::ostream& operator<<(std::ostream& os, const YStateRequest& instruction)
 {
-    return os << LSInstructionPrint<YStateRequest>::name
+    os << LSInstructionPrint<YStateRequest>::name
         << " " << instruction.target << " " << instruction.near_patch;
+
+    if (instruction.local_instruction.has_value())
+    {
+        os << " [";
+        os << instruction.local_instruction.value();
+        os << "]";
+
+    }
+
+    return os;
+    
 }
 
 std::ostream& operator<<(std::ostream& os, const SingleQubitOp& instruction)

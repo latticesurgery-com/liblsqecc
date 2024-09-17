@@ -24,6 +24,7 @@ struct DenseSlice : public Slice
     std::set<Cell> magic_states;
     DistillationTimeMap time_to_next_magic_state_by_distillation_region;
     std::reference_wrapper<const Layout> layout;
+    unsigned int predistilled_ystates_available = 0;
 
     explicit DenseSlice(const Layout& layout);
     DenseSlice(const Layout& layout, const tsl::ordered_set<PatchId>& core_qubit_ids);
