@@ -62,7 +62,9 @@ WaveStats WaveScheduler::schedule_wave(DenseSlice& slice, LSInstructionVisitor i
 {
 	size_t applied_count = 0;
 
+	// std::cerr << "PROXIMATE HEADS" << std::endl;
 	applied_count += schedule_instructions(current_wave_.proximate_heads_, slice, instruction_visitor, res, true, false);
+	// std::cerr << "HEADS" << std::endl;
 	applied_count += schedule_instructions(current_wave_.heads, slice, instruction_visitor, res, false, false);
 
 	if (router_->get_EDPC())
@@ -72,6 +74,7 @@ WaveStats WaveScheduler::schedule_wave(DenseSlice& slice, LSInstructionVisitor i
 		   Finally, on the third encounter, the first layer of instructions is scheduled, and each instruction reschedules itself.
 		*/
 
+		// std::cerr << "DEFERRED ROUND 1" << std::endl;
 		applied_count += schedule_instructions(current_wave_.get_deferred(), slice, instruction_visitor, res, false, true);
 
 		// Reset boundaries for data qubits
@@ -87,6 +90,7 @@ WaveStats WaveScheduler::schedule_wave(DenseSlice& slice, LSInstructionVisitor i
 		slice.marked_rough_boundaries_EDPC.clear();
 		slice.marked_smooth_boundaries_EDPC.clear();
 
+		// std::cerr << "DEFERRED ROUND 2" << std::endl;
 		applied_count += schedule_instructions(current_wave_.get_deferred(), slice, instruction_visitor, res, false, true);
 	}
 	
@@ -95,6 +99,7 @@ WaveStats WaveScheduler::schedule_wave(DenseSlice& slice, LSInstructionVisitor i
 	std::swap(current_wave_, next_wave_);
     next_wave_.clear();
     
+	// std::cerr << "END OF WAVE" << std::endl;
     return wave_stats;
 }
 
@@ -108,8 +113,10 @@ size_t WaveScheduler::schedule_instructions(const std::vector<InstructionID>& in
 		
 		auto& instruction = records_[instruction_id].instruction;
 
-		auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions_, layout_, *router_);
-		
+		// std::cerr << "Applying instruction: " << instruction << std::endl;
+		auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions_, allow_twists_, layout_, *router_);
+		// std::cerr << "Applied instruction: " << instruction << std::endl;
+
 		if (!application_result.maybe_error)
 		{   
 			++applied_count;
@@ -186,7 +193,7 @@ void WaveScheduler::schedule_dependent_instructions(InstructionID instruction_id
 					
 				else
 				{
-					if (!try_schedule_immediately(dependent, slice, instruction_visitor, res))
+					if (!try_schedule_immediately(dependent, slice, instruction_visitor, res, proximate))
 						next_wave_.heads.push_back(dependent);
 				}
 			}
@@ -211,7 +218,7 @@ void WaveScheduler::schedule_dependent_instructions(InstructionID instruction_id
 	    	records_.push_back({followup, dependents});
 	    	dependency_counts_.push_back(0);
 	    	
-	    	if (!try_schedule_immediately(followup_id, slice, instruction_visitor, res))
+	    	if (!try_schedule_immediately(followup_id, slice, instruction_visitor, res, proximate))
 	    		next_wave_.proximate_heads_.push_back(followup_id);
 	    }
 	}
@@ -255,14 +262,16 @@ bool WaveScheduler::is_immediate(const LSInstruction& instruction)
 		LSTK_UNREACHABLE;
 }
 	
-bool WaveScheduler::try_schedule_immediately(InstructionID instruction_id, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res)
+bool WaveScheduler::try_schedule_immediately(InstructionID instruction_id, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res, bool proximate)
 {
 	auto& instruction = records_[instruction_id].instruction;
 	
 	if (!is_immediate(instruction))
 		return false;
 	
-	auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions_, layout_, *router_);
+	// std::cerr << "Applying dependent: " << instruction << std::endl;
+	auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions_, allow_twists_, layout_, *router_);
+	// std::cerr << "Applied dependent: " << instruction << std::endl;
 
 	if (application_result.maybe_error)
 	{
@@ -285,7 +294,7 @@ bool WaveScheduler::try_schedule_immediately(InstructionID instruction_id, Dense
 		if (application_result.followup_instructions.size() == 1 && application_result.followup_instructions[0] == instruction) // instruction has rescheduled itself
 			next_wave_.proximate_heads_.push_back(instruction_id);
 		else
-			schedule_dependent_instructions(instruction_id, application_result.followup_instructions, slice, instruction_visitor, res, false);
+			schedule_dependent_instructions(instruction_id, application_result.followup_instructions, slice, instruction_visitor, res, proximate);
 		
 		return true;
 	}

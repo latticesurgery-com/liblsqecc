@@ -192,7 +192,7 @@ std::ostream& operator<<(std::ostream& os, const BellBasedCNOT& instruction)
     if (instruction.counter_pairs.has_value() && instruction.local_instruction_sets.has_value()) 
     {
         os << " [";
-        for (size_t phase : {0, 1})
+        for (size_t phase=0; phase<instruction.local_instruction_sets.value().size(); phase++)
         {
             for (unsigned int i = instruction.counter_pairs.value()[phase].first; i < instruction.counter_pairs.value()[phase].second; i++) 
             {

@@ -1084,18 +1084,57 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                                 throw std::runtime_error("Invalid BoundaryType in EDPC compilation.");
                             }
 
-                            local_instructions_phase1.insert(local_instructions_phase1.end(), phase1_layer1.begin(), phase1_layer1.end());
-                            local_instructions_phase1.insert(local_instructions_phase1.end(), phase1_layer2.begin(), phase1_layer2.end());
-                            local_instructions_phase2.insert(local_instructions_phase2.end(), phase2_layer1.begin(), phase2_layer1.end());
-                            local_instructions_phase2.insert(local_instructions_phase2.end(), phase2_layer2.begin(), phase2_layer2.end());
-                            phase1_layer1.clear();
-                            phase1_layer2.clear();
-                            phase2_layer1.clear();
-                            phase2_layer2.clear();
                         }
+
+                        // std::cerr << "PHASE 1 LAYER 1: " << std::endl;
+                        // for (const auto& instr : phase1_layer1)
+                        // {
+                        //     std::cerr << instr << "; ";
+                        // }
+                        // std::cerr << std::endl;
+
+                        // std::cerr << "PHASE 1 LAYER 2: " << std::endl;
+                        // for (const auto& instr : phase1_layer2)
+                        // {
+                        //     std::cerr << instr << "; ";
+                        // }
+                        // std::cerr << std::endl;
+
+                        // std::cerr << "PHASE 2 LAYER 1: " << std::endl;
+                        // for (const auto& instr : phase2_layer1)
+                        // {
+                        //     std::cerr << instr << "; ";
+                        // }
+                        // std::cerr << std::endl;
+
+                        // std::cerr << "PHASE 2 LAYER 2: " << std::endl;
+                        // for (const auto& instr : phase2_layer2)
+                        // {
+                        //     std::cerr << instr << "; ";
+                        // }
+                        // std::cerr << std::endl;
+
+                        local_instructions_phase1.insert(local_instructions_phase1.end(), phase1_layer1.begin(), phase1_layer1.end());
+                        local_instructions_phase1.insert(local_instructions_phase1.end(), phase1_layer2.begin(), phase1_layer2.end());
+                        local_instructions_phase2.insert(local_instructions_phase2.end(), phase2_layer1.begin(), phase2_layer1.end());
+                        local_instructions_phase2.insert(local_instructions_phase2.end(), phase2_layer2.begin(), phase2_layer2.end());
+                        phase1_layer1.clear();
+                        phase1_layer2.clear();
+                        phase2_layer1.clear();
+                        phase2_layer2.clear();
 
                         bell_cnot->local_instruction_sets = {std::move(local_instructions_phase1), std::move(local_instructions_phase2)};
                         bell_cnot->counter_pairs = {std::pair<unsigned int, unsigned int>(0, 0), std::pair<unsigned int, unsigned int>(0, 0)};
+
+                        // for (size_t phase : {0, 1})
+                        // {
+                        //     std::cerr << "PHASE: " << phase << std::endl;
+                        //     for (const auto& instr : bell_cnot->local_instruction_sets.value()[phase])
+                        //     {
+                        //         std::cerr << instr << "; ";
+                        //     }
+                        //     std::cerr << std::endl;
+                        // }
 
                         // We (once again) return the instruction back to the scheduler and apply local instructions later (once the decomposition and scheduling has occurred for all EDP)
                         return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; EDPC requires all CNOTs to be decomposed into local instructions before slicing can occur.")), {}};

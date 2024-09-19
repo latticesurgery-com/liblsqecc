@@ -133,7 +133,7 @@ namespace lsqecc
                 .required(false);
         parser.add_argument()
                 .names({"-P", "--pipeline"})
-                .description("pipeline mode: stream (default), dag, wave, EDPC")
+                .description("pipeline mode: stream (default), dag, wave, edpc")
                 .required(false);
         parser.add_argument()
                 .names({"-g", "--graph-search"})
@@ -198,7 +198,7 @@ namespace lsqecc
                 .required(false);
         parser.add_argument()
                 .names({"--local"})
-                .description("Compile gates using a local lattice surgery instruction set")
+                .description("Compile gates into a pair-wise local lattice surgery instruction set")
                 .required(false);
         parser.add_argument()
                 .names({"--notwists"})

@@ -8,16 +8,17 @@
 
 
 
-RequestMagicState 25 0;MultiBodyMeasure 0:Z,25:Z;MeasureSinglePatch 25 X;RequestYState 26 0;Init 27 |+> 0:Z;
-MultiBodyMeasure 0:Z,27:Z;
-MultiBodyMeasure 27:X,26:X;MeasureSinglePatch 27 X;
-HGate 26;RotateSingleCellPatch 26;
-BusyRegion (0,0),(0,1),StepsToClear(2);
-BusyRegion (0,0),(0,1),StepsToClear(1);
-BusyRegion (0,0),(0,1),StepsToClear(0);Init 28 |+> 0:Z;MultiBodyMeasure 0:Z,28:Z;
-MultiBodyMeasure 28:X,26:X;MeasureSinglePatch 28 X;
-HGate 26;RotateSingleCellPatch 26;
-BusyRegion (0,0),(0,1),StepsToClear(2);
-BusyRegion (0,0),(0,1),StepsToClear(1);
-BusyRegion (0,0),(0,1),StepsToClear(0);RequestYState 26 0;
+RequestMagicState 25 0;BellBasedCNOT 0 25 26 27 [ExtendSplit (6,6),(6,5);BellPrepare (5,6),(5,5)];
+BellBasedCNOT 0 25 26 27 [MergeContract (4,6),(5,6);BellMeasure (5,5),(6,5)];MeasureSinglePatch 25 Z;RequestYState 28 0;
+BellBasedCNOT 0 28 29 30 [ExtendSplit (6,6),(6,5);BellPrepare (5,4),(5,5)];
+BellBasedCNOT 0 28 29 30 [MergeContract (4,4),(5,4);BellMeasure (5,5),(6,5)];
+HGate 28;RotateSingleCellPatch 28;
+BusyRegion (4,4),(4,5),StepsToClear(2);
+BusyRegion (4,4),(4,5),StepsToClear(1);
+BusyRegion (4,4),(4,5),StepsToClear(0);BellBasedCNOT 0 28 31 32 [ExtendSplit (6,6),(6,5);BellPrepare (5,4),(5,5)];
+BellBasedCNOT 0 28 31 32 [MergeContract (4,4),(5,4);BellMeasure (5,5),(6,5)];
+HGate 28;RotateSingleCellPatch 28;
+BusyRegion (4,4),(4,5),StepsToClear(2);
+BusyRegion (4,4),(4,5),StepsToClear(1);
+BusyRegion (4,4),(4,5),StepsToClear(0);RequestYState 28 0;
 
