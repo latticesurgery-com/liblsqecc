@@ -8,6 +8,9 @@
 
 ![](https://user-images.githubusercontent.com/36427091/193476068-eddfea28-3d91-4398-8de4-3a55bb43faa7.gif)
 
+[Publication link for original compiler release](https://quantum-journal.org/papers/q-2024-05-22-1354/)
+[Publication link for upgraded compiler and its usage in resource estimation](https://dl.acm.org/doi/abs/10.1145/3689826)
+
 Home of a set of fast tools for compiling lattice surgery instructions. Part of the [Lattice Surgery Compiler](https://github.com/latticesurgery-com/lattice-surgery-compiler) family. The `liblsqecc` library contains the functionality used by the `lsqecc_slicer` executable. We are working on exposing its functionality as a Python API in the [Lattice Surgery Compiler](https://github.com/latticesurgery-com/lattice-surgery-compiler) package.
 
 ## Build
@@ -119,21 +122,32 @@ lsqecc_slicer -q -i {qasm_filename} -L edpc --disttime 1 --nostagger --local -P 
 Results in that paper were generated using [PR #106](https://github.com/latticesurgery-com/liblsqecc/pull/106), and should be reproducible using the current release.
 
 # Contributors
-
-Liblsqecc was primarily developed at Aalto University by [George Watkins](https://github.com/gwwatkin) under [Alexandru Paler](https://github.com/alexandrupaler)'s supervision, and is now maintained by George Watkins.
-
-A special thanks to [Tyler LeBlond (Oak Ridge National Laboratory)](https://github.com/tylerrleblond) and [Christopher Dean (Dalhousie University)](https://github.com/christopherjdean) for adding the EDPC layout family, the local compilation layer, the wave pipeline, and other contributions according to the compilation strategy outlined in [their recent paper](https://arxiv.org/abs/2311.10686).
+Liblsqecc was originally developed at Aalto University by [George Watkins](https://github.com/gwwatkin) under [Alexandru Paler](https://github.com/alexandrupaler)'s supervision and was later upgraded by [Tyler LeBlond (Oak Ridge National Laboratory)](https://github.com/tylerrleblond) and [Christopher Dean (Dalhousie University)](https://github.com/christopherjdean) in collaboration with [George Watkins](https://github.com/gwwatkin). The compiler is currently maintained primarily by [Tyler LeBlond](https://github.com/tylerrleblond) and ongoing development is co-led with [Alexandru Paler](https://github.com/alexandrupaler).
 
 [Alex Nguyen](https://github.com/alexnguyenn) maintains the NPM package and associated infrastructure.
 
 # Citing
-
-Please cite as follows:
+The original release of the compiler should be cited as follows:
 ```
-@article{watkins2023high,
-  title={A High Performance Compiler for Very Large Scale Surface Code Computations},
-  author={Watkins, George and Nguyen, Hoang Minh and Seshadri, Varun and Watkins, Keelan and Pearce, Steven and Lau, Hoi-Kwan and Paler, Alexandru},
-  journal={arXiv preprint arXiv:2302.02459},
-  year={2023}
+@article{watkins2024high,
+  title={A high performance compiler for very large scale surface code computations},
+  author={Watkins, George and Nguyen, Hoang Minh and Watkins, Keelan and Pearce, Steven and Lau, Hoi-Kwan and Paler, Alexandru},
+  journal={Quantum},
+  volume={8},
+  pages={1354},
+  year={2024},
+  publisher={Verein zur F{\"o}rderung des Open Access Publizierens in den Quantenwissenschaften}
 }
+```
+
+The upgraded compiler and its usage in resource estimation should be cited as follows:
+```
+@article{leblond2023realistic,
+  title={Realistic Cost to Execute Practical Quantum Circuits using Direct Clifford+ T Lattice Surgery Compilation},
+  author={LeBlond, Tyler and Dean, Christopher and Watkins, George and Bennink, Ryan},
+  journal={ACM Transactions on Quantum Computing},
+  year={2023},
+  publisher={ACM New York, NY}
+}
+
 ```
