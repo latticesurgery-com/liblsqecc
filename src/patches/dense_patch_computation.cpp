@@ -1000,11 +1000,8 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                         route_endpoints.push_back(std::make_pair(bell_cnot->route->cells.size()-1, current_type));
 
                         // Loop over end-points to decompose operation along path into local operations organized into two phases of two layers each                        
-                        std::vector<LocalInstruction::LocalLSInstruction> local_instructions_phase1;
                         std::vector<LocalInstruction::LocalLSInstruction> phase1_layer1;
                         std::vector<LocalInstruction::LocalLSInstruction> phase1_layer2;
-
-                        std::vector<LocalInstruction::LocalLSInstruction> local_instructions_phase2;
                         std::vector<LocalInstruction::LocalLSInstruction> phase2_layer1;
                         std::vector<LocalInstruction::LocalLSInstruction> phase2_layer2;
 
@@ -1017,7 +1014,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                         {
 
                             // If there is only one segment, we apply in the same way as without EDPC
-                            if (route_endpoints.size() == 2)
+                            if ((route_endpoints.size() == 2) && (current_type == BoundaryType::Reserved_Label1))
                             {
                                 if ((bell_cnot->route->cells.size()%2) == 0)
                                 {
@@ -1029,6 +1026,21 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                                 {
                                     compile_long_range_Bell(LongRangeBell::Split, phase1_layer1, phase1_layer2, bell_cnot->route.value(), bell_cnot->route->cells.size()-2, bell_cnot->route->cells.size()-1, false);
                                     compile_long_range_Bell(LongRangeBell::Merge, phase1_layer1, phase1_layer2, bell_cnot->route.value(), 0, bell_cnot->route->cells.size()-2, true,  bell_cnot->side1, bell_cnot->side2);
+                                }
+                            }
+
+                            else if ((route_endpoints.size() == 2) && (current_type == BoundaryType::Reserved_Label2))
+                            {
+                                if ((bell_cnot->route->cells.size()%2) == 0)
+                                {
+                                    compile_long_range_Bell(LongRangeBell::Merge, phase2_layer1, phase2_layer2, bell_cnot->route.value(), bell_cnot->route->cells.size()-2, bell_cnot->route->cells.size()-1, false);
+                                    compile_long_range_Bell(LongRangeBell::Merge, phase2_layer1, phase2_layer2, bell_cnot->route.value(), 0, 1, true);
+                                    compile_long_range_Bell(LongRangeBell::Prep, phase2_layer1, phase2_layer2, bell_cnot->route.value(), 1, bell_cnot->route->cells.size()-2, true, bell_cnot->side1, bell_cnot->side2);
+                                }
+                                else
+                                {
+                                    compile_long_range_Bell(LongRangeBell::Split, phase2_layer1, phase2_layer2, bell_cnot->route.value(), bell_cnot->route->cells.size()-2, bell_cnot->route->cells.size()-1, false);
+                                    compile_long_range_Bell(LongRangeBell::Merge, phase2_layer1, phase2_layer2, bell_cnot->route.value(), 0, bell_cnot->route->cells.size()-2, true,  bell_cnot->side1, bell_cnot->side2);
                                 }
                             }
 
@@ -1114,58 +1126,50 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                         // }
                         // std::cerr << std::endl;
 
-                        local_instructions_phase1.insert(local_instructions_phase1.end(), phase1_layer1.begin(), phase1_layer1.end());
-                        local_instructions_phase1.insert(local_instructions_phase1.end(), phase1_layer2.begin(), phase1_layer2.end());
-                        local_instructions_phase2.insert(local_instructions_phase2.end(), phase2_layer1.begin(), phase2_layer1.end());
-                        local_instructions_phase2.insert(local_instructions_phase2.end(), phase2_layer2.begin(), phase2_layer2.end());
-                        phase1_layer1.clear();
-                        phase1_layer2.clear();
-                        phase2_layer1.clear();
-                        phase2_layer2.clear();
-
-                        bell_cnot->local_instruction_sets = {std::move(local_instructions_phase1), std::move(local_instructions_phase2)};
-                        bell_cnot->counter_pairs = {std::pair<unsigned int, unsigned int>(0, 0), std::pair<unsigned int, unsigned int>(0, 0)};
-
-                        // for (size_t phase : {0, 1})
-                        // {
-                        //     std::cerr << "PHASE: " << phase << std::endl;
-                        //     for (const auto& instr : bell_cnot->local_instruction_sets.value()[phase])
-                        //     {
-                        //         std::cerr << instr << "; ";
-                        //     }
-                        //     std::cerr << std::endl;
-                        // }
+                        // Add local instruction sets to LLI object and initialize tracking variables
+                        bell_cnot->local_instruction_sets = {std::move(phase1_layer1), std::move(phase1_layer2), std::move(phase2_layer1), std::move(phase2_layer2)};
+                        bell_cnot->counter_pairs = {std::pair<unsigned int, unsigned int>(0, 0), std::pair<unsigned int, unsigned int>(0, 0), 
+                            std::pair<unsigned int, unsigned int>(0, 0), std::pair<unsigned int, unsigned int>(0, 0)};
+                        bell_cnot->current_phase = 0;
 
                         // We (once again) return the instruction back to the scheduler and apply local instructions later (once the decomposition and scheduling has occurred for all EDP)
                         return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; EDPC requires all CNOTs to be decomposed into local instructions before slicing can occur.")), {}};
                     }
 
-                    // Loop over phases to apply local instructions 
-                    for (size_t phase : {0, 1})
-                    {  
-                        bell_cnot->counter_pairs.value()[phase].first = bell_cnot->counter_pairs.value()[phase].second;
-                        
-                        for (unsigned int i = bell_cnot->counter_pairs.value()[phase].first; i < bell_cnot->local_instruction_sets.value()[phase].size(); i++)
+                    // Loop over instructions in the current phase
+                    size_t phase = bell_cnot->current_phase.value();
+                    if (phase != 0)
+                    {
+                        bell_cnot->counter_pairs.value()[phase-1].first = bell_cnot->counter_pairs.value()[phase-1].second; 
+                    }
+                    bell_cnot->counter_pairs.value()[phase].first = bell_cnot->counter_pairs.value()[phase].second;
+                    for (unsigned int i = bell_cnot->counter_pairs.value()[phase].first; i < bell_cnot->local_instruction_sets.value()[phase].size(); i++)
+                    {
+                        InstructionApplicationResult r = try_apply_local_instruction(slice, bell_cnot->local_instruction_sets.value()[phase][i], layout, router);
+                        if (r.maybe_error && r.followup_instructions.empty())
                         {
-                            InstructionApplicationResult r = try_apply_local_instruction(slice, bell_cnot->local_instruction_sets.value()[phase][i], layout, router);
-                            if (r.maybe_error && r.followup_instructions.empty())
-                            {
-                                return {nullptr, {instruction}};
-                            }
-                            if (!r.followup_instructions.empty())
-                                throw std::runtime_error(lstk::cat(instruction,"; Followup local instructions not implemented"));
-                            
-                            bell_cnot->counter_pairs.value()[phase].second++;
-
-                            // Make sure we don't start applying phase 2 instructions pre-maturely
-                            if ((phase == 0) && 
-                                (bell_cnot->counter_pairs.value()[phase].second == bell_cnot->local_instruction_sets.value()[phase].size()) &&
-                                (bell_cnot->local_instruction_sets.value()[1].size() != 0))
-                                return {nullptr, {instruction}};
+                            return {nullptr, {instruction}};
                         }
+                        if (!r.followup_instructions.empty())
+                            throw std::runtime_error(lstk::cat(instruction,"; Followup local instructions not implemented"));
+                        
+                        bell_cnot->counter_pairs.value()[phase].second++;
+                    }
+
+                    // If this is the final phase, the instruction has been fully applied 
+                    if ((phase == bell_cnot->local_instruction_sets.value().size() - 1) ||
+                        ((phase == 1) && (bell_cnot->local_instruction_sets.value()[2].size() == 0)))
+                    {
+                        return {nullptr, {}};
+                    }
+
+                    // Otherwise, the phase is incremented and the instruction returns itself as a follow-up 
+                    else
+                    {
+                        bell_cnot->current_phase.value()++;
+                        return {nullptr, {instruction}};
                     }
                     
-                    return {nullptr, {}};
                 }
             }
 

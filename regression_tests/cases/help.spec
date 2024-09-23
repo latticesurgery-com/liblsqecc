@@ -7,7 +7,7 @@ Options:
     -f, --output-format    Requires -o, STDOUT output format: progress, noprogress, machine, stats
     -t, --timeout          Set a timeout in seconds after which stop producing slices
     -r, --router           Set a router: graph_search (default), graph_search_cached
-    -P, --pipeline         pipeline mode: stream (default), dag, wave, EDPC
+    -P, --pipeline         pipeline mode: stream (default), dag, wave, edpc
     -g, --graph-search     Set a graph search provider: djikstra (default), astar, boost (not always available)
     --graceful             If there is an error when slicing, print the error and terminate
     --printlli             Output LLI instead of JSONs. options: before (default), sliced (prints lli on the same slice separated by semicolons)
@@ -23,6 +23,6 @@ Options:
     --explicitfactories    Only compatible with -L edpc. Explicitly specifies factories (otherwise, uses tiles reserved for magic state re-spawn).
     --nostagger            Turns off staggered distillation block timing
     --disttime             Set the distillation time (default 10)
-    --local                Compile gates using a local lattice surgery instruction set
+    --local                Compile gates into a pair-wise local lattice surgery instruction set
     --notwists             Compile S gates using twist-based Y state initialization (Gidney, 2024)
     -h, --help             Shows this page        
