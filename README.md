@@ -68,7 +68,7 @@ Options:
                             - edpc: Uses a family of layouts based upon the one specified in the EDPC paper by Beverland et. al. (https://arxiv.org/abs/2110.11493)
     --numlanes             Only compatible with -L edpc. Configures number of free lanes for routing.
     --condensed            Only compatible with -L edpc. Packs logical qubits more compactly.
-    --explicitfactories    Only compatible with -L edpc. Explicitly specifies factories (otherwise, uses tiles reserved for magic state re-spawn).
+    --explicitfactories    Only compatible with -L edpc. Explicitly specifies factories but clogs easily (otherwise, uses tiles reserved for magic state re-spawn).
     --nostagger            Turns off staggered distillation block timing
     --disttime             Set the distillation time (default 10)
     --local                Compile gates into a pair-wise local lattice surgery instruction set
