@@ -1,70 +1,70 @@
 ./../build/lsqecc_slicer -q -i "cases/edpc_t_layers/t_layer_16qubits.qasm" -L edpc --nostagger --local -P wave --noslices -f stats
-LS Instructions read  320
-Slices 39
+LS Instructions read  128
+Slices 18
 Made patch computation. Took <time_removed_by_case_script>
-Total volume: 13718
-Distillation volume: 5250 (38.2709%)
-Unused routing volume: 2646 (19.2885%)
-Dead volume: 4104 (29.9169%)
-Other active volume: 1718 (12.5237%)
+Total volume: 2057
+Distillation volume: 303 (14.7302%)
+Unused routing volume: 1297 (63.053%)
+Dead volume: 0 (0%)
+Other active volume: 457 (22.2168%)
 
 ./../build/lsqecc_slicer -q -i "cases/edpc_t_layers/t_layer_25qubits.qasm" -L edpc --nostagger --local -P wave --noslices -f stats
-LS Instructions read  500
-Slices 46
+LS Instructions read  200
+Slices 27
 Made patch computation. Took <time_removed_by_case_script>
-Total volume: 19845
-Distillation volume: 6777 (34.1497%)
-Unused routing volume: 4176 (21.0431%)
-Dead volume: 5760 (29.0249%)
-Other active volume: 3132 (15.7823%)
+Total volume: 4394
+Distillation volume: 560 (12.7447%)
+Unused routing volume: 2816 (64.0874%)
+Dead volume: 0 (0%)
+Other active volume: 1018 (23.168%)
 
 ./../build/lsqecc_slicer -q -i "cases/edpc_t_layers/t_layer_36qubits.qasm" -L edpc --nostagger --local -P wave --noslices -f stats
-LS Instructions read  720
-Slices 52
+LS Instructions read  288
+Slices 31
 Made patch computation. Took <time_removed_by_case_script>
-Total volume: 26979
-Distillation volume: 9585 (35.5276%)
-Unused routing volume: 6199 (22.9771%)
-Dead volume: 6324 (23.4405%)
-Other active volume: 4871 (18.0548%)
+Total volume: 6750
+Distillation volume: 736 (10.9037%)
+Unused routing volume: 4310 (63.8519%)
+Dead volume: 0 (0%)
+Other active volume: 1704 (25.2444%)
 
 ./../build/lsqecc_slicer -q -i "cases/edpc_t_layers/t_layer_49qubits.qasm" -L edpc --nostagger --local -P wave --noslices -f stats
-LS Instructions read  980
-Slices 69
+LS Instructions read  392
+Slices 33
 Made patch computation. Took <time_removed_by_case_script>
-Total volume: 42500
-Distillation volume: 13550 (31.8824%)
-Unused routing volume: 10500 (24.7059%)
-Dead volume: 9792 (23.04%)
-Other active volume: 8658 (20.3718%)
+Total volume: 9248
+Distillation volume: 877 (9.48313%)
+Unused routing volume: 5784 (62.5433%)
+Dead volume: 0 (0%)
+Other active volume: 2587 (27.9736%)
 
 ./../build/lsqecc_slicer -q -i "cases/edpc_t_layers/t_layer_64qubits.qasm" -L edpc --nostagger --local -P wave --noslices -f stats
-LS Instructions read  1280
-Slices 85
+LS Instructions read  512
+Slices 34
 Made patch computation. Took <time_removed_by_case_script>
-Total volume: 61236
-Distillation volume: 19776 (32.2947%)
-Unused routing volume: 16788 (27.4152%)
-Dead volume: 11760 (19.2044%)
-Other active volume: 12912 (21.0856%)
+Total volume: 11913
+Distillation volume: 968 (8.12558%)
+Unused routing volume: 7213 (60.5473%)
+Dead volume: 0 (0%)
+Other active volume: 3732 (31.3271%)
 
 ./../build/lsqecc_slicer -q -i "cases/edpc_t_layers/t_layer_81qubits.qasm" -L edpc --nostagger --local -P wave --noslices -f stats
-LS Instructions read  1620
-Slices 92
+LS Instructions read  648
+Slices 39
 Made patch computation. Took <time_removed_by_case_script>
-Total volume: 76531
-Distillation volume: 22586 (29.5122%)
-Unused routing volume: 21944 (28.6733%)
-Dead volume: 14560 (19.025%)
-Other active volume: 17441 (22.7895%)
+Total volume: 16758
+Distillation volume: 1211 (7.2264%)
+Unused routing volume: 10264 (61.2484%)
+Dead volume: 0 (0%)
+Other active volume: 5283 (31.5252%)
 
 ./../build/lsqecc_slicer -q -i "cases/edpc_t_layers/t_layer_100qubits.qasm" -L edpc --nostagger --local -P wave --noslices -f stats
-LS Instructions read  2000
-Slices 104
+LS Instructions read  800
+Slices 41
 Made patch computation. Took <time_removed_by_case_script>
-Total volume: 98983
-Distillation volume: 29293 (29.594%)
-Unused routing volume: 29847 (30.1537%)
-Dead volume: 16068 (16.2331%)
-Other active volume: 23775 (24.0193%)
+Total volume: 21160
+Distillation volume: 1430 (6.75803%)
+Unused routing volume: 12872 (60.8318%)
+Dead volume: 0 (0%)
+Other active volume: 6858 (32.4102%)
 

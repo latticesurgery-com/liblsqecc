@@ -1,4 +1,5 @@
 #include <lsqecc/patches/dense_slice.hpp>
+#include <lsqecc/patches/patches.hpp>
 
 #include <sstream>
 
@@ -270,7 +271,7 @@ BoundaryType DenseSlice::mark_boundaries_for_crossing_cell(DensePatch& dp, const
 {
 
     // Get pointers to boundary labels (so that we can loop over them)
-    std::array<Boundary*, 4> boundary_ptrs = {&dp.boundaries.top, &dp.boundaries.bottom, &dp.boundaries.left, &dp.boundaries.right};
+    std::vector<Boundary*> boundary_ptrs = {&dp.boundaries.top, &dp.boundaries.bottom, &dp.boundaries.left, &dp.boundaries.right};
 
     // Get neighbors of the cell in question
     std::vector<Cell> neighbors = get_neigbours_within_slice(p.cell);

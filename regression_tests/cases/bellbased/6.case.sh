@@ -7,7 +7,7 @@ HGate 1
 HGate 1
 RotateSingleCellPatch 1
 "
-echo "$INPUT" | lsqecc_slicer -l ../examples/core4by4layout.txt --nostagger --local
+echo "$INPUT" | lsqecc_slicer -l ../examples/core4by4layout.txt --nostagger --printlli sliced --local
 
 
 

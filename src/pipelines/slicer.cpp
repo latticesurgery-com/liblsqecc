@@ -133,7 +133,7 @@ namespace lsqecc
                 .required(false);
         parser.add_argument()
                 .names({"-P", "--pipeline"})
-                .description("pipeline mode: stream (default), dag, wave, edpc")
+                .description("pipeline mode: stream (default), wave, edpc, dag (deprecated)")
                 .required(false);
         parser.add_argument()
                 .names({"-g", "--graph-search"})
@@ -149,7 +149,7 @@ namespace lsqecc
                 .required(false);
         parser.add_argument()
                 .names({"--printdag"})
-                .description("Prints a dependancy dag of the circuit. Modes: input (default), processedlli")
+                .description("Prints a dependency dag of the circuit. Modes: input (default), processedlli")
                 .required(false);
         parser.add_argument()
                 .names({"--noslices"})
@@ -202,7 +202,7 @@ namespace lsqecc
                 .required(false);
         parser.add_argument()
                 .names({"--notwists"})
-                .description("Compile S gates using twist-based Y state initialization (Gidney, 2024)")
+                .description("Compile S gates using the catalytic teleportation circuit from Fowler, 2012 instead of using the twist-based Y state initialization and teleportation from Gidney, 2024")
                 .required(false);
         parser.enable_help();
 

@@ -270,7 +270,7 @@ void mark_routing_region(DenseSlice& slice, RoutingRegion& routing_region, Patch
             if (activity == PatchActivity::EDPC)
             {
                 // If a patch has not already been assigned, we assume that we can assign it to VDP set 1 through BoundaryType_ReservedLabel1
-                std::array<Boundary*, 4> boundary_ptrs = {&occupied_cell.top, &occupied_cell.bottom, &occupied_cell.left, &occupied_cell.right};
+                std::vector<Boundary*> boundary_ptrs = {&occupied_cell.top, &occupied_cell.bottom, &occupied_cell.left, &occupied_cell.right};
                 for (Boundary* bdry : boundary_ptrs)
                 {
                     if ((bdry->boundary_type != BoundaryType::None) && (bdry->boundary_type != current_label))

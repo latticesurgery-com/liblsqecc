@@ -4728,10 +4728,10 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "AncillaJoin",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
          },
          "patch_type": "Qubit",
          "text": "Id: 2"
@@ -4878,10 +4878,10 @@
             "activity_type": "Unitary"
          },
          "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "AncillaJoin"
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
          },
          "patch_type": "Qubit",
          "text": "Id: 16"
@@ -5156,10 +5156,10 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "AncillaJoin",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
          },
          "patch_type": "Qubit",
          "text": "Id: 2"
@@ -5306,10 +5306,10 @@
             "activity_type": "Measurement"
          },
          "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "AncillaJoin"
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
          },
          "patch_type": "Qubit",
          "text": "Id: 16"

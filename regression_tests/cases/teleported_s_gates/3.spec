@@ -7988,7 +7988,7 @@
             "Top": "SolidStiched"
          },
          "patch_type": "Qubit",
-         "text": "Id: 26"
+         "text": "Not bound"
       },
       null,
       null,
@@ -8809,7 +8809,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 26"
+         "text": "Not bound"
       },
       null,
       null,
