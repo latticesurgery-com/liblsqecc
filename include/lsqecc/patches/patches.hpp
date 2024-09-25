@@ -22,6 +22,12 @@ enum class BoundaryType : uint8_t {
     Reserved_Label2,
 };
 
+enum class CellDirection {
+    top, bottom, left, right
+};
+
+CellDirection operator!(CellDirection dir);
+
 BoundaryType operator!(BoundaryType bt);
 
 std::ostream& operator<<(std::ostream& os, BoundaryType bt);
@@ -35,6 +41,7 @@ struct Cell {
 
     std::vector<Cell> get_neigbours() const;
     std::vector<Cell> get_neigbours_within_bounding_box_inclusive(const Cell& origin, const Cell& furthest_cell) const;
+    std::optional<Cell> get_directional_neighbor(const Cell& origin, const Cell& furthest_cell, CellDirection dir) const;
 
     template<class IntType>
     static Cell from_ints(IntType _row, IntType _col)
@@ -101,6 +108,7 @@ struct SingleCellOccupiedByPatch : public CellBoundaries {
     Cell cell;
 
     std::optional<Boundary> get_boundary_with(const Cell& neighbour) const;
+    std::optional<Boundary*> get_boundary_reference_with(const Cell& neighbour);
     bool have_boundary_of_type_with(PauliOperator op, const Cell& neighbour) const;
     std::optional<std::reference_wrapper<Boundary>> get_mut_boundary_with(const Cell& neighbour);
 

@@ -83,6 +83,11 @@ bool SparseSlice::is_cell_free_or_activity(const Cell& cell, std::vector<PatchAc
     LSTK_NOT_IMPLEMENTED;
 }
 
+std::optional<Cell> SparseSlice::get_directional_neighbor_within_slice(const Cell& cell, CellDirection dir) const 
+{
+    LSTK_NOT_IMPLEMENTED;
+}
+
 std::vector<Cell> SparseSlice::get_neigbours_within_slice(const Cell& cell) const
 {
     return cell.get_neigbours_within_bounding_box_inclusive({0,0}, layout.get().furthest_cell());

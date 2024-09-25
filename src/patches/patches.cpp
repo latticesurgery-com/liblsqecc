@@ -18,9 +18,22 @@ BoundaryType operator!(BoundaryType bt) {
             return BoundaryType::Reserved_Label2;
         case BoundaryType::Reserved_Label2:
             return BoundaryType::Reserved_Label1;
-        default:
-            throw std::runtime_error("BoundaryType not supported.");
     }
+    LSTK_UNREACHABLE;
+}
+
+CellDirection operator!(CellDirection dir) {
+    switch (dir) {
+        case CellDirection::top:
+            return CellDirection::bottom;
+        case CellDirection::bottom:
+            return CellDirection::top;
+        case CellDirection::left:
+            return CellDirection::right;
+        case CellDirection::right:
+            return CellDirection::left;
+    }
+    LSTK_UNREACHABLE;
 }
 
 std::ostream& operator<<(std::ostream& os, BoundaryType bt)
@@ -220,6 +233,25 @@ std::vector<Cell> Cell::get_neigbours() const
             Cell{row, col+1}};
 }
 
+std::optional<Cell> Cell::get_directional_neighbor(const Cell& origin, const Cell& furthest_cell, CellDirection dir) const
+{
+    switch (dir)
+    {
+        case CellDirection::top:
+            if (row>origin.row) return Cell{row-1, col};
+            else return std::nullopt;
+        case CellDirection::bottom:
+            if (row<furthest_cell.row) return Cell{row+1, col};
+            else return std::nullopt;
+        case CellDirection::left:
+            if (col>origin.col) return Cell{row, col-1};
+            else return std::nullopt;
+        case CellDirection::right:
+            if (col<furthest_cell.col) return Cell{row, col+1};
+            else return std::nullopt;
+    }
+    LSTK_UNREACHABLE;
+}
 
 std::vector<Cell> Cell::get_neigbours_within_bounding_box_inclusive(const Cell& origin, const Cell& furthest_cell) const
 {
@@ -241,7 +273,15 @@ std::optional<Boundary> SingleCellOccupiedByPatch::get_boundary_with(const Cell&
     return std::nullopt;
 }
 
+std::optional<Boundary*> SingleCellOccupiedByPatch::get_boundary_reference_with(const Cell& neighbour)
+{
+    if(neighbour == Cell{cell.row-1, cell.col})   return &top;
+    if(neighbour == Cell{cell.row+1, cell.col})   return &bottom;
+    if(neighbour == Cell{cell.row,   cell.col-1}) return &left;
+    if(neighbour == Cell{cell.row,   cell.col+1}) return &right;
 
+    return std::nullopt;
+}
 
 bool SingleCellOccupiedByPatch::have_boundary_of_type_with(PauliOperator op, const Cell& neighbour) const
 {

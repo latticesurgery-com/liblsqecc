@@ -67,9 +67,12 @@ struct DenseSlice : public Slice
     bool is_cell_free(const Cell& cell) const override;
     bool is_cell_free_or_activity(const Cell& cell, std::vector<PatchActivity> activities) const override;
 
+    std::optional<Cell> get_directional_neighbor_within_slice(const Cell& cell, CellDirection dir) const override;
     std::vector<Cell> get_neigbours_within_slice(const Cell& cell) const override;
 
     SurfaceCodeTimestep time_to_next_magic_state(size_t distillation_region_id) const override;
+
+    void flip_crossing_chain(const Cell& crossing_cell, CellDirection dir);
 
     BoundaryType mark_boundaries_for_crossing_cell(DensePatch& dp, const SingleCellOccupiedByPatch& p, const Cell& prev);
 };
