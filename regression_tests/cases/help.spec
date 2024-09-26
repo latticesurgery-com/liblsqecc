@@ -7,22 +7,22 @@ Options:
     -f, --output-format    Requires -o, STDOUT output format: progress, noprogress, machine, stats
     -t, --timeout          Set a timeout in seconds after which stop producing slices
     -r, --router           Set a router: graph_search (default), graph_search_cached
-    -P, --pipeline         pipeline mode: stream (default), dag
+    -P, --pipeline         pipeline mode: stream (default), wave, edpc, dag (deprecated)
     -g, --graph-search     Set a graph search provider: djikstra (default), astar, boost (not always available)
     --graceful             If there is an error when slicing, print the error and terminate
     --printlli             Output LLI instead of JSONs. options: before (default), sliced (prints lli on the same slice separated by semicolons)
-    --printdag             Prints a dependancy dag of the circuit. Modes: input (default), processedlli
+    --printdag             Prints a dependency dag of the circuit. Modes: input (default), processedlli
     --noslices             Do the slicing but don't write the slices out
     --cnotcorrections      Add Xs and Zs to correct the the negative outcomes: never (default), always
     --layoutgenerator, -L  Automatically generates a layout for the given number of qubits. Incompatible with -l. Options:
                             - compact (default): Uses Litinski's Game of Surace Code compact layout (https://arxiv.org/abs/1808.02892)
                             - compact_no_clogging: same as compact, but fewer cells for ancillas and magic state queues
-                            - edpc: Uses a layout specified in the EDPC paper by Beverland et. al. (https://arxiv.org/abs/2110.11493)
+                            - edpc: Uses a family of layouts based upon the one specified in the EDPC paper by Beverland et. al. (https://arxiv.org/abs/2110.11493)
     --numlanes             Only compatible with -L edpc. Configures number of free lanes for routing.
     --condensed            Only compatible with -L edpc. Packs logical qubits more compactly.
     --explicitfactories    Only compatible with -L edpc. Explicitly specifies factories (otherwise, uses tiles reserved for magic state re-spawn).
     --nostagger            Turns off staggered distillation block timing
     --disttime             Set the distillation time (default 10)
-    --local                Compile gates using a local lattice surgery instruction set
-    --notwists             Compile S gates using twist-based Y state initialization (Gidney, 2024)
+    --local                Compile gates into a pair-wise local lattice surgery instruction set
+    --notwists             Compile S gates using the catalytic teleportation circuit from Fowler, 2012 instead of using the twist-based Y state initialization and teleportation from Gidney, 2024
     -h, --help             Shows this page        

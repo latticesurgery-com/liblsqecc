@@ -20,7 +20,8 @@ std::optional<RoutingRegion> graph_search_route_ancilla(
         PauliOperator source_op,
         PatchId target,
         PauliOperator target_op,
-        Heuristic heuristic
+        Heuristic heuristic,
+        bool EDPC
 );
 
 }

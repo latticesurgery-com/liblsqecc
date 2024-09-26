@@ -131,6 +131,9 @@ std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits, size_t num_lane
             if (a_count%2 == 0) {
                 if (!factories_explicit)
                     grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
+                else 
+                    grid[i][j] = AsciiLayoutSpec::CellType::RoutingAncilla;
+
                 for (size_t k=i-t_distillation_region_rows; k<i; k++) {
                     for (size_t l=j-1; l<j+2; l++) {
                         grid[k][l] = AsciiLayoutSpec::CellType::DistillationRegion_0;
@@ -138,7 +141,10 @@ std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits, size_t num_lane
                 }
             }
             else if (!predistilled) {
-                grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
+                if (!factories_explicit) 
+                    grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
+                else
+                    grid[i][j] = AsciiLayoutSpec::CellType::RoutingAncilla;  
             }
         }
     }
@@ -152,6 +158,9 @@ std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits, size_t num_lane
             if (a_count%2 == 0) {
                 if (!factories_explicit)
                     grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
+                else 
+                    grid[i][j] = AsciiLayoutSpec::CellType::RoutingAncilla;
+
                 for (size_t k=i+1; k<i+t_distillation_region_rows+1; k++) {
                     for (size_t l=j-1; l<j+2; l++) {
                         grid[k][l] = AsciiLayoutSpec::CellType::DistillationRegion_0;
@@ -159,7 +168,10 @@ std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits, size_t num_lane
                 }
             }
             else if (!predistilled) {
-                grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
+                if (!factories_explicit) 
+                    grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
+                else
+                    grid[i][j] = AsciiLayoutSpec::CellType::RoutingAncilla;  
             }
         }
     }
@@ -173,6 +185,9 @@ std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits, size_t num_lane
             if (a_count%2 == 0) {
                 if (!factories_explicit)
                     grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
+                else 
+                    grid[i][j] = AsciiLayoutSpec::CellType::RoutingAncilla;
+
                 for (size_t k=i-1; k<i+2; k++) {
                     for (size_t l=j-t_distillation_region_cols; l<j; l++) {
                         grid[k][l] = AsciiLayoutSpec::CellType::DistillationRegion_0;
@@ -180,7 +195,10 @@ std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits, size_t num_lane
                 }
             }
             else if (!predistilled) {
-                grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
+                if (!factories_explicit) 
+                    grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
+                else
+                    grid[i][j] = AsciiLayoutSpec::CellType::RoutingAncilla;  
             }
         }
     }
@@ -194,6 +212,9 @@ std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits, size_t num_lane
             if (a_count%2 == 0) {
                 if (!factories_explicit)
                     grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
+                else 
+                    grid[i][j] = AsciiLayoutSpec::CellType::RoutingAncilla;
+
                 for (size_t k=i-1; k<i+2; k++) {
                     for (size_t l=j+1; l<j+t_distillation_region_cols+1; l++) {
                         grid[k][l] = AsciiLayoutSpec::CellType::DistillationRegion_0;
@@ -201,7 +222,10 @@ std::unique_ptr<Layout> make_edpc_layout(size_t num_core_qubits, size_t num_lane
                 }
             }
             else if (!predistilled) {
-                grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
+                if (!factories_explicit) 
+                    grid[i][j] = AsciiLayoutSpec::CellType::ReservedForMagicState;
+                else
+                    grid[i][j] = AsciiLayoutSpec::CellType::RoutingAncilla;  
             }
         }
     }

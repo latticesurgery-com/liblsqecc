@@ -133,7 +133,7 @@ namespace lsqecc
                 .required(false);
         parser.add_argument()
                 .names({"-P", "--pipeline"})
-                .description("pipeline mode: stream (default), dag")
+                .description("pipeline mode: stream (default), wave, edpc, dag (deprecated)")
                 .required(false);
         parser.add_argument()
                 .names({"-g", "--graph-search"})
@@ -149,7 +149,7 @@ namespace lsqecc
                 .required(false);
         parser.add_argument()
                 .names({"--printdag"})
-                .description("Prints a dependancy dag of the circuit. Modes: input (default), processedlli")
+                .description("Prints a dependency dag of the circuit. Modes: input (default), processedlli")
                 .required(false);
         parser.add_argument()
                 .names({"--noslices"})
@@ -165,7 +165,7 @@ namespace lsqecc
                     "Automatically generates a layout for the given number of qubits. Incompatible with -l. Options:" CONSOLE_HELP_NEWLINE_ALIGN
                     " - compact (default): Uses Litinski's Game of Surace Code compact layout (https://arxiv.org/abs/1808.02892)" CONSOLE_HELP_NEWLINE_ALIGN
                     " - compact_no_clogging: same as compact, but fewer cells for ancillas and magic state queues" CONSOLE_HELP_NEWLINE_ALIGN
-                    " - edpc: Uses a layout specified in the EDPC paper by Beverland et. al. (https://arxiv.org/abs/2110.11493)"
+                    " - edpc: Uses a family of layouts based upon the one specified in the EDPC paper by Beverland et. al. (https://arxiv.org/abs/2110.11493)"
                 )
                 .required(false);
         parser.add_argument()
@@ -198,11 +198,11 @@ namespace lsqecc
                 .required(false);
         parser.add_argument()
                 .names({"--local"})
-                .description("Compile gates using a local lattice surgery instruction set")
+                .description("Compile gates into a pair-wise local lattice surgery instruction set")
                 .required(false);
         parser.add_argument()
                 .names({"--notwists"})
-                .description("Compile S gates using twist-based Y state initialization (Gidney, 2024)")
+                .description("Compile S gates using the catalytic teleportation circuit from Fowler, 2012 instead of using the twist-based Y state initialization and teleportation from Gidney, 2024")
                 .required(false);
         parser.enable_help();
 
@@ -297,6 +297,7 @@ namespace lsqecc
         
 
         PipelineMode pipeline_mode = PipelineMode::Stream;
+        bool pipeline_mode_validity_checker = 1;
         if (parser.exists("pipeline"))
         {
             auto mode_arg = parser.get<std::string>("pipeline");
@@ -306,6 +307,11 @@ namespace lsqecc
                 pipeline_mode = PipelineMode::Dag;
             else if (mode_arg=="wave")
                 pipeline_mode = PipelineMode::Wave;
+            else if (mode_arg=="edpc")
+            {
+                pipeline_mode = PipelineMode::EDPC;
+                pipeline_mode_validity_checker = 0;
+            }
             else
             {
                 err_stream << "Unknown pipeline mode " << mode_arg << std::endl;
@@ -420,6 +426,13 @@ namespace lsqecc
                 
                 if(parser.exists("condensed"))
                     condensed = parser.get<bool>("condensed");
+                
+                if ((pipeline_mode == PipelineMode::EDPC) &&
+                    (compile_mode == CompilationMode::Local) &&
+                    (num_lanes == 1))
+                {
+                    pipeline_mode_validity_checker = 1;
+                }
 
                 if (parser.exists("explicitfactories")) 
                     factories_explicit = true;
@@ -456,6 +469,9 @@ namespace lsqecc
         {
             gates::ControlledGate::default_ancilla_placement = gates::CNOTAncillaPlacement::ANCILLA_NEXT_TO_TARGET;
         }
+
+        if (!pipeline_mode_validity_checker)
+            throw std::runtime_error("PipelineMode::EDPC only valid when paired with (default or 1-lane condensed) EDPC layout and CompilationMode::Local.");
 
         LLIPrintMode lli_print_mode = LLIPrintMode::None;
         if(parser.exists("printlli"))
@@ -590,7 +606,7 @@ namespace lsqecc
                     compile_mode == CompilationMode::Local,
                     sgate_mode == SGateMode::Twists,
                     *layout,
-                    *router,
+                    std::move(router),
                     timeout,
                     slice_visitor,
                     instruction_visitor,
