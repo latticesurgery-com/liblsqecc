@@ -8,12 +8,16 @@
 namespace lsqecc {
 
 
-WaveScheduler::WaveScheduler(LSInstructionStream&& stream, bool local_instructions, bool allow_twists, const Layout& layout):
+WaveScheduler::WaveScheduler(LSInstructionStream&& stream, bool local_instructions, bool allow_twists, const Layout& layout, std::unique_ptr<Router> router, PipelineMode pipeline_mode):
 	local_instructions_(local_instructions),
 	allow_twists_(allow_twists),
 	layout_(layout)
 {
-	router_.set_graph_search_provider(GraphSearchProvider::AStar);
+	router_ = std::move(router);
+	if (pipeline_mode == PipelineMode::EDPC)
+	{
+		router_->set_EDPC();
+	}	
 	
 	std::unordered_map<PatchId, InstructionID> patch_id_to_last_instruction;
 	
@@ -57,18 +61,49 @@ WaveScheduler::WaveScheduler(LSInstructionStream&& stream, bool local_instructio
 WaveStats WaveScheduler::schedule_wave(DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res)
 {
 	size_t applied_count = 0;
-	applied_count += schedule_instructions(current_wave_.proximate_heads_, slice, instruction_visitor, res, true);
-	applied_count += schedule_instructions(current_wave_.heads, slice, instruction_visitor, res, false);
+
+	// std::cerr << "PROXIMATE HEADS" << std::endl;
+	applied_count += schedule_instructions(current_wave_.proximate_heads_, slice, instruction_visitor, res, true, false);
+	// std::cerr << "HEADS" << std::endl;
+	applied_count += schedule_instructions(current_wave_.heads, slice, instruction_visitor, res, false, false);
+
+	if (router_->get_EDPC())
+	{
+		/* After the routing of edge-disjoint paths for all BellBasedCNOTs in a wave, they are deferred because their specific decomposition depends on the others.
+		   Once all BellBasedCNOTs in a wave have been seen, they are each decomposed into local instructions and then deferred once more (decomposition algorithm requires slice to have EDPC info retained).
+		   Finally, on the third encounter, the first layer of instructions is scheduled, and each instruction reschedules itself.
+		*/
+
+		// std::cerr << "DEFERRED ROUND 1" << std::endl;
+		applied_count += schedule_instructions(current_wave_.get_deferred(), slice, instruction_visitor, res, false, true);
+
+		// Reset boundaries for data qubits
+		for (const auto& bdry : slice.marked_rough_boundaries_EDPC)
+		{
+			bdry.get().boundary_type = BoundaryType::Rough;
+		}
+		for (const auto& bdry : slice.marked_smooth_boundaries_EDPC)
+		{
+			bdry.get().boundary_type = BoundaryType::Smooth;
+		}
+
+		slice.marked_rough_boundaries_EDPC.clear();
+		slice.marked_smooth_boundaries_EDPC.clear();
+
+		// std::cerr << "DEFERRED ROUND 2" << std::endl;
+		applied_count += schedule_instructions(current_wave_.get_deferred(), slice, instruction_visitor, res, false, true);
+	}
 	
 	WaveStats wave_stats = { .wave_size = current_wave_.size(), .applied_wave_size = applied_count };
 	
 	std::swap(current_wave_, next_wave_);
     next_wave_.clear();
     
+	// std::cerr << "END OF WAVE" << std::endl;
     return wave_stats;
 }
 
-size_t WaveScheduler::schedule_instructions(const std::vector<InstructionID>& instruction_ids, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res, bool proximate)
+size_t WaveScheduler::schedule_instructions(const std::vector<InstructionID>& instruction_ids, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res, bool proximate, bool deferred)
 {
 	size_t applied_count = 0;
 	
@@ -77,8 +112,11 @@ size_t WaveScheduler::schedule_instructions(const std::vector<InstructionID>& in
 		assert(dependency_counts_[instruction_id] == 0);
 		
 		auto& instruction = records_[instruction_id].instruction;
-		auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions_, allow_twists_, layout_, router_);
-		
+
+		// std::cerr << "Applying instruction: " << instruction << std::endl;
+		auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions_, allow_twists_, layout_, *router_);
+		// std::cerr << "Applied instruction: " << instruction << std::endl;
+
 		if (!application_result.maybe_error)
 		{   
 			++applied_count;
@@ -88,10 +126,28 @@ size_t WaveScheduler::schedule_instructions(const std::vector<InstructionID>& in
 			if (application_result.followup_instructions.size() == 1 && application_result.followup_instructions[0] == instruction) // instruction has rescheduled itself
 				next_wave_.proximate_heads_.push_back(instruction_id);
 			else
-				schedule_dependent_instructions(instruction_id, application_result.followup_instructions, slice, instruction_visitor, res);
+			{
+				assert(!deferred); // Applied deferred instructions should always fall into the case above
+				schedule_dependent_instructions(instruction_id, application_result.followup_instructions, slice, instruction_visitor, res, proximate);
+			}
 		}
 		else
 		{
+			// This should only be touched in the case of EDPC compilation where local compilation cannot be performed until the whole EDP set is constructed
+			if (application_result.followup_instructions.size() == 1 && application_result.followup_instructions[0] == instruction)
+			{
+				assert(router_->get_EDPC());
+				current_wave_.deferred_to_end.push_back(instruction_id);
+				continue;
+			}
+
+			// Deferred instructions get decomposed into local instructions and return an error.
+			else if (deferred)
+			{
+				assert(router_->get_EDPC());
+				continue;
+			}
+
 			if (proximate)
                 throw std::runtime_error{lstk::cat(
                     "Could not apply proximate instruction:\n",
@@ -114,7 +170,7 @@ size_t WaveScheduler::schedule_instructions(const std::vector<InstructionID>& in
 	return applied_count;
 }
 	
-void WaveScheduler::schedule_dependent_instructions(InstructionID instruction_id, const std::vector<LSInstruction>& followup_instructions, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res)
+void WaveScheduler::schedule_dependent_instructions(InstructionID instruction_id, const std::vector<LSInstruction>& followup_instructions, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res, bool proximate)
 {
 	auto& dependents = records_[instruction_id].dependents;
 	
@@ -126,8 +182,20 @@ void WaveScheduler::schedule_dependent_instructions(InstructionID instruction_id
 			--dependency_counts_[dependent];
 			if (dependency_counts_[dependent] == 0)
 			{
-				if (!try_schedule_immediately(dependent, slice, instruction_visitor, res))
-					next_wave_.heads.push_back(dependent);
+				if (proximate)
+				{
+					auto& instruction = records_[dependent].instruction;
+					if (is_immediate(instruction))
+						current_wave_.heads.push_back(dependent);
+					else
+						next_wave_.heads.push_back(dependent);
+				}
+					
+				else
+				{
+					if (!try_schedule_immediately(dependent, slice, instruction_visitor, res, proximate))
+						next_wave_.heads.push_back(dependent);
+				}
 			}
 		}
 	}
@@ -150,7 +218,7 @@ void WaveScheduler::schedule_dependent_instructions(InstructionID instruction_id
 	    	records_.push_back({followup, dependents});
 	    	dependency_counts_.push_back(0);
 	    	
-	    	if (!try_schedule_immediately(followup_id, slice, instruction_visitor, res))
+	    	if (!try_schedule_immediately(followup_id, slice, instruction_visitor, res, proximate))
 	    		next_wave_.proximate_heads_.push_back(followup_id);
 	    }
 	}
@@ -194,17 +262,30 @@ bool WaveScheduler::is_immediate(const LSInstruction& instruction)
 		LSTK_UNREACHABLE;
 }
 	
-bool WaveScheduler::try_schedule_immediately(InstructionID instruction_id, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res)
+bool WaveScheduler::try_schedule_immediately(InstructionID instruction_id, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res, bool proximate)
 {
 	auto& instruction = records_[instruction_id].instruction;
 	
 	if (!is_immediate(instruction))
 		return false;
 	
-	auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions_, allow_twists_, layout_, router_);
-	
+	// std::cerr << "Applying dependent: " << instruction << std::endl;
+	auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions_, allow_twists_, layout_, *router_);
+	// std::cerr << "Applied dependent: " << instruction << std::endl;
+
 	if (application_result.maybe_error)
+	{
+		// This is the case that compilation of an EDP set is deferred to the end
+		if (application_result.followup_instructions.size() == 1 && application_result.followup_instructions[0] == instruction)
+		{
+			assert(router_->get_EDPC());
+			current_wave_.deferred_to_end.push_back(instruction_id);
+			return true;
+		}
+
+		// Otherwise, report that instruction could not be placed
 		return false;
+	}
 	else
 	{
 		++res.ls_instructions_count_;
@@ -213,7 +294,7 @@ bool WaveScheduler::try_schedule_immediately(InstructionID instruction_id, Dense
 		if (application_result.followup_instructions.size() == 1 && application_result.followup_instructions[0] == instruction) // instruction has rescheduled itself
 			next_wave_.proximate_heads_.push_back(instruction_id);
 		else
-			schedule_dependent_instructions(instruction_id, application_result.followup_instructions, slice, instruction_visitor, res);
+			schedule_dependent_instructions(instruction_id, application_result.followup_instructions, slice, instruction_visitor, res, proximate);
 		
 		return true;
 	}

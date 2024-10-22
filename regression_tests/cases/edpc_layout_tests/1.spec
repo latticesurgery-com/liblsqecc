@@ -357,7 +357,7 @@
          "edges": {
             "Bottom": "None",
             "Left": "None",
-            "Right": "None",
+            "Right": "AncillaJoin",
             "Top": "None"
          },
          "patch_type": "Ancilla",
@@ -369,7 +369,7 @@
          },
          "edges": {
             "Bottom": "None",
-            "Left": "None",
+            "Left": "AncillaJoin",
             "Right": "None",
             "Top": "None"
          },
@@ -626,7 +626,7 @@
          "edges": {
             "Bottom": "None",
             "Left": "None",
-            "Right": "None",
+            "Right": "AncillaJoin",
             "Top": "None"
          },
          "patch_type": "Ancilla",
@@ -638,7 +638,7 @@
          },
          "edges": {
             "Bottom": "None",
-            "Left": "None",
+            "Left": "AncillaJoin",
             "Right": "None",
             "Top": "None"
          },
@@ -2726,7 +2726,7 @@
             "Top": "SolidStiched"
          },
          "patch_type": "Qubit",
-         "text": "Id: 6"
+         "text": "Not bound"
       },
       null,
       null,
@@ -3019,7 +3019,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 6"
+         "text": "Not bound"
       },
       null,
       null,
@@ -3934,7 +3934,7 @@
          "edges": {
             "Bottom": "None",
             "Left": "None",
-            "Right": "None",
+            "Right": "AncillaJoin",
             "Top": "None"
          },
          "patch_type": "Ancilla",
@@ -3946,7 +3946,7 @@
          },
          "edges": {
             "Bottom": "None",
-            "Left": "None",
+            "Left": "AncillaJoin",
             "Right": "None",
             "Top": "None"
          },
@@ -4203,7 +4203,7 @@
          "edges": {
             "Bottom": "None",
             "Left": "None",
-            "Right": "None",
+            "Right": "AncillaJoin",
             "Top": "None"
          },
          "patch_type": "Ancilla",
@@ -4215,7 +4215,7 @@
          },
          "edges": {
             "Bottom": "None",
-            "Left": "None",
+            "Left": "AncillaJoin",
             "Right": "None",
             "Top": "None"
          },
@@ -4532,7 +4532,7 @@
             "Top": "SolidStiched"
          },
          "patch_type": "Qubit",
-         "text": "Id: 9"
+         "text": "Not bound"
       },
       null,
       null,
@@ -4825,7 +4825,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 9"
+         "text": "Not bound"
       },
       null,
       null,
@@ -5327,7 +5327,7 @@
          "edges": {
             "Bottom": "None",
             "Left": "None",
-            "Right": "None",
+            "Right": "AncillaJoin",
             "Top": "None"
          },
          "patch_type": "Ancilla",
@@ -5339,7 +5339,7 @@
          },
          "edges": {
             "Bottom": "None",
-            "Left": "None",
+            "Left": "AncillaJoin",
             "Right": "None",
             "Top": "None"
          },
@@ -5596,7 +5596,7 @@
          "edges": {
             "Bottom": "None",
             "Left": "None",
-            "Right": "None",
+            "Right": "AncillaJoin",
             "Top": "None"
          },
          "patch_type": "Ancilla",
@@ -5608,7 +5608,7 @@
          },
          "edges": {
             "Bottom": "None",
-            "Left": "None",
+            "Left": "AncillaJoin",
             "Right": "None",
             "Top": "None"
          },
@@ -5859,7 +5859,7 @@
             "Top": "SolidStiched"
          },
          "patch_type": "Qubit",
-         "text": "Id: 11"
+         "text": "Not bound"
       },
       null,
       null,
@@ -6152,7 +6152,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 11"
+         "text": "Not bound"
       },
       null,
       null,

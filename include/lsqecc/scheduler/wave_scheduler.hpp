@@ -25,7 +25,7 @@ class WaveScheduler
 {
 public:
 	
-	WaveScheduler(LSInstructionStream&& stream, bool local_instructions, bool allow_twists, const Layout& layout);
+	WaveScheduler(LSInstructionStream&& stream, bool local_instructions, bool allow_twists, const Layout& layout, std::unique_ptr<Router> router, PipelineMode pipeline_mode);
 	
 	bool done() const { return current_wave_.proximate_heads_.empty() && current_wave_.heads.empty(); }
 	WaveStats schedule_wave(DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res);
@@ -44,27 +44,34 @@ private:
 	{
 		std::vector<InstructionID> heads;
 		std::vector<InstructionID> proximate_heads_;
+		std::vector<InstructionID> deferred_to_end;
 				
 		void clear()
 		{
 			heads.clear();
 			proximate_heads_.clear();
+			deferred_to_end.clear();
+		}
+
+		std::vector<InstructionID> get_deferred() const
+		{
+			return deferred_to_end;
 		}
 		
 		size_t size() const { return heads.size() + proximate_heads_.size(); }
 	};
 	
 	// returns number of instruction_ids that were applied
-	size_t schedule_instructions(const std::vector<InstructionID>& instruction_ids, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res, bool proximate);
-	void schedule_dependent_instructions(InstructionID instruction_id, const std::vector<LSInstruction>& followup_instructions, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res);
+	size_t schedule_instructions(const std::vector<InstructionID>& instruction_ids, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res, bool proximate, bool deferred);
+	void schedule_dependent_instructions(InstructionID instruction_id, const std::vector<LSInstruction>& followup_instructions, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res, bool proximate);
 	
 	bool is_immediate(const LSInstruction& instruction);
-	bool try_schedule_immediately(InstructionID instruction_id, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res);
+	bool try_schedule_immediately(InstructionID instruction_id, DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res, bool proximate);
 	
 	bool local_instructions_;
 	bool allow_twists_;
 	const Layout& layout_;
-	CustomDPRouter router_;
+	std::unique_ptr<Router> router_;
 	
 	std::vector<InstructionRecord> records_;
 	std::vector<uint8_t> dependency_counts_;

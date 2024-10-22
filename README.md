@@ -8,6 +8,9 @@
 
 ![](https://user-images.githubusercontent.com/36427091/193476068-eddfea28-3d91-4398-8de4-3a55bb43faa7.gif)
 
+[Publication link for original compiler release](https://quantum-journal.org/papers/q-2024-05-22-1354/)
+[Publication link for upgraded compiler and its usage in resource estimation](https://dl.acm.org/doi/abs/10.1145/3689826)
+
 Home of a set of fast tools for compiling lattice surgery instructions. Part of the [Lattice Surgery Compiler](https://github.com/latticesurgery-com/lattice-surgery-compiler) family. The `liblsqecc` library contains the functionality used by the `lsqecc_slicer` executable. We are working on exposing its functionality as a Python API in the [Lattice Surgery Compiler](https://github.com/latticesurgery-com/lattice-surgery-compiler) package.
 
 ## Build
@@ -52,21 +55,25 @@ Options:
     -f, --output-format    Requires -o, STDOUT output format: progress, noprogress, machine, stats
     -t, --timeout          Set a timeout in seconds after which stop producing slices
     -r, --router           Set a router: graph_search (default), graph_search_cached
-    -P, --pipeline         pipeline mode: stream (default), dag, wave
-    -g, --graph-search     Set a graph search provider: djikstra (default), astar, boost (not always available) [ignored by -P wave pipeline, which uses astar]
+    -P, --pipeline         pipeline mode: stream (default), wave, edpc, dag (deprecated)
+    -g, --graph-search     Set a graph search provider: djikstra (default), astar, boost (not always available)
     --graceful             If there is an error when slicing, print the error and terminate
     --printlli             Output LLI instead of JSONs. options: before (default), sliced (prints lli on the same slice separated by semicolons)
-    --printdag             Prints a dependancy dag of the circuit. Modes: input (default), processedlli
+    --printdag             Prints a dependency dag of the circuit. Modes: input (default), processedlli
     --noslices             Do the slicing but don't write the slices out
     --cnotcorrections      Add Xs and Zs to correct the the negative outcomes: never (default), always
     --layoutgenerator, -L  Automatically generates a layout for the given number of qubits. Incompatible with -l. Options:
                             - compact (default): Uses Litinski's Game of Surace Code compact layout (https://arxiv.org/abs/1808.02892)
                             - compact_no_clogging: same as compact, but fewer cells for ancillas and magic state queues
-                            - edpc: Uses a layout specified in the EDPC paper by Beverland et. al. (https://arxiv.org/abs/2110.11493)
+                            - edpc: Uses a family of layouts based upon the one specified in the EDPC paper by Beverland et. al. (https://arxiv.org/abs/2110.11493)
+    --numlanes             Only compatible with -L edpc. Configures number of free lanes for routing.
+    --condensed            Only compatible with -L edpc. Packs logical qubits more compactly.
+    --explicitfactories    Only compatible with -L edpc. Explicitly specifies factories but clogs easily (otherwise, uses tiles reserved for magic state re-spawn).
     --nostagger            Turns off staggered distillation block timing
     --disttime             Set the distillation time (default 10)
-    --local                Compile gates using a local lattice surgery instruction set
-    -h, --help             Shows this page 
+    --local                Compile gates into a pair-wise local lattice surgery instruction set
+    --notwists             Compile S gates using the catalytic teleportation circuit from Fowler, 2012 instead of using the twist-based Y state initialization and teleportation from Gidney, 2024
+    -h, --help             Shows this page  
 ```
 ### OpenQASMmin: a OpenQASM dialect (Experimental)
 
@@ -113,27 +120,37 @@ However due to the Haskell platform's own portability challenges and some low le
 To generate results according to the compilation scheme written about in [our recent paper](https://arxiv.org/abs/2311.10686), use the following options:
 
 ``` shell
-lsqecc_slicer -q -i {qasm_filename} -L edpc --disttime 1 --nostagger --local -P wave --printlli sliced -o {lli_filename} -f stats > {stats_filename}
+lsqecc_slicer -q -i {qasm_filename} -L edpc --disttime 1 --nostagger --notwists --local -P wave --printlli sliced -o {lli_filename} -f stats > {stats_filename}
 ```
 
 Results in that paper were generated using [PR #106](https://github.com/latticesurgery-com/liblsqecc/pull/106), and should be reproducible using the current release.
 
 # Contributors
-
-Liblsqecc was primarily developed at Aalto University by [George Watkins](https://github.com/gwwatkin) under [Alexandru Paler](https://github.com/alexandrupaler)'s supervision, and is now maintained by George Watkins.
-
-A special thanks to [Tyler LeBlond (Oak Ridge National Laboratory)](https://github.com/tylerrleblond) and [Christopher Dean (Dalhousie University)](https://github.com/christopherjdean) for adding the EDPC layout family, the local compilation layer, the wave pipeline, and other contributions according to the compilation strategy outlined in [their recent paper](https://arxiv.org/abs/2311.10686).
+Liblsqecc was originally developed at Aalto University by [George Watkins](https://github.com/gwwatkin) under [Alexandru Paler](https://github.com/alexandrupaler)'s supervision and was later upgraded by [Tyler LeBlond (Oak Ridge National Laboratory)](https://github.com/tylerrleblond) and [Christopher Dean (Dalhousie University)](https://github.com/christopherjdean) in collaboration with [George Watkins](https://github.com/gwwatkin). The compiler is currently maintained primarily by [Tyler LeBlond](https://github.com/tylerrleblond) and ongoing development is co-led with [Alexandru Paler](https://github.com/alexandrupaler).
 
 [Alex Nguyen](https://github.com/alexnguyenn) maintains the NPM package and associated infrastructure.
 
 # Citing
-
-Please cite as follows:
+The original release of the compiler should be cited as follows:
 ```
-@article{watkins2023high,
-  title={A High Performance Compiler for Very Large Scale Surface Code Computations},
-  author={Watkins, George and Nguyen, Hoang Minh and Seshadri, Varun and Watkins, Keelan and Pearce, Steven and Lau, Hoi-Kwan and Paler, Alexandru},
-  journal={arXiv preprint arXiv:2302.02459},
-  year={2023}
+@article{watkins2024high,
+  title={A high performance compiler for very large scale surface code computations},
+  author={Watkins, George and Nguyen, Hoang Minh and Watkins, Keelan and Pearce, Steven and Lau, Hoi-Kwan and Paler, Alexandru},
+  journal={Quantum},
+  volume={8},
+  pages={1354},
+  year={2024},
+  publisher={Verein zur F{\"o}rderung des Open Access Publizierens in den Quantenwissenschaften}
+}
+```
+
+The upgraded compiler and its usage in resource estimation should be cited as follows:
+```
+@article{leblond2023realistic,
+  title={Realistic Cost to Execute Practical Quantum Circuits using Direct Clifford+ T Lattice Surgery Compilation},
+  author={LeBlond, Tyler and Dean, Christopher and Watkins, George and Bennink, Ryan},
+  journal={ACM Transactions on Quantum Computing},
+  year={2023},
+  publisher={ACM New York, NY}
 }
 ```

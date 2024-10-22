@@ -61,9 +61,9 @@ std::optional<RoutingRegion>CustomDPRouter::find_routing_ancilla(
     case GraphSearchProvider::Boost:
         return boost_graph_search::graph_search_route_ancilla(slice, source, source_op, target, target_op);
     case GraphSearchProvider::Djikstra:
-        return custom_graph_search::graph_search_route_ancilla(slice, source, source_op, target, target_op, Heuristic::None);
+        return custom_graph_search::graph_search_route_ancilla(slice, source, source_op, target, target_op, Heuristic::None, EDPC);
     case GraphSearchProvider::AStar:
-        return custom_graph_search::graph_search_route_ancilla(slice, source, source_op, target, target_op, Heuristic::Euclidean);
+        return custom_graph_search::graph_search_route_ancilla(slice, source, source_op, target, target_op, Heuristic::Euclidean, EDPC);
     }
 
     LSTK_UNREACHABLE;

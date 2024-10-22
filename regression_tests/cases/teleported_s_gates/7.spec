@@ -7988,7 +7988,7 @@
             "Top": "SolidStiched"
          },
          "patch_type": "Qubit",
-         "text": "Id: 26"
+         "text": "Not bound"
       },
       null,
       null,
@@ -8809,7 +8809,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 26"
+         "text": "Not bound"
       },
       null,
       null,
@@ -10441,7 +10441,7 @@
             "Top": "SolidStiched"
          },
          "patch_type": "Qubit",
-         "text": "Id: 30"
+         "text": "Not bound"
       },
       null,
       null,
@@ -11262,7 +11262,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 30"
+         "text": "Not bound"
       },
       null,
       null,
@@ -12894,7 +12894,7 @@
             "Top": "SolidStiched"
          },
          "patch_type": "Qubit",
-         "text": "Id: 34"
+         "text": "Not bound"
       },
       null,
       null,
@@ -13715,7 +13715,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 34"
+         "text": "Not bound"
       },
       null,
       null,
@@ -15347,7 +15347,7 @@
             "Top": "SolidStiched"
          },
          "patch_type": "Qubit",
-         "text": "Id: 38"
+         "text": "Not bound"
       },
       null,
       null,
@@ -16168,7 +16168,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 38"
+         "text": "Not bound"
       },
       null,
       null,
@@ -17800,7 +17800,7 @@
             "Top": "SolidStiched"
          },
          "patch_type": "Qubit",
-         "text": "Id: 42"
+         "text": "Not bound"
       },
       null
    ],
@@ -18621,7 +18621,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 42"
+         "text": "Not bound"
       },
       null
    ],
@@ -20331,7 +20331,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 46"
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -21152,7 +21152,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 46"
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -30427,7 +30427,7 @@
             "Top": "SolidStiched"
          },
          "patch_type": "Qubit",
-         "text": "Id: 62"
+         "text": "Not bound"
       },
       null
    ],
@@ -31260,7 +31260,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 62"
+         "text": "Not bound"
       },
       null
    ],
@@ -32844,7 +32844,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 66"
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -33665,7 +33665,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 66"
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -42922,7 +42922,7 @@
             "Top": "SolidStiched"
          },
          "patch_type": "Qubit",
-         "text": "Id: 82"
+         "text": "Not bound"
       },
       null
    ],
@@ -43743,7 +43743,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 82"
+         "text": "Not bound"
       },
       null
    ],
@@ -45453,7 +45453,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 86"
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -46274,7 +46274,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 86"
+         "text": "Not bound"
       },
       {
          "activity": {

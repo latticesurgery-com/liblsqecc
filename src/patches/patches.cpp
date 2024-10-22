@@ -4,6 +4,57 @@
 
 namespace lsqecc {
 
+BoundaryType operator!(BoundaryType bt) {
+    switch (bt) {
+        case BoundaryType::None:
+            return BoundaryType::Connected;
+        case BoundaryType::Connected:
+            return BoundaryType::None;
+        case BoundaryType::Rough:
+            return BoundaryType::Smooth;
+        case BoundaryType::Smooth:
+            return BoundaryType::Rough;
+        case BoundaryType::Reserved_Label1:
+            return BoundaryType::Reserved_Label2;
+        case BoundaryType::Reserved_Label2:
+            return BoundaryType::Reserved_Label1;
+    }
+    LSTK_UNREACHABLE;
+}
+
+CellDirection operator!(CellDirection dir) {
+    switch (dir) {
+        case CellDirection::top:
+            return CellDirection::bottom;
+        case CellDirection::bottom:
+            return CellDirection::top;
+        case CellDirection::left:
+            return CellDirection::right;
+        case CellDirection::right:
+            return CellDirection::left;
+    }
+    LSTK_UNREACHABLE;
+}
+
+std::ostream& operator<<(std::ostream& os, BoundaryType bt)
+{
+    switch (bt) {
+        case BoundaryType::None:
+            return os << "BoundaryType::None";
+        case BoundaryType::Connected:
+            return os << "BoundaryType::Connected";
+        case BoundaryType::Rough:
+            return os << "BoundaryType::Rough";
+        case BoundaryType::Smooth:
+            return os << "BoundaryType::Smooth";
+        case BoundaryType::Reserved_Label1:
+            return os << "BoundaryType::Reserved_Label1";
+        case BoundaryType::Reserved_Label2:
+            return os << "BoundaryType::Reserved_Label2";
+        default:
+            throw std::runtime_error("BoundaryType not supported.");
+    }
+}
 
 
 BoundaryType boundary_for_operator(PauliOperator op){
@@ -123,6 +174,12 @@ std::ostream& operator<<(std::ostream& os, const Patch& p)
         case PatchActivity::Rotation:
             os << "Rotation";
             break;
+
+        case PatchActivity::EDPC:
+            os << "EDPC";
+
+        case PatchActivity::Reserved:
+            os << "Reserved";
         
         default:
             LSTK_UNREACHABLE;
@@ -176,6 +233,25 @@ std::vector<Cell> Cell::get_neigbours() const
             Cell{row, col+1}};
 }
 
+std::optional<Cell> Cell::get_directional_neighbor(const Cell& origin, const Cell& furthest_cell, CellDirection dir) const
+{
+    switch (dir)
+    {
+        case CellDirection::top:
+            if (row>origin.row) return Cell{row-1, col};
+            else return std::nullopt;
+        case CellDirection::bottom:
+            if (row<furthest_cell.row) return Cell{row+1, col};
+            else return std::nullopt;
+        case CellDirection::left:
+            if (col>origin.col) return Cell{row, col-1};
+            else return std::nullopt;
+        case CellDirection::right:
+            if (col<furthest_cell.col) return Cell{row, col+1};
+            else return std::nullopt;
+    }
+    LSTK_UNREACHABLE;
+}
 
 std::vector<Cell> Cell::get_neigbours_within_bounding_box_inclusive(const Cell& origin, const Cell& furthest_cell) const
 {
@@ -197,7 +273,15 @@ std::optional<Boundary> SingleCellOccupiedByPatch::get_boundary_with(const Cell&
     return std::nullopt;
 }
 
+std::optional<Boundary*> SingleCellOccupiedByPatch::get_boundary_reference_with(const Cell& neighbour)
+{
+    if(neighbour == Cell{cell.row-1, cell.col})   return &top;
+    if(neighbour == Cell{cell.row+1, cell.col})   return &bottom;
+    if(neighbour == Cell{cell.row,   cell.col-1}) return &left;
+    if(neighbour == Cell{cell.row,   cell.col+1}) return &right;
 
+    return std::nullopt;
+}
 
 bool SingleCellOccupiedByPatch::have_boundary_of_type_with(PauliOperator op, const Cell& neighbour) const
 {

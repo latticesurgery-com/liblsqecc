@@ -684,7 +684,7 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "None",
+            "Bottom": "AncillaJoin",
             "Left": "None",
             "Right": "None",
             "Top": "None"
@@ -785,7 +785,7 @@
             "Bottom": "None",
             "Left": "None",
             "Right": "None",
-            "Top": "None"
+            "Top": "AncillaJoin"
          },
          "patch_type": "Ancilla",
          "text": ""
@@ -1004,7 +1004,7 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "None",
+            "Bottom": "AncillaJoin",
             "Left": "None",
             "Right": "None",
             "Top": "None"
@@ -1105,7 +1105,7 @@
             "Bottom": "None",
             "Left": "None",
             "Right": "None",
-            "Top": "None"
+            "Top": "AncillaJoin"
          },
          "patch_type": "Ancilla",
          "text": ""

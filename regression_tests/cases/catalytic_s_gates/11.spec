@@ -7864,19 +7864,7 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 27"
-      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -7890,7 +7878,19 @@
          "patch_type": "Qubit",
          "text": "Id: 25"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 27"
+      },
       {
          "activity": {
             "activity_type": null
@@ -7987,32 +7987,6 @@
    ],
    [
       null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 26"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
       null,
       {
          "activity": {
@@ -8038,7 +8012,33 @@
             "Top": "SolidStiched"
          },
          "patch_type": "Qubit",
-         "text": "Id: 34"
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -8232,7 +8232,7 @@
             "Top": "SolidStiched"
          },
          "patch_type": "Qubit",
-         "text": "Id: 66"
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -8459,19 +8459,7 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 82"
-      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -8485,7 +8473,19 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 82"
+      },
       {
          "activity": {
             "activity_type": null
@@ -8570,19 +8570,7 @@
          "patch_type": "Qubit",
          "text": "Id: 11"
       },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -8596,7 +8584,19 @@
          "patch_type": "Qubit",
          "text": "Id: 12"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -8705,6 +8705,8 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      null,
+      null,
       {
          "activity": {
             "activity_type": null
@@ -8718,8 +8720,6 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
-      null,
-      null,
       null,
       {
          "activity": {
@@ -8828,19 +8828,7 @@
          "patch_type": "Qubit",
          "text": "Id: 16"
       },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -8854,7 +8842,19 @@
          "patch_type": "Qubit",
          "text": "Id: 17"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -8939,6 +8939,8 @@
          "text": "Not bound"
       },
       null,
+      null,
+      null,
       {
          "activity": {
             "activity_type": null
@@ -8952,8 +8954,6 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
-      null,
-      null,
       null,
       null,
       null,
@@ -9038,19 +9038,7 @@
          "patch_type": "Qubit",
          "text": "Id: 21"
       },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -9064,7 +9052,19 @@
          "patch_type": "Qubit",
          "text": "Id: 22"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -9137,6 +9137,8 @@
          "text": "Not bound"
       },
       null,
+      null,
+      null,
       {
          "activity": {
             "activity_type": null
@@ -9150,8 +9152,6 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
-      null,
-      null,
       null,
       null,
       null,
@@ -9212,19 +9212,7 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 83"
-      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -9238,7 +9226,19 @@
          "patch_type": "Qubit",
          "text": "Id: 81"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 83"
+      },
       {
          "activity": {
             "activity_type": null
@@ -9297,6 +9297,7 @@
          "patch_type": "Qubit",
          "text": "Id: 28"
       },
+      null,
       {
          "activity": {
             "activity_type": "Measurement"
@@ -9308,7 +9309,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 27"
+         "text": "Id: 25"
       },
       {
          "activity": {
@@ -9321,20 +9322,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 25"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 38"
+         "text": "Id: 27"
       },
       {
          "activity": {
@@ -9432,6 +9420,7 @@
    ],
    [
       null,
+      null,
       {
          "activity": {
             "activity_type": "Measurement"
@@ -9443,7 +9432,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 26"
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -9454,19 +9443,6 @@
             "Left": "DashedStiched",
             "Right": "Dashed",
             "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
          },
          "patch_type": "Qubit",
          "text": "Not bound"
@@ -9495,7 +9471,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 34"
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -9593,25 +9569,13 @@
          "patch_type": "Qubit",
          "text": "Id: 0"
       },
+      null,
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
+            "Bottom": "Solid",
             "Left": "Dashed",
             "Right": "Dashed",
             "Top": "Solid"
@@ -9701,7 +9665,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 66"
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -9716,32 +9680,8 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 37"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
+      null,
+      null,
       null,
       null,
       null,
@@ -9952,6 +9892,7 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      null,
       {
          "activity": {
             "activity_type": "Measurement"
@@ -9963,7 +9904,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 82"
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -9976,9 +9917,8 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Not bound"
+         "text": "Id: 82"
       },
-      null,
       {
          "activity": {
             "activity_type": "Measurement"
@@ -10063,19 +10003,7 @@
          "patch_type": "Qubit",
          "text": "Id: 11"
       },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -10089,7 +10017,19 @@
          "patch_type": "Qubit",
          "text": "Id: 12"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -10198,6 +10138,8 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      null,
+      null,
       {
          "activity": {
             "activity_type": "Measurement"
@@ -10211,8 +10153,6 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
-      null,
-      null,
       null,
       {
          "activity": {
@@ -10321,19 +10261,7 @@
          "patch_type": "Qubit",
          "text": "Id: 16"
       },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -10347,7 +10275,19 @@
          "patch_type": "Qubit",
          "text": "Id: 17"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -10432,6 +10372,8 @@
          "text": "Not bound"
       },
       null,
+      null,
+      null,
       {
          "activity": {
             "activity_type": "Measurement"
@@ -10445,8 +10387,6 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
-      null,
-      null,
       null,
       null,
       null,
@@ -10531,19 +10471,7 @@
          "patch_type": "Qubit",
          "text": "Id: 21"
       },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -10557,7 +10485,19 @@
          "patch_type": "Qubit",
          "text": "Id: 22"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -10630,6 +10570,8 @@
          "text": "Not bound"
       },
       null,
+      null,
+      null,
       {
          "activity": {
             "activity_type": "Measurement"
@@ -10643,8 +10585,6 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
-      null,
-      null,
       null,
       null,
       null,
@@ -10705,6 +10645,7 @@
          "patch_type": "Qubit",
          "text": "Id: 116"
       },
+      null,
       {
          "activity": {
             "activity_type": "Measurement"
@@ -10716,7 +10657,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 83"
+         "text": "Id: 81"
       },
       {
          "activity": {
@@ -10729,9 +10670,8 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 81"
+         "text": "Id: 83"
       },
-      null,
       {
          "activity": {
             "activity_type": null
@@ -10816,14 +10756,28 @@
          "patch_type": "DistillationQubit",
          "text": ""
       },
+      null,
       {
          "activity": {
-            "activity_type": "Measurement"
+            "activity_type": null
          },
          "edges": {
             "Bottom": "Solid",
             "Left": "Dashed",
-            "Right": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 36"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
             "Top": "Solid"
          },
          "patch_type": "Qubit",
@@ -10834,20 +10788,6 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 36"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
             "Bottom": "None",
             "Left": "None",
             "Right": "None",
@@ -10936,7 +10876,7 @@
             "Top": "SolidStiched"
          },
          "patch_type": "Qubit",
-         "text": "Id: 29"
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -10951,20 +10891,6 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
       null,
       {
          "activity": {
@@ -10990,7 +10916,33 @@
             "Top": "SolidStiched"
          },
          "patch_type": "Qubit",
-         "text": "Id: 45"
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -11074,19 +11026,7 @@
          "patch_type": "Qubit",
          "text": "Id: 0"
       },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -11095,7 +11035,7 @@
             "Bottom": "Solid",
             "Left": "Dashed",
             "Right": "Dashed",
-            "Top": "Solid"
+            "Top": "SolidStiched"
          },
          "patch_type": "Qubit",
          "text": "Id: 1"
@@ -11134,7 +11074,7 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
+            "Bottom": "SolidStiched",
             "Left": "Dashed",
             "Right": "Dashed",
             "Top": "Solid"
@@ -11170,7 +11110,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 69"
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -11185,39 +11125,39 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
       {
          "activity": {
-            "activity_type": "Measurement"
+            "activity_type": null
          },
          "edges": {
             "Bottom": "Solid",
             "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 37"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
             "Right": "Dashed",
-            "Top": "Solid"
+            "Top": "SolidStiched"
          },
          "patch_type": "Qubit",
          "text": "Not bound"
       },
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 58"
+      },
       null
    ],
    [
@@ -11266,7 +11206,7 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "SolidStiched",
+            "Bottom": "Solid",
             "Left": "Dashed",
             "Right": "Dashed",
             "Top": "Solid"
@@ -11280,7 +11220,7 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
+            "Bottom": "SolidStiched",
             "Left": "Dashed",
             "Right": "Dashed",
             "Top": "Solid"
@@ -11308,7 +11248,7 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
+            "Bottom": "SolidStiched",
             "Left": "Dashed",
             "Right": "Dashed",
             "Top": "Solid"
@@ -11321,13 +11261,13 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "SolidStiched",
+            "Bottom": "Solid",
             "Left": "Dashed",
             "Right": "Dashed",
-            "Top": "Solid"
+            "Top": "SolidStiched"
          },
          "patch_type": "Qubit",
-         "text": "Id: 78"
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -11345,9 +11285,99 @@
    ],
    [
       null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 85"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       null,
       null,
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 98"
+      },
       {
          "activity": {
             "activity_type": null
@@ -11366,88 +11396,10 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 77"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
+            "Bottom": "SolidStiched",
             "Left": "Dashed",
             "Right": "Dashed",
-            "Top": "SolidStiched"
+            "Top": "Solid"
          },
          "patch_type": "Qubit",
          "text": "Not bound"
@@ -11468,7 +11420,19 @@
          "patch_type": "DistillationQubit",
          "text": ""
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -11524,7 +11488,19 @@
          "patch_type": "Qubit",
          "text": "Id: 13"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -11538,7 +11514,19 @@
          "patch_type": "Qubit",
          "text": "Id: 14"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 59"
+      },
       {
          "activity": {
             "activity_type": null
@@ -11555,6 +11543,32 @@
    ],
    [
       null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -11594,24 +11608,22 @@
          "patch_type": "Qubit",
          "text": "Id: 117"
       },
+      null,
+      null,
+      null,
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
+            "Bottom": "SolidStiched",
             "Left": "Dashed",
             "Right": "Dashed",
-            "Top": "SolidStiched"
+            "Top": "Solid"
          },
          "patch_type": "Qubit",
          "text": "Not bound"
       },
-      null,
-      null,
-      null,
-      null,
-      null,
       null,
       null,
       null
@@ -11641,7 +11653,7 @@
             "Top": "SolidStiched"
          },
          "patch_type": "Qubit",
-         "text": "Not bound"
+         "text": "Id: 86"
       },
       {
          "activity": {
@@ -11682,7 +11694,19 @@
          "patch_type": "Qubit",
          "text": "Id: 16"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -11710,7 +11734,19 @@
          "patch_type": "Qubit",
          "text": "Id: 18"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -11741,6 +11777,8 @@
    ],
    [
       null,
+      null,
+      null,
       {
          "activity": {
             "activity_type": null
@@ -11771,9 +11809,19 @@
       null,
       null,
       null,
-      null,
-      null,
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       null,
       null,
       null
@@ -11792,19 +11840,7 @@
          "patch_type": "DistillationQubit",
          "text": ""
       },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -11844,7 +11880,19 @@
          "patch_type": "Qubit",
          "text": "Id: 21"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -11872,7 +11920,19 @@
          "patch_type": "Qubit",
          "text": "Id: 23"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -11916,6 +11976,32 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       null,
       {
          "activity": {
@@ -11933,9 +12019,19 @@
       null,
       null,
       null,
-      null,
-      null,
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       null,
       null,
       null
@@ -11980,19 +12076,7 @@
          "patch_type": "DistillationQubit",
          "text": ""
       },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 118"
-      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -12006,7 +12090,19 @@
          "patch_type": "Qubit",
          "text": "Id: 116"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 118"
+      },
       {
          "activity": {
             "activity_type": null
@@ -12034,7 +12130,19 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 99"
+      },
       {
          "activity": {
             "activity_type": null
@@ -12111,26 +12219,26 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "None"
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
          },
-         "patch_type": "Ancilla",
-         "text": ""
+         "patch_type": "Qubit",
+         "text": "Id: 36"
       },
       {
          "activity": {
-            "activity_type": null
+            "activity_type": "Measurement"
          },
          "edges": {
-            "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "None",
-            "Top": "None"
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
          },
-         "patch_type": "Ancilla",
-         "text": ""
+         "patch_type": "Qubit",
+         "text": "Id: 38"
       },
       {
          "activity": {
@@ -12225,7 +12333,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 29"
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -12240,8 +12348,6 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
-      null,
-      null,
       null,
       {
          "activity": {
@@ -12267,7 +12373,33 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 45"
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -12435,7 +12567,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 69"
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -12457,8 +12589,32 @@
       null,
       null,
       null,
-      null,
-      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 58"
+      },
       null
    ],
    [
@@ -12562,6 +12718,2596 @@
             "activity_type": "Measurement"
          },
          "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 76"
+      }
+   ],
+   [
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 85"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 98"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 10"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 11"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 12"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 13"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 14"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 59"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 57"
+      }
+   ],
+   [
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 109"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 117"
+      },
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 84"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 86"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 15"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 16"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 17"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 18"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 19"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 92"
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 20"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 21"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 22"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 23"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 24"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 108"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 110"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 116"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 118"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 60"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 99"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 97"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 100"
+      }
+   ]
+],
+[
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 0"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 1"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 2"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 3"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 4"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 93"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 5"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 6"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 7"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 8"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 9"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 78"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 76"
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 77"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 10"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 11"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 12"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 13"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 14"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 15"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 16"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 17"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 18"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 19"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 94"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 92"
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 20"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 21"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 22"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 23"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 24"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 60"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 100"
+      }
+   ]
+],
+[
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 0"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 1"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 2"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 3"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 4"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 93"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 5"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 6"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 7"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 8"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 9"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
             "Bottom": "Solid",
             "Left": "Dashed",
             "Right": "DashedStiched",
@@ -12588,7 +15334,19 @@
       null,
       null,
       null,
-      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": "Measurement"
@@ -12723,7 +15481,19 @@
          "patch_type": "Qubit",
          "text": "Id: 10"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -12785,202 +15555,18 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
          },
-         "patch_type": "Qubit",
-         "text": "Id: 57"
+         "patch_type": "DistillationQubit",
+         "text": ""
       }
    ],
    [
       null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 109"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 117"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
       null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 84"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 15"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 16"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 17"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 18"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 19"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 92"
-      }
-   ],
-   [
       null,
       {
          "activity": {
@@ -12995,196 +15581,9 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
-      null,
       {
          "activity": {
             "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 20"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 21"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 22"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 23"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 24"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
          },
          "edges": {
             "Bottom": "Solid",
@@ -13193,7 +15592,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 108"
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -13206,20 +15605,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 110"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -13232,11 +15618,11 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 118"
+         "text": "Not bound"
       },
       {
          "activity": {
-            "activity_type": null
+            "activity_type": "Measurement"
          },
          "edges": {
             "Bottom": "Solid",
@@ -13245,352 +15631,11 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 116"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 97"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      }
-   ]
-],
-[
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 0"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 1"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 2"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 3"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 4"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
          "text": "Not bound"
       },
       {
          "activity": {
-            "activity_type": null
+            "activity_type": "Measurement"
          },
          "edges": {
             "Bottom": "Solid",
@@ -13603,7 +15648,7 @@
       },
       {
          "activity": {
-            "activity_type": null
+            "activity_type": "Measurement"
          },
          "edges": {
             "Bottom": "Solid",
@@ -13612,22 +15657,34 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 98"
+         "text": "Not bound"
       },
       {
          "activity": {
-            "activity_type": null
+            "activity_type": "Measurement"
          },
          "edges": {
-            "Bottom": "SolidStiched",
+            "Bottom": "Solid",
             "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
             "Right": "Dashed",
             "Top": "Solid"
          },
          "patch_type": "Qubit",
          "text": "Not bound"
       },
-      null,
       null
    ],
    [
@@ -13656,474 +15713,6 @@
          },
          "patch_type": "Ancilla",
          "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 5"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 6"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 7"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 8"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 9"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 85"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 93"
-      },
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 10"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 11"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 12"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 13"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 14"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 57"
-      }
-   ],
-   [
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 84"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 86"
       },
       {
          "activity": {
@@ -14166,1272 +15755,7 @@
          "patch_type": "Qubit",
          "text": "Id: 17"
       },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 18"
-      },
       null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 19"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 94"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 92"
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 20"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 21"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 22"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 23"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 24"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 99"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 97"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      }
-   ]
-],
-[
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 0"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 1"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 2"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 3"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 4"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 98"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 5"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 6"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 7"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 8"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 9"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 85"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 93"
-      },
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 10"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 11"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 12"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 13"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 14"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 57"
-      }
-   ],
-   [
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 84"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 86"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 15"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 16"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 17"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
       {
          "activity": {
             "activity_type": null
@@ -15494,4910 +15818,6 @@
       null,
       null,
       null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 20"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 21"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 22"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 23"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 24"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 100"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 99"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 97"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      }
-   ]
-],
-[
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 40"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 36"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 39"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 0"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 1"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 2"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 3"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 4"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 5"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 6"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 7"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 8"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 9"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 101"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 10"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 11"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 12"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 13"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 14"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 57"
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 15"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 16"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 17"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 18"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 19"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 20"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 21"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 22"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 23"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 24"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 100"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 102"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      }
-   ]
-],
-[
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 28"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 32"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 40"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 36"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 48"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 44"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 56"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 52"
-      }
-   ],
-   [
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 31"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 39"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 47"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 55"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 0"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 1"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 2"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 3"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 4"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 71"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 79"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 68"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 72"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 5"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 6"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 7"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 8"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 9"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 80"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 76"
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 101"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 10"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 11"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 12"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 13"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 14"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 57"
-      }
-   ],
-   [
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 111"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 119"
-      },
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 15"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 16"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 17"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 18"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 19"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 20"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 21"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 22"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 23"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 24"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 108"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 112"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 116"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 120"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 100"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 102"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      }
-   ]
-],
-[
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 28"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 32"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 48"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 44"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 56"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 52"
-      }
-   ],
-   [
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 31"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 47"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 55"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 0"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 1"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 2"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 3"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 4"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 71"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 79"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 68"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 72"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 5"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 6"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 7"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 8"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 9"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 80"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 76"
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 10"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 11"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 12"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 13"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 14"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 57"
-      }
-   ],
-   [
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 111"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 119"
-      },
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 15"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 16"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 17"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 18"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 19"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 20"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 21"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 22"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 23"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 24"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 108"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 112"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 116"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 120"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      }
-   ]
-],
-[
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 0"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 1"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 2"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 3"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 4"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 5"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 6"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 7"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 8"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 9"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 87"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 95"
-      },
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 10"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 11"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 12"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 13"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 14"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 57"
-      }
-   ],
-   [
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 84"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 88"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 15"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 16"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 17"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 18"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 19"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 96"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 92"
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
       null,
       null,
       null,
@@ -20600,3326 +16020,6 @@
          "text": ""
       },
       null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      }
-   ]
-],
-[
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 0"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 1"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 2"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 3"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 4"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 5"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 6"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 7"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 8"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 9"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 87"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 95"
-      },
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 10"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 11"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 12"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 13"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 14"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 57"
-      }
-   ],
-   [
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 84"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 88"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 15"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 16"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 17"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 18"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 19"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 96"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 92"
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 20"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 21"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 22"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 23"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 24"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      }
-   ]
-],
-[
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 0"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 1"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 2"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 3"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 4"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 5"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 6"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 7"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 8"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 9"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 103"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 10"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 11"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 12"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 13"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 14"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 57"
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 15"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 16"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 17"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 18"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 19"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 20"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 21"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 22"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 23"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 24"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 100"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 104"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      }
-   ]
-],
-[
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 121"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 123"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 129"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 0"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 1"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 2"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 3"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 4"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 137"
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 58"
-      },
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 5"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 6"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 7"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 8"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 9"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 122"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 103"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 145"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 147"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 10"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 11"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 12"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 13"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 14"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 59"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 57"
-      }
-   ],
-   [
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 146"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 15"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 16"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 17"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 18"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 19"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 20"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 21"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 22"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 23"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 24"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 100"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 104"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      }
-   ]
-],
-[
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 124"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 126"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 121"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 123"
-      },
       {
          "activity": {
             "activity_type": null
@@ -23933,31 +16033,19 @@
          "patch_type": "Qubit",
          "text": "Id: 60"
       },
+      null,
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
          },
-         "patch_type": "Qubit",
-         "text": "Id: 62"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 129"
+         "patch_type": "DistillationQubit",
+         "text": ""
       },
       null,
       {
@@ -23971,7 +16059,156 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Not bound"
+         "text": "Id: 100"
+      }
+   ]
+],
+[
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
       }
    ],
    [
@@ -23980,6 +16217,30 @@
       null,
       null,
       null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -23988,15 +16249,57 @@
             "Bottom": "Solid",
             "Left": "Dashed",
             "Right": "Dashed",
-            "Top": "SolidStiched"
+            "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Not bound"
+         "text": "Id: 0"
       },
       null,
       {
          "activity": {
-            "activity_type": "Measurement"
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 1"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 2"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 3"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
          },
          "edges": {
             "Bottom": "SolidStiched",
@@ -24005,7 +16308,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Not bound"
+         "text": "Id: 4"
       },
       null,
       {
@@ -24013,10 +16316,34 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
             "Left": "Dashed",
             "Right": "Dashed",
-            "Top": "SolidStiched"
+            "Top": "Solid"
          },
          "patch_type": "Qubit",
          "text": "Id: 61"
@@ -24026,6 +16353,167 @@
             "activity_type": null
          },
          "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 5"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 6"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 7"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 8"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 9"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
             "Bottom": "SolidStiched",
             "Left": "Dashed",
             "Right": "Dashed",
@@ -24034,6 +16522,7309 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 10"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 11"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 12"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 13"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 14"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 15"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 16"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 17"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 18"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 19"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 20"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 21"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 22"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 23"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 24"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 60"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 62"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 100"
+      }
+   ]
+],
+[
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 28"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 32"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 36"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 40"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 48"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 44"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 56"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 52"
+      }
+   ],
+   [
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 55"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 0"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 1"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 2"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 3"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 4"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 61"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 68"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 72"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 5"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 6"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 7"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 8"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 9"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 111"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 87"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 10"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 11"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 12"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 13"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 14"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 84"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 88"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 15"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 16"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 17"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 18"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 19"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 20"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 21"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 22"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 23"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 24"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 108"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 112"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 116"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 60"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 62"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 100"
+      }
+   ]
+],
+[
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 28"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 32"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 36"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 40"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 48"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 44"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 56"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 52"
+      }
+   ],
+   [
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 55"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 0"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 1"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 2"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 3"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 4"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 68"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 72"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 5"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 6"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 7"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 8"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 9"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 111"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 87"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 101"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 10"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 11"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 12"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 13"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 14"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 84"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 88"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 15"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 16"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 17"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 18"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 19"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 20"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 21"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 22"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 23"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 24"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 108"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 112"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 116"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 102"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 100"
+      }
+   ]
+],
+[
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 0"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 1"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 2"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 3"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 4"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 79"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 5"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 6"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 7"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 8"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 9"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 80"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 76"
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 101"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 10"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 11"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 12"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 13"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 14"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 119"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 15"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 16"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 17"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 18"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 19"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 92"
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 20"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 21"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 22"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 23"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 24"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 120"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 116"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 102"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 100"
+      }
+   ]
+],
+[
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 0"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 1"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 2"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 3"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 4"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 79"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 5"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 6"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 7"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 8"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 9"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 80"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 76"
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 95"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 10"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 11"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 12"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 13"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 14"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 119"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 15"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 16"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 17"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 18"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 19"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 96"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 92"
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 20"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 21"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 22"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 23"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 24"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 120"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 116"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      }
+   ]
+],
+[
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 0"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 1"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 2"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 3"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 4"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 63"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 5"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 6"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 7"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 8"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 9"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 95"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 10"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 11"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 12"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 13"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 14"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 15"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 16"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 17"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 18"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 19"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 96"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 92"
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 20"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 21"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 22"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 23"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 24"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 64"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 60"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      }
+   ]
+],
+[
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 123"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 121"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 129"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
       null,
       null
    ],
@@ -24105,19 +23896,7 @@
          "patch_type": "Qubit",
          "text": "Id: 2"
       },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -24140,7 +23919,7 @@
             "Bottom": "Solid",
             "Left": "Dashed",
             "Right": "Dashed",
-            "Top": "SolidStiched"
+            "Top": "Solid"
          },
          "patch_type": "Qubit",
          "text": "Id: 4"
@@ -24185,21 +23964,6 @@
             "activity_type": "Measurement"
          },
          "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
             "Bottom": "Solid",
             "Left": "Dashed",
             "Right": "DashedStiched",
@@ -24219,8 +23983,35 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 58"
+         "text": "Not bound"
       },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 63"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
       null
    ],
    [
@@ -24235,21 +24026,9 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 148"
+         "text": "Not bound"
       },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 150"
-      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -24308,10 +24087,10 @@
             "activity_type": "Measurement"
          },
          "edges": {
-            "Bottom": "Solid",
+            "Bottom": "SolidStiched",
             "Left": "Dashed",
             "Right": "Dashed",
-            "Top": "SolidStiched"
+            "Top": "Solid"
          },
          "patch_type": "Qubit",
          "text": "Not bound"
@@ -24345,7 +24124,53 @@
       },
       {
          "activity": {
-            "activity_type": "Measurement"
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 122"
+      },
+      {
+         "activity": {
+            "activity_type": null
          },
          "edges": {
             "Bottom": "SolidStiched",
@@ -24358,104 +24183,6 @@
       },
       {
          "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      }
-   ],
-   [
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 122"
-      },
-      null,
-      null,
-      null,
-      {
-         "activity": {
             "activity_type": "Measurement"
          },
          "edges": {
@@ -24467,17 +24194,21 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      null,
+      null,
+      null,
+      null,
       null
    ],
    [
       {
          "activity": {
-            "activity_type": "Measurement"
+            "activity_type": null
          },
          "edges": {
             "Bottom": "Solid",
             "Left": "Dashed",
-            "Right": "DashedStiched",
+            "Right": "Dashed",
             "Top": "Solid"
          },
          "patch_type": "Qubit",
@@ -24485,11 +24216,11 @@
       },
       {
          "activity": {
-            "activity_type": "Measurement"
+            "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
             "Right": "Dashed",
             "Top": "Solid"
          },
@@ -24509,19 +24240,7 @@
          "patch_type": "Qubit",
          "text": "Id: 10"
       },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -24535,9 +24254,23 @@
          "patch_type": "Qubit",
          "text": "Id: 11"
       },
+      null,
       {
          "activity": {
             "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 12"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
          },
          "edges": {
             "Bottom": "SolidStiched",
@@ -24548,20 +24281,6 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 12"
-      },
-      null,
       {
          "activity": {
             "activity_type": null
@@ -24589,57 +24308,32 @@
          "patch_type": "Qubit",
          "text": "Id: 14"
       },
+      null,
       {
          "activity": {
-            "activity_type": "Measurement"
+            "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
          },
-         "patch_type": "Qubit",
-         "text": "Id: 59"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 57"
+         "patch_type": "DistillationQubit",
+         "text": ""
       }
    ],
    [
       null,
       {
          "activity": {
-            "activity_type": "Measurement"
+            "activity_type": null
          },
          "edges": {
             "Bottom": "Solid",
             "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 146"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
             "Right": "Dashed",
-            "Top": "Solid"
+            "Top": "SolidStiched"
          },
          "patch_type": "Qubit",
          "text": "Not bound"
@@ -24649,31 +24343,21 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
+            "Bottom": "SolidStiched",
             "Left": "Dashed",
             "Right": "Dashed",
-            "Top": "SolidStiched"
+            "Top": "Solid"
          },
          "patch_type": "Qubit",
          "text": "Not bound"
       },
       null,
+      null,
+      null,
+      null,
       {
          "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 125"
-      },
-      {
-         "activity": {
-            "activity_type": null
+            "activity_type": "Measurement"
          },
          "edges": {
             "Bottom": "Solid",
@@ -24684,7 +24368,6 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
-      null,
       null,
       null,
       null,
@@ -24697,46 +24380,7 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 15"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
+            "Bottom": "Solid",
             "Left": "Dashed",
             "Right": "Dashed",
             "Top": "Solid"
@@ -24744,6 +24388,21 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 15"
+      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -24771,7 +24430,19 @@
          "patch_type": "Qubit",
          "text": "Id: 17"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -24806,7 +24477,7 @@
          "edges": {
             "Bottom": "None",
             "Left": "None",
-            "Right": "None",
+            "Right": "AncillaJoin",
             "Top": "None"
          },
          "patch_type": "Ancilla",
@@ -24818,7 +24489,7 @@
          },
          "edges": {
             "Bottom": "None",
-            "Left": "None",
+            "Left": "AncillaJoin",
             "Right": "None",
             "Top": "None"
          },
@@ -24829,9 +24500,14 @@
    [
       null,
       null,
+      null,
+      null,
+      null,
+      null,
+      null,
       {
          "activity": {
-            "activity_type": null
+            "activity_type": "Measurement"
          },
          "edges": {
             "Bottom": "Solid",
@@ -24842,23 +24518,6 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 149"
-      },
-      null,
-      null,
-      null,
-      null,
       null,
       null,
       null,
@@ -24921,7 +24580,19 @@
          "patch_type": "Qubit",
          "text": "Id: 22"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -24972,7 +24643,19 @@
       null,
       null,
       null,
-      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       null,
       null,
       null,
@@ -24980,34 +24663,6 @@
       null
    ],
    [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
       {
          "activity": {
             "activity_type": null
@@ -25067,6 +24722,46 @@
             "activity_type": null
          },
          "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 64"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 60"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
             "Bottom": "None",
             "Left": "None",
             "Right": "None",
@@ -25075,19 +24770,31 @@
          "patch_type": "DistillationQubit",
          "text": ""
       },
-      null,
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
          },
-         "patch_type": "Qubit",
-         "text": "Not bound"
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
       }
    ]
 ],
@@ -25120,27 +24827,13 @@
          "patch_type": "DistillationQubit",
          "text": ""
       },
-      null,
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
+            "Bottom": "SolidStiched",
             "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 124"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
             "Right": "Dashed",
             "Top": "Solid"
          },
@@ -25152,18 +24845,17 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
          },
-         "patch_type": "DistillationQubit",
-         "text": ""
+         "patch_type": "Qubit",
+         "text": "Id: 124"
       },
-      null,
       {
          "activity": {
-            "activity_type": null
+            "activity_type": "Measurement"
          },
          "edges": {
             "Bottom": "Solid",
@@ -25172,7 +24864,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 60"
+         "text": "Id: 123"
       },
       {
          "activity": {
@@ -25185,8 +24877,9 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 62"
+         "text": "Id: 121"
       },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -25198,7 +24891,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 129"
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -25224,6 +24917,20 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
+         "text": "Id: 129"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
          "text": "Not bound"
       }
    ],
@@ -25231,7 +24938,19 @@
       null,
       null,
       null,
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       null,
       {
          "activity": {
@@ -25251,32 +24970,6 @@
       null,
       {
          "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 61"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
             "activity_type": null
          },
          "edges": {
@@ -25288,6 +24981,8 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      null,
+      null,
       null
    ],
    [
@@ -25318,7 +25013,19 @@
          "patch_type": "Qubit",
          "text": "Id: 0"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -25372,20 +25079,6 @@
          "patch_type": "Qubit",
          "text": "Id: 3"
       },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 4"
-      },
       {
          "activity": {
             "activity_type": null
@@ -25399,6 +25092,20 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 4"
+      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -25417,7 +25124,19 @@
       null,
       null,
       null,
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       null,
       {
          "activity": {
@@ -25442,38 +25161,14 @@
          "edges": {
             "Bottom": "Solid",
             "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
             "Right": "Dashed",
             "Top": "SolidStiched"
          },
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      null,
+      null,
       null
    ],
    [
@@ -25484,25 +25179,13 @@
          "edges": {
             "Bottom": "Solid",
             "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 148"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
             "Right": "Dashed",
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 150"
+         "text": "Not bound"
       },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -25516,7 +25199,19 @@
          "patch_type": "Qubit",
          "text": "Id: 5"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -25588,7 +25283,7 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
+            "Bottom": "SolidStiched",
             "Left": "Dashed",
             "Right": "Dashed",
             "Top": "Solid"
@@ -25596,6 +25291,36 @@
          "patch_type": "Qubit",
          "text": "Id: 9"
       },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
       null,
       {
          "activity": {
@@ -25605,13 +25330,11 @@
             "Bottom": "Solid",
             "Left": "Dashed",
             "Right": "Dashed",
-            "Top": "Solid"
+            "Top": "SolidStiched"
          },
          "patch_type": "Qubit",
          "text": "Not bound"
-      }
-   ],
-   [
+      },
       null,
       {
          "activity": {
@@ -25624,7 +25347,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Not bound"
+         "text": "Id: 122"
       },
       {
          "activity": {
@@ -25639,34 +25362,6 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
       null,
       {
          "activity": {
@@ -25694,25 +25389,61 @@
          "patch_type": "Qubit",
          "text": "Id: 130"
       },
-      null,
-      null,
-      null
-   ],
-   [
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
          },
-         "patch_type": "DistillationQubit",
-         "text": ""
+         "patch_type": "Qubit",
+         "text": "Not bound"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 103"
+      },
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 145"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 147"
+      },
       {
          "activity": {
             "activity_type": null
@@ -25728,13 +25459,13 @@
       },
       {
          "activity": {
-            "activity_type": "Measurement"
+            "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
+            "Bottom": "SolidStiched",
             "Left": "Dashed",
             "Right": "Dashed",
-            "Top": "SolidStiched"
+            "Top": "Solid"
          },
          "patch_type": "Qubit",
          "text": "Not bound"
@@ -25752,25 +25483,13 @@
          "patch_type": "Qubit",
          "text": "Id: 11"
       },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
+      null,
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
+            "Bottom": "SolidStiched",
             "Left": "Dashed",
             "Right": "Dashed",
             "Top": "Solid"
@@ -25806,7 +25525,19 @@
          "patch_type": "Qubit",
          "text": "Id: 14"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -25823,22 +25554,6 @@
    ],
    [
       null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
       {
          "activity": {
             "activity_type": "Measurement"
@@ -25850,7 +25565,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 125"
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -25865,11 +25580,99 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 125"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       null,
       null,
-      null,
-      null,
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       null
    ],
    [
@@ -25884,15 +25687,27 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Not bound"
+         "text": "Id: 148"
       },
-      null,
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 150"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
             "Left": "Dashed",
             "Right": "Dashed",
             "Top": "Solid"
@@ -25900,19 +25715,7 @@
          "patch_type": "Qubit",
          "text": "Id: 15"
       },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -25954,7 +25757,19 @@
          "patch_type": "Qubit",
          "text": "Id: 18"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -25968,6 +25783,34 @@
          "patch_type": "Qubit",
          "text": "Id: 19"
       },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      }
+   ],
+   [
       null,
       {
          "activity": {
@@ -25977,18 +25820,33 @@
             "Bottom": "Solid",
             "Left": "Dashed",
             "Right": "Dashed",
-            "Top": "Solid"
+            "Top": "SolidStiched"
          },
          "patch_type": "Qubit",
          "text": "Not bound"
-      }
-   ],
-   [
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null,
+      null,
       null,
       null,
       {
          "activity": {
-            "activity_type": "Measurement"
+            "activity_type": null
          },
          "edges": {
             "Bottom": "Solid",
@@ -26001,7 +25859,7 @@
       },
       {
          "activity": {
-            "activity_type": "Measurement"
+            "activity_type": null
          },
          "edges": {
             "Bottom": "Solid",
@@ -26010,16 +25868,21 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 149"
+         "text": "Not bound"
       },
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       null
    ],
    [
@@ -26106,7 +25969,19 @@
          "patch_type": "Qubit",
          "text": "Id: 24"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -26133,7 +26008,19 @@
       null,
       null,
       null,
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       null
    ],
    [
@@ -26170,15 +26057,27 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
          },
-         "patch_type": "Qubit",
-         "text": "Not bound"
+         "patch_type": "Ancilla",
+         "text": ""
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
       {
          "activity": {
             "activity_type": null
@@ -26200,7 +26099,7 @@
          "edges": {
             "Bottom": "None",
             "Left": "None",
-            "Right": "None",
+            "Right": "AncillaJoin",
             "Top": "None"
          },
          "patch_type": "Ancilla",
@@ -26212,7 +26111,7 @@
          },
          "edges": {
             "Bottom": "None",
-            "Left": "None",
+            "Left": "AncillaJoin",
             "Right": "None",
             "Top": "None"
          },
@@ -26232,7 +26131,19 @@
          "patch_type": "DistillationQubit",
          "text": ""
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 104"
+      },
       {
          "activity": {
             "activity_type": null
@@ -26244,7 +26155,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Not bound"
+         "text": "Id: 100"
       }
    ]
 ],
@@ -26277,33 +26188,33 @@
          "patch_type": "DistillationQubit",
          "text": ""
       },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 126"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 124"
+      },
       null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
       {
          "activity": {
             "activity_type": null
@@ -26316,370 +26227,6 @@
          },
          "patch_type": "DistillationQubit",
          "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 129"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 131"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 0"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 1"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 2"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 3"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 4"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 137"
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 5"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 6"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 7"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 8"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 9"
       },
       {
          "activity": {
@@ -26706,17 +26253,453 @@
          },
          "patch_type": "Qubit",
          "text": "Id: 132"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 131"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 129"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
       }
    ],
    [
       null,
       null,
       null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       null,
       null,
       null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       null,
       null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 0"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 1"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 2"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 3"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 4"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 137"
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 5"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 6"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 7"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 8"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 9"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": "Measurement"
@@ -26743,19 +26726,31 @@
          "patch_type": "Qubit",
          "text": "Id: 130"
       },
-      null,
       {
          "activity": {
-            "activity_type": null
+            "activity_type": "Measurement"
          },
          "edges": {
             "Bottom": "Solid",
             "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
+            "Right": "DashedStiched",
+            "Top": "Solid"
          },
          "patch_type": "Qubit",
          "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 103"
       },
       null
    ],
@@ -26787,7 +26782,19 @@
          "patch_type": "Qubit",
          "text": "Id: 10"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -26815,7 +26822,19 @@
          "patch_type": "Qubit",
          "text": "Id: 12"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -26845,7 +26864,7 @@
       },
       {
          "activity": {
-            "activity_type": null
+            "activity_type": "Measurement"
          },
          "edges": {
             "Bottom": "SolidStiched",
@@ -26861,10 +26880,10 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
          },
          "patch_type": "DistillationQubit",
          "text": ""
@@ -26874,27 +26893,9 @@
       null,
       null,
       null,
-      null,
-      null,
-      null,
-      null,
-      null,
       {
          "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
+            "activity_type": "Measurement"
          },
          "edges": {
             "Bottom": "Solid",
@@ -26903,11 +26904,37 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 133"
+         "text": "Not bound"
       },
       {
          "activity": {
-            "activity_type": null
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 125"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
          },
          "edges": {
             "Bottom": "Solid",
@@ -26929,6 +26956,58 @@
             "Top": "SolidStiched"
          },
          "patch_type": "Qubit",
+         "text": "Id: 133"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
          "text": "Not bound"
       },
       null
@@ -26941,13 +27020,25 @@
          "edges": {
             "Bottom": "Solid",
             "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 148"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
             "Right": "Dashed",
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Not bound"
+         "text": "Id: 150"
       },
-      null,
       {
          "activity": {
             "activity_type": null
@@ -27003,7 +27094,19 @@
          "patch_type": "Qubit",
          "text": "Id: 18"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -27017,34 +27120,106 @@
          "patch_type": "Qubit",
          "text": "Id: 19"
       },
-      null,
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
             "Bottom": "Solid",
             "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
             "Right": "Dashed",
             "Top": "Solid"
          },
          "patch_type": "Qubit",
          "text": "Not bound"
-      }
-   ],
-   [
+      },
       null,
       null,
       null,
       null,
       null,
       null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       null
    ],
    [
@@ -27131,7 +27306,19 @@
          "patch_type": "Qubit",
          "text": "Id: 24"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -27158,7 +27345,19 @@
       null,
       null,
       null,
-      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       null
    ],
    [
@@ -27225,7 +27424,7 @@
          "edges": {
             "Bottom": "None",
             "Left": "None",
-            "Right": "None",
+            "Right": "AncillaJoin",
             "Top": "None"
          },
          "patch_type": "Ancilla",
@@ -27237,27 +27436,13 @@
          },
          "edges": {
             "Bottom": "None",
-            "Left": "None",
+            "Left": "AncillaJoin",
             "Right": "None",
             "Top": "None"
          },
          "patch_type": "Ancilla",
          "text": ""
       },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
       {
          "activity": {
             "activity_type": null
@@ -27268,8 +27453,34 @@
             "Right": "Dashed",
             "Top": "Solid"
          },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
          "patch_type": "Qubit",
-         "text": "Not bound"
+         "text": "Id: 104"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 100"
       }
    ]
 ],
@@ -27310,7 +27521,7 @@
          "edges": {
             "Bottom": "None",
             "Left": "None",
-            "Right": "None",
+            "Right": "AncillaJoin",
             "Top": "None"
          },
          "patch_type": "Ancilla",
@@ -27322,7 +27533,7 @@
          },
          "edges": {
             "Bottom": "None",
-            "Left": "None",
+            "Left": "AncillaJoin",
             "Right": "None",
             "Top": "None"
          },
@@ -27342,33 +27553,33 @@
          "patch_type": "DistillationQubit",
          "text": ""
       },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 134"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 132"
+      },
       null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
       {
          "activity": {
             "activity_type": null
@@ -27405,7 +27616,19 @@
       null,
       null,
       null,
-      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       null,
       null,
       null,
@@ -27468,7 +27691,19 @@
          "patch_type": "Qubit",
          "text": "Id: 2"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -27531,34 +27766,22 @@
       null,
       null,
       null,
-      null,
-      null,
       {
          "activity": {
-            "activity_type": null
+            "activity_type": "Measurement"
          },
          "edges": {
-            "Bottom": "Solid",
+            "Bottom": "SolidStiched",
             "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
             "Right": "Dashed",
             "Top": "Solid"
          },
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      null,
+      null,
+      null,
       {
          "activity": {
             "activity_type": null
@@ -27580,27 +27803,15 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
          },
-         "patch_type": "Ancilla",
-         "text": ""
+         "patch_type": "Qubit",
+         "text": "Not bound"
       },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -27642,7 +27853,19 @@
          "patch_type": "Qubit",
          "text": "Id: 7"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -27656,19 +27879,7 @@
          "patch_type": "Qubit",
          "text": "Id: 8"
       },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -27684,16 +27895,16 @@
       },
       {
          "activity": {
-            "activity_type": "Measurement"
+            "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
+            "Bottom": "SolidStiched",
             "Left": "Dashed",
-            "Right": "DashedStiched",
+            "Right": "Dashed",
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 134"
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -27701,12 +27912,12 @@
          },
          "edges": {
             "Bottom": "Solid",
-            "Left": "DashedStiched",
+            "Left": "Dashed",
             "Right": "Dashed",
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 132"
+         "text": "Not bound"
       }
    ],
    [
@@ -27717,8 +27928,34 @@
       null,
       null,
       null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       null,
       null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -27731,32 +27968,6 @@
          },
          "patch_type": "Qubit",
          "text": "Id: 138"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
       },
       null
    ],
@@ -27816,7 +28027,19 @@
          "patch_type": "Qubit",
          "text": "Id: 12"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -27844,28 +28067,16 @@
          "patch_type": "Qubit",
          "text": "Id: 14"
       },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
+      null,
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
          },
          "patch_type": "DistillationQubit",
          "text": ""
@@ -27879,7 +28090,6 @@
       null,
       null,
       null,
-      null,
       {
          "activity": {
             "activity_type": "Measurement"
@@ -27888,19 +28098,6 @@
             "Bottom": "Solid",
             "Left": "Dashed",
             "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
             "Top": "Solid"
          },
          "patch_type": "Qubit",
@@ -27912,19 +28109,6 @@
          },
          "edges": {
             "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
             "Left": "DashedStiched",
             "Right": "Dashed",
             "Top": "Solid"
@@ -27932,6 +28116,9 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      null,
+      null,
+      null,
       null
    ],
    [
@@ -27940,15 +28127,27 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
          },
-         "patch_type": "Qubit",
-         "text": "Not bound"
+         "patch_type": "Ancilla",
+         "text": ""
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
       {
          "activity": {
             "activity_type": null
@@ -28224,15 +28423,27 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
          },
-         "patch_type": "Qubit",
-         "text": "Not bound"
+         "patch_type": "Ancilla",
+         "text": ""
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
       {
          "activity": {
             "activity_type": null
@@ -28246,19 +28457,31 @@
          "patch_type": "DistillationQubit",
          "text": ""
       },
-      null,
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
          },
-         "patch_type": "Qubit",
-         "text": "Not bound"
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
       }
    ]
 ],
@@ -28299,7 +28522,7 @@
          "edges": {
             "Bottom": "None",
             "Left": "None",
-            "Right": "None",
+            "Right": "AncillaJoin",
             "Top": "None"
          },
          "patch_type": "Ancilla",
@@ -28311,7 +28534,7 @@
          },
          "edges": {
             "Bottom": "None",
-            "Left": "None",
+            "Left": "AncillaJoin",
             "Right": "None",
             "Top": "None"
          },
@@ -28339,7 +28562,7 @@
          "edges": {
             "Bottom": "None",
             "Left": "None",
-            "Right": "None",
+            "Right": "AncillaJoin",
             "Top": "None"
          },
          "patch_type": "Ancilla",
@@ -28351,7 +28574,7 @@
          },
          "edges": {
             "Bottom": "None",
-            "Left": "None",
+            "Left": "AncillaJoin",
             "Right": "None",
             "Top": "None"
          },
@@ -28522,6 +28745,8 @@
       null,
       null,
       null,
+      null,
+      null,
       {
          "activity": {
             "activity_type": "Measurement"
@@ -28529,32 +28754,6 @@
          "edges": {
             "Bottom": "SolidStiched",
             "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
             "Right": "Dashed",
             "Top": "Solid"
          },
@@ -28569,27 +28768,15 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
          },
-         "patch_type": "Ancilla",
-         "text": ""
+         "patch_type": "Qubit",
+         "text": "Not bound"
       },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -28645,6 +28832,20 @@
          "patch_type": "Qubit",
          "text": "Id: 8"
       },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 9"
+      },
       {
          "activity": {
             "activity_type": "Measurement"
@@ -28669,36 +28870,11 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 9"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
+         "text": "Id: 140"
       }
    ],
    [
+      null,
       null,
       null,
       null,
@@ -28719,7 +28895,7 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 138"
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -28732,9 +28908,8 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Not bound"
+         "text": "Id: 138"
       },
-      null,
       null
    ],
    [
@@ -28813,7 +28988,7 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "SolidStiched",
+            "Bottom": "Solid",
             "Left": "Dashed",
             "Right": "Dashed",
             "Top": "Solid"
@@ -28827,10 +29002,10 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
          },
          "patch_type": "DistillationQubit",
          "text": ""
@@ -28847,32 +29022,8 @@
       null,
       null,
       null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 141"
-      },
+      null,
+      null,
       null
    ],
    [
@@ -28881,15 +29032,27 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
          },
-         "patch_type": "Qubit",
-         "text": "Not bound"
+         "patch_type": "Ancilla",
+         "text": ""
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
       {
          "activity": {
             "activity_type": null
@@ -28959,6 +29122,7 @@
          "patch_type": "Qubit",
          "text": "Id: 19"
       },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -28967,7 +29131,599 @@
             "Bottom": "Solid",
             "Left": "Dashed",
             "Right": "Dashed",
-            "Top": "SolidStiched"
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 20"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 21"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 22"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 23"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 24"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      }
+   ]
+],
+[
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 0"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 1"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 2"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 3"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 4"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 5"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 6"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 7"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 8"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 9"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
          },
          "patch_type": "Qubit",
          "text": "Id: 142"
@@ -28997,6 +29753,270 @@
       null,
       null,
       null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 10"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 11"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 12"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 13"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 14"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 15"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 16"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 17"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 18"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 19"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
       null,
       null,
       null
@@ -29199,19 +30219,31 @@
          "patch_type": "DistillationQubit",
          "text": ""
       },
-      null,
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
          },
-         "patch_type": "Qubit",
-         "text": "Not bound"
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
       }
    ]
 ],
@@ -29290,26 +30322,26 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
          },
-         "patch_type": "Qubit",
-         "text": "Id: 60"
+         "patch_type": "Ancilla",
+         "text": ""
       },
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
          },
-         "patch_type": "Qubit",
-         "text": "Id: 64"
+         "patch_type": "Ancilla",
+         "text": ""
       },
       {
          "activity": {
@@ -29361,32 +30393,8 @@
       null,
       null,
       null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 63"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
+      null,
+      null,
       null,
       null
    ],
@@ -29481,7 +30489,7 @@
             "Bottom": "Solid",
             "Left": "Dashed",
             "Right": "Dashed",
-            "Top": "SolidStiched"
+            "Top": "Solid"
          },
          "patch_type": "Qubit",
          "text": "Id: 4"
@@ -29540,21 +30548,9 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 148"
+         "text": "Not bound"
       },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 152"
-      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -29638,46 +30634,34 @@
       },
       {
          "activity": {
-            "activity_type": null
+            "activity_type": "Measurement"
          },
          "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
          },
-         "patch_type": "Ancilla",
-         "text": ""
+         "patch_type": "Qubit",
+         "text": "Id: 142"
       },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      }
-   ],
-   [
-      null,
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
             "Bottom": "Solid",
-            "Left": "Dashed",
+            "Left": "DashedStiched",
             "Right": "Dashed",
-            "Top": "SolidStiched"
+            "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Not bound"
-      },
+         "text": "Id: 140"
+      }
+   ],
+   [
+      null,
+      null,
       null,
       null,
       null,
@@ -29710,8 +30694,32 @@
       null,
       null,
       null,
-      null,
-      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       null
    ],
    [
@@ -29728,19 +30736,7 @@
          "patch_type": "DistillationQubit",
          "text": ""
       },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -29816,10 +30812,10 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
          },
          "patch_type": "DistillationQubit",
          "text": ""
@@ -29832,13 +30828,13 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
+            "Bottom": "SolidStiched",
             "Left": "Dashed",
             "Right": "Dashed",
-            "Top": "SolidStiched"
+            "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 151"
+         "text": "Not bound"
       },
       {
          "activity": {
@@ -29860,32 +30856,8 @@
       null,
       null,
       null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 141"
-      },
+      null,
+      null,
       null
    ],
    [
@@ -29900,9 +30872,21 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Not bound"
+         "text": "Id: 148"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 152"
+      },
       {
          "activity": {
             "activity_type": null
@@ -29972,31 +30956,19 @@
          "patch_type": "Qubit",
          "text": "Id: 19"
       },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 142"
-      },
+      null,
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
             "Bottom": "Solid",
-            "Left": "DashedStiched",
+            "Left": "Dashed",
             "Right": "Dashed",
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 140"
+         "text": "Not bound"
       }
    ],
    [
@@ -30297,7 +31269,19 @@
          "patch_type": "DistillationQubit",
          "text": ""
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 136"
+      },
       {
          "activity": {
             "activity_type": null
@@ -30305,25 +31289,13 @@
          "edges": {
             "Bottom": "Solid",
             "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 60"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
             "Right": "Dashed",
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 64"
+         "text": "Id: 132"
       },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -30372,34 +31344,22 @@
          "text": "Not bound"
       },
       null,
-      null,
-      null,
       {
          "activity": {
-            "activity_type": "Measurement"
+            "activity_type": null
          },
          "edges": {
             "Bottom": "Solid",
             "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 63"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
             "Right": "Dashed",
-            "Top": "Solid"
+            "Top": "SolidStiched"
          },
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      null,
+      null,
+      null,
       null,
       null
    ],
@@ -30471,7 +31431,19 @@
          "patch_type": "Qubit",
          "text": "Id: 2"
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
       {
          "activity": {
             "activity_type": null
@@ -30533,6 +31505,354 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 5"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 6"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 7"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 8"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 9"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 127"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 135"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 10"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 11"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 12"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 13"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 14"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null,
       null,
       null,
       null,
@@ -30579,330 +31899,6 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 5"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 6"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 7"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 8"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 9"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 127"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 10"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 11"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 12"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 13"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 14"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 151"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
          "text": "Id: 15"
       },
       null,
@@ -30961,31 +31957,19 @@
          "patch_type": "Qubit",
          "text": "Id: 19"
       },
+      null,
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "None"
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
          },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
+         "patch_type": "Qubit",
+         "text": "Not bound"
       }
    ],
    [
@@ -31285,1179 +32269,6 @@
          },
          "patch_type": "DistillationQubit",
          "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 0"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 1"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 2"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 3"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 4"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "AncillaJoin",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "AncillaJoin",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 5"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 6"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 7"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 8"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 9"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 136"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 132"
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 135"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 10"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 11"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 12"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 13"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 14"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 15"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 16"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 17"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 18"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 19"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 20"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 21"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 22"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 23"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 24"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      }
-   ]
-],
-[
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 0"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 1"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 2"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 3"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 4"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 5"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 6"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 7"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 8"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 9"
       },
       {
          "activity": {
@@ -32484,10 +32295,325 @@
          },
          "patch_type": "Qubit",
          "text": "Id: 132"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
       }
    ],
    [
       null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 0"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 1"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 2"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 3"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 4"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 5"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 6"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 7"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 8"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 9"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      }
+   ],
+   [
       null,
       null,
       null,
@@ -32503,19 +32629,6 @@
             "Bottom": "Solid",
             "Left": "Dashed",
             "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
             "Top": "Solid"
          },
          "patch_type": "Qubit",
@@ -32527,19 +32640,6 @@
          },
          "edges": {
             "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
             "Left": "DashedStiched",
             "Right": "Dashed",
             "Top": "Solid"
@@ -32547,6 +32647,9 @@
          "patch_type": "Qubit",
          "text": "Not bound"
       },
+      null,
+      null,
+      null,
       null
    ],
    [
@@ -32639,10 +32742,10 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
          },
          "patch_type": "DistillationQubit",
          "text": ""
@@ -32669,15 +32772,27 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
          },
-         "patch_type": "Qubit",
-         "text": "Not bound"
+         "patch_type": "Ancilla",
+         "text": ""
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
       {
          "activity": {
             "activity_type": null
@@ -32747,31 +32862,19 @@
          "patch_type": "Qubit",
          "text": "Id: 19"
       },
+      null,
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
          },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
+         "patch_type": "Qubit",
+         "text": "Not bound"
       }
    ],
    [
@@ -33040,7 +33143,7 @@
          "edges": {
             "Bottom": "None",
             "Left": "None",
-            "Right": "None",
+            "Right": "AncillaJoin",
             "Top": "None"
          },
          "patch_type": "Ancilla",
@@ -33052,7 +33155,7 @@
          },
          "edges": {
             "Bottom": "None",
-            "Left": "None",
+            "Left": "AncillaJoin",
             "Right": "None",
             "Top": "None"
          },
@@ -33080,7 +33183,7 @@
          "edges": {
             "Bottom": "None",
             "Left": "None",
-            "Right": "None",
+            "Right": "AncillaJoin",
             "Top": "None"
          },
          "patch_type": "Ancilla",
@@ -33092,7 +33195,7 @@
          },
          "edges": {
             "Bottom": "None",
-            "Left": "None",
+            "Left": "AncillaJoin",
             "Right": "None",
             "Top": "None"
          },
@@ -33262,27 +33365,15 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
          },
-         "patch_type": "Ancilla",
-         "text": ""
+         "patch_type": "Qubit",
+         "text": "Not bound"
       },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -33470,7 +33561,7 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "SolidStiched",
+            "Bottom": "Solid",
             "Left": "Dashed",
             "Right": "Dashed",
             "Top": "Solid"
@@ -33484,10 +33575,10 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
          },
          "patch_type": "DistillationQubit",
          "text": ""
@@ -33504,32 +33595,8 @@
       null,
       null,
       null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "SolidStiched"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "SolidStiched",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 143"
-      },
+      null,
+      null,
       null
    ],
    [
@@ -33538,15 +33605,27 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
          },
-         "patch_type": "Qubit",
-         "text": "Not bound"
+         "patch_type": "Ancilla",
+         "text": ""
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
       {
          "activity": {
             "activity_type": null
@@ -33616,6 +33695,7 @@
          "patch_type": "Qubit",
          "text": "Id: 19"
       },
+      null,
       {
          "activity": {
             "activity_type": null
@@ -33624,7 +33704,587 @@
             "Bottom": "Solid",
             "Left": "Dashed",
             "Right": "Dashed",
-            "Top": "SolidStiched"
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 20"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 21"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 22"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 23"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 24"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      }
+   ]
+],
+[
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 0"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 1"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 2"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 3"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 4"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 5"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 6"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 7"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 8"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 9"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
          },
          "patch_type": "Qubit",
          "text": "Id: 144"
@@ -33654,6 +34314,270 @@
       null,
       null,
       null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "SolidStiched",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 10"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 11"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 12"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 13"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "SolidStiched"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 14"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 15"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 16"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 17"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 18"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 19"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
       null,
       null,
       null
@@ -33935,15 +34859,27 @@
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
          },
-         "patch_type": "Qubit",
-         "text": "Not bound"
+         "patch_type": "Ancilla",
+         "text": ""
       },
-      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
       {
          "activity": {
             "activity_type": null
@@ -34184,270 +35120,6 @@
          },
          "patch_type": "Qubit",
          "text": "Id: 9"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 10"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 11"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 12"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 13"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 14"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "DashedStiched",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      {
-         "activity": {
-            "activity_type": "Measurement"
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "DashedStiched",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 143"
-      },
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 15"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 16"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 17"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 18"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 19"
       },
       {
          "activity": {
@@ -34487,6 +35159,258 @@
       null,
       null,
       null,
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "DashedStiched",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      {
+         "activity": {
+            "activity_type": "Measurement"
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "DashedStiched",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 10"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 11"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 12"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 13"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 14"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 15"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 16"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 17"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 18"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 19"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
       null,
       null,
       null
@@ -35017,246 +35941,6 @@
          },
          "patch_type": "Qubit",
          "text": "Id: 9"
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 10"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 11"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 12"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 13"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 14"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 15"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 16"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 17"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 18"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 19"
       },
       {
          "activity": {
@@ -35326,563 +36010,6 @@
             "Top": "Solid"
          },
          "patch_type": "Qubit",
-         "text": "Id: 20"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 21"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 22"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 23"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 24"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      }
-   ]
-],
-[
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 0"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 1"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 2"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 3"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 4"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 5"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 6"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 7"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 8"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Id: 9"
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
-         "text": "Not bound"
-      }
-   ],
-   [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-   ],
-   [
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "DistillationQubit",
-         "text": ""
-      },
-      null,
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
-         },
-         "patch_type": "Qubit",
          "text": "Id: 10"
       },
       null,
@@ -36055,31 +36182,19 @@
          "patch_type": "Qubit",
          "text": "Id: 19"
       },
+      null,
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
          },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
+         "patch_type": "Qubit",
+         "text": "Not bound"
       }
    ],
    [
@@ -36624,19 +36739,31 @@
          "patch_type": "Qubit",
          "text": "Id: 9"
       },
-      null,
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
-            "Bottom": "Solid",
-            "Left": "Dashed",
-            "Right": "Dashed",
-            "Top": "Solid"
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
          },
-         "patch_type": "Qubit",
-         "text": "Not bound"
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
       }
    ],
    [
@@ -36852,31 +36979,19 @@
          "patch_type": "Qubit",
          "text": "Id: 19"
       },
+      null,
       {
          "activity": {
             "activity_type": null
          },
          "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
          },
-         "patch_type": "Ancilla",
-         "text": ""
-      },
-      {
-         "activity": {
-            "activity_type": null
-         },
-         "edges": {
-            "Bottom": "None",
-            "Left": "None",
-            "Right": "None",
-            "Top": "None"
-         },
-         "patch_type": "Ancilla",
-         "text": ""
+         "patch_type": "Qubit",
+         "text": "Not bound"
       }
    ],
    [
@@ -37317,6 +37432,803 @@
             "Left": "None",
             "Right": "None",
             "Top": "None"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 5"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 6"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 7"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 8"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 9"
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "None",
+            "Right": "AncillaJoin",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      },
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "None",
+            "Left": "AncillaJoin",
+            "Right": "None",
+            "Top": "None"
+         },
+         "patch_type": "Ancilla",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 10"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 11"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 12"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 13"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 14"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 15"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 16"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 17"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 18"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 19"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 20"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 21"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 22"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 23"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 24"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      }
+   ]
+],
+[
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Not bound"
+      }
+   ],
+   [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+   ],
+   [
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "DistillationQubit",
+         "text": ""
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 0"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 1"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 2"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 3"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
+         },
+         "patch_type": "Qubit",
+         "text": "Id: 4"
+      },
+      null,
+      {
+         "activity": {
+            "activity_type": null
+         },
+         "edges": {
+            "Bottom": "Solid",
+            "Left": "Dashed",
+            "Right": "Dashed",
+            "Top": "Solid"
          },
          "patch_type": "DistillationQubit",
          "text": ""
