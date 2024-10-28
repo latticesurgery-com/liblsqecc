@@ -133,6 +133,7 @@ struct Patch {
     // Patch& operator=(const Patch& other)
 
     bool operator==(const Patch&) const = default;
+    uint64_t operationId;
 };
 
 std::ostream& operator<<(std::ostream& os, const Patch& p);
