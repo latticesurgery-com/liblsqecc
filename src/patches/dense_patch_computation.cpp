@@ -298,6 +298,8 @@ void clear_routing_region(DenseSlice& slice, const RoutingRegion& routing_region
 }
 
 
+static OpId multi_body_measurement = 0;
+
 /*
  * Returns true iff merge was successful
  */
@@ -317,6 +319,7 @@ bool merge_patches(
     }
 
     auto routing_region = router.find_routing_ancilla(slice, source, source_op, target, target_op);
+    routing_region->routing_region_id = multi_body_measurement++;
     if(!routing_region)
     {
         return false;

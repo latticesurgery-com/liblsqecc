@@ -148,6 +148,8 @@ json slice_to_json(const SparseSlice& slice)
             json visual_array_cell = boundaries_to_array_edges_json(routing_cell);
             visual_array_cell["patch_type"] = "Ancilla";
             visual_array_cell["activity"] = json({});
+            if (routing_region.routing_region_id.has_value())
+                visual_array_cell["routing_region_id"];
             // TODO could add sanity check on indices
             out_slice[routing_cell.cell.row][routing_cell.cell.col] = visual_array_cell;
         }
