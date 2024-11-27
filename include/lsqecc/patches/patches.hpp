@@ -131,12 +131,12 @@ using PatchId = uint32_t;
 struct Patch {
     PatchType type;
     PatchActivity activity;
-    std::optional<OpId> routing_region_id = -1;// wtf
-
     std::optional<PatchId> id;
     std::optional<std::string> label;
 
     // Patch& operator=(const Patch& other)
+
+    std::optional<OpId> routing_region_id = -1;// wtf
 
     bool operator==(const Patch&) const = default;
 };

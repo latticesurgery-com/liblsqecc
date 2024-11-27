@@ -277,9 +277,10 @@ void mark_routing_region(DenseSlice& slice, RoutingRegion& routing_region, Patch
                 }
             }
 
-            printf("routing region %d\n", routing_region.routing_region_id);
+            // printf("routing region %d\n", routing_region.routing_region_id);
 
-            SparsePatch tmp = SparsePatch{{PatchType::Routing, activity, routing_region.routing_region_id}, occupied_cell};
+            SparsePatch tmp = SparsePatch{{PatchType::Routing, activity}, occupied_cell};
+            tmp.routing_region_id = routing_region.routing_region_id;
             slice.place_sparse_patch(tmp, false);
         }
 
@@ -321,11 +322,12 @@ bool merge_patches(
     }
 
     auto routing_region = router.find_routing_ancilla(slice, source, source_op, target, target_op);
-    routing_region->routing_region_id = multi_body_measurement++;
     if(!routing_region)
     {
         return false;
     }
+
+    routing_region->routing_region_id = multi_body_measurement++;
     std::cout << "Assigned routing_region_id: " << routing_region->routing_region_id.value() << std::endl;
 
     // TODO check that the path is actually free when caching

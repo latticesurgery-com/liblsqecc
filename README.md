@@ -127,7 +127,7 @@ Results in that paper were generated using [PR #106](https://github.com/lattices
 
 ### Example for compiling a simple T gate on a minimal layout
 ``` shell
-./lsqecc_slicer -i ../examples/TgateInstructions.txt -l ../examples/minimal_layout.txt -n n_output.json
+./lsqecc_slicer -i ../examples/TgateInstructions.txt -l ../examples/minimal_layout.txt -o n_output.json
 ```
 
 # Contributors
