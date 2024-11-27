@@ -5,6 +5,11 @@ using namespace nlohmann;
 
 namespace lsqecc {
 
+    void add_routing_region_id(nlohmann::json& json, OpId routing_region_id) {
+        // if it is not the unsigned version of -1, then add it to the json
+        if (routing_region_id != 18446744073709551615)
+            json["routing_region_id"] =  std::to_string(routing_region_id);
+    }
 
 json init_blank_json_slice(const Slice& slice)
 {
@@ -64,7 +69,8 @@ json boundaries_to_array_edges_json(const CellBoundaries& cell_boundaries)
 json dense_patch_to_json(const DensePatch& p)
 {
     json visual_array_cell = boundaries_to_array_edges_json(p.boundaries);
-    visual_array_cell["routing_region_id"] =  std::to_string(*p.routing_region_id);
+        add_routing_region_id(visual_array_cell, *p.routing_region_id);
+
     visual_array_cell["patch_type"] = [&](){
         switch (p.type)
         {
@@ -149,7 +155,8 @@ json slice_to_json(const SparseSlice& slice)
             json visual_array_cell = boundaries_to_array_edges_json(routing_cell);
             visual_array_cell["patch_type"] = "Ancilla";
             visual_array_cell["activity"] = json({});
-            visual_array_cell["routing_region_id"] =  std::to_string(routing_region.routing_region_id.value());
+            add_routing_region_id(visual_array_cell, *routing_region.routing_region_id);
+            //visual_array_cell["routing_region_id"] =  std::to_string(routing_region.routing_region_id.value());
             // TODO could add sanity check on indices
             out_slice[routing_cell.cell.row][routing_cell.cell.col] = visual_array_cell;
         }
