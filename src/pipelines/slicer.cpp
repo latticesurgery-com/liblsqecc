@@ -3,6 +3,7 @@
 #include <lsqecc/dag/domain_dags.hpp>
 #include <lsqecc/gates/parse_gates.hpp>
 #include <lsqecc/gates/decompose_rotation_stream.hpp>
+#include <lsqecc/gates/postgres_gate_stream.hpp>
 #include <lsqecc/ls_instructions/ls_instruction_stream.hpp>
 #include <lsqecc/ls_instructions/boundary_rotation_injection_stream.hpp>
 #include <lsqecc/ls_instructions/teleported_s_gate_injection_stream.hpp>
@@ -110,6 +111,10 @@ namespace lsqecc
         parser.add_argument()
                 .names({"-q", "--qasm"})
                 .description("File name of file with QASM. When not provided will read as LLI (not QASM)")
+                .required(false);
+        parser.add_argument()
+                .names({"--pandora"})
+                .description("Read from pandora DB running on localhost. The opitional argument is the port. Defaults to 55556")
                 .required(false);
         parser.add_argument()
                 .names({"-l", "--layout"})
@@ -294,7 +299,6 @@ namespace lsqecc
                 return -1;
             }
         }
-        
 
         PipelineMode pipeline_mode = PipelineMode::Stream;
         bool pipeline_mode_validity_checker = 1;
@@ -318,7 +322,6 @@ namespace lsqecc
                 return -1;
             }
         }
-
 
         std::reference_wrapper<std::istream> input_file_stream = std::ref(in_stream);
         std::unique_ptr<std::ifstream> _file_to_read_store;
@@ -344,21 +347,17 @@ namespace lsqecc
         if (parser.exists("notwists"))
             sgate_mode = SGateMode::Catalytic;
 
-        if(!parser.exists("q"))
+        if(parser.exists("q") || parser.exists("pandora"))
         {
-            instruction_stream = std::make_unique<LSInstructionStreamFromFile>(input_file_stream.get());
-            id_generator.set_start(*std::max(instruction_stream->core_qubits().begin(),
-                                             instruction_stream->core_qubits().end()));
-            if( print_dag_mode == PrintDagMode::Input )
+            
+            if (parser.exists("pandora"))
             {
-                auto dag = dag::full_dependency_dag_from_instruction_stream(*instruction_stream);
-                dag.to_graphviz(out_stream);
-                return 0;
+                auto port = !parser.get<std::string>("pandora").empty() ? parser.get<std::string>("pandora") : "55556";
+                gate_stream = std::make_unique<PandoraPostgresGateStream>("127.0.0.1", port, "postgres");
+            } else {
+                gate_stream = std::make_unique<GateStreamFromFile>(input_file_stream.get());
             }
-        }
-        if(parser.exists("q"))
-        {
-            gate_stream = std::make_unique<GateStreamFromFile>(input_file_stream.get());
+            
 
             if (print_dag_mode == PrintDagMode::Input)
             {
@@ -388,6 +387,17 @@ namespace lsqecc
 
             id_generator.set_start(gate_stream->get_qreg().size);
             instruction_stream = std::make_unique<LSInstructionStreamFromGateStream>(*gate_stream, cnot_correction_mode, id_generator, compile_mode == CompilationMode::Local);    
+        } else
+        {
+            instruction_stream = std::make_unique<LSInstructionStreamFromFile>(input_file_stream.get());
+            id_generator.set_start(*std::max(instruction_stream->core_qubits().begin(),
+                                             instruction_stream->core_qubits().end()));
+            if( print_dag_mode == PrintDagMode::Input )
+            {
+                auto dag = dag::full_dependency_dag_from_instruction_stream(*instruction_stream);
+                dag.to_graphviz(out_stream);
+                return 0;
+            }
         }
 
 
