@@ -35,6 +35,7 @@ endif()
 #find_package(PythonLibs)
 #include_directories(/usr/include/python3.10)
 
+
 include_directories(external/ordered-map/include)
 
 include_directories(external/json/include)
@@ -54,6 +55,7 @@ add_library(
         src/gates/gates.cpp
         src/gates/gate_approximator.cpp
         src/gates/decompose_rotation_stream.cpp
+        src/gates/postgres_gate_stream.cpp
         src/patches/dense_slice.cpp
         src/patches/dense_patch_computation.cpp
         src/patches/patches.cpp
@@ -141,7 +143,34 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
             lsqecc_slicer PUBLIC lsqecclib
     )
 
+    add_executable(
+       pgdb_slicer
+       src/pgdb_slicer_main.cpp)
+    
+    target_link_libraries(
+        pgdb_slicer PUBLIC lsqecclib
+)
+
 endif()
+
+###################################################
+# Postgress reader
+
+# Find PostgreSQL library
+find_package(PostgreSQL REQUIRED)
+
+if (PostgreSQL_FOUND)
+    message(STATUS "PostgreSQL include directory: ${PostgreSQL_INCLUDE_DIRS}")
+    message(STATUS "PostgreSQL library: ${PostgreSQL_LIBRARIES}")
+
+    # Include the PostgreSQL headers
+    target_include_directories(lsqecclib PRIVATE ${PostgreSQL_INCLUDE_DIRS})
+
+    # Link the PostgreSQL library
+    target_link_libraries(lsqecclib PRIVATE ${PostgreSQL_LIBRARIES})
+else ()
+    message(FATAL_ERROR "PostgreSQL not found. Make sure libpq-dev is installed.")
+endif ()
 
 ###################################################
 # Emscripten interface
