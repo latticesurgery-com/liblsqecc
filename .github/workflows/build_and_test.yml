@@ -26,7 +26,7 @@ jobs:
       - name: install libpq-dev
         run: |
           sudo apt-get update
-          sudo apt-get -y libpq-dev
+          sudo apt-get install -y libpq-dev
 
       - name: mkdir
         run: mkdir build
