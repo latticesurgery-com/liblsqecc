@@ -7,6 +7,7 @@
 
 namespace lsqecc {
 
+void add_routing_region_id(nlohmann::json& json, OpId routing_region_id);
 
 nlohmann::json slice_to_json(const SparseSlice& slices);
 nlohmann::json slice_to_json(const DenseSlice& slices);

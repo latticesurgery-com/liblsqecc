@@ -210,7 +210,6 @@ void mark_routing_region(DenseSlice& slice, RoutingRegion& routing_region, Patch
         // In the case that there is a patch allocated to this cell,
         if (patch.has_value())
         {
-
             // In the case that it has already been a part of EDPC (implying that we have found a crossing path),
             if (patch->activity == PatchActivity::EDPC && (activity == PatchActivity::EDPC))
             {
@@ -278,7 +277,11 @@ void mark_routing_region(DenseSlice& slice, RoutingRegion& routing_region, Patch
                 }
             }
 
-            slice.place_sparse_patch(SparsePatch{{PatchType::Routing, activity}, occupied_cell}, false);
+            // printf("routing region %d\n", routing_region.routing_region_id);
+
+            SparsePatch tmp = SparsePatch{{PatchType::Routing, activity}, occupied_cell};
+            tmp.routing_region_id = routing_region.routing_region_id;
+            slice.place_sparse_patch(tmp, false);
         }
 
         counter++;
@@ -297,6 +300,8 @@ void clear_routing_region(DenseSlice& slice, const RoutingRegion& routing_region
     }
 }
 
+
+static OpId multi_body_measurement = 1;
 
 /*
  * Returns true iff merge was successful
@@ -321,6 +326,9 @@ bool merge_patches(
     {
         return false;
     }
+
+    routing_region->routing_region_id = multi_body_measurement++;
+    std::cout << "Assigned routing_region_id: " << routing_region->routing_region_id.value() << std::endl;
 
     // TODO check that the path is actually free when caching
 
