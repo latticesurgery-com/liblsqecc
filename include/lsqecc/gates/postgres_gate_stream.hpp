@@ -1,5 +1,5 @@
 #ifndef LSQECC_POSTGRES_GATE_STREAM_HPP
-#define LSQECC_POSTGERS_GATE_STREAM_HPP
+#define LSQECC_POSTGRES_GATE_STREAM_HPP
 
 #include <lsqecc/gates/parse_gates.hpp>
 #include <lsqecc/patches/patches.hpp>
@@ -8,7 +8,7 @@
 #include <memory>
 
 namespace pq {
-    struct connection;
+    class connection;
 }
 
 namespace lsqecc {

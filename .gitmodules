@@ -22,6 +22,3 @@
 [submodule "external/rotation-decomposer"]
 	path = external/rotation-decomposer
 	url = https://github.com/latticesurgery-com/rotation-decomposer.git
-[submodule "external/include/pqpp"]
-	path = external/include/pqpp
-	url = https://github.com/Overv/pqpp.git
