@@ -16,7 +16,7 @@ int main(int argc, const char* argv[])
                 .required(false);
 
 
-    std::string port = parser.exists("p") ? parser.get<std::string>("p") : "55556";
+    std::string port = parser.exists("p") ? parser.get<std::string>("p") : "5432";
 
     PandoraPostgresGateStream pgs = PandoraPostgresGateStream{"127.0.0.1", port, "postgres"};
     while(pgs.has_next_gate()) {
