@@ -352,9 +352,10 @@ namespace lsqecc
             
             if (parser.exists("pandora"))
             {
-                auto port = !parser.get<std::string>("pandora").empty() ? parser.get<std::string>("pandora") : "55556";
+                auto port = !parser.get<std::string>("pandora").empty() ? parser.get<std::string>("pandora") : "5432";
                 gate_stream = std::make_unique<PandoraPostgresGateStream>("127.0.0.1", port, "postgres");
             } else {
+                //if qasm input
                 gate_stream = std::make_unique<GateStreamFromFile>(input_file_stream.get());
             }
             
