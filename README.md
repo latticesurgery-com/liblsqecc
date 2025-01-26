@@ -125,6 +125,11 @@ lsqecc_slicer -q -i {qasm_filename} -L edpc --disttime 1 --nostagger --notwists 
 
 Results in that paper were generated using [PR #106](https://github.com/latticesurgery-com/liblsqecc/pull/106), and should be reproducible using the current release.
 
+### Example for compiling a simple T gate on a minimal layout
+``` shell
+./lsqecc_slicer -i ../examples/TgateInstructions.txt -l ../examples/minimal_layout.txt -o n_output.json
+```
+
 # Contributors
 Liblsqecc was originally developed at Aalto University by [George Watkins](https://github.com/gwwatkin) under [Alexandru Paler](https://github.com/alexandrupaler)'s supervision and was later upgraded by [Tyler LeBlond (Oak Ridge National Laboratory)](https://github.com/tylerrleblond) and [Christopher Dean (Dalhousie University)](https://github.com/christopherjdean) in collaboration with [George Watkins](https://github.com/gwwatkin). The compiler is currently maintained primarily by [Tyler LeBlond](https://github.com/tylerrleblond) and ongoing development is co-led with [Alexandru Paler](https://github.com/alexandrupaler).
 
