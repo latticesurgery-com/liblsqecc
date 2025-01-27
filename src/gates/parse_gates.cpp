@@ -122,23 +122,15 @@ Angle parse_angle(std::string_view s)
             s = s.substr(1);
         }
 
-        if(s.starts_with("pi/"))
-            return Fraction{1,try_parse_int<ArbitraryPrecisionInteger>(s.substr(3)), is_negative};
-
-        // use split on with *pi/ as delimiter
-        auto split = lstk::split_on(s,"*pi/");
-        if(split.size() != 2) {
-            //Is this an angle of the form 3*pi?
-            // not sure why but maybe we need something like
-            std::string ns = std::string(s) + "/1";
-
-            split = lstk::split_on(ns,"*pi/");
-            if(split.size() != 2)
-                throw GateParseException{lstk::cat("Could not parse angle ", s, " as n*pi/m")};
+        // use split_on with pi as delimiter
+        auto split = lstk::split_on(s,"pi");
+        ArbitraryPrecisionInteger num = 1, den = 1;
+        for (auto part: split) {
+            if (part.starts_with("/"))
+                den = try_parse_int<ArbitraryPrecisionInteger>(part.substr(1));
+            if (part.ends_with("*"))
+                num = try_parse_int<ArbitraryPrecisionInteger>(part.substr(0, part.size()-1));
         }
-
-        ArbitraryPrecisionInteger num = try_parse_int<ArbitraryPrecisionInteger>(split.at(0));
-        ArbitraryPrecisionInteger den = try_parse_int<ArbitraryPrecisionInteger>(split.at(1));
         angle = Fraction{num, den, is_negative};
     } else {
         angle = std::string(s);
