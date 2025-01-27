@@ -111,33 +111,39 @@ gates::CNOTAncillaPlacement determine_cnot_ancilla_placement(const std::vector<s
 }
 
 
-Fraction parse_angle(std::string_view s)
+Angle parse_angle(std::string_view s)
 {
-    bool is_negative = false;
-    // check if negative
-    if(s.starts_with("-")) {
-        is_negative = true;
-        s = s.substr(1);
+    Angle angle;
+    if (s.contains("pi")) {
+        bool is_negative = false;
+        // check if negative
+        if(s.starts_with("-")) {
+            is_negative = true;
+            s = s.substr(1);
+        }
+
+        if(s.starts_with("pi/"))
+            return Fraction{1,try_parse_int<ArbitraryPrecisionInteger>(s.substr(3)), is_negative};
+
+        // use split on with *pi/ as delimiter
+        auto split = lstk::split_on(s,"*pi/");
+        if(split.size() != 2) {
+            //Is this an angle of the form 3*pi?
+            // not sure why but maybe we need something like
+            std::string ns = std::string(s) + "/1";
+
+            split = lstk::split_on(ns,"*pi/");
+            if(split.size() != 2)
+                throw GateParseException{lstk::cat("Could not parse angle ", s, " as n*pi/m")};
+        }
+
+        ArbitraryPrecisionInteger num = try_parse_int<ArbitraryPrecisionInteger>(split.at(0));
+        ArbitraryPrecisionInteger den = try_parse_int<ArbitraryPrecisionInteger>(split.at(1));
+        angle = Fraction{num, den, is_negative};
+    } else {
+        angle = std::string(s);
     }
-
-    if(s.starts_with("pi/"))
-        return Fraction{1,try_parse_int<ArbitraryPrecisionInteger>(s.substr(3)), is_negative};
-
-    // use split on with *pi/ as delimiter
-    auto split = lstk::split_on(s,"*pi/");
-    if(split.size() != 2) {
-        //Is this an angle of the form 3*pi?
-        // not sure why but maybe we need something like
-        std::string ns = std::string(s) + "/1";
-
-        split = lstk::split_on(ns,"*pi/");
-        if(split.size() != 2)
-            throw GateParseException{lstk::cat("Could not parse angle ", s, " as n*pi/m")};
-    }
-
-    ArbitraryPrecisionInteger num = try_parse_int<ArbitraryPrecisionInteger>(split.at(0));
-    ArbitraryPrecisionInteger den = try_parse_int<ArbitraryPrecisionInteger>(split.at(1));
-    return Fraction{num, den, is_negative};
+    return angle;
 }
 
 gates::Reset parse_reset(const std::vector<std::string_view>& args)
@@ -189,9 +195,9 @@ gates::Gate parse_qasm_gate(const Line& line)
         if (get_arg_in_brackets(line.instruction) == "pi*-1")
             return gates::Z(get_index_arg(line.args.at(0)));
 
-        Fraction fraction = parse_angle(get_arg_in_brackets(line.instruction));
+        Angle angle = parse_angle(get_arg_in_brackets(line.instruction));
 
-        if(fraction.den == 1)
+        if(std::holds_alternative<Fraction>(angle) && get<Fraction>(angle).den == 1)
         {
             // Multiples of PI are Z with a global phase
             return gates::Z(get_index_arg(line.args.at(0)));
@@ -199,7 +205,7 @@ gates::Gate parse_qasm_gate(const Line& line)
 
         return gates::RZ{
             get_index_arg(line.args[0]),
-            fraction
+            angle
             };
     }
     if(line.instruction.substr(0,3) == "crz")
