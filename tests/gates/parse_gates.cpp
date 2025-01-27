@@ -27,6 +27,21 @@ TEST(parse_gates, rz_2_pi_over_7)
     ASSERT_TRUE(std::holds_alternative<gates::RZ>(g));
     auto rz = std::get<gates::RZ>(g);
     ASSERT_EQ(22, rz.target_qubit);
-    ASSERT_EQ(2, rz.pi_fraction.num);
-    ASSERT_EQ(7, rz.pi_fraction.den);
+    ASSERT_TRUE(std::holds_alternative<Fraction>(rz.angle));
+    Fraction pi_fraction = std::get<Fraction>(rz.angle);
+    ASSERT_EQ(2, pi_fraction.num);
+    ASSERT_EQ(7, pi_fraction.den);
+}
+
+TEST(parse_gates, rz_decimal)
+{
+    std::string gate = "rz(3.423229590737822) qreg[22];";
+    ParseGateResult res = parse_gate(gate);
+    ASSERT_TRUE(std::holds_alternative<gates::Gate>(res));
+    auto g = std::get<gates::Gate>(res);
+    ASSERT_TRUE(std::holds_alternative<gates::RZ>(g));
+    auto rz = std::get<gates::RZ>(g);
+    ASSERT_EQ(22, rz.target_qubit);
+    ASSERT_TRUE(std::holds_alternative<std::string>(rz.angle));
+    ASSERT_EQ("3.423229590737822", std::get<std::string>(rz.angle));
 }
