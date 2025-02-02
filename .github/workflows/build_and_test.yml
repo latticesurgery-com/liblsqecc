@@ -124,7 +124,7 @@ jobs:
           cp LICENSE npm/
 
       - name: Upload Build Artifact
-        uses: actions/upload-artifact@4
+        uses: actions/upload-artifact@v4
         with:
           name: npm-build-artifact
           retention-days: 3
