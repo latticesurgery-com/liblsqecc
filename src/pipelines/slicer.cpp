@@ -160,6 +160,10 @@ namespace lsqecc
                 .description("Add Xs and Zs to correct the the negative outcomes: never (default), always") // TODO add random
                 .required(false);
         parser.add_argument()
+                .names({"--op-ids"})
+                .description("Generates certain opearion ids. For now, it only adds ids to multi-body-measurement")
+                .required(false);
+        parser.add_argument()
                 .names({"--layoutgenerator","-L"})
                 .description(
                     "Automatically generates a layout for the given number of qubits. Incompatible with -l. Options:" CONSOLE_HELP_NEWLINE_ALIGN
@@ -610,7 +614,8 @@ namespace lsqecc
                     timeout,
                     slice_visitor,
                     instruction_visitor,
-                    parser.exists("graceful")
+                    parser.exists("graceful"),
+                    parser.exists("op-ids")
         ));
 
         if(parser.exists("o") || parser.exists("noslices"))

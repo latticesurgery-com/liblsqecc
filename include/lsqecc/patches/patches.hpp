@@ -133,10 +133,7 @@ struct Patch {
     PatchActivity activity;
     std::optional<PatchId> id;
     std::optional<std::string> label;
-
-    // Patch& operator=(const Patch& other)
-
-    std::optional<OpId> routing_region_id = -1;// wtf
+    std::optional<OpId> operation_id;
 
     bool operator==(const Patch&) const = default;
 };
