@@ -43,6 +43,7 @@ jobs:
         with:
           name: npm-build-artifact
           retention-days: 7
+          include-hidden-files: true
           path: |
             npm/
 
