@@ -5,7 +5,6 @@ using namespace nlohmann;
 
 namespace lsqecc {
 
-
 json init_blank_json_slice(const Slice& slice)
 {
     json out_rows = json::array();
@@ -64,6 +63,9 @@ json boundaries_to_array_edges_json(const CellBoundaries& cell_boundaries)
 json dense_patch_to_json(const DensePatch& p)
 {
     json visual_array_cell = boundaries_to_array_edges_json(p.boundaries);
+        if(p.operation_id)
+            visual_array_cell["operation_id"] = std::to_string(*p.operation_id);
+
     visual_array_cell["patch_type"] = [&](){
         switch (p.type)
         {
@@ -148,7 +150,8 @@ json slice_to_json(const SparseSlice& slice)
             json visual_array_cell = boundaries_to_array_edges_json(routing_cell);
             visual_array_cell["patch_type"] = "Ancilla";
             visual_array_cell["activity"] = json({});
-            // TODO could add sanity check on indices
+            if(routing_region.routing_region_id)
+                visual_array_cell["operation_id"] =  std::to_string(*routing_region.routing_region_id);
             out_slice[routing_cell.cell.row][routing_cell.cell.col] = visual_array_cell;
         }
     }

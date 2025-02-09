@@ -8,9 +8,10 @@
 namespace lsqecc {
 
 
-WaveScheduler::WaveScheduler(LSInstructionStream&& stream, bool local_instructions, bool allow_twists, const Layout& layout, std::unique_ptr<Router> router, PipelineMode pipeline_mode):
+WaveScheduler::WaveScheduler(LSInstructionStream&& stream, bool local_instructions, bool allow_twists, bool gen_op_ids, const Layout& layout, std::unique_ptr<Router> router, PipelineMode pipeline_mode):
 	local_instructions_(local_instructions),
 	allow_twists_(allow_twists),
+	gen_op_ids_(gen_op_ids),
 	layout_(layout)
 {
 	router_ = std::move(router);
@@ -114,7 +115,7 @@ size_t WaveScheduler::schedule_instructions(const std::vector<InstructionID>& in
 		auto& instruction = records_[instruction_id].instruction;
 
 		// std::cerr << "Applying instruction: " << instruction << std::endl;
-		auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions_, allow_twists_, layout_, *router_);
+		auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions_, allow_twists_, gen_op_ids_, layout_, *router_);
 		// std::cerr << "Applied instruction: " << instruction << std::endl;
 
 		if (!application_result.maybe_error)
@@ -270,7 +271,7 @@ bool WaveScheduler::try_schedule_immediately(InstructionID instruction_id, Dense
 		return false;
 	
 	// std::cerr << "Applying dependent: " << instruction << std::endl;
-	auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions_, allow_twists_, layout_, *router_);
+	auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions_, allow_twists_, gen_op_ids_, layout_, *router_);
 	// std::cerr << "Applied dependent: " << instruction << std::endl;
 
 	if (application_result.maybe_error)

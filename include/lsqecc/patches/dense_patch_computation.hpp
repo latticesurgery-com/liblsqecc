@@ -48,7 +48,8 @@ DensePatchComputationResult run_through_dense_slices(
         std::optional<std::chrono::seconds> timeout,
         DenseSliceVisitor slice_visitor,
         LSInstructionVisitor instruction_visitor,
-        bool graceful);
+        bool graceful,
+        bool gen_op_ids);
 
 
 static constexpr size_t MAX_INSTRUCTION_APPLICATION_RETRIES_DAG_PIPELINE = 100;
@@ -67,6 +68,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         LSInstruction& instruction,
         bool local_instructions,
         bool allow_twists,
+        bool gen_op_ids,
         const Layout& layout,
         Router& router);
 

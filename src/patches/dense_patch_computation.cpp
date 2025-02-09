@@ -210,7 +210,6 @@ void mark_routing_region(DenseSlice& slice, RoutingRegion& routing_region, Patch
         // In the case that there is a patch allocated to this cell,
         if (patch.has_value())
         {
-
             // In the case that it has already been a part of EDPC (implying that we have found a crossing path),
             if (patch->activity == PatchActivity::EDPC && (activity == PatchActivity::EDPC))
             {
@@ -278,7 +277,9 @@ void mark_routing_region(DenseSlice& slice, RoutingRegion& routing_region, Patch
                 }
             }
 
-            slice.place_sparse_patch(SparsePatch{{PatchType::Routing, activity}, occupied_cell}, false);
+            SparsePatch tmp = SparsePatch{{PatchType::Routing, activity}, occupied_cell};
+            tmp.operation_id = routing_region.routing_region_id;
+            slice.place_sparse_patch(tmp, false);
         }
 
         counter++;
@@ -298,6 +299,8 @@ void clear_routing_region(DenseSlice& slice, const RoutingRegion& routing_region
 }
 
 
+static OpId multi_body_measurement_op_id_counter = 1;
+
 /*
  * Returns true iff merge was successful
  */
@@ -307,7 +310,8 @@ bool merge_patches(
         PatchId source,
         PauliOperator source_op,
         PatchId target,
-        PauliOperator target_op)
+        PauliOperator target_op,
+        bool gen_op_ids)
 {
 
     // TODO remove duplicate cell/patch search
@@ -321,6 +325,9 @@ bool merge_patches(
     {
         return false;
     }
+
+    if (gen_op_ids)
+        routing_region->routing_region_id = multi_body_measurement_op_id_counter++;
 
     // TODO check that the path is actually free when caching
 
@@ -743,6 +750,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         LSInstruction& instruction,
         bool local_instructions,
         bool allow_twists,
+        bool gen_op_ids,
         const Layout& layout,
         Router& router)
 {
@@ -769,7 +777,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
             if (router.get_EDPC())
                 throw std::runtime_error("EDPC is not available for non-local lattice surgery operations.");
 
-            if (!merge_patches(slice, router, p->target, PauliOperator::X, p->target, PauliOperator::Z))
+            if (!merge_patches(slice, router, p->target, PauliOperator::X, p->target, PauliOperator::Z, gen_op_ids))
                 return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Could not do S gate routing on ", p->target)),
                         {}};
             LSInstruction corrective_term{SingleQubitOp{p->target, SingleQubitOp::Operator::Z}};
@@ -808,8 +816,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
         {
             if (router.get_EDPC())
                 throw std::runtime_error("EDPC is not available for non-local lattice surgery operations.");
-            
-            if (!merge_patches(slice, router, source_id, source_op, target_id, target_op))
+            if (!merge_patches(slice, router, source_id, source_op, target_id, target_op, gen_op_ids))
                 return {std::make_unique<std::runtime_error>(lstk::cat(instruction,"; Couldn't find room to route")), {}};
             
             return {nullptr, {}};
@@ -1442,6 +1449,7 @@ void run_through_dense_slices_streamed(
         LSInstructionStream&& instruction_stream,
         bool local_instructions,
         bool allow_twists,
+        bool gen_op_ids,
         const Layout& layout,
         Router& router,
         std::optional<std::chrono::seconds> timeout,
@@ -1463,7 +1471,7 @@ void run_through_dense_slices_streamed(
             return instruction_stream.get_next_instruction();
         }();
 
-        auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions, allow_twists, layout, router);
+        auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions, allow_twists, gen_op_ids, layout, router);
         if (!application_result.maybe_error)
             instruction_visitor(instruction);
 
@@ -1495,6 +1503,7 @@ void run_through_dense_slices_dag(
         const tsl::ordered_set<PatchId>& core_qubits,
         bool local_instructions,
         bool allow_twists,
+        bool gen_op_ids,
         const Layout& layout,
         Router& router,
         std::optional<std::chrono::seconds> timeout,
@@ -1532,7 +1541,7 @@ void run_through_dense_slices_dag(
         for (dag::label_t instruction_label: proximate_instructions)
         {
             LSInstruction& instruction = dag.at(instruction_label);
-            auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions, allow_twists, layout, router);
+            auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions, allow_twists, gen_op_ids, layout, router);
             if (application_result.maybe_error)
                 throw std::runtime_error{lstk::cat(
                     "Could not apply proximate instruction:\n",
@@ -1553,7 +1562,7 @@ void run_through_dense_slices_dag(
         for (dag::label_t instruction_label: non_proximate_instructions)
         {
             LSInstruction& instruction = dag.at(instruction_label);
-            auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions, allow_twists, layout, router);
+            auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions, allow_twists, gen_op_ids, layout, router);
             if (application_result.maybe_error)
             {
                 increment_attempts(instruction_label);
@@ -1588,6 +1597,7 @@ void run_through_dense_slices_wave(
         PipelineMode pipeline_mode,
         bool local_instructions,
         bool allow_twists,
+        bool gen_op_ids,
         const Layout& layout,
         std::unique_ptr<Router> router,
         std::optional<std::chrono::seconds> timeout,
@@ -1597,7 +1607,7 @@ void run_through_dense_slices_wave(
         DensePatchComputationResult& res)
 {
     DenseSlice slice{layout, instruction_stream.core_qubits()};
-    WaveScheduler scheduler(std::move(instruction_stream), local_instructions, allow_twists, layout, std::move(router), pipeline_mode);
+    WaveScheduler scheduler(std::move(instruction_stream), local_instructions, allow_twists, gen_op_ids, layout, std::move(router), pipeline_mode);
     
     while (!scheduler.done())
     {
@@ -1621,7 +1631,9 @@ DensePatchComputationResult run_through_dense_slices(
         std::optional<std::chrono::seconds> timeout,
         DenseSliceVisitor slice_visitor,
         LSInstructionVisitor instruction_visitor,
-        bool graceful)
+        bool graceful,
+        bool gen_op_ids
+        )
 {
 
     DensePatchComputationResult res;
@@ -1654,6 +1666,7 @@ DensePatchComputationResult run_through_dense_slices(
                 std::move(instruction_stream),
                 local_instructions,
                 allow_twists,
+                gen_op_ids,
                 layout,
                 *router,
                 timeout,
@@ -1670,6 +1683,7 @@ DensePatchComputationResult run_through_dense_slices(
                 instruction_stream.core_qubits(),
                 local_instructions,
                 allow_twists,
+                gen_op_ids,
                 layout,
                 *router,
                 timeout,
@@ -1686,6 +1700,7 @@ DensePatchComputationResult run_through_dense_slices(
                 pipeline_mode,
                 local_instructions,
                 allow_twists,
+                gen_op_ids,
                 layout,
                 std::move(router),
                 timeout,

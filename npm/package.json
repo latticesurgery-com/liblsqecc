@@ -27,8 +27,8 @@
   "scripts": {
     "build": "tsc --project tsconfig.build.json",
     "test": "jest",
-    "lint": "prettier --check {src,tests}/**/*.{ts,js}",
-    "lint:fix": "prettier --write {src,tests}/**/*.{ts,js}"
+    "lint": "prettier --loglevel debug --check {src,tests}/**/*.ts",
+    "lint:fix": "prettier --write {src,tests}/**/*.ts"
   },
   "devDependencies": {
     "@types/jest": "^29.4.0",
