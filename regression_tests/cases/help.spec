@@ -14,6 +14,7 @@ Options:
     --printdag             Prints a dependency dag of the circuit. Modes: input (default), processedlli
     --noslices             Do the slicing but don't write the slices out
     --cnotcorrections      Add Xs and Zs to correct the the negative outcomes: never (default), always
+    --op-ids               Generates certain opearion ids. For now, it only adds ids to multi-body-measurement
     --layoutgenerator, -L  Automatically generates a layout for the given number of qubits. Incompatible with -l. Options:
                             - compact (default): Uses Litinski's Game of Surace Code compact layout (https://arxiv.org/abs/1808.02892)
                             - compact_no_clogging: same as compact, but fewer cells for ancillas and magic state queues

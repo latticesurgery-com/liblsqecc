@@ -7,7 +7,6 @@
 
 namespace lsqecc {
 
-
 nlohmann::json slice_to_json(const SparseSlice& slices);
 nlohmann::json slice_to_json(const DenseSlice& slices);
 

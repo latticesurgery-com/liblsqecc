@@ -39,10 +39,11 @@ jobs:
           cp LICENSE npm/
 
       - name: Upload Build Artifact
-        uses: actions/upload-artifact@v3.1.0
+        uses: actions/upload-artifact@v4
         with:
           name: npm-build-artifact
           retention-days: 7
+          include-hidden-files: true
           path: |
             npm/
 
@@ -62,7 +63,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - name: Download Build Artifact
-        uses: actions/download-artifact@v3.0.1
+        uses: actions/download-artifact@v4
         with:
           name: npm-build-artifact
 

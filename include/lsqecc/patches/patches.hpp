@@ -34,6 +34,9 @@ std::ostream& operator<<(std::ostream& os, BoundaryType bt);
 
 BoundaryType boundary_for_operator(PauliOperator op);
 
+
+using OpId = uint64_t;
+
 struct Cell {
     using CoordinateType = int32_t;
     CoordinateType row;
@@ -103,6 +106,7 @@ struct CellBoundaries {
     void instant_rotate();
 };
 
+
 struct SingleCellOccupiedByPatch : public CellBoundaries {
 
     Cell cell;
@@ -129,8 +133,7 @@ struct Patch {
     PatchActivity activity;
     std::optional<PatchId> id;
     std::optional<std::string> label;
-    
-    // Patch& operator=(const Patch& other)
+    std::optional<OpId> operation_id;
 
     bool operator==(const Patch&) const = default;
 };
@@ -152,7 +155,6 @@ struct SparsePatch : public Patch {
 
 
 struct DensePatch : public Patch {
-
     CellBoundaries boundaries;
 
     SparsePatch to_sparse_patch(const Cell& c) const;
@@ -165,6 +167,8 @@ struct DensePatch : public Patch {
 struct RoutingRegion
 {
     std::vector<SingleCellOccupiedByPatch> cells;
+    std::optional<OpId> routing_region_id;
+
     bool operator==(const RoutingRegion&) const = default;
 };
 
