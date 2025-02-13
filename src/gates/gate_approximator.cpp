@@ -1,6 +1,8 @@
+#include "lsqecc/gates/gates.hpp"
 #include <lsqecc/gates/gate_approximator.hpp>
 
 #include <algorithm>
+#include <variant>
 
 
 bool is_power_of_two(lsqecc::ArbitraryPrecisionInteger n)
@@ -84,11 +86,15 @@ std::vector<Gate> approximate_RZ_gate_gridsynth(const RZ rz_gate, double rz_prec
 {
     std::vector<Gate> out;
 
-    Fraction pi_fraction = rz_gate.pi_fraction;
-    std::string angle = (pi_fraction.is_negative? "-":"+")
-                        + std::to_string(pi_fraction.num) 
-                        + "*pi/" 
-                        + std::to_string(pi_fraction.den);
+    std::string angle;
+    if (std::holds_alternative<Fraction>(rz_gate.angle)) {
+        Fraction pi_fraction = std::get<Fraction>(rz_gate.angle);
+        angle = (pi_fraction.is_negative? "-":"+")
+                + std::to_string(pi_fraction.num) 
+                + "*pi/" + std::to_string(pi_fraction.den);
+    } else if (std::holds_alternative<std::string>(rz_gate.angle)) {
+        angle = std::get<std::string>(rz_gate.angle);
+    }
     std::vector<char> gate_names{do_gridsynth_call(rz_precision_log_ten_negative, angle)};
     for (auto gate_name = gate_names.begin(); gate_name != gate_names.end(); gate_name++)
     {
@@ -120,12 +126,16 @@ using namespace gates;
 std::vector<Gate> approximate_RZ_gate_cached(const RZ rz_gate)
 {
     std::vector<Gate> res;
-    if ((rz_gate.pi_fraction.num == 1 || rz_gate.pi_fraction.num == -1) && is_power_of_two(rz_gate.pi_fraction.den))
+    Fraction pi_fraction;
+    if (std::holds_alternative<Fraction>(rz_gate.angle))
+        pi_fraction = std::get<Fraction>(rz_gate.angle);
+    if ((pi_fraction.num == 1 || pi_fraction.num == -1) && is_power_of_two(pi_fraction.den))
     {
         // TODO Do the approximation
         throw std::runtime_error{lstk::cat("Not implemented! No cached decompositions. We are working on this...")};
     }
-    throw std::runtime_error{lstk::cat("Can only approximate pi/2^n phase gates in cached mode, got rz(", print_pi_fraction(rz_gate.pi_fraction),")\n"
+    std::string angle = std::holds_alternative<std::string>(rz_gate.angle)? std::get<std::string>(rz_gate.angle): print_pi_fraction(pi_fraction);
+    throw std::runtime_error{lstk::cat("Can only approximate pi/2^n phase gates in cached mode, got rz(", angle,")\n"
                                        "If you really need non pi/2^n gates consider enabling the gridsynth integration"
                                        )};
 

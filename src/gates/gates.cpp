@@ -10,6 +10,8 @@ namespace lsqecc::gates {
 std::vector<Gate> decompose_CRZ_gate(const ControlledGate &crz_gate, double rz_precision_log_ten_negative)
 {
     const auto &rz_gate = std::get<RZ>(crz_gate.target_gate);
+    if (!std::holds_alternative<Fraction>(rz_gate.angle))
+        throw std::runtime_error{lstk::cat("CRZ only implemented for fractional angles.")};
     /*
      * Use the following identity:
      *                                 ┌───────────┐
@@ -20,23 +22,21 @@ std::vector<Gate> decompose_CRZ_gate(const ControlledGate &crz_gate, double rz_p
      */
 
     std::vector<Gate> res;
+    Fraction pi_fraction = std::get<Fraction>(rz_gate.angle);
     lstk::vector_extend(res, decompose(
-            RZ{crz_gate.control_qubit, Fraction{rz_gate.pi_fraction.num,
-                                                rz_gate.pi_fraction.den * 2}},
+            RZ{crz_gate.control_qubit, Fraction{pi_fraction.num, pi_fraction.den * 2}},
             rz_precision_log_ten_negative
         )
     );
     lstk::vector_extend(res, decompose(
-            RZ{rz_gate.target_qubit, Fraction{rz_gate.pi_fraction.num,
-                                              rz_gate.pi_fraction.den * 2}},
+            RZ{rz_gate.target_qubit, Fraction{pi_fraction.num, pi_fraction.den * 2}},
             rz_precision_log_ten_negative
         )
     );
     res.emplace_back(
             CNOT(rz_gate.target_qubit, crz_gate.control_qubit, crz_gate.cnot_type, crz_gate.cnot_ancilla_placement));
     lstk::vector_extend(res, decompose(
-            RZ{rz_gate.target_qubit, Fraction{-rz_gate.pi_fraction.num,
-                                              rz_gate.pi_fraction.den * 2}},
+            RZ{rz_gate.target_qubit, Fraction{-pi_fraction.num, pi_fraction.den * 2}},
             rz_precision_log_ten_negative
         )
     );
@@ -220,7 +220,13 @@ std::ostream& operator<<(std::ostream& os, const gates::Gate& gate)
             }() << " q[" << gate.target_qubit << "];";
         },
         [&](const RZ& rz){
-            os << "rz("<<rz.pi_fraction.num<<"pi/"<<rz.pi_fraction.den<<") q["<<rz.target_qubit<<"];";
+            os << "rz(";
+            if (std::holds_alternative<Fraction>(rz.angle)) {
+                Fraction pi_fraction = std::get<Fraction>(rz.angle);
+                os << pi_fraction.num<<"pi/"<< pi_fraction.den;
+            } else if (std::holds_alternative<std::string>(rz.angle))
+                os << std::get<std::string>(rz.angle);
+            os << ") q["<<rz.target_qubit<<"];";
         },
         [&](const ControlledGate& ctrld){
             return std::visit(lstk::overloaded{
@@ -242,9 +248,15 @@ std::ostream& operator<<(std::ostream& os, const gates::Gate& gate)
                 },
                 [&](const RZ& rz){
                     os << "crz(";
-                    if(rz.pi_fraction.num != 1)
-                        os << rz.pi_fraction.num << "*pi";
-                    os <<"pi/"<<rz.pi_fraction.den << ") q[" << ctrld.control_qubit << "],q[" << rz.target_qubit << "];";
+                    if (std::holds_alternative<Fraction>(rz.angle)) {
+                        Fraction pi_fraction = std::get<Fraction>(rz.angle);
+                        if(pi_fraction.num != 1)
+                            os << pi_fraction.num << "*pi";
+                        os <<"pi/"<<pi_fraction.den;
+                    } else if (std::holds_alternative<std::string>(rz.angle)){
+                        os << std::get<std::string>(rz.angle);
+                    }
+                    os << ") q[" << ctrld.control_qubit << "],q[" << rz.target_qubit << "];";
                 },
             }, ctrld.target_gate);
         },

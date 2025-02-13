@@ -21,6 +21,7 @@ struct Fraction{
     bool operator==(const Fraction& other) const = default;
 };
 
+using Angle = std::variant<Fraction, std::string>;
 
 using QubitNum = uint32_t;
 
@@ -50,7 +51,7 @@ struct BasicSingleQubitGate{
 struct RZ
 {
     QubitNum target_qubit;
-    Fraction pi_fraction; // Phase is exp(i*pi*phase_pi_fraction)
+    Angle angle; 
 };
 
 
@@ -137,8 +138,8 @@ inline constexpr ControlledGate CZ(
 }
 
 inline constexpr ControlledGate CRZ(
-        QubitNum target_qubit, QubitNum control_qubit, Fraction pi_fraction, CNOTType cnot_type, CNOTAncillaPlacement cnot_ancilla_placement){
-    return {control_qubit, RZ{target_qubit, pi_fraction}, cnot_type, cnot_ancilla_placement};
+        QubitNum target_qubit, QubitNum control_qubit, Angle angle, CNOTType cnot_type, CNOTAncillaPlacement cnot_ancilla_placement){
+    return {control_qubit, RZ{target_qubit, angle}, cnot_type, cnot_ancilla_placement};
 }
 
 using Gate = std::variant<BasicSingleQubitGate, RZ, ControlledGate, Reset>;
