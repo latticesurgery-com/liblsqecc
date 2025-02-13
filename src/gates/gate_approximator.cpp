@@ -84,7 +84,11 @@ std::vector<Gate> approximate_RZ_gate_gridsynth(const RZ rz_gate, double rz_prec
 {
     std::vector<Gate> out;
 
-    std::string angle{lstk::cat("1*pi/16")};
+    Fraction pi_fraction = rz_gate.pi_fraction;
+    std::string angle = (pi_fraction.is_negative? "-":"+")
+                        + std::to_string(pi_fraction.num) 
+                        + "*pi/" 
+                        + std::to_string(pi_fraction.den);
     std::vector<char> gate_names{do_gridsynth_call(rz_precision_log_ten_negative, angle)};
     for (auto gate_name = gate_names.begin(); gate_name != gate_names.end(); gate_name++)
     {
