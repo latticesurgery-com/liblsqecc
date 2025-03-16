@@ -9,3 +9,4 @@ build
 tests_*
 .DS_Store
 *.github
+*.sqlite
