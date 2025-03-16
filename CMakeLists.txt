@@ -31,11 +31,21 @@ else()
     message(WARNING "Boost graph library not found. Graph search features will be disabled.")
 endif()
 
-# set(PYTHON_VERSION 3.9)
-# set(Python_ROOT_DIR /usr/lib/python3.9)
-# set(PYTHON_LIBRARIES /usr/lib/libpython3.10.so)
-#find_package(PythonLibs)
-#include_directories(/usr/include/python3.10)
+if(DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
+    message(STATUS "Emscripten build detected: Skipping find_package(SQLite3)")
+    # Provide empty variables so that later include_directories and target_link_libraries work.
+    set(SQLite3_INCLUDE_DIRS "")
+    set(SQLite3_LIBRARIES "")
+else()
+    find_package(SQLite3 REQUIRED)
+    if(SQLite3_FOUND)
+        message(STATUS "Found SQLite3: ${SQLite3_INCLUDE_DIRS} ${SQLite3_LIBRARIES}")
+    else()
+        message(FATAL_ERROR "SQLite3 not found. Please install sqlite3 and its development package.")
+    endif()
+endif()
+
+include_directories(${SQLite3_INCLUDE_DIRS})
 
 include_directories(external/ordered-map/include)
 
@@ -48,40 +58,46 @@ include_directories(external/include)
 ###################################################
 # Library setup
 
-add_library(
-        lsqecclib
-        src/dag/directed_graph.cpp
-        src/dag/domain_dags.cpp
-        src/gates/parse_gates.cpp
-        src/gates/gates.cpp
-        src/gates/gate_approximator.cpp
-        src/gates/decompose_rotation_stream.cpp
-        src/patches/dense_slice.cpp
-        src/patches/dense_patch_computation.cpp
-        src/patches/patches.cpp
-        src/patches/sparse_slice.cpp
-        src/patches/slices_to_json.cpp
-        src/patches/slice_stats.cpp
-        src/pipelines/slicer.cpp
-        src/layout/dynamic_layouts/compact_layout.cpp
-    	src/layout/dynamic_layouts/edpc_layout.cpp
-        src/layout/dynamic_layouts/determine_exposed_operators.cpp
-        src/layout/graph_search/boost_based_graph_search.cpp
-        src/layout/graph_search/custom_graph_search.cpp
-        src/layout/router.cpp
-        src/layout/ascii_layout_spec.cpp
-        src/layout/layout.cpp
-        src/ls_instructions/boundary_rotation_injection_stream.cpp
-        src/ls_instructions/ls_instructions_from_gates.cpp
-        src/ls_instructions/ls_instructions_parse.cpp
-        src/ls_instructions/ls_instruction_stream.cpp
-        src/ls_instructions/ls_instructions.cpp
-        src/ls_instructions/parse_utils.cpp
-        src/ls_instructions/teleported_s_gate_injection_stream.cpp
-        src/ls_instructions/catalytic_s_gate_injection_stream.cpp
-        src/ls_instructions/local_instructions.cpp
-        src/scheduler/wave_scheduler.cpp
-       )
+add_library(lsqecclib)
+
+target_sources(lsqecclib PRIVATE
+    src/dag/directed_graph.cpp
+    src/dag/domain_dags.cpp
+    src/gates/parse_gates.cpp
+    src/gates/gates.cpp
+    src/gates/gate_approximator.cpp
+    src/gates/decompose_rotation_stream.cpp
+    src/patches/dense_slice.cpp
+    src/patches/dense_patch_computation.cpp
+    src/patches/patches.cpp
+    src/patches/sparse_slice.cpp
+    src/patches/slices_to_json.cpp
+    src/patches/slices_to_text.cpp
+    src/patches/slice_stats.cpp
+    src/pipelines/slicer.cpp
+    src/layout/dynamic_layouts/compact_layout.cpp
+    src/layout/dynamic_layouts/edpc_layout.cpp
+    src/layout/dynamic_layouts/determine_exposed_operators.cpp
+    src/layout/graph_search/boost_based_graph_search.cpp
+    src/layout/graph_search/custom_graph_search.cpp
+    src/layout/router.cpp
+    src/layout/ascii_layout_spec.cpp
+    src/layout/layout.cpp
+    src/ls_instructions/boundary_rotation_injection_stream.cpp
+    src/ls_instructions/ls_instructions_from_gates.cpp
+    src/ls_instructions/ls_instructions_parse.cpp
+    src/ls_instructions/ls_instruction_stream.cpp
+    src/ls_instructions/ls_instructions.cpp
+    src/ls_instructions/parse_utils.cpp
+    src/ls_instructions/teleported_s_gate_injection_stream.cpp
+    src/ls_instructions/catalytic_s_gate_injection_stream.cpp
+    src/ls_instructions/local_instructions.cpp
+    src/scheduler/wave_scheduler.cpp
+)
+
+if (NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
+    target_sources(lsqecclib PRIVATE src/patches/minetest_export.cpp)
+endif()
 
 set(LSQECCLIB_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/include")
 
@@ -95,6 +111,9 @@ if(Boost_FOUND)
     target_include_directories(lsqecclib PRIVATE ${Boost_INCLUDE_DIRS})
     target_link_libraries(lsqecclib PRIVATE ${Boost_LIBRARIES})
 endif()
+
+# Link SQLite3 into the library.
+target_link_libraries(lsqecclib PUBLIC ${SQLite3_LIBRARIES})
 
 set_property(TARGET lsqecclib PROPERTY POSITION_INDEPENDENT_CODE ON)
 
@@ -137,6 +156,55 @@ if(USE_GRIDSYNTH)
     )
 else()
    message("USE_GRIDSYNTH not defined, building without Gridsynth")
+endif()
+
+# ----- Find Zstandard (libzstd) -----
+if(DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
+    message(STATUS "Emscripten build detected: Skipping Zstd configuration.")
+    set(ZSTD_INCLUDE_DIRS "")
+    set(ZSTD_LIBRARIES "")
+else()
+    find_package(Zstd CONFIG QUIET)
+    if(Zstd_FOUND)
+        if(TARGET zstd::Libzstd_static)
+            message(STATUS "Found zstd::Libzstd_static target (macOS configuration).")
+            target_link_libraries(lsqecclib PRIVATE zstd::Libzstd_static)
+        else()
+            message(STATUS "Zstd config found, but zstd::Libzstd_static target not available. Falling back to pkg-config on this platform.")
+            find_package(PkgConfig REQUIRED)
+            pkg_check_modules(ZSTD REQUIRED libzstd)
+            if(ZSTD_FOUND)
+                message(STATUS "Found libzstd via pkg-config.")
+                target_include_directories(lsqecclib PRIVATE ${ZSTD_INCLUDE_DIRS})
+                link_directories(${ZSTD_LIBRARY_DIRS})
+                target_link_libraries(lsqecclib PRIVATE ${ZSTD_LIBRARIES})
+            else()
+                message(FATAL_ERROR "libzstd not found via pkg-config.")
+            endif()
+        endif()
+    else()
+        message(STATUS "Zstd config not found. Trying pkg-config...")
+        find_package(PkgConfig REQUIRED)
+        pkg_check_modules(ZSTD REQUIRED libzstd)
+        if(ZSTD_FOUND)
+            message(STATUS "Found libzstd via pkg-config.")
+            target_include_directories(lsqecclib PRIVATE ${ZSTD_INCLUDE_DIRS})
+            link_directories(${ZSTD_LIBRARY_DIRS})
+            target_link_libraries(lsqecclib PRIVATE ${ZSTD_LIBRARIES})
+        else()
+            message(FATAL_ERROR "libzstd not found.")
+        endif()
+    endif()
+endif()
+
+# ----- Find Boost -----
+find_package(Boost QUIET COMPONENTS graph)
+if(Boost_FOUND)
+    message(STATUS "Found Boost")
+    add_definitions(-DENABLE_BOOST_GRAPH_SEARCH)
+    include_directories(${Boost_INCLUDE_DIRS})
+else()
+    message(STATUS "Boost not found; Boost Graph Search will be disabled")
 endif()
 
 ###################################################

@@ -19,6 +19,8 @@
 #include <lsqecc/patches/slice_stats.hpp>
 #include <lsqecc/patches/dense_patch_computation.hpp>
 #include <lsqecc/patches/slice_variant.hpp>
+#include <lsqecc/patches/slices_to_text.hpp>
+#include <lsqecc/patches/minetest_export.hpp>
 
 #include <lstk/lstk.hpp>
 
@@ -234,6 +236,14 @@ namespace lsqecc
                 .description("Max consecutive slices without routing progress before the stream and wave" CONSOLE_HELP_NEWLINE_ALIGN
                              "pipelines abort as deadlocked (default 1000). Raise for circuits with long" CONSOLE_HELP_NEWLINE_ALIGN
                              "magic-state waits. Has no effect on -P dag.")
+                .required(false);
+        parser.add_argument()
+                .names({"--minetest"})
+                .description("Generate a map.sqlite file for Minetest")
+                .required(false);
+        parser.add_argument()
+                .names({"--stripeheight"})
+                .description("Set the stripe height for minetest export (default 4)")
                 .required(false);
         parser.enable_help();
 
@@ -691,6 +701,14 @@ namespace lsqecc
                  .timeout                = timeout,
                  .max_no_progress_slices = max_no_progress});
 
+        // --minetest: instead of writing per-slice JSON, accumulate each slice's ASCII pattern
+        // (with a monotonically increasing timestamp) so that after slicing we build one Minetest
+        // map.sqlite from the whole pattern. Only meaningful while producing slices (print_slices),
+        // matching the JSON output path it replaces.
+        const bool export_minetest = parser.exists("minetest") && print_slices;
+        std::ostringstream minetest_pattern;
+        size_t minetest_time_stamp = 0;
+
         auto consume_slices = [&]()
         {
             for (const DenseSlice& slice : *slices)
@@ -702,7 +720,12 @@ namespace lsqecc
                 // Base output: write the slice to its destination.
                 if (print_slices)
                 {
-                    if (is_first_slice)
+                    if (export_minetest)
+                    {
+                        minetest_pattern << slice_to_text(slice, minetest_time_stamp) << "\n";
+                        ++minetest_time_stamp;
+                    }
+                    else if (is_first_slice)
                     {
                         bulk_output_stream.get() << "[\n" << slice_to_json(slice).dump(3);
                         is_first_slice = false;
@@ -775,6 +798,22 @@ namespace lsqecc
                 err_stream << e.what() << std::endl;
                 return -1;
             }
+        }
+
+        // Minetest export: build a single map.sqlite from the accumulated per-slice pattern, then
+        // finish (the JSON/machine/stats paths below don't apply). Honors --graceful: if slicing
+        // halted early we still emit the map for the slices we got, but report failure via exit code.
+        if (export_minetest)
+        {
+            const int stripe_height = parser.exists("stripeheight")
+                    ? parser.get<int>("stripeheight") : 4;
+            if (!generate_minetest_map(minetest_pattern.str(), "map.sqlite", stripe_height))
+            {
+                err_stream << "Failed to generate map.sqlite using in-memory pattern." << std::endl;
+                return -1;
+            }
+            out_stream << "Generated map.sqlite" << std::endl;
+            return halted_with_error ? -1 : 0;
         }
 
         // Slice-timing report: one CSV row per run, keyed by layout size, so a sweep over layout

@@ -34,4 +34,6 @@ Options:
     --maxwait              Max consecutive slices without routing progress before the stream and wave
                            pipelines abort as deadlocked (default 1000). Raise for circuits with long
                            magic-state waits. Has no effect on -P dag.
+    --minetest             Generate a map.sqlite file for Minetest
+    --stripeheight         Set the stripe height for minetest export (default 4)
     -h, --help             Shows this page        
