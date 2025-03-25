@@ -25,6 +25,10 @@ std::string get_cell_label(const std::optional<DensePatch>& patch)
         return "ancilla";
     case PatchType::Distillation:
         return "distillation";
+    case PatchType::PreparedState:
+        return "distillation";
+    case PatchType::Dead:
+        return "ancilla";
     // Other cases here.
     default:
         return "unknown";
