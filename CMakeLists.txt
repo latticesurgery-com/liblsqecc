@@ -27,6 +27,8 @@ endif ()
 find_package(Boost COMPONENTS graph)
 if(Boost_FOUND)
     add_definitions(-DENABLE_BOOST_GRAPH_SEARCH)
+else()
+    message(WARNING "Boost graph library not found. Graph search features will be disabled.")
 endif()
 
 # set(PYTHON_VERSION 3.9)
@@ -88,6 +90,11 @@ target_include_directories(
     PUBLIC
     ${LSQECCLIB_INCLUDE_DIRS}
 )
+
+if(Boost_FOUND)
+    target_include_directories(lsqecclib PRIVATE ${Boost_INCLUDE_DIRS})
+    target_link_libraries(lsqecclib PRIVATE ${Boost_LIBRARIES})
+endif()
 
 set_property(TARGET lsqecclib PROPERTY POSITION_INDEPENDENT_CODE ON)
 
