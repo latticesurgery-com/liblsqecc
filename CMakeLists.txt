@@ -201,7 +201,6 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
     # lib
     add_executable(
             lsqecc_tests
-            tests/main.cpp
             tests/lstk/lstk.cpp
             tests/dag/directed_graph.cpp
             tests/dag/domain_dags.cpp
@@ -213,7 +212,6 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
     target_link_libraries(
             lsqecc_tests
             lsqecclib
-            gtest
             gtest_main
     )
     add_test(
