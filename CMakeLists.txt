@@ -27,6 +27,8 @@ endif ()
 find_package(Boost COMPONENTS graph)
 if(Boost_FOUND)
     add_definitions(-DENABLE_BOOST_GRAPH_SEARCH)
+else()
+    message(WARNING "Boost graph library not found. Graph search features will be disabled.")
 endif()
 
 if(DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
@@ -107,6 +109,11 @@ target_include_directories(
 
 # Link SQLite3 into the library.
 target_link_libraries(lsqecclib PUBLIC ${SQLite3_LIBRARIES})
+
+if(Boost_FOUND)
+    target_include_directories(lsqecclib PRIVATE ${Boost_INCLUDE_DIRS})
+    target_link_libraries(lsqecclib PRIVATE ${Boost_LIBRARIES})
+endif()
 
 set_property(TARGET lsqecclib PROPERTY POSITION_INDEPENDENT_CODE ON)
 
