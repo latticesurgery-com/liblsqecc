@@ -55,6 +55,11 @@ namespace lsqecc
         return std::string{buffer.str()};
     }
 
+    enum class InputFormat
+    {
+        LLI, QASM
+    };
+
     enum class OutputFormatMode
     {
         Progress, NoProgress, Machine, Stats
@@ -110,8 +115,8 @@ namespace lsqecc
                 .description("File with input. If not provided will read LS Instructions from stdin")
                 .required(false);
         parser.add_argument()
-                .names({"-q", "--qasm"})
-                .description("File name of file with QASM. When not provided will read as LLI (not QASM)")
+                .names({"-I", "--input-format"})
+                .description("Format of input. Modes: qasm|q, lli|l (default)")
                 .required(false);
         parser.add_argument()
                 .names({"-l", "--layout"})
@@ -261,6 +266,25 @@ namespace lsqecc
             // Default to Litinsiki's compact layout
         }
 
+        InputFormat input_format = InputFormat::LLI;
+        if (parser.exists("input-format"))
+        {
+            auto input_format_arg = parser.get<std::string>("input-format");
+            if (input_format_arg == "lli" || input_format_arg == "l")
+            {
+                input_format = InputFormat::LLI;
+            }
+            else if (input_format_arg == "qasm" || input_format_arg == "q")
+            {
+                input_format = InputFormat::QASM;
+            }
+            else
+            {
+                err_stream << "Unknown input format: " << input_format_arg << std::endl;
+                return -1;
+            }
+        }
+
         std::reference_wrapper<std::ostream> bulk_output_stream = std::ref(out_stream);
         std::unique_ptr<std::ostream> _ofstream_store;
         if(parser.exists("o"))
@@ -345,10 +369,6 @@ namespace lsqecc
             }
             input_file_stream = std::ref(*_file_to_read_store);
         }
-
-        IdGenerator id_generator;
-        std::unique_ptr<LSInstructionStream> instruction_stream;
-        std::unique_ptr<GateStream> gate_stream;
         
         CompilationMode compile_mode = CompilationMode::Nonlocal;
         if (parser.exists("local"))
@@ -358,7 +378,11 @@ namespace lsqecc
         if (parser.exists("notwists"))
             sgate_mode = SGateMode::Catalytic;
 
-        if(!parser.exists("q"))
+        IdGenerator id_generator;
+        std::unique_ptr<LSInstructionStream> instruction_stream;
+        std::unique_ptr<GateStream> gate_stream;
+
+        if (input_format == InputFormat::LLI)
         {
             instruction_stream = std::make_unique<LSInstructionStreamFromFile>(input_file_stream.get());
             id_generator.set_start(*std::max(instruction_stream->core_qubits().begin(),
@@ -370,7 +394,7 @@ namespace lsqecc
                 return 0;
             }
         }
-        if(parser.exists("q"))
+        else if (input_format == InputFormat::QASM)
         {
             gate_stream = std::make_unique<GateStreamFromFile>(input_file_stream.get());
 
@@ -401,7 +425,7 @@ namespace lsqecc
             }
 
             id_generator.set_start(gate_stream->get_qreg().size);
-            instruction_stream = std::make_unique<LSInstructionStreamFromGateStream>(*gate_stream, cnot_correction_mode, id_generator, compile_mode == CompilationMode::Local);    
+            instruction_stream = std::make_unique<LSInstructionStreamFromGateStream>(*gate_stream, cnot_correction_mode, id_generator, compile_mode == CompilationMode::Local);
         }
 
 
