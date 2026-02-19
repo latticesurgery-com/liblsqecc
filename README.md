@@ -49,7 +49,7 @@ Where:
 Usage: lsqecc_slicer [options...]
 Options:
     -i, --input            File with input. If not provided will read LS Instructions from stdin
-    -I, --input-format     Format of input. Modes: qasm|q, lli|l (default)
+    -I, --input-format     Format of input. Modes: qasm|q, pandora|p, lli|l (default)
     -l, --layout           File name of file with layout spec, otherwise the layout is auto-generated (configure with -L)
     -o, --output           File name of output. When not provided outputs to stdout
     -f, --output-format    Requires -o, STDOUT output format: progress, noprogress, machine, stats
@@ -57,6 +57,7 @@ Options:
     -r, --router           Set a router: graph_search (default), graph_search_cached
     -P, --pipeline         pipeline mode: stream (default), wave, edpc, dag (deprecated)
     -g, --graph-search     Set a graph search provider: djikstra (default), astar, boost (not always available)
+    --port                 Only compatible with -I pandora. Sets an (optional) port number for Pandora server (default 5432)
     --graceful             If there is an error when slicing, print the error and terminate
     --printlli             Output LLI instead of JSONs. options: before (default), sliced (prints lli on the same slice separated by semicolons)
     --printdag             Prints a dependency dag of the circuit. Modes: input (default), processedlli

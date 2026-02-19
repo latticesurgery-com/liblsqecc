@@ -3,6 +3,7 @@
 #include <lsqecc/dag/domain_dags.hpp>
 #include <lsqecc/gates/parse_gates.hpp>
 #include <lsqecc/gates/decompose_rotation_stream.hpp>
+#include <lsqecc/gates/postgres_gate_stream.hpp>
 #include <lsqecc/ls_instructions/ls_instruction_stream.hpp>
 #include <lsqecc/ls_instructions/boundary_rotation_injection_stream.hpp>
 #include <lsqecc/ls_instructions/teleported_s_gate_injection_stream.hpp>
@@ -55,7 +56,7 @@ namespace lsqecc
 
     enum class InputFormat
     {
-        LLI, QASM
+        LLI, QASM, Pandora
     };
 
     enum class OutputFormatMode
@@ -114,7 +115,7 @@ namespace lsqecc
                 .required(false);
         parser.add_argument()
                 .names({"-I", "--input-format"})
-                .description("Format of input. Modes: qasm|q, lli|l (default)")
+                .description("Format of input. Modes: qasm|q, pandora|p, lli|l (default)")
                 .required(false);
         parser.add_argument()
                 .names({"-l", "--layout"})
@@ -143,6 +144,10 @@ namespace lsqecc
         parser.add_argument()
                 .names({"-g", "--graph-search"})
                 .description("Set a graph search provider: djikstra (default), astar, boost (not always available)")
+                .required(false);
+        parser.add_argument()
+                .names({"--port"})
+                .description("Only compatible with -I pandora. Sets an (optional) port number for Pandora server (default 5432)")
                 .required(false);
         parser.add_argument()
                 .names({"--graceful"})
@@ -268,6 +273,10 @@ namespace lsqecc
             {
                 input_format = InputFormat::QASM;
             }
+            else if (input_format_arg == "pandora" || input_format_arg == "p")
+            {
+                input_format = InputFormat::Pandora;
+            }
             else
             {
                 err_stream << "Unknown input format: " << input_format_arg << std::endl;
@@ -322,7 +331,7 @@ namespace lsqecc
                 return -1;
             }
         }
-        
+
 
         PipelineMode pipeline_mode = PipelineMode::Stream;
         bool pipeline_mode_validity_checker = 1;
@@ -346,7 +355,7 @@ namespace lsqecc
                 return -1;
             }
         }
-
+        
 
         std::reference_wrapper<std::istream> input_file_stream = std::ref(in_stream);
         std::unique_ptr<std::ifstream> _file_to_read_store;
@@ -387,7 +396,14 @@ namespace lsqecc
         else if (input_format == InputFormat::QASM)
         {
             gate_stream = std::make_unique<GateStreamFromFile>(input_file_stream.get());
+        }
+        else if (input_format == InputFormat::Pandora)
+        {
+            auto port = !parser.get<std::string>("port").empty() ? parser.get<std::string>("port") : "5432";
+            gate_stream = std::make_unique<PandoraPostgresGateStream>("127.0.0.1", port, "postgres");
+        }
 
+        if (gate_stream) {
             if (print_dag_mode == PrintDagMode::Input)
             {
                 auto dag = dag::full_dependency_dag_from_gate_stream(*gate_stream);
@@ -639,7 +655,7 @@ namespace lsqecc
                     slice_visitor,
                     instruction_visitor,
                     parser.exists("graceful"),
-                    parser.exists("op-ids")
+                    parser.exists("op-ids") || input_format == InputFormat::Pandora // op-ids required by Pandora
         ));
 
         if(parser.exists("o") || parser.exists("noslices"))
