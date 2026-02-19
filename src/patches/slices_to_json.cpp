@@ -63,8 +63,8 @@ json boundaries_to_array_edges_json(const CellBoundaries& cell_boundaries)
 json dense_patch_to_json(const DensePatch& p)
 {
     json visual_array_cell = boundaries_to_array_edges_json(p.boundaries);
-        if(p.operation_id)
-            visual_array_cell["operation_id"] = std::to_string(*p.operation_id);
+    if(p.operation_id)
+        visual_array_cell["operation_id"] = std::to_string(*p.operation_id);
 
     visual_array_cell["patch_type"] = [&](){
         switch (p.type)
