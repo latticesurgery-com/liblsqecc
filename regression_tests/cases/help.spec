@@ -1,7 +1,7 @@
 Usage: lsqecc_slicer [options...]
 Options:
     -i, --input            File with input. If not provided will read LS Instructions from stdin
-    -q, --qasm             File name of file with QASM. When not provided will read as LLI (not QASM)
+    -I, --input-format     Format of input. Modes: qasm|q, lli|l (default)
     -l, --layout           File name of file with layout spec, otherwise the layout is auto-generated (configure with -L)
     -o, --output           File name of output. When not provided outputs to stdout
     -f, --output-format    Requires -o, STDOUT output format: progress, noprogress, machine, stats
