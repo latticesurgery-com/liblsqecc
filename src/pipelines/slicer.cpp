@@ -161,13 +161,13 @@ namespace lsqecc
                 .required(false);
         parser.add_argument()
                 .names({"--op-ids"})
-                .description("Generates certain opearion ids. For now, it only adds ids to multi-body-measurement")
+                .description("Generates certain operation ids. For now, it only adds ids to multi-body-measurement")
                 .required(false);
         parser.add_argument()
                 .names({"--layoutgenerator","-L"})
                 .description(
                     "Automatically generates a layout for the given number of qubits. Incompatible with -l. Options:" CONSOLE_HELP_NEWLINE_ALIGN
-                    " - compact (default): Uses Litinski's Game of Surace Code compact layout (https://arxiv.org/abs/1808.02892)" CONSOLE_HELP_NEWLINE_ALIGN
+                    " - compact (default): Uses Litinski's Game of Surface Code compact layout (https://arxiv.org/abs/1808.02892)" CONSOLE_HELP_NEWLINE_ALIGN
                     " - compact_no_clogging: same as compact, but fewer cells for ancillas and magic state queues" CONSOLE_HELP_NEWLINE_ALIGN
                     " - edpc: Uses a family of layouts based upon the one specified in the EDPC paper by Beverland et. al. (https://arxiv.org/abs/2110.11493)"
                 )
@@ -182,7 +182,7 @@ namespace lsqecc
                     .required(false);
         parser.add_argument()
                     .names({"--explicitfactories"})
-                    .description("Only compatible with -L edpc. Explicitly specifies factories (otherwise, uses tiles reserved for magic state re-spawn).")
+                    .description("Only compatible with -L edpc. Explicitly specifies factories but clogs easily (otherwise, uses tiles reserved for magic state re-spawn).")
                     .required(false);
              
         #ifdef USE_GRIDSYNTH
