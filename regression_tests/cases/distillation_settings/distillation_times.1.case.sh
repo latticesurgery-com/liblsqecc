@@ -19,4 +19,4 @@ h q[1];
 t q[1];
 t q[1];
 "
-echo "$INPUT" | lsqecc_slicer -q --nostagger --disttime 11
+echo "$INPUT" | lsqecc_slicer -I qasm --nostagger --disttime 11
