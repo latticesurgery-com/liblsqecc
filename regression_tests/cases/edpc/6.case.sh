@@ -9,5 +9,5 @@ cx q[1],q[3]; // %BellBased
 cx q[5], q[13]; // %BellBased
 cx q[12],q[7]; // %BellBased
 "
-echo "$INPUT" | lsqecc_slicer -q -L edpc --nostagger --local -P edpc --printlli sliced
+echo "$INPUT" | lsqecc_slicer -I qasm -L edpc --nostagger --local -P edpc --printlli sliced
 

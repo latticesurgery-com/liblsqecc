@@ -21,7 +21,7 @@ t q[13];
 t q[14];
 t q[15];
 "
-echo "$INPUT" | lsqecc_slicer -q -L edpc --nostagger --local --notwists -P wave --printlli sliced
+echo "$INPUT" | lsqecc_slicer -I qasm -L edpc --nostagger --local --notwists -P wave --printlli sliced
 
 
 

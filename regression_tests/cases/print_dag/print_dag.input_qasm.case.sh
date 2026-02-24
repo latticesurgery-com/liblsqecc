@@ -18,4 +18,4 @@ cx q[7],q[8];
 cx q[6],q[8];
 "
 
-echo "$INPUT" | lsqecc_slicer -q --printdag input
+echo "$INPUT" | lsqecc_slicer -I qasm --printdag input
