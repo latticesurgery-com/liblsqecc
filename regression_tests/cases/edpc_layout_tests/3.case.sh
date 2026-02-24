@@ -8,7 +8,7 @@ cx q[2],q[3]; // %ZXWithMBMTargetFirst,AncillaNextToControl
 cx q[4],q[5]; // %ZXWithMBMControlFirst,AncillaNextToTarget
 cx q[6],q[7]; // %ZXWithMBMTargetFirst,AncillaNextToTarget
 "
-echo "$INPUT" | lsqecc_slicer -q -L edpc --nostagger
+echo "$INPUT" | lsqecc_slicer -I qasm -L edpc --nostagger
 
 
 

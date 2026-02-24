@@ -5,7 +5,7 @@ include "qelib1.inc";
 qreg q[17];
 
 "
-echo "$INPUT" | lsqecc_slicer -q -L edpc --condensed 1 --nostagger
+echo "$INPUT" | lsqecc_slicer -I qasm -L edpc --condensed 1 --nostagger
 
 
 
