@@ -14,14 +14,14 @@ Options:
     --printdag             Prints a dependency dag of the circuit. Modes: input (default), processedlli
     --noslices             Do the slicing but don't write the slices out
     --cnotcorrections      Add Xs and Zs to correct the the negative outcomes: never (default), always
-    --op-ids               Generates certain opearion ids. For now, it only adds ids to multi-body-measurement
+    --op-ids               Generates certain operation ids. For now, it only adds ids to multi-body-measurement
     --layoutgenerator, -L  Automatically generates a layout for the given number of qubits. Incompatible with -l. Options:
-                            - compact (default): Uses Litinski's Game of Surace Code compact layout (https://arxiv.org/abs/1808.02892)
+                            - compact (default): Uses Litinski's Game of Surface Code compact layout (https://arxiv.org/abs/1808.02892)
                             - compact_no_clogging: same as compact, but fewer cells for ancillas and magic state queues
                             - edpc: Uses a family of layouts based upon the one specified in the EDPC paper by Beverland et. al. (https://arxiv.org/abs/2110.11493)
     --numlanes             Only compatible with -L edpc. Configures number of free lanes for routing.
     --condensed            Only compatible with -L edpc. Packs logical qubits more compactly.
-    --explicitfactories    Only compatible with -L edpc. Explicitly specifies factories (otherwise, uses tiles reserved for magic state re-spawn).
+    --explicitfactories    Only compatible with -L edpc. Explicitly specifies factories but clogs easily (otherwise, uses tiles reserved for magic state re-spawn).
     --nostagger            Turns off staggered distillation block timing
     --disttime             Set the distillation time (default 10)
     --local                Compile gates into a pair-wise local lattice surgery instruction set
