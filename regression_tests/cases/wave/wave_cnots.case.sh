@@ -9,4 +9,4 @@ cx q[0],q[2]; // %BellBased
 cx q[4],q[5]; // %BellBased
 "
 
-echo "$INPUT" | lsqecc_slicer -q -L edpc -P wave --local
+echo "$INPUT" | lsqecc_slicer -I qasm -L edpc -P wave --local

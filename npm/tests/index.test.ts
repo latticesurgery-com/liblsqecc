@@ -40,7 +40,7 @@ describe("Slicer", () => {
         it("inputType is qasm", () => {
             const result = mockSlicer.run("some input", "qasm");
             expect(mockRunSlicerProgramFromStrings).toHaveBeenCalledWith(
-                " -q --cnotcorrections never",
+                " -I qasm --cnotcorrections never",
                 "some input"
             );
 
@@ -76,7 +76,7 @@ describe("Slicer", () => {
         it("cnotCorrections is always", async () => {
             const result = mockSlicer.run("some input", "qasm", "", "always");
             expect(mockRunSlicerProgramFromStrings).toHaveBeenCalledWith(
-                " -q --cnotcorrections always",
+                " -I qasm --cnotcorrections always",
                 "some input"
             );
 

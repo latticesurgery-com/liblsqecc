@@ -30,5 +30,5 @@ rr334455rr
 "
 
 echo "$LAYOUT" > tmp.layout
-echo "$INPUT" | lsqecc_slicer -l tmp.layout -q 
+echo "$INPUT" | lsqecc_slicer -l tmp.layout -I qasm 
 rm tmp.layout

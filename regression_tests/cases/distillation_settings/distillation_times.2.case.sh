@@ -24,5 +24,5 @@ rr334455rr
 "
 
 echo "$LAYOUT" > tmp.layout
-echo "$INPUT" | lsqecc_slicer -l tmp.layout -q --nostagger --disttime 5
+echo "$INPUT" | lsqecc_slicer -l tmp.layout -I qasm --nostagger --disttime 5
 rm tmp.layout

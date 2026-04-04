@@ -8,5 +8,5 @@ cx q[0],q[8]; // %BellBased
 cx q[1],q[9]; // %BellBased
 
 "
-echo "$INPUT" | lsqecc_slicer -q -L edpc --nostagger --local -P edpc
+echo "$INPUT" | lsqecc_slicer -I qasm -L edpc --nostagger --local -P edpc
 
