@@ -26,6 +26,7 @@ struct DenseSlice : public Slice
     std::reference_wrapper<const Layout> layout;
     unsigned int predistilled_ystates_available = 0;
     std::set<Cell> EDPC_crossing_vertices;
+    std::unordered_map<PatchId, Cell, std::hash<PatchId>> patch_id_to_cell_cache;
     // std::vector<std::pair<Cell, Cell>> marked_rough_boundaries_EDPC;
     // std::vector<std::pair<Cell, Cell>> marked_smooth_boundaries_EDPC;
     std::vector<std::reference_wrapper<Boundary>> marked_rough_boundaries_EDPC;
@@ -51,6 +52,7 @@ struct DenseSlice : public Slice
     bool has_patch(PatchId id) const override;
     std::optional<DensePatch>& patch_at(const Cell& cell);
     const std::optional<DensePatch>& patch_at(const Cell& cell) const;
+    void assign_patch_id(const Cell& cell, std::optional<PatchId> new_id);
 
     std::optional<std::reference_wrapper<Boundary>> get_boundary_between(const Cell& target, const Cell& neighbour);
     std::reference_wrapper<Boundary> get_boundary_between_or_fail(const Cell& target, const Cell& neighbour);
