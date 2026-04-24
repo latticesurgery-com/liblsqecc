@@ -443,12 +443,13 @@ InstructionApplicationResult try_apply_local_instruction(
         }
         
         SparsePatch new_patch = LayoutHelpers::basic_square_patch(move->target_cell, std::nullopt, "Move");
-        new_patch.id = move->new_id_for_target ? move->new_id_for_target : slice.patch_at(move->source_cell)->id;
+        const auto source_patch_id = slice.patch_at(move->source_cell)->get_id();
+        new_patch.id = move->new_id_for_target ? move->new_id_for_target : source_patch_id;
         slice.place_single_cell_sparse_patch(new_patch, false);
         slice.get_boundary_between_or_fail(move->source_cell, move->target_cell).get().is_active=true;
         slice.get_boundary_between_or_fail(move->target_cell, move->source_cell).get().is_active=true;
         slice.patch_at(move->source_cell)->activity = PatchActivity::Measurement;
-        slice.patch_at(move->source_cell)->id = std::nullopt;
+        slice.assign_patch_id(move->source_cell, std::nullopt);
 
         return {nullptr, {}};
     }
@@ -863,7 +864,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
 
         slice.patch_at(*location);
         slice.place_single_cell_sparse_patch(LayoutHelpers::basic_square_patch(*location, std::nullopt, "Init"), false);
-        slice.patch_at(*location)->id = init->target;
+        slice.assign_patch_id(*location, init->target);
 
         return {nullptr, {}};
     }
@@ -1302,9 +1303,9 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
 
             assert(min_cell.has_value());
             auto& newly_bound_magic_state = slice.patch_at(min_cell.value()).value();
-            newly_bound_magic_state.id = mr->target;
             newly_bound_magic_state.type = PatchType::Qubit;
             newly_bound_magic_state.activity = PatchActivity::None;
+            slice.assign_patch_id(min_cell.value(), mr->target);
             slice.magic_states.erase(min_cell.value());
             return {nullptr, {}};
         }
@@ -1317,9 +1318,9 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
     else if (auto* yr = std::get_if<YStateRequest>(&instruction.operation))
     {
         // Unbind Y state patch if already bound
-        if (slice.get_patch_by_id(yr->target))
+        if (auto cell = slice.get_cell_by_id(yr->target))
         {
-            slice.get_patch_by_id(yr->target)->get().id = std::nullopt;
+            slice.assign_patch_id(*cell, std::nullopt);
             slice.predistilled_ystates_available++;
             return{nullptr, {}};
         }
@@ -1340,7 +1341,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                 double dist;
                 for (const Cell& cell : layout.predistilled_y_states())
                 {
-                    if (!slice.patch_at(cell)->id.has_value() && !slice.patch_at(cell)->is_active())
+                    if (!slice.patch_at(cell)->get_id().has_value() && !slice.patch_at(cell)->is_active())
                     {
                         dist = abs(cell.col - slice.get_cell_by_id(yr->near_patch).value().col) + abs(cell.row - slice.get_cell_by_id(yr->near_patch).value().row);
                         if (dist < min_dist)
@@ -1356,7 +1357,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
                     auto& patch = slice.patch_at(min_cell.value());
                     if (patch)
                     {
-                        slice.patch_at(min_cell.value()).value().id = yr->target;
+                        slice.assign_patch_id(min_cell.value(), yr->target);
                         slice.predistilled_ystates_available--;
                         return {nullptr, {}};
                     }
