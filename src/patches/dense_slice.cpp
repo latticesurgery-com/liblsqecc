@@ -38,12 +38,12 @@ void DenseSlice::traverse_cells(const CellTraversalConstFunctor& f) const
 
 std::optional<std::reference_wrapper<DensePatch>> DenseSlice::get_patch_by_id(PatchId id)
 {
-    std::optional<std::reference_wrapper<DensePatch>> ret;
-    traverse_cells_mut([&](const Cell& c, std::optional<DensePatch>& p) {
-        if(p && p->id == id)
-            ret = std::ref(*p);
-    });
-    return ret;
+    if (auto cell = get_cell_by_id(id)) {
+        if (auto& p = patch_at(*cell)) {
+            return std::ref(*p);
+        }
+    }
+    return std::nullopt;
 }
 
 
@@ -70,12 +70,11 @@ std::optional<SparsePatch> DenseSlice::get_sparse_patch_by_id(lsqecc::PatchId id
 
 std::optional<Cell> DenseSlice::get_cell_by_id(PatchId id) const
 {
-    std::optional<Cell> ret;
-    traverse_cells([&](const Cell& c, const std::optional<DensePatch>& p) {
-        if(p && p->id == id)
-            ret = c;
-    });
-    return ret;
+    auto it = patch_id_to_cell_cache.find(id);
+    if (it != patch_id_to_cell_cache.end()) {
+        return it->second;
+    }
+    return std::nullopt;
 }
 
 std::optional<DensePatch>& DenseSlice::patch_at(const Cell& cell)
@@ -88,11 +87,26 @@ const std::optional<DensePatch>& DenseSlice::patch_at(const Cell& cell) const
     return cells.at(cell.row).at(cell.col);
 }
 
+void DenseSlice::assign_patch_id(const Cell& cell, std::optional<PatchId> new_id)
+{
+    auto& patch_opt = patch_at(cell);
+    if (!patch_opt) return;
+
+    if (patch_opt->id) {
+        patch_id_to_cell_cache.erase(*patch_opt->id);
+    }
+    patch_opt->id = new_id;
+    if (new_id) {
+        patch_id_to_cell_cache[*new_id] = cell;
+    }
+}
+
 void DenseSlice::delete_patch_by_id(PatchId id)
 {
-    traverse_cells_mut([&](const Cell& c, std::optional<DensePatch>& p) {
-        if(p && p->id == id) p = std::nullopt;
-    });
+    if (auto cell = get_cell_by_id(id)) {
+        patch_at(*cell) = std::nullopt;
+        patch_id_to_cell_cache.erase(id);
+    }
 }
 
 std::optional<Cell> DenseSlice::get_directional_neighbor_within_slice(const Cell& cell, CellDirection dir) const
@@ -124,7 +138,7 @@ DenseSlice::DenseSlice(const lsqecc::Layout &layout, const tsl::ordered_set<Patc
     {
         if(core_qubit_ids_itr == core_qubit_ids.end()) break;
         Cell cell = place_single_cell_sparse_patch(p,false);
-        patch_at(cell)->id = *core_qubit_ids_itr++;
+        assign_patch_id(cell, *core_qubit_ids_itr++);
     }
 
     for (const Cell& cell: layout.predistilled_y_states())
@@ -204,7 +218,11 @@ Cell DenseSlice::place_single_cell_sparse_patch(const SparsePatch& sparse_patch,
                     "Found patch: ", patch_at(occupied_cell->cell)->id.value_or(-1)));
     }
 
-    patch_at(occupied_cell->cell) = DensePatch::from_sparse_patch(sparse_patch);
+    auto& patch_slot = patch_at(occupied_cell->cell);
+    patch_slot = DensePatch::from_sparse_patch(sparse_patch);
+    if (patch_slot->id) {
+        patch_id_to_cell_cache[*patch_slot->id] = occupied_cell->cell;
+    }
     return occupied_cell->cell;
 }
 void DenseSlice::place_sparse_patch(const SparsePatch& sparse_patch, bool distillation)
