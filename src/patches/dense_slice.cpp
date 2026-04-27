@@ -36,21 +36,14 @@ void DenseSlice::traverse_cells(const CellTraversalConstFunctor& f) const
     const_cast<DenseSlice*>(this)->traverse_cells_mut(f);
 }
 
-std::optional<std::reference_wrapper<DensePatch>> DenseSlice::get_patch_by_id(PatchId id)
+std::optional<std::reference_wrapper<DensePatch const>> DenseSlice::get_patch_by_id(PatchId id) const
 {
     if (auto cell = get_cell_by_id(id)) {
         if (auto& p = patch_at(*cell)) {
-            return std::ref(*p);
+            return std::cref(*p);
         }
     }
     return std::nullopt;
-}
-
-
-std::optional<std::reference_wrapper<DensePatch const>> DenseSlice::get_patch_by_id(PatchId id) const
-{
-    auto maybe_patch = const_cast<DenseSlice*>(this)->get_patch_by_id(id);
-    return maybe_patch ? std::make_optional(std::cref(maybe_patch->get())) : std::nullopt;
 }
 
 std::optional<SparsePatch> DenseSlice::get_sparse_patch_by_id(lsqecc::PatchId id) const
@@ -77,7 +70,7 @@ std::optional<Cell> DenseSlice::get_cell_by_id(PatchId id) const
     return std::nullopt;
 }
 
-std::optional<DensePatch>& DenseSlice::patch_at(const Cell& cell)
+std::optional<DensePatch>& DenseSlice::_patch_at_mut(const Cell& cell)
 {
     return cells.at(cell.row).at(cell.col);
 }
@@ -89,7 +82,7 @@ const std::optional<DensePatch>& DenseSlice::patch_at(const Cell& cell) const
 
 void DenseSlice::assign_patch_id(const Cell& cell, std::optional<PatchId> new_id)
 {
-    auto& patch_opt = patch_at(cell);
+    auto& patch_opt = _patch_at_mut(cell);
     if (!patch_opt) return;
 
     if (patch_opt->id) {
@@ -101,11 +94,50 @@ void DenseSlice::assign_patch_id(const Cell& cell, std::optional<PatchId> new_id
     }
 }
 
+void DenseSlice::set_patch_activity(const Cell& cell, PatchActivity activity)
+{
+    auto& patch_opt = _patch_at_mut(cell);
+    if (patch_opt)
+    {
+        patch_opt->activity = activity;
+    }
+}
+
+void DenseSlice::set_patch_type(const Cell& cell, PatchType type)
+{
+    auto& patch_opt = _patch_at_mut(cell);
+    if (patch_opt)
+    {
+        patch_opt->type = type;
+    }
+}
+
+void DenseSlice::place_dense_patch_at(const Cell& cell, const DensePatch& patch)
+{
+    auto& patch_opt = _patch_at_mut(cell);
+    if (patch_opt && patch_opt->id) {
+        patch_id_to_cell_cache.erase(*patch_opt->id);
+    }
+
+    patch_opt = patch;
+    if (patch_opt && patch_opt->id) {
+        patch_id_to_cell_cache[*patch_opt->id] = cell;
+    }
+}
+
+void DenseSlice::clear_patch_at(const Cell& cell)
+{
+    auto& patch_opt = _patch_at_mut(cell);
+    if (patch_opt && patch_opt->id) {
+        patch_id_to_cell_cache.erase(*patch_opt->id);
+    }
+    patch_opt = std::nullopt;
+}
+
 void DenseSlice::delete_patch_by_id(PatchId id)
 {
     if (auto cell = get_cell_by_id(id)) {
-        patch_at(*cell) = std::nullopt;
-        patch_id_to_cell_cache.erase(id);
+        clear_patch_at(*cell);
     }
 }
 
@@ -152,18 +184,18 @@ DenseSlice::DenseSlice(const lsqecc::Layout &layout, const tsl::ordered_set<Patc
     {
         for (const SingleCellOccupiedByPatch& cell: distillation_region.sub_cells)
         {
-            patch_at(cell.cell) = DensePatch{
+            place_dense_patch_at(cell.cell, DensePatch{
                     Patch{PatchType::Distillation,PatchActivity::Distillation,std::nullopt},
-                    static_cast<CellBoundaries>(cell)};
+                    static_cast<CellBoundaries>(cell)});
         }
     }
 
     for (const Cell& cell: layout.reserved_for_magic_states()) 
     {
-        patch_at(cell) = DensePatch{
+        place_dense_patch_at(cell, DensePatch{
                 Patch{PatchType::Distillation,PatchActivity::Distillation,std::nullopt},
                 CellBoundaries{Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false},
-                    Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false}}};
+                    Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false}}});
     }
 
     // Reserved tiles are themselves 'distillation regions'
@@ -173,10 +205,10 @@ DenseSlice::DenseSlice(const lsqecc::Layout &layout, const tsl::ordered_set<Patc
 
     for(const Cell& cell: layout.dead_location())
     {
-        patch_at(cell) = DensePatch{
+        place_dense_patch_at(cell, DensePatch{
             Patch{PatchType::Dead,PatchActivity::Dead,std::nullopt},
             CellBoundaries{Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false},
-                Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false}}};
+                Boundary{BoundaryType::Connected, false},Boundary{BoundaryType::Connected, false}}});
     }
 
 }
@@ -218,11 +250,7 @@ Cell DenseSlice::place_single_cell_sparse_patch(const SparsePatch& sparse_patch,
                     "Found patch: ", patch_at(occupied_cell->cell)->id.value_or(-1)));
     }
 
-    auto& patch_slot = patch_at(occupied_cell->cell);
-    patch_slot = DensePatch::from_sparse_patch(sparse_patch);
-    if (patch_slot->id) {
-        patch_id_to_cell_cache[*patch_slot->id] = occupied_cell->cell;
-    }
+    place_dense_patch_at(occupied_cell->cell, DensePatch::from_sparse_patch(sparse_patch));
     return occupied_cell->cell;
 }
 void DenseSlice::place_sparse_patch(const SparsePatch& sparse_patch, bool distillation)
@@ -245,7 +273,7 @@ bool DenseSlice::has_patch(PatchId id) const
 std::optional<std::reference_wrapper<Boundary>> DenseSlice::get_boundary_between(
         const Cell& target, const Cell& neighbour)
 {
-    auto& target_patch = patch_at(target);
+    auto& target_patch = _patch_at_mut(target);
     if(!target_patch) return std::nullopt;
 
     if(neighbour == Cell{target.row-1, target.col})   return target_patch->boundaries.top;
@@ -297,7 +325,7 @@ void DenseSlice::flip_crossing_chain(const Cell& crossing_cell, CellDirection di
         throw std::invalid_argument("DenseSlice::flip_crossing_chain: input cell must be a crossing cell.");
 
     // Get associated patch
-    std::optional<DensePatch>& patch = patch_at(crossing_cell);
+    std::optional<DensePatch>& patch = _patch_at_mut(crossing_cell); // TODO: make this const
     if (patch.has_value())
     {  
         
@@ -355,8 +383,15 @@ void DenseSlice::flip_crossing_chain(const Cell& crossing_cell, CellDirection di
         flip_crossing_chain(next_crossing_cell.value(), dir);
 }
 
-BoundaryType DenseSlice::mark_boundaries_for_crossing_cell(DensePatch& dp, const SingleCellOccupiedByPatch& p, const Cell& prev) 
+BoundaryType DenseSlice::mark_boundaries_for_crossing_cell(const SingleCellOccupiedByPatch& p, const Cell& prev)
 {
+    auto& dp_opt = _patch_at_mut(p.cell); // TODO: make this const
+    if (!dp_opt)
+    {
+        throw std::logic_error("DenseSlice::mark_boundaries_for_crossing_cell: crossing cell has no associated patch");
+    }
+    DensePatch& dp = *dp_opt;
+
 
     // Get pointers to boundary labels (so that we can loop over them)
     std::vector<Boundary*> boundary_ptrs = {&dp.boundaries.top, &dp.boundaries.bottom, &dp.boundaries.left, &dp.boundaries.right};
