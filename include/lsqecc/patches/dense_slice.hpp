@@ -44,13 +44,17 @@ struct DenseSlice : public Slice
     void traverse_cells_mut(const CellTraversalFunctor& f);
     void traverse_cells(const CellTraversalConstFunctor& f) const;
 
-    std::optional<std::reference_wrapper<DensePatch>> get_patch_by_id(PatchId id);
     std::optional<std::reference_wrapper<const DensePatch>> get_patch_by_id(PatchId id) const;
     std::optional<SparsePatch> get_sparse_patch_by_id(PatchId id) const;
     std::optional<Cell> get_cell_by_id(PatchId id) const override;
     bool has_patch(PatchId id) const override;
-    std::optional<DensePatch>& patch_at(const Cell& cell);
     const std::optional<DensePatch>& patch_at(const Cell& cell) const;
+    // Use cache-safe helpers when replacing/removing patches so id->cell map stays consistent.
+    void place_dense_patch_at(const Cell& cell, const DensePatch& patch);
+    void clear_patch_at(const Cell& cell);
+    void assign_patch_id(const Cell& cell, std::optional<PatchId> new_id);
+    void set_patch_activity(const Cell& cell, PatchActivity activity);
+    void set_patch_type(const Cell& cell, PatchType type);
 
     std::optional<std::reference_wrapper<Boundary>> get_boundary_between(const Cell& target, const Cell& neighbour);
     std::reference_wrapper<Boundary> get_boundary_between_or_fail(const Cell& target, const Cell& neighbour);
@@ -74,7 +78,12 @@ struct DenseSlice : public Slice
 
     void flip_crossing_chain(const Cell& crossing_cell, CellDirection dir);
 
-    BoundaryType mark_boundaries_for_crossing_cell(DensePatch& dp, const SingleCellOccupiedByPatch& p, const Cell& prev);
+    BoundaryType mark_boundaries_for_crossing_cell(const SingleCellOccupiedByPatch& p, const Cell& prev);
+
+private:
+    std::unordered_map<PatchId, Cell, std::hash<PatchId>> patch_id_to_cell_cache;
+    // Avoid exposing mutable reference to DensePatch as it may lead to breaking the cache
+    std::optional<DensePatch>& _patch_at_mut(const Cell& cell);
 };
 
 }
