@@ -45,23 +45,27 @@ namespace lsqecc {
 PandoraPostgresGateStream::PandoraPostgresGateStream(std::string host, std::string port, std::string dbname)
     : db_(std::make_unique<pq::connection>("host=" + host + " port=" + port + " dbname=" + dbname))
     , qreg_(Qreg{"pandora_reg", [&]() -> QubitNum {
-        auto r = db_->exec("select count(*) from layered_cliff_t where layered_cliff_t.type=0;");
+        auto r = db_->exec("select count(*) from layered_lscom where layered_lscom.type=0;");
         auto count = r.at(0).at("count").get<int64_t>();
         if(count > std::numeric_limits<QubitNum>::max())
             throw std::runtime_error("Too many qubits in the pandora database");
         return static_cast<QubitNum>(count);
     }()})
 {
-    current_layer_++; // The first layer onl has inits, so we skip it
+    db_->exec("CREATE INDEX IF NOT EXISTS idx_layered_lscom_layer ON layered_lscom(layer);");
+    current_layer_++; // The first layer only has inits, so we skip it
 }
-    
+
 using PostgresBigIntApprox = int64_t;
 
 void PandoraPostgresGateStream::advance_layer() const {
-    auto r = db_->exec("select * from layered_cliff_t where layered_cliff_t.layer=" + std::to_string(current_layer_) + ";");
+    auto r = db_->exec("select * from layered_lscom where layered_lscom.layer=" + std::to_string(current_layer_) + ";");
     for (auto& row : r) {
+        // std::cerr << "DBG row type='" << row["type"].str() << "' control_q='" << row["control_q"].str() << "' target_q='" << row["target_q"].str() << "' param='" << row["param"].str() << "'\n";
         auto gate =[&]() -> std::optional<gates::Gate> {
-            switch(static_cast<PandoraGateTranslator>(row["type"].get<int>())) {
+            QubitNum control_q = row["control_q"].get<PostgresBigIntApprox>();
+            PandoraGateTranslator gate_type = static_cast<PandoraGateTranslator>(row["type"].get<int>());
+            switch(gate_type) {
                 // Only handle supported gates:
                 // TODO here we are pretending X and Y gates are actually Z, for simplicity. This is not correct, but in 
                 // The future, Pandora will be configured to only output gates supported by lsqecc.
@@ -71,25 +75,25 @@ void PandoraPostgresGateStream::advance_layer() const {
                 {
                     double angle = row["param"].get<double>();
                     if (std::abs(angle) == 1) {
-                        return gates::Z(row["target_q"].get<PostgresBigIntApprox>());
+                        return gates::Z(control_q);
                     } else if (angle == 0.5) {
-                        return gates::S(row["target_q"].get<PostgresBigIntApprox>());
+                        return gates::S(control_q);
                     } else if (angle == -0.5) {
-                        return gates::SDg(row["target_q"].get<PostgresBigIntApprox>());
+                        return gates::SDg(control_q);
                     } else if (angle == 0.25) {
-                        return gates::T(row["target_q"].get<PostgresBigIntApprox>());
+                        return gates::T(control_q);
                     } else if (angle == -0.25) {
-                        return gates::TDg(row["target_q"].get<PostgresBigIntApprox>());
+                        return gates::TDg(control_q);
                     } else {
                         throw std::runtime_error(lstk::cat("Unsupported angle for ZPowGate: ", angle));
                     }
                 }
                 case PandoraGateTranslator::HPowGate:
-                    return gates::H(row["target_q"].get<PostgresBigIntApprox>());
+                    return gates::H(control_q);
                 case PandoraGateTranslator::_PauliX:
-                    return gates::X(row["target_q"].get<PostgresBigIntApprox>());
+                    return gates::X(control_q);
                 case PandoraGateTranslator::_PauliZ:
-                    return gates::Z(row["target_q"].get<PostgresBigIntApprox>());
+                    return gates::Z(control_q);
                 case PandoraGateTranslator::Out:
                 case PandoraGateTranslator::In:
                 case PandoraGateTranslator::M: // TODO implement
@@ -97,7 +101,15 @@ void PandoraPostgresGateStream::advance_layer() const {
                     return std::nullopt;
                 case PandoraGateTranslator::CZPowGate:  // TODO: pretending this is a CNOT
                 case PandoraGateTranslator::CXPowGate: // Assume the exponent is 1
-                    return gates::CNOT(row["control_q"].get<PostgresBigIntApprox>(),row["target_q"].get<PostgresBigIntApprox>());
+                    return gates::CNOT(control_q, row["target_q"].get<PostgresBigIntApprox>());
+                case PandoraGateTranslator::S:
+                    return gates::S(control_q);
+                case PandoraGateTranslator::S_dag:
+                    return gates::SDg(control_q);
+                case PandoraGateTranslator::T:
+                    return gates::T(control_q);
+                case PandoraGateTranslator::T_dag:
+                    return gates::TDg(control_q);
                 default:
                     throw std::runtime_error(lstk::cat("Unsupported gate type: ", row["type"].get<PostgresBigIntApprox>()));
             }
