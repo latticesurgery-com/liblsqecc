@@ -27,4 +27,7 @@ Options:
     --disttime             Set the distillation time (default 10)
     --local                Compile gates into a pair-wise local lattice surgery instruction set
     --notwists             Compile S gates using the catalytic teleportation circuit from Fowler, 2012 instead of using the twist-based Y state initialization and teleportation from Gidney, 2024
+    --maxwait              Max consecutive slices without routing progress before the stream and wave
+                           pipelines abort as deadlocked (default 1000). Raise for circuits with long
+                           magic-state waits. Has no effect on -P dag.
     -h, --help             Shows this page        
