@@ -17,7 +17,6 @@
 #include <lsqecc/patches/slice_stats.hpp>
 #include <lsqecc/patches/dense_patch_computation.hpp>
 #include <lsqecc/patches/slice_variant.hpp>
-#include <lsqecc/patches/slices_to_text.hpp>
 #include <lsqecc/patches/minetest_export.hpp>
 
 #include <lstk/lstk.hpp>
@@ -593,17 +592,21 @@ namespace lsqecc
 
         bool print_slices = !parser.exists("noslices") && lli_print_mode == LLIPrintMode::None;
 
-        std::ostringstream pattern_oss;
+        int stripe_height = parser.exists("stripeheight") ? parser.get<int>("stripeheight") : 4;
+        // Builder opens the DB and holds the transaction for the duration of slicing.
+        // Constructed only when --minetest is active so that no DB file is created otherwise.
+        std::optional<lsqecc::MinetestMapBuilder> minetest_builder;
+        if (parser.exists("minetest") && print_slices)
+            minetest_builder.emplace("map.sqlite");
 
         DenseSliceVisitor slice_visitor = [](const DenseSlice& s) -> void {LSTK_UNUSED(s);};
         if(print_slices)
         {
             if (parser.exists("minetest"))
             {
-                // Capture the pattern text into pattern_oss.
                 size_t time_stamp = 0;
-                slice_visitor = [&pattern_oss, time_stamp](const DenseSlice & s) mutable {
-                    pattern_oss << slice_to_text(s, time_stamp) << "\n";
+                slice_visitor = [&minetest_builder, &stripe_height, time_stamp](const DenseSlice& s) mutable {
+                    minetest_builder->add_slice(s, time_stamp, stripe_height);
                     ++time_stamp;
                 };
             }
@@ -624,8 +627,11 @@ namespace lsqecc
 
         size_t slice_counter = 0;
 
+        // The minetest path runs with no -o/--noslices, so it would otherwise be silent.
+        // Show the live slice count so routing progress is visible and stalls are obvious.
+        bool show_progress = output_format_mode == OutputFormatMode::Progress || parser.exists("minetest");
         auto gave_update_at = lstk::now();
-        if(output_format_mode == OutputFormatMode::Progress)
+        if(show_progress)
         {
             slice_visitor = [&, slice_visitor](const DenseSlice & s)
             {
@@ -633,7 +639,7 @@ namespace lsqecc
                 slice_counter++;
                 if(lstk::seconds_since(gave_update_at)>=1)
                 {
-                    out_stream << "Slice count: " << slice_counter << "\r" << std::flush;
+                    out_stream << "Routing slices, count: " << slice_counter << "\r" << std::flush;
                     gave_update_at = std::chrono::steady_clock::now();
                 }
             };
@@ -685,21 +691,15 @@ namespace lsqecc
 
         if (parser.exists("minetest") && print_slices)
         {
-            std::string pattern_str = pattern_oss.str();
-            // Define the parameters for minetest export.
-            std::string db_path = "map.sqlite";
-
-            // Use the command-line argument if provided
-            int stripe_height = parser.exists("stripeheight") ? 
-                                parser.get<int>("stripeheight") : 4;
-                                
-            // Call the minetest export function that takes a pattern string.
-            if (!lsqecc::generate_minetest_map(pattern_str, db_path, stripe_height))
+            out_stream << "\nRouted " << slice_counter << " slices. Finalizing map.sqlite..."
+                       << std::endl;
+            if (!minetest_builder->finish())
             {
-                err_stream << "Failed to generate map.sqlite using in-memory pattern." << std::endl;
+                err_stream << "Failed to generate map.sqlite." << std::endl;
                 return -1;
             }
-            out_stream << "Generated map.sqlite" << std::endl;
+            out_stream << "Generated map.sqlite (" << minetest_builder->block_count()
+                       << " mapblocks)" << std::endl;
             return 0;
         }
 
