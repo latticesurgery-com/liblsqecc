@@ -220,6 +220,12 @@ namespace lsqecc
                 .names({"--notwists"})
                 .description("Compile S gates using the catalytic teleportation circuit from Fowler, 2012 instead of using the twist-based Y state initialization and teleportation from Gidney, 2024")
                 .required(false);
+        parser.add_argument()
+                .names({"--maxwait"})
+                .description("Max consecutive slices without routing progress before the stream and wave" CONSOLE_HELP_NEWLINE_ALIGN
+                             "pipelines abort as deadlocked (default 1000). Raise for circuits with long" CONSOLE_HELP_NEWLINE_ALIGN
+                             "magic-state waits. Has no effect on -P dag.")
+                .required(false);
         parser.enable_help();
 
         auto err = parser.parse(argc, argv);
@@ -649,8 +655,29 @@ namespace lsqecc
 
         auto start = lstk::now();
 
-        std::unique_ptr<PatchComputationResult> computation_result = 
-            std::make_unique<DensePatchComputationResult>(run_through_dense_slices(
+        size_t max_no_progress = MAX_NO_PROGRESS_SLICES_DEFAULT;
+        if (parser.exists("maxwait"))
+        {
+            const auto maxwait_arg = parser.get<std::string>("maxwait");
+            try
+            {
+                size_t chars_consumed = 0;
+                const unsigned long long parsed = std::stoull(maxwait_arg, &chars_consumed);
+                if (chars_consumed != maxwait_arg.size())
+                    throw std::invalid_argument{maxwait_arg};
+                max_no_progress = static_cast<size_t>(parsed);
+            }
+            catch (const std::exception&)
+            {
+                err_stream << "--maxwait expects a non-negative integer, got: " << maxwait_arg << std::endl;
+                return -1;
+            }
+        }
+
+        std::optional<DensePatchComputationResult> dense_computation_result;
+        try
+        {
+            dense_computation_result.emplace(run_through_dense_slices(
                     std::move(*instruction_stream),
                     pipeline_mode,
                     compile_mode == CompilationMode::Local,
@@ -661,8 +688,23 @@ namespace lsqecc
                     slice_visitor,
                     instruction_visitor,
                     parser.exists("graceful"),
-                    parser.exists("op-ids") || input_format == InputFormat::Pandora // op-ids required by Pandora
-        ));
+                    parser.exists("op-ids") || input_format == InputFormat::Pandora, // op-ids required by Pandora
+                    max_no_progress));
+        }
+        catch (const std::exception& e)
+        {
+            // Report and exit non-zero rather than letting the exception escape main(), which would
+            // abort the process (SIGABRT) with no usable exit code.
+            err_stream << e.what() << std::endl;
+            return -1;
+        }
+
+        // Under --graceful a failure is caught inside the computation, so this flag is the only
+        // signal that the circuit was not fully sliced. Emit the partial output, then fail.
+        const bool halted_with_error = dense_computation_result->halted_with_error_;
+
+        std::unique_ptr<PatchComputationResult> computation_result =
+            std::make_unique<DensePatchComputationResult>(*dense_computation_result);
 
         if(parser.exists("o") || parser.exists("noslices"))
         {
@@ -688,7 +730,7 @@ namespace lsqecc
         if (lli_print_mode == LLIPrintMode::Sliced)
             bulk_output_stream.get() << std::endl;
 
-        return 0;
+        return halted_with_error ? -1 : 0;
     }
 
 
