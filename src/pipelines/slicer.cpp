@@ -227,6 +227,11 @@ namespace lsqecc
                 .names({"--stripeheight"})
                 .description("Set the stripe height for minetest export (default 4)")
                 .required(false);
+        parser.add_argument()
+                .names({"--maxwait"})
+                .description("Max consecutive slices without routing progress before the stream pipeline" CONSOLE_HELP_NEWLINE_ALIGN
+                             "aborts as deadlocked (default 1000). Raise for circuits with long magic-state waits.")
+                .required(false);
         parser.enable_help();
 
         auto err = parser.parse(argc, argv);
@@ -674,7 +679,10 @@ namespace lsqecc
 
         auto start = lstk::now();
 
-        std::unique_ptr<PatchComputationResult> computation_result = 
+        size_t max_no_progress = parser.exists("maxwait")
+            ? parser.get<size_t>("maxwait") : MAX_NO_PROGRESS_SLICES_STREAM_DEFAULT;
+
+        std::unique_ptr<PatchComputationResult> computation_result =
             std::make_unique<DensePatchComputationResult>(run_through_dense_slices(
                     std::move(*instruction_stream),
                     pipeline_mode,
@@ -686,7 +694,8 @@ namespace lsqecc
                     slice_visitor,
                     instruction_visitor,
                     parser.exists("graceful"),
-                    parser.exists("op-ids") || input_format == InputFormat::Pandora // op-ids required by Pandora
+                    parser.exists("op-ids") || input_format == InputFormat::Pandora, // op-ids required by Pandora
+                    max_no_progress
         ));
 
         if (parser.exists("minetest") && print_slices)

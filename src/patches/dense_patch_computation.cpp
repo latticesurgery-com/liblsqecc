@@ -1457,10 +1457,15 @@ void run_through_dense_slices_streamed(
         DenseSliceVisitor slice_visitor,
         LSInstructionVisitor instruction_visitor,
         bool graceful,
+        size_t max_no_progress_slices,
         DensePatchComputationResult& res)
 {
     DenseSlice slice{layout, instruction_stream.core_qubits()};
     std::deque<LSInstruction> future_instructions;
+
+    // A permanently stuck instruction (e.g. one the layout cannot route) is retried at the
+    // front every slice; the guard bails with a diagnostic instead of looping forever.
+    NoProgressGuard no_progress_guard{max_no_progress_slices};
 
     while (instruction_stream.has_next_instruction() || !future_instructions.empty())
     {
@@ -1474,7 +1479,10 @@ void run_through_dense_slices_streamed(
 
         auto application_result = try_apply_instruction_direct_followup(slice, instruction, local_instructions, allow_twists, gen_op_ids, layout, router);
         if (!application_result.maybe_error)
+        {
             instruction_visitor(instruction);
+            no_progress_guard.note_progress();
+        }
 
         if (!application_result.followup_instructions.empty())
         {
@@ -1490,6 +1498,9 @@ void run_through_dense_slices_streamed(
             slice_visitor(slice);
             if (instruction.wait_at_most_for == 0)
                 throw std::runtime_error{application_result.maybe_error->what()};
+
+            no_progress_guard.note_no_progress(&instruction, application_result.maybe_error->what());
+
             instruction.wait_at_most_for--;
             future_instructions.push_front(instruction);
             advance_slice(slice, layout);
@@ -1605,18 +1616,27 @@ void run_through_dense_slices_wave(
         DenseSliceVisitor slice_visitor,
         LSInstructionVisitor instruction_visitor,
         bool graceful,
+        size_t max_no_progress_slices,
         DensePatchComputationResult& res)
 {
     DenseSlice slice{layout, instruction_stream.core_qubits()};
     WaveScheduler scheduler(std::move(instruction_stream), local_instructions, allow_twists, gen_op_ids, layout, std::move(router), pipeline_mode);
-    
+
+    NoProgressGuard no_progress_guard{max_no_progress_slices};
+
     while (!scheduler.done())
     {
-        scheduler.schedule_wave(slice, instruction_visitor, res);
-        
+        WaveStats wave_stats = scheduler.schedule_wave(slice, instruction_visitor, res);
+        if (wave_stats.applied_wave_size > 0)
+            no_progress_guard.note_progress();
+        else if (wave_stats.blocked_instruction)
+            no_progress_guard.note_no_progress(&*wave_stats.blocked_instruction, wave_stats.blocked_cause);
+        else
+            no_progress_guard.note_no_progress();
+
         slice_visitor(slice);
         advance_slice(slice, layout);
-        
+
         res.slice_count_++;
     }
 }
@@ -1633,7 +1653,8 @@ DensePatchComputationResult run_through_dense_slices(
         DenseSliceVisitor slice_visitor,
         LSInstructionVisitor instruction_visitor,
         bool graceful,
-        bool gen_op_ids
+        bool gen_op_ids,
+        size_t max_no_progress_slices
         )
 {
 
@@ -1674,6 +1695,7 @@ DensePatchComputationResult run_through_dense_slices(
                 slice_visitor,
                 instruction_visitor,
                 graceful,
+                max_no_progress_slices,
                 res);
         
         case PipelineMode::Dag:
@@ -1708,6 +1730,7 @@ DensePatchComputationResult run_through_dense_slices(
                 slice_visitor,
                 instruction_visitor,
                 graceful,
+                max_no_progress_slices,
                 res);
         
         default: LSTK_UNREACHABLE;

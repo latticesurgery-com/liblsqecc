@@ -3,6 +3,8 @@
 
 
 #include <cstdint>
+#include <optional>
+#include <string>
 #include <vector>
 
 #include <lstk/lstk.hpp>
@@ -19,6 +21,8 @@ struct WaveStats
 {
 	size_t wave_size; // number of instructions in wave
 	size_t applied_wave_size; // number of instructions in wave that were actually applied
+	std::optional<LSInstruction> blocked_instruction; // a representative instruction that could not be applied
+	std::string blocked_cause; // why blocked_instruction could not be applied
 };
 
 class WaveScheduler
@@ -76,8 +80,13 @@ private:
 	
 	std::vector<InstructionRecord> records_;
 	std::vector<uint8_t> dependency_counts_;
-	
+
 	Wave current_wave_, next_wave_;
+
+	// A representative instruction that could not be applied in the current wave, recorded
+	// for deadlock diagnostics. Reset at the start of each wave.
+	std::optional<LSInstruction> last_blocked_instruction_;
+	std::string last_blocked_cause_;
 };
 
 }
