@@ -604,99 +604,109 @@ namespace lsqecc
         if (parser.exists("minetest") && print_slices)
             minetest_builder.emplace("map.sqlite");
 
-        DenseSliceVisitor slice_visitor = [](const DenseSlice& s) -> void {LSTK_UNUSED(s);};
-        if(print_slices)
-        {
-            if (parser.exists("minetest"))
-            {
-                size_t time_stamp = 0;
-                slice_visitor = [&minetest_builder, &stripe_height, time_stamp](const DenseSlice& s) mutable {
-                    minetest_builder->add_slice(s, time_stamp, stripe_height);
-                    ++time_stamp;
-                };
-            }
-            else
-            {
-                bool is_first_slice = true;
-                slice_visitor = [&bulk_output_stream, &is_first_slice](const DenseSlice & s){
-                    if(is_first_slice)
-                    {
-                        bulk_output_stream.get() << "[\n" << slice_to_json(s).dump(3);
-                        is_first_slice = false;
-                    }
-                    else
-                        bulk_output_stream.get() << ",\n" << slice_to_json(s).dump(3) << std::flush;
-                };
-            }
-        }
+        bool minetest_output = parser.exists("minetest");
 
         size_t slice_counter = 0;
 
         // The minetest path runs with no -o/--noslices, so it would otherwise be silent.
         // Show the live slice count so routing progress is visible and stalls are obvious.
-        bool show_progress = output_format_mode == OutputFormatMode::Progress || parser.exists("minetest");
+        bool show_progress = output_format_mode == OutputFormatMode::Progress || minetest_output;
         auto gave_update_at = lstk::now();
-        if(show_progress)
-        {
-            slice_visitor = [&, slice_visitor](const DenseSlice & s)
-            {
-                slice_visitor(s);
-                slice_counter++;
-                if(lstk::seconds_since(gave_update_at)>=1)
-                {
-                    out_stream << "Routing slices, count: " << slice_counter << "\r" << std::flush;
-                    gave_update_at = std::chrono::steady_clock::now();
-                }
-            };
-        }
-
 
         SliceStats slice_stats;
-        if (output_format_mode == OutputFormatMode::Stats)
-        {
-            slice_visitor = [&, slice_visitor](const DenseSlice & s)
-            {
-                slice_visitor(s);
-                slice_stats.totals += compute_volume_counts(s);
-            };
-        }
 
-        LSInstructionVisitor instruction_visitor{[&](const LSInstruction& i){}};
+        LSInstructionVisitor instruction_visitor{[&](const LSInstruction& i){LSTK_UNUSED(i);}};
         if (lli_print_mode == LLIPrintMode::Sliced)
         {
             instruction_visitor = [&](const LSInstruction& i)
             {
                 bulk_output_stream.get() << i << ";";
-            }; 
-
-            slice_visitor = [&,slice_visitor](const DenseSlice & s)
-            {
-                slice_visitor(s);
-                bulk_output_stream.get() << std::endl;
             };
         }
 
+        // Per-slice consumer state, previously hidden inside the nested visitor lambdas.
+        bool is_first_slice = true;
+        size_t time_stamp = 0;
 
         auto start = lstk::now();
 
         size_t max_no_progress = parser.exists("maxwait")
             ? parser.get<size_t>("maxwait") : MAX_NO_PROGRESS_SLICES_STREAM_DEFAULT;
 
-        std::unique_ptr<PatchComputationResult> computation_result =
-            std::make_unique<DensePatchComputationResult>(run_through_dense_slices(
-                    std::move(*instruction_stream),
-                    pipeline_mode,
-                    compile_mode == CompilationMode::Local,
-                    sgate_mode == SGateMode::Twists,
-                    *layout,
-                    std::move(router),
-                    timeout,
-                    slice_visitor,
-                    instruction_visitor,
-                    parser.exists("graceful"),
-                    parser.exists("op-ids") || input_format == InputFormat::Pandora, // op-ids required by Pandora
-                    max_no_progress
-        ));
+        // Pull-based: the engine produces one slice at a time and we drive the loop, applying
+        // each output concern as a flat, ordered step. The slice reference is only valid for the
+        // current iteration (the engine mutates it on the next advance), so we never retain it.
+        DensePatchComputationResult res;
+        std::unique_ptr<DenseSliceStream> slices = run_through_dense_slices(
+                std::move(instruction_stream),
+                pipeline_mode,
+                compile_mode == CompilationMode::Local,
+                sgate_mode == SGateMode::Twists,
+                *layout,
+                std::move(router),
+                timeout,
+                instruction_visitor,
+                parser.exists("op-ids") || input_format == InputFormat::Pandora, // op-ids required by Pandora
+                res,
+                max_no_progress);
+
+        auto consume_slices = [&]()
+        {
+            for (const DenseSlice& slice : *slices)
+            {
+                // Base output: write the slice to its destination.
+                if (print_slices)
+                {
+                    if (minetest_output)
+                    {
+                        minetest_builder->add_slice(slice, time_stamp, stripe_height);
+                        ++time_stamp;
+                    }
+                    else if (is_first_slice)
+                    {
+                        bulk_output_stream.get() << "[\n" << slice_to_json(slice).dump(3);
+                        is_first_slice = false;
+                    }
+                    else
+                        bulk_output_stream.get() << ",\n" << slice_to_json(slice).dump(3) << std::flush;
+                }
+
+                // Live progress counter.
+                if (show_progress)
+                {
+                    slice_counter++;
+                    if(lstk::seconds_since(gave_update_at)>=1)
+                    {
+                        out_stream << "Routing slices, count: " << slice_counter << "\r" << std::flush;
+                        gave_update_at = std::chrono::steady_clock::now();
+                    }
+                }
+
+                // Stats accumulation.
+                if (output_format_mode == OutputFormatMode::Stats)
+                    slice_stats.totals += compute_volume_counts(slice);
+
+                // Sliced-LLI: terminate this slice's instruction line.
+                if (lli_print_mode == LLIPrintMode::Sliced)
+                    bulk_output_stream.get() << std::endl;
+            }
+        };
+
+        // Exceptions (deadlock, routing failure, timeout) surface here, in the consumer loop.
+        if (parser.exists("graceful"))
+        {
+            try
+            {
+                consume_slices();
+            }
+            catch (const std::exception& e)
+            {
+                std::cout << "Encountered exception: " << e.what() << std::endl;
+                std::cout << "Halting slicing" << std::endl;
+            }
+        }
+        else
+            consume_slices();
 
         if (parser.exists("minetest") && print_slices)
         {
@@ -716,13 +726,13 @@ namespace lsqecc
         {
             if (output_format_mode == OutputFormatMode::Machine)
             {
-                out_stream << computation_result->ls_instructions_count() << ","
-                           << computation_result->slice_count() << ","
+                out_stream << res.ls_instructions_count() << ","
+                           << res.slice_count() << ","
                            << lstk::seconds_since(start) << std::endl;
             } else if (output_format_mode == OutputFormatMode::Progress || output_format_mode == OutputFormatMode::Stats )
             {
-                out_stream << "LS Instructions read  " << computation_result->ls_instructions_count() << std::endl;
-                out_stream << "Slices " << computation_result->slice_count() << std::endl;
+                out_stream << "LS Instructions read  " << res.ls_instructions_count() << std::endl;
+                out_stream << "Slices " << res.slice_count() << std::endl;
                 out_stream << "Made patch computation. Took " << lstk::seconds_since(start) << "s." << std::endl;
             }
             
