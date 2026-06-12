@@ -25,6 +25,7 @@
 #include <argparse/argparse.h>
 #include <nlohmann/json.hpp>
 
+#include <algorithm>
 #include <iostream>
 #include <string_view>
 #include <sstream>
@@ -391,9 +392,25 @@ namespace lsqecc
 
         if (input_format == InputFormat::LLI)
         {
-            instruction_stream = std::make_unique<LSInstructionStreamFromFile>(input_file_stream.get());
-            id_generator.set_start(*std::max(instruction_stream->core_qubits().begin(),
-                                             instruction_stream->core_qubits().end()));
+            try
+            {
+                instruction_stream = std::make_unique<LSInstructionStreamFromFile>(input_file_stream.get());
+            }
+            catch (const std::exception& e)
+            {
+                err_stream << "Could not read LS instructions: " << e.what() << std::endl;
+                return -1;
+            }
+            const auto& core_qubits = instruction_stream->core_qubits();
+            if (core_qubits.empty())
+            {
+                err_stream << "No logical qubits declared; nothing to slice." << std::endl;
+                return -1;
+            }
+            // Start generating ids past the highest declared core-qubit id so new patches don't
+            // collide with them (matches the QASM path's set_start(qreg.size)). core_qubits() is
+            // insertion-ordered, not sorted, so scan for the max rather than taking the last.
+            id_generator.set_start(*std::max_element(core_qubits.begin(), core_qubits.end()) + 1);
             if( print_dag_mode == PrintDagMode::Input )
             {
                 auto dag = dag::full_dependency_dag_from_instruction_stream(*instruction_stream);
@@ -440,6 +457,12 @@ namespace lsqecc
                     err_stream << "Unknown CNOT correction mode: " << parser.get<std::string>("cnotcorrections") <<std::endl;
                     return -1;
                 }
+            }
+
+            if (gate_stream->get_qreg().size == 0)
+            {
+                err_stream << "No qubits in the circuit; nothing to slice." << std::endl;
+                return -1;
             }
 
             id_generator.set_start(gate_stream->get_qreg().size);
