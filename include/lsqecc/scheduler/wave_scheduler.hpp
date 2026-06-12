@@ -29,7 +29,7 @@ class WaveScheduler
 {
 public:
 	
-	WaveScheduler(LSInstructionStream&& stream, bool local_instructions, bool allow_twists, bool gen_op_ids, const Layout& layout, std::unique_ptr<Router> router, PipelineMode pipeline_mode);
+	WaveScheduler(LSInstructionStream&& stream, const Layout& layout, std::unique_ptr<Router> router, const DenseSlicingOptions& options);
 	
 	bool done() const { return current_wave_.proximate_heads_.empty() && current_wave_.heads.empty(); }
 	WaveStats schedule_wave(DenseSlice& slice, LSInstructionVisitor instruction_visitor, DensePatchComputationResult& res);

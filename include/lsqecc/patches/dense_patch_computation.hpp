@@ -18,6 +18,7 @@
 #include <functional>
 #include <iterator>
 #include <memory>
+#include <optional>
 #include <stdexcept>
 #include <string_view>
 
@@ -47,6 +48,18 @@ static constexpr size_t MAX_INSTRUCTION_APPLICATION_RETRIES_DAG_PIPELINE = 100;
 // Max consecutive slices without applying any instruction before a pipeline gives up and
 // reports a deadlock (e.g. an operation the layout cannot route).
 static constexpr size_t MAX_NO_PROGRESS_SLICES_STREAM_DEFAULT = 1000;
+
+
+// Tunables for run_through_dense_slices, grouped so call sites name each knob (designated
+// initializers) instead of passing a row of unlabeled positional bools.
+struct DenseSlicingOptions {
+    PipelineMode pipeline_mode = PipelineMode::Stream;
+    bool local_instructions = false;
+    bool allow_twists = false;
+    bool gen_op_ids = false;
+    std::optional<std::chrono::seconds> timeout = std::nullopt;
+    size_t max_no_progress_slices = MAX_NO_PROGRESS_SLICES_STREAM_DEFAULT;
+};
 
 
 // Detects when a pipeline stops making forward progress and aborts with an actionable
@@ -100,6 +113,10 @@ public:
     // timeout); the exception surfaces here, in the consumer.
     virtual const DenseSlice* next() = 0;
 
+    // Instruction/slice counts, final once the stream is exhausted. Concrete streams accumulate
+    // into result_; decorators forward to the stream they wrap.
+    virtual const DensePatchComputationResult& result() const { return result_; }
+
     class iterator {
         DenseSliceStream* stream_ = nullptr;
         const DenseSlice* current_ = nullptr;
@@ -124,25 +141,22 @@ public:
 
     iterator begin() { return iterator{this}; }
     iterator end() { return iterator{}; }
+
+protected:
+    DensePatchComputationResult result_;
 };
 
 
-// Drives the slicing engine and returns a pull-based stream of dense slices. The caller owns
-// `res` and reads the final counts after the stream is exhausted. Exceptions (deadlock, routing
+// Drives the slicing engine and returns a pull-based stream of dense slices. Read the final
+// counts from the returned stream's result() once it is exhausted. Exceptions (deadlock, routing
 // failure, timeout) propagate out of DenseSliceStream::next(), i.e. into the consumer loop, so
 // graceful error handling belongs at the call site.
 std::unique_ptr<DenseSliceStream> run_through_dense_slices(
         std::unique_ptr<LSInstructionStream> instruction_stream,
-        PipelineMode pipeline_mode,
-        bool local_instructions,
-        bool allow_twists,
         const Layout& layout,
         std::unique_ptr<Router> router,
-        std::optional<std::chrono::seconds> timeout,
         LSInstructionVisitor instruction_visitor,
-        bool gen_op_ids,
-        DensePatchComputationResult& res,
-        size_t max_no_progress_slices = MAX_NO_PROGRESS_SLICES_STREAM_DEFAULT);
+        const DenseSlicingOptions& options = {});
 
 
 

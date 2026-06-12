@@ -8,17 +8,17 @@
 namespace lsqecc {
 
 
-WaveScheduler::WaveScheduler(LSInstructionStream&& stream, bool local_instructions, bool allow_twists, bool gen_op_ids, const Layout& layout, std::unique_ptr<Router> router, PipelineMode pipeline_mode):
-	local_instructions_(local_instructions),
-	allow_twists_(allow_twists),
-	gen_op_ids_(gen_op_ids),
+WaveScheduler::WaveScheduler(LSInstructionStream&& stream, const Layout& layout, std::unique_ptr<Router> router, const DenseSlicingOptions& options):
+	local_instructions_(options.local_instructions),
+	allow_twists_(options.allow_twists),
+	gen_op_ids_(options.gen_op_ids),
 	layout_(layout)
 {
 	router_ = std::move(router);
-	if (pipeline_mode == PipelineMode::EDPC)
+	if (options.pipeline_mode == PipelineMode::EDPC)
 	{
 		router_->set_EDPC();
-	}	
+	}
 	
 	std::unordered_map<PatchId, InstructionID> patch_id_to_last_instruction;
 	
