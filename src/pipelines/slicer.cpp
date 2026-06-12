@@ -638,19 +638,17 @@ namespace lsqecc
         // Pull-based: the engine produces one slice at a time and we drive the loop, applying
         // each output concern as a flat, ordered step. The slice reference is only valid for the
         // current iteration (the engine mutates it on the next advance), so we never retain it.
-        DensePatchComputationResult res;
         std::unique_ptr<DenseSliceStream> slices = run_through_dense_slices(
                 std::move(instruction_stream),
-                pipeline_mode,
-                compile_mode == CompilationMode::Local,
-                sgate_mode == SGateMode::Twists,
                 *layout,
                 std::move(router),
-                timeout,
                 instruction_visitor,
-                parser.exists("op-ids") || input_format == InputFormat::Pandora, // op-ids required by Pandora
-                res,
-                max_no_progress);
+                {.pipeline_mode          = pipeline_mode,
+                 .local_instructions     = compile_mode == CompilationMode::Local,
+                 .allow_twists           = sgate_mode == SGateMode::Twists,
+                 .gen_op_ids             = parser.exists("op-ids") || input_format == InputFormat::Pandora, // op-ids required by Pandora
+                 .timeout                = timeout,
+                 .max_no_progress_slices = max_no_progress});
 
         auto consume_slices = [&]()
         {
@@ -725,13 +723,13 @@ namespace lsqecc
         {
             if (output_format_mode == OutputFormatMode::Machine)
             {
-                out_stream << res.ls_instructions_count() << ","
-                           << res.slice_count() << ","
+                out_stream << slices->result().ls_instructions_count() << ","
+                           << slices->result().slice_count() << ","
                            << lstk::seconds_since(start) << std::endl;
             } else if (output_format_mode == OutputFormatMode::Progress || output_format_mode == OutputFormatMode::Stats )
             {
-                out_stream << "LS Instructions read  " << res.ls_instructions_count() << std::endl;
-                out_stream << "Slices " << res.slice_count() << std::endl;
+                out_stream << "LS Instructions read  " << slices->result().ls_instructions_count() << std::endl;
+                out_stream << "Slices " << slices->result().slice_count() << std::endl;
                 out_stream << "Made patch computation. Took " << lstk::seconds_since(start) << "s." << std::endl;
             }
             

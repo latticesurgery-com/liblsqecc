@@ -1460,26 +1460,19 @@ class StreamedSliceStream : public DenseSliceStream
 public:
     StreamedSliceStream(
             std::unique_ptr<LSInstructionStream> instruction_stream,
-            bool local_instructions,
-            bool allow_twists,
-            bool gen_op_ids,
             const Layout& layout,
             std::unique_ptr<Router> router,
             LSInstructionVisitor instruction_visitor,
-            size_t max_no_progress_slices,
-            DensePatchComputationResult& res)
+            const DenseSlicingOptions& options)
         : instruction_stream_(std::move(instruction_stream)),
-          local_instructions_(local_instructions),
-          allow_twists_(allow_twists),
-          gen_op_ids_(gen_op_ids),
+          options_(options),
           layout_(layout),
           router_(std::move(router)),
           instruction_visitor_(std::move(instruction_visitor)),
-          res_(res),
           slice_(layout, instruction_stream_->core_qubits()),
           // A permanently stuck instruction (e.g. one the layout cannot route) is retried at the
           // front every slice; the guard bails with a diagnostic instead of looping forever.
-          no_progress_guard_(max_no_progress_slices)
+          no_progress_guard_(options.max_no_progress_slices)
     {}
 
     const DenseSlice* next() override
@@ -1512,11 +1505,11 @@ public:
             {
                 if (!future_instructions_.empty())
                     return lstk::deque_pop(future_instructions_);
-                res_.ls_instructions_count_++;
+                result_.ls_instructions_count_++;
                 return instruction_stream_->get_next_instruction();
             }();
 
-            auto application_result = try_apply_instruction_direct_followup(slice_, instruction, local_instructions_, allow_twists_, gen_op_ids_, layout_, *router_);
+            auto application_result = try_apply_instruction_direct_followup(slice_, instruction, options_.local_instructions, options_.allow_twists, options_.gen_op_ids, layout_, *router_);
             if (!application_result.maybe_error)
             {
                 instruction_visitor_(instruction);
@@ -1525,7 +1518,7 @@ public:
 
             if (!application_result.followup_instructions.empty())
             {
-                res_.slice_count_++;
+                result_.slice_count_++;
                 for (auto&& i: application_result.followup_instructions)
                     future_instructions_.push_back(i);
 
@@ -1555,13 +1548,10 @@ private:
     };
 
     std::unique_ptr<LSInstructionStream> instruction_stream_;
-    bool local_instructions_;
-    bool allow_twists_;
-    bool gen_op_ids_;
+    DenseSlicingOptions options_;
     const Layout& layout_;
     std::unique_ptr<Router> router_;
     LSInstructionVisitor instruction_visitor_;
-    DensePatchComputationResult& res_;
     DenseSlice slice_;
     NoProgressGuard no_progress_guard_;
     std::deque<LSInstruction> future_instructions_;
@@ -1584,21 +1574,15 @@ public:
     DagSliceStream(
             dag::DependencyDag<LSInstruction>&& dag,
             const tsl::ordered_set<PatchId>& core_qubits,
-            bool local_instructions,
-            bool allow_twists,
-            bool gen_op_ids,
             const Layout& layout,
             std::unique_ptr<Router> router,
             LSInstructionVisitor instruction_visitor,
-            DensePatchComputationResult& res)
+            const DenseSlicingOptions& options)
         : dag_(std::move(dag)),
-          local_instructions_(local_instructions),
-          allow_twists_(allow_twists),
-          gen_op_ids_(gen_op_ids),
+          options_(options),
           layout_(layout),
           router_(std::move(router)),
           instruction_visitor_(std::move(instruction_visitor)),
-          res_(res),
           slice_(layout, core_qubits)
     {}
 
@@ -1607,7 +1591,7 @@ public:
         if (needs_advance_)
         {
             advance_slice(slice_, layout_);
-            res_.slice_count_++;
+            result_.slice_count_++;
             needs_advance_ = false;
         }
 
@@ -1619,7 +1603,7 @@ public:
         for (dag::label_t instruction_label: proximate_instructions)
         {
             LSInstruction& instruction = dag_.at(instruction_label);
-            auto application_result = try_apply_instruction_direct_followup(slice_, instruction, local_instructions_, allow_twists_, gen_op_ids_, layout_, *router_);
+            auto application_result = try_apply_instruction_direct_followup(slice_, instruction, options_.local_instructions, options_.allow_twists, options_.gen_op_ids, layout_, *router_);
             if (application_result.maybe_error)
                 throw std::runtime_error{lstk::cat(
                     "Could not apply proximate instruction:\n",
@@ -1628,7 +1612,7 @@ public:
                     application_result.maybe_error->what())};
             else
             {
-                res_.ls_instructions_count_++;
+                result_.ls_instructions_count_++;
                 instruction_visitor_(instruction);
             }
             handle_followup_instructions(instruction_label, std::move(application_result.followup_instructions));
@@ -1640,7 +1624,7 @@ public:
         for (dag::label_t instruction_label: non_proximate_instructions)
         {
             LSInstruction& instruction = dag_.at(instruction_label);
-            auto application_result = try_apply_instruction_direct_followup(slice_, instruction, local_instructions_, allow_twists_, gen_op_ids_, layout_, *router_);
+            auto application_result = try_apply_instruction_direct_followup(slice_, instruction, options_.local_instructions, options_.allow_twists, options_.gen_op_ids, layout_, *router_);
             if (application_result.maybe_error)
             {
                 increment_attempts(instruction_label);
@@ -1656,7 +1640,7 @@ public:
             }
             else
             {
-                res_.ls_instructions_count_++;
+                result_.ls_instructions_count_++;
                 instruction_visitor_(instruction);
                 handle_followup_instructions(instruction_label, std::move(application_result.followup_instructions));
             }
@@ -1686,13 +1670,10 @@ private:
     }
 
     dag::DependencyDag<LSInstruction> dag_;
-    bool local_instructions_;
-    bool allow_twists_;
-    bool gen_op_ids_;
+    DenseSlicingOptions options_;
     const Layout& layout_;
     std::unique_ptr<Router> router_;
     LSInstructionVisitor instruction_visitor_;
-    DensePatchComputationResult& res_;
     DenseSlice slice_;
     std::unordered_map<dag::label_t, size_t> attempts_per_instruction_;
     bool needs_advance_ = false;
@@ -1710,21 +1691,15 @@ class WaveSliceStream : public DenseSliceStream
 public:
     WaveSliceStream(
             std::unique_ptr<LSInstructionStream> instruction_stream,
-            PipelineMode pipeline_mode,
-            bool local_instructions,
-            bool allow_twists,
-            bool gen_op_ids,
             const Layout& layout,
             std::unique_ptr<Router> router,
             LSInstructionVisitor instruction_visitor,
-            size_t max_no_progress_slices,
-            DensePatchComputationResult& res)
+            const DenseSlicingOptions& options)
         : layout_(layout),
           instruction_visitor_(std::move(instruction_visitor)),
-          res_(res),
           slice_(layout, instruction_stream->core_qubits()),
-          scheduler_(std::move(*instruction_stream), local_instructions, allow_twists, gen_op_ids, layout, std::move(router), pipeline_mode),
-          no_progress_guard_(max_no_progress_slices)
+          scheduler_(std::move(*instruction_stream), layout, std::move(router), options),
+          no_progress_guard_(options.max_no_progress_slices)
     {}
 
     const DenseSlice* next() override
@@ -1732,14 +1707,14 @@ public:
         if (needs_advance_)
         {
             advance_slice(slice_, layout_);
-            res_.slice_count_++;
+            result_.slice_count_++;
             needs_advance_ = false;
         }
 
         if (scheduler_.done())
             return nullptr;
 
-        WaveStats wave_stats = scheduler_.schedule_wave(slice_, instruction_visitor_, res_);
+        WaveStats wave_stats = scheduler_.schedule_wave(slice_, instruction_visitor_, result_);
         if (wave_stats.applied_wave_size > 0)
             no_progress_guard_.note_progress();
         else if (wave_stats.blocked_instruction)
@@ -1754,7 +1729,6 @@ public:
 private:
     const Layout& layout_;
     LSInstructionVisitor instruction_visitor_;
-    DensePatchComputationResult& res_;
     DenseSlice slice_;
     WaveScheduler scheduler_;
     NoProgressGuard no_progress_guard_;
@@ -1769,26 +1743,29 @@ class TimeoutSliceStream : public DenseSliceStream
 public:
     TimeoutSliceStream(
             std::unique_ptr<DenseSliceStream> inner,
-            std::chrono::seconds timeout,
-            const DensePatchComputationResult& res)
-        : inner_(std::move(inner)), timeout_(timeout), res_(res), start_(lstk::now())
+            std::chrono::seconds timeout)
+        : inner_(std::move(inner)), timeout_(timeout), start_(lstk::now())
     {}
 
     const DenseSlice* next() override
     {
         const DenseSlice* slice = inner_->next();
         if (slice && lstk::since(start_) > timeout_)
+        {
+            const DensePatchComputationResult& res = inner_->result();
             throw std::runtime_error{
                 std::string{"Out of time after "}+std::to_string(timeout_.count())+std::string{"s. "}
-                +std::string{"Consumed "}+std::to_string(res_.ls_instructions_count_)+std::string{" Instructions. "}
-                +std::string{"Generated "}+std::to_string(res_.slice_count_)+std::string{"Slices."}};
+                +std::string{"Consumed "}+std::to_string(res.ls_instructions_count_)+std::string{" Instructions. "}
+                +std::string{"Generated "}+std::to_string(res.slice_count_)+std::string{"Slices."}};
+        }
         return slice;
     }
+
+    const DensePatchComputationResult& result() const override { return inner_->result(); }
 
 private:
     std::unique_ptr<DenseSliceStream> inner_;
     std::chrono::seconds timeout_;
-    const DensePatchComputationResult& res_;
     std::chrono::steady_clock::time_point start_;
 };
 
@@ -1797,33 +1774,22 @@ private:
 
 std::unique_ptr<DenseSliceStream> run_through_dense_slices(
         std::unique_ptr<LSInstructionStream> instruction_stream,
-        PipelineMode pipeline_mode,
-        bool local_instructions,
-        bool allow_twists,
         const Layout& layout,
         std::unique_ptr<Router> router,
-        std::optional<std::chrono::seconds> timeout,
         LSInstructionVisitor instruction_visitor,
-        bool gen_op_ids,
-        DensePatchComputationResult& res,
-        size_t max_no_progress_slices
-        )
+        const DenseSlicingOptions& options)
 {
     std::unique_ptr<DenseSliceStream> stream;
 
-    switch (pipeline_mode)
+    switch (options.pipeline_mode)
     {
     case PipelineMode::Stream:
         stream = std::make_unique<StreamedSliceStream>(
             std::move(instruction_stream),
-            local_instructions,
-            allow_twists,
-            gen_op_ids,
             layout,
             std::move(router),
             std::move(instruction_visitor),
-            max_no_progress_slices,
-            res);
+            options);
         break;
 
     case PipelineMode::Dag:
@@ -1832,13 +1798,10 @@ std::unique_ptr<DenseSliceStream> run_through_dense_slices(
         stream = std::make_unique<DagSliceStream>(
             std::move(dag),
             instruction_stream->core_qubits(),
-            local_instructions,
-            allow_twists,
-            gen_op_ids,
             layout,
             std::move(router),
             std::move(instruction_visitor),
-            res);
+            options);
         break;
     }
 
@@ -1846,22 +1809,17 @@ std::unique_ptr<DenseSliceStream> run_through_dense_slices(
     case PipelineMode::EDPC:
         stream = std::make_unique<WaveSliceStream>(
             std::move(instruction_stream),
-            pipeline_mode,
-            local_instructions,
-            allow_twists,
-            gen_op_ids,
             layout,
             std::move(router),
             std::move(instruction_visitor),
-            max_no_progress_slices,
-            res);
+            options);
         break;
 
     default: LSTK_UNREACHABLE;
     }
 
-    if (timeout.has_value())
-        stream = std::make_unique<TimeoutSliceStream>(std::move(stream), *timeout, res);
+    if (options.timeout.has_value())
+        stream = std::make_unique<TimeoutSliceStream>(std::move(stream), *options.timeout);
 
     return stream;
 }
