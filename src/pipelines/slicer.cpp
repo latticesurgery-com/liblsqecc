@@ -33,6 +33,7 @@
 #include <filesystem>
 #include <fstream>
 #include <chrono>
+#include <cmath>
 
 #include <string>
 
@@ -220,6 +221,13 @@ namespace lsqecc
         parser.add_argument()
                 .names({"--notwists"})
                 .description("Compile S gates using the catalytic teleportation circuit from Fowler, 2012 instead of using the twist-based Y state initialization and teleportation from Gidney, 2024")
+                .required(false);
+        parser.add_argument()
+                .names({"--slicetiming"})
+                .description("Times the per-slice output work (the JSON serialization), excluding" CONSOLE_HELP_NEWLINE_ALIGN
+                             "routing/production, and appends one CSV row to the given file (default" CONSOLE_HELP_NEWLINE_ALIGN
+                             "slice_timings.csv): rows,cols,cells,num_slices,mean_ms,stddev_ms,total_s," CONSOLE_HELP_NEWLINE_ALIGN
+                             "keyed by layout size so runs across layout sizes plot as avg/error bars.")
                 .required(false);
         parser.add_argument()
                 .names({"--maxwait"})
@@ -637,6 +645,17 @@ namespace lsqecc
         // Per-slice consumer state, previously hidden inside the nested visitor lambdas.
         bool is_first_slice = true;
 
+        // Per-slice timing, for benchmarking output cost vs layout size. Times only this
+        // iteration's output work (the JSON serialization), not the routing/production that
+        // precedes it. Welford's online algorithm keeps the mean/variance in O(1) memory,
+        // matching the streaming design (no per-slice vector retained). Gated on --slicetiming
+        // so the common path pays nothing.
+        const bool profile_slices = parser.exists("slicetiming");
+        size_t timing_n        = 0;
+        double timing_mean_ms  = 0.0; // running mean of per-slice processing time
+        double timing_m2       = 0.0; // running sum of squared deviations from the mean
+        double timing_total_ms = 0.0;
+
         auto start = lstk::now();
 
         size_t max_no_progress = MAX_NO_PROGRESS_SLICES_DEFAULT;
@@ -677,6 +696,10 @@ namespace lsqecc
         {
             for (const DenseSlice& slice : *slices)
             {
+                // Time only the output work below, excluding the routing/production that the
+                // iterator advance already performed before handing us this slice.
+                auto output_start = lstk::now();
+
                 // Base output: write the slice to its destination.
                 if (print_slices)
                 {
@@ -707,6 +730,19 @@ namespace lsqecc
                 // Sliced-LLI: terminate this slice's instruction line.
                 if (lli_print_mode == LLIPrintMode::Sliced)
                     bulk_output_stream.get() << std::endl;
+
+                // Accumulate this slice's output time (Welford online mean/variance).
+                if (profile_slices)
+                {
+                    double dt_ms = std::chrono::duration_cast<
+                        std::chrono::duration<double, std::milli>>(
+                            lstk::now() - output_start).count();
+                    ++timing_n;
+                    double delta = dt_ms - timing_mean_ms;
+                    timing_mean_ms += delta / static_cast<double>(timing_n);
+                    timing_m2 += delta * (dt_ms - timing_mean_ms);
+                    timing_total_ms += dt_ms;
+                }
             }
         };
 
@@ -740,6 +776,40 @@ namespace lsqecc
                 err_stream << e.what() << std::endl;
                 return -1;
             }
+        }
+
+        // Slice-timing report: one CSV row per run, keyed by layout size, so a sweep over layout
+        // sizes can be plotted as avg/error bars (error bar = stddev_ms, or stddev_ms/sqrt(n) for
+        // the standard error of the mean). Runs for every output mode.
+        if (profile_slices)
+        {
+            auto [max_row, max_col] = layout->furthest_cell();
+            size_t rows  = static_cast<size_t>(max_row) + 1;
+            size_t cols  = static_cast<size_t>(max_col) + 1;
+            size_t cells = rows * cols;
+            double stddev_ms = timing_n > 1
+                ? std::sqrt(timing_m2 / static_cast<double>(timing_n - 1)) : 0.0;
+
+            std::string timing_path = parser.get<std::string>("slicetiming");
+            if (timing_path.empty())
+                timing_path = "slice_timings.csv";
+
+            bool needs_header = !std::filesystem::exists(timing_path);
+            std::ofstream timing_file(timing_path, std::ios::app);
+            if (!timing_file)
+                err_stream << "Warning: could not open slice-timing file: " << timing_path << std::endl;
+            else
+            {
+                if (needs_header)
+                    timing_file << "rows,cols,cells,num_slices,mean_ms,stddev_ms,total_s\n";
+                timing_file << rows << "," << cols << "," << cells << ","
+                            << timing_n << "," << timing_mean_ms << "," << stddev_ms << ","
+                            << (timing_total_ms / 1000.0) << "\n";
+            }
+
+            out_stream << "Slice-timing: " << timing_n << " slices, mean " << timing_mean_ms
+                       << " ms, stddev " << stddev_ms << " ms (layout " << rows << "x" << cols
+                       << ", " << cells << " cells) -> " << timing_path << std::endl;
         }
 
         if(parser.exists("o") || parser.exists("noslices"))
