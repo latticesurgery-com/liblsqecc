@@ -18,6 +18,7 @@ using Vertex = size_t;
 struct PredecessorData {
     size_t distance;
     Vertex predecessor;
+    double h_estimate; // cached A* heuristic h(v); constant per vertex, so computed once at set() time
 };
 
 // Reusable, epoch-stamped predecessor map. Replaces the old per-route O(W*H) allocate+init of a
@@ -70,9 +71,13 @@ struct PredecessorBuffer {
     // old code got from initializing predecessor_map[i] = {nullopt, i}. Path reconstruction relies on it.
     Vertex predecessor(Vertex v) const { return is_set(v) ? data[v].predecessor : v; }
 
-    void set(Vertex v, size_t dist, Vertex pred)
+    // Cached A* heuristic. Only read for vertices already on the frontier (always current epoch), so no
+    // stamp guard is needed here — the comparator only ever compares pushed (hence set) vertices.
+    double heuristic(Vertex v) const { return data[v].h_estimate; }
+
+    void set(Vertex v, size_t dist, Vertex pred, double h = 0.0)
     {
-        data[v] = {dist, pred};
+        data[v] = {dist, pred, h};
         stamp[v] = epoch;
     }
 };
@@ -81,10 +86,12 @@ struct PredecessorBuffer {
 
 double euclidean_distance(Cell a, Cell b)
 {
-    return std::sqrt(std::pow(a.row - b.row, 2) + std::pow(a.col - b.col, 2));
+    const double d_row = a.row - b.row;
+    const double d_col = a.col - b.col;
+    return std::sqrt(d_row*d_row + d_col*d_col);
 }
 
-template <class SliceSearcher, Heuristic heuristic>
+template <Heuristic heuristic>
 struct Comparator
 {
     bool operator()(const Vertex& a, const Vertex& b) const
@@ -95,8 +102,10 @@ struct Comparator
         }
         else if constexpr(heuristic == Heuristic::Euclidean)
         {
-            return predecessor_map.cost(a) + euclidean_distance(slice_searcher.cell_from_vertex(a), target_cell) >
-                   predecessor_map.cost(b) + euclidean_distance(slice_searcher.cell_from_vertex(b), target_cell);
+            // h(a)/h(b) are cached at set() time (see PredecessorBuffer::heuristic), so no per-compare
+            // cell_from_vertex/sqrt recomputation.
+            return predecessor_map.cost(a) + predecessor_map.heuristic(a) >
+                   predecessor_map.cost(b) + predecessor_map.heuristic(b);
         }
         else
         {
@@ -104,9 +113,7 @@ struct Comparator
         }
     }
 
-    Cell target_cell;
     const PredecessorBuffer& predecessor_map;
-    const SliceSearcher& slice_searcher;
 };
 
 
@@ -121,6 +128,8 @@ public:
             PauliOperator source_op,
             PauliOperator target_op)
             : slice_(slice),
+              furthest_cell_(slice.get_layout().furthest_cell()),
+              cols_(furthest_cell_.col + 1),
               source_cell_(source_cell),
               target_cell_(target_cell),
               source_vertex_(make_vertex(source_cell)),
@@ -130,13 +139,15 @@ public:
     {
         if constexpr(want_cycle)
         {
-            simulated_source_ = make_vertex(furthest_cell())+1;
+            simulated_source_ = make_vertex(furthest_cell_)+1;
         }
     };
 
+    // Cached once in the constructor: the underlying slice_.get_layout().furthest_cell() is two virtual
+    // dispatches and this is queried from make_vertex/cell_from_vertex on every hot-loop operation.
     Cell furthest_cell() const
     {
-        return slice_.get_layout().furthest_cell();
+        return furthest_cell_;
     }
 
     size_t num_vertices_on_lattice() const
@@ -166,16 +177,17 @@ public:
         // If both cells are free, then they have an edge (it is assumed that this function is called only on neighbors!)
         if(slice_.is_cell_free(a) && slice_.is_cell_free(b)) return true;
 
-        // If they are source and/or target, then the appropriate boundaries need to be matched
-        if(a == cell_from_vertex(source_vertex_) && b == cell_from_vertex(target_vertex_))
+        // If they are source and/or target, then the appropriate boundaries need to be matched.
+        // source_cell_/target_cell_ are exactly cell_from_vertex(source_vertex_)/cell_from_vertex(target_vertex_).
+        if(a == source_cell_ && b == target_cell_)
             return slice_.have_boundary_of_type_with(source_cell_, b, source_op_)
                     && slice_.have_boundary_of_type_with(target_cell_, a, target_op_);
 
 
-        if(a == cell_from_vertex(source_vertex_) && slice_.is_cell_free(b))
+        if(a == source_cell_ && slice_.is_cell_free(b))
             return slice_.have_boundary_of_type_with(source_cell_, b, source_op_);
 
-        if(slice_.is_cell_free(a) && b == cell_from_vertex(target_vertex_))
+        if(slice_.is_cell_free(a) && b == target_cell_)
             return slice_.have_boundary_of_type_with(target_cell_, a, target_op_);
 
         return false;
@@ -190,15 +202,15 @@ public:
             && (!slice_.is_boundary_reserved(a, b)))
          return true;
 
-        if(a == cell_from_vertex(source_vertex_) && b == cell_from_vertex(target_vertex_))
+        if(a == source_cell_ && b == target_cell_)
             return slice_.have_boundary_of_type_with(source_cell_, b, source_op_)
                     && slice_.have_boundary_of_type_with(target_cell_, a, target_op_);
 
 
-        if(a == cell_from_vertex(source_vertex_) && slice_.is_cell_free_or_activity(b, {PatchActivity::EDPC}))
+        if(a == source_cell_ && slice_.is_cell_free_or_activity(b, {PatchActivity::EDPC}))
             return slice_.have_boundary_of_type_with(source_cell_, b, source_op_);
 
-        if(slice_.is_cell_free_or_activity(a, {PatchActivity::EDPC}) && b == cell_from_vertex(target_vertex_))
+        if(slice_.is_cell_free_or_activity(a, {PatchActivity::EDPC}) && b == target_cell_)
             return slice_.have_boundary_of_type_with(target_cell_, a, target_op_);
 
         return false;
@@ -206,7 +218,7 @@ public:
 
     Vertex make_vertex(const Cell& cell) const
     {
-        return cell.row*(furthest_cell().col+1)+cell.col;
+        return cell.row*cols_+cell.col;
     }
 
 
@@ -220,8 +232,8 @@ public:
         }
 
         auto v = static_cast<Cell::CoordinateType>(vertex);
-        auto col = v%(furthest_cell().col+1);
-        return Cell{(v-col)/(furthest_cell().col+1), col};
+        auto col = v%cols_;
+        return Cell{(v-col)/cols_, col};
     };
 
     std::vector<Cell> get_neighbours(Vertex v) const
@@ -239,6 +251,8 @@ private:
     Vertex simulated_source_ = 0;
 
     const Slice& slice_;
+    const Cell furthest_cell_;              // cached slice_.get_layout().furthest_cell()
+    const Cell::CoordinateType cols_;       // cached furthest_cell_.col + 1 (row stride for make_vertex)
     const Cell source_cell_;
     const Cell target_cell_;
     const Vertex source_vertex_;
@@ -274,18 +288,26 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
     thread_local PredecessorBuffer predecessor_map;
     predecessor_map.begin_epoch(buffer_size);
 
-    Comparator<decltype(slice_searcher), heuristic> cmp{target_cell, predecessor_map, slice_searcher};
+    // Heuristic h(cell): cached into the buffer at set() time so the comparator never recomputes it.
+    // Compiled out entirely (returns 0) for Dijkstra (Heuristic::None).
+    const auto h_for = [&](const Cell& c) -> double
+    {
+        if constexpr (heuristic == Heuristic::Euclidean) return euclidean_distance(c, target_cell);
+        else return 0.0;
+    };
+
+    Comparator<heuristic> cmp{predecessor_map};
     std::priority_queue<Vertex, std::vector<Vertex>, decltype(cmp)> frontier(cmp);
 
     if constexpr (!want_cycle)
     {
-        predecessor_map.set(slice_searcher.source_vertex(), 0, slice_searcher.source_vertex());
+        predecessor_map.set(slice_searcher.source_vertex(), 0, slice_searcher.source_vertex(), h_for(source_cell));
         frontier.push(slice_searcher.source_vertex());
     }
     else // Simulated double source to force a cycle case
     {
         Vertex simulated_source = slice_searcher.simulated_source();
-        predecessor_map.set(simulated_source, 0, simulated_source);
+        predecessor_map.set(simulated_source, 0, simulated_source); // never pushed/compared: h unused
 
         source_cell.for_each_neigbour_within_bounding_box_inclusive({0, 0}, slice_searcher.furthest_cell(),
             [&](const Cell& neighbour_cell)
@@ -294,7 +316,7 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
                 (EDPC && slice_searcher.have_directed_edge_EDPC(source_cell, neighbour_cell)))
             {
                 Vertex neighbour = slice_searcher.make_vertex(neighbour_cell);
-                predecessor_map.set(neighbour, 1, simulated_source);
+                predecessor_map.set(neighbour, 1, simulated_source, h_for(neighbour_cell));
                 frontier.push(neighbour);
             }
         });
@@ -326,13 +348,13 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
             Vertex neighbour = slice_searcher.make_vertex(neighbour_cell);
             if(!predecessor_map.is_set(neighbour))
             {
-                predecessor_map.set(neighbour, distance_to_curr+1, curr);
+                predecessor_map.set(neighbour, distance_to_curr+1, curr, h_for(neighbour_cell));
                 frontier.push(neighbour);
             }
             else
             {
                 if(*predecessor_map.distance(neighbour) > distance_to_curr+1)
-                    predecessor_map.set(neighbour, distance_to_curr+1, curr);
+                    predecessor_map.set(neighbour, distance_to_curr+1, curr, h_for(neighbour_cell));
             }
         });
     }
