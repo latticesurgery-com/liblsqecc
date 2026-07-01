@@ -69,7 +69,7 @@ struct DenseSlice : public Slice
     void delete_patch_by_id(PatchId id);
 
     bool is_cell_free(const Cell& cell) const override;
-    bool is_cell_free_or_activity(const Cell& cell, std::vector<PatchActivity> activities) const override;
+    bool is_cell_free_or_activity(const Cell& cell, std::initializer_list<PatchActivity> activities) const override;
 
     std::optional<Cell> get_directional_neighbor_within_slice(const Cell& cell, CellDirection dir) const override;
     std::vector<Cell> get_neigbours_within_slice(const Cell& cell) const override;
