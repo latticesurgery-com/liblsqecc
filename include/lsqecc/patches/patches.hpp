@@ -46,6 +46,17 @@ struct Cell {
     std::vector<Cell> get_neigbours_within_bounding_box_inclusive(const Cell& origin, const Cell& furthest_cell) const;
     std::optional<Cell> get_directional_neighbor(const Cell& origin, const Cell& furthest_cell, CellDirection dir) const;
 
+    // Non-allocating equivalent of get_neigbours_within_bounding_box_inclusive: invokes fn on each
+    // in-bounds orthogonal neighbour (at most 4). Kept header-inline so it inlines into hot routing loops.
+    template<class F>
+    void for_each_neigbour_within_bounding_box_inclusive(const Cell& origin, const Cell& furthest_cell, F&& fn) const
+    {
+        if (row>origin.row)        fn(Cell{row-1, col});
+        if (row<furthest_cell.row) fn(Cell{row+1, col});
+        if (col>origin.col)        fn(Cell{row, col-1});
+        if (col<furthest_cell.col) fn(Cell{row, col+1});
+    }
+
     template<class IntType>
     static Cell from_ints(IntType _row, IntType _col)
     {
