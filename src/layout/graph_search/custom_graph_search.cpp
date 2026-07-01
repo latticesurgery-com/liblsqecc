@@ -1,5 +1,6 @@
 #include <lsqecc/layout/graph_search/custom_graph_search.hpp>
 
+#include <algorithm>
 #include <iostream>
 #include <lstk/lstk.hpp>
 
@@ -15,12 +16,64 @@ namespace custom_graph_search {
 using Vertex = size_t;
 
 struct PredecessorData {
-    std::optional<size_t> distance;
+    size_t distance;
     Vertex predecessor;
+};
 
-    double cost() const
+// Reusable, epoch-stamped predecessor map. Replaces the old per-route O(W*H) allocate+init of a
+// full-lattice std::vector<PredecessorData>. A vertex is considered "set" for the current route iff
+// its stamp equals the current epoch, so resetting the whole map is just an epoch bump (O(1)) instead
+// of a per-cell zeroing loop. Held in a thread_local so cost is paid once (warmup) per fixed-size layout.
+struct PredecessorBuffer {
+    std::vector<PredecessorData> data;
+    std::vector<uint32_t> stamp;        // stamp[v]==epoch  <=>  v has been assigned this route
+    std::vector<uint32_t> closed_stamp; // closed_stamp[v]==epoch  <=>  v has been finalized (popped)
+    uint32_t epoch = 0;
+
+    // Begin a new route over a lattice of n vertices. Grows the buffers only when a larger layout is
+    // seen (layouts are fixed-size, so this happens once). Bumping the epoch invalidates all prior state.
+    void begin_epoch(size_t n)
     {
-        return static_cast<double>(distance.value_or(std::numeric_limits<size_t>::max()));
+        if (data.size() < n)
+        {
+            data.resize(n);
+            stamp.resize(n, 0);
+            closed_stamp.resize(n, 0);
+        }
+        ++epoch;
+        if (epoch == 0) // wrapped around: force a real reset so stale 0-stamps don't read as set
+        {
+            std::fill(stamp.begin(), stamp.end(), 0);
+            std::fill(closed_stamp.begin(), closed_stamp.end(), 0);
+            epoch = 1;
+        }
+    }
+
+    bool is_set(Vertex v) const { return stamp[v] == epoch; }
+    bool is_closed(Vertex v) const { return closed_stamp[v] == epoch; }
+    void close(Vertex v) { closed_stamp[v] = epoch; }
+
+    // +inf (as a very large finite double, matching the previous behaviour) for unset vertices.
+    double cost(Vertex v) const
+    {
+        return is_set(v) ? static_cast<double>(data[v].distance)
+                         : static_cast<double>(std::numeric_limits<size_t>::max());
+    }
+
+    std::optional<size_t> distance(Vertex v) const
+    {
+        if (!is_set(v)) return std::nullopt;
+        return data[v].distance;
+    }
+
+    // Unset vertices report themselves as their own predecessor, preserving the self-loop sentinel the
+    // old code got from initializing predecessor_map[i] = {nullopt, i}. Path reconstruction relies on it.
+    Vertex predecessor(Vertex v) const { return is_set(v) ? data[v].predecessor : v; }
+
+    void set(Vertex v, size_t dist, Vertex pred)
+    {
+        data[v] = {dist, pred};
+        stamp[v] = epoch;
     }
 };
 
@@ -38,12 +91,12 @@ struct Comparator
     {
         if constexpr(heuristic == Heuristic::None)
         {
-            return predecessor_map[a].cost() > predecessor_map[b].cost();
+            return predecessor_map.cost(a) > predecessor_map.cost(b);
         }
         else if constexpr(heuristic == Heuristic::Euclidean)
         {
-            return predecessor_map[a].cost() + euclidean_distance(slice_searcher.cell_from_vertex(a), target_cell) >
-                   predecessor_map[b].cost() + euclidean_distance(slice_searcher.cell_from_vertex(b), target_cell);
+            return predecessor_map.cost(a) + euclidean_distance(slice_searcher.cell_from_vertex(a), target_cell) >
+                   predecessor_map.cost(b) + euclidean_distance(slice_searcher.cell_from_vertex(b), target_cell);
         }
         else
         {
@@ -52,7 +105,7 @@ struct Comparator
     }
 
     Cell target_cell;
-    std::vector<PredecessorData>& predecessor_map;
+    const PredecessorBuffer& predecessor_map;
     const SliceSearcher& slice_searcher;
 };
 
@@ -212,83 +265,85 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
 
     const SliceSearchAdaptor<want_cycle> slice_searcher(slice, source_cell, target_cell, source_op, target_op);
 
-    size_t num_vertices_on_lattice = slice_searcher.num_vertices_on_lattice();
-    std::vector<PredecessorData> predecessor_map(num_vertices_on_lattice);
-    for (size_t i = 0; i<predecessor_map.size(); ++i)
-        predecessor_map[i] = PredecessorData{std::nullopt, i};
+    // Number of vertices this route addresses. In the want_cycle case an extra simulated-source vertex
+    // sits at index num_vertices_on_lattice (== make_vertex(furthest)+1), so the buffer needs one more slot.
+    const size_t num_vertices_on_lattice = slice_searcher.num_vertices_on_lattice();
+    const size_t buffer_size = want_cycle ? num_vertices_on_lattice + 1 : num_vertices_on_lattice;
+
+    // Reusable across routes on this thread: no per-route allocation or O(W*H) init after warmup.
+    thread_local PredecessorBuffer predecessor_map;
+    predecessor_map.begin_epoch(buffer_size);
 
     Comparator<decltype(slice_searcher), heuristic> cmp{target_cell, predecessor_map, slice_searcher};
     std::priority_queue<Vertex, std::vector<Vertex>, decltype(cmp)> frontier(cmp);
 
     if constexpr (!want_cycle)
     {
-        predecessor_map[slice_searcher.source_vertex()] = {0, slice_searcher.source_vertex()};
+        predecessor_map.set(slice_searcher.source_vertex(), 0, slice_searcher.source_vertex());
         frontier.push(slice_searcher.source_vertex());
     }
     else // Simulated double source to force a cycle case
     {
         Vertex simulated_source = slice_searcher.simulated_source();
-        predecessor_map.push_back(PredecessorData{0,simulated_source});
+        predecessor_map.set(simulated_source, 0, simulated_source);
 
-        auto neighbours = slice_searcher.get_neighbours(source_cell);
-        for(const Cell& neighbour_cell : neighbours)
+        source_cell.for_each_neigbour_within_bounding_box_inclusive({0, 0}, slice_searcher.furthest_cell(),
+            [&](const Cell& neighbour_cell)
         {
             if((!EDPC && slice_searcher.have_directed_edge(source_cell, neighbour_cell)) ||
                 (EDPC && slice_searcher.have_directed_edge_EDPC(source_cell, neighbour_cell)))
             {
                 Vertex neighbour = slice_searcher.make_vertex(neighbour_cell);
-                predecessor_map[neighbour] = {1, simulated_source};
+                predecessor_map.set(neighbour, 1, simulated_source);
                 frontier.push(neighbour);
             }
-        }
-
+        });
     }
 
     while(frontier.size()>0)
     {
         Vertex curr = frontier.top(); frontier.pop();
-        size_t distance_to_curr = *predecessor_map[curr].distance;
 
-        if constexpr (heuristic != Heuristic::None)
-            if(curr == slice_searcher.target_vertex()) break;
+        // Closed-set guard: skip stale/duplicate pops. This hardens against the mutable-comparator
+        // heap-staleness foot-gun (A* with the consistent Euclidean heuristic is otherwise fine).
+        if(predecessor_map.is_closed(curr)) continue;
+        predecessor_map.close(curr);
 
-        auto neighbours = slice_searcher.get_neighbours(curr);
-        for(const Cell& neighbour_cell : neighbours)
+        size_t distance_to_curr = *predecessor_map.distance(curr);
+
+        // Early exit: once the target is finalized its distance/predecessor are settled. Previously only
+        // the heuristic branch broke here; with the closed set it is also safe for Dijkstra (Heuristic::None).
+        if(curr == slice_searcher.target_vertex()) break;
+
+        const Cell curr_cell = slice_searcher.cell_from_vertex(curr);
+        curr_cell.for_each_neigbour_within_bounding_box_inclusive({0, 0}, slice_searcher.furthest_cell(),
+            [&](const Cell& neighbour_cell)
         {
-            if((!EDPC && !slice_searcher.have_directed_edge(slice_searcher.cell_from_vertex(curr), neighbour_cell)) ||
-                (EDPC && !slice_searcher.have_directed_edge_EDPC(slice_searcher.cell_from_vertex(curr), neighbour_cell)))
-                    continue;
+            if((!EDPC && !slice_searcher.have_directed_edge(curr_cell, neighbour_cell)) ||
+                (EDPC && !slice_searcher.have_directed_edge_EDPC(curr_cell, neighbour_cell)))
+                    return;
 
             Vertex neighbour = slice_searcher.make_vertex(neighbour_cell);
-            if(!predecessor_map[neighbour].distance)
+            if(!predecessor_map.is_set(neighbour))
             {
-                predecessor_map[neighbour] = {distance_to_curr+1, curr};
+                predecessor_map.set(neighbour, distance_to_curr+1, curr);
                 frontier.push(neighbour);
             }
             else
             {
-                if(*predecessor_map[neighbour].distance > distance_to_curr+1)
-                    predecessor_map[neighbour] = {distance_to_curr+1, curr};
+                if(*predecessor_map.distance(neighbour) > distance_to_curr+1)
+                    predecessor_map.set(neighbour, distance_to_curr+1, curr);
             }
-        }
+        });
     }
-
-#if false
-
-    std::cout<< source_vertex << " to " << target_vertex<<std::endl;
-
-    for (size_t i = 0; i<predecessor_map.size(); ++i)
-        std::cout << i << "->" << predecessor_map[i].predecessor
-                  << " (" << (predecessor_map[i].distance ? std::to_string(*predecessor_map[i].distance) : "N/A") << ")" << std::endl;
-#endif
 
 
     // TODO refactor this to be shared with the boost implementation
     RoutingRegion ret;
 
     Vertex prec = slice_searcher.target_vertex();
-    Vertex curr = predecessor_map[slice_searcher.target_vertex()].predecessor;
-    Vertex next = predecessor_map[curr].predecessor;
+    Vertex curr = predecessor_map.predecessor(slice_searcher.target_vertex());
+    Vertex next = predecessor_map.predecessor(curr);
 
     while (curr!=next)
     {
@@ -304,20 +359,17 @@ std::optional<RoutingRegion> do_graph_search_route_ancilla(
                 curr_cell
         });
 
-        for (const Cell& neighbour: slice_searcher.get_neighbours(curr_cell))
-        {
-            if (prec_cell==neighbour || next_cell==neighbour)
-            {
-                auto boundary = ret.cells.back().get_mut_boundary_with(neighbour);
-                if (boundary) {
-                    EDPC ? boundary->get() = {.boundary_type=BoundaryType::Reserved_Label1, .is_active=true} : boundary->get() = {.boundary_type=BoundaryType::Connected, .is_active=true};
-                }
-            }
-        }
+        // prec_cell and next_cell are the (adjacent) path neighbours of curr_cell, already known from the
+        // search — set their boundaries directly instead of re-enumerating all neighbours to rediscover them.
+        const Boundary path_boundary = EDPC
+                ? Boundary{.boundary_type=BoundaryType::Reserved_Label1, .is_active=true}
+                : Boundary{.boundary_type=BoundaryType::Connected,       .is_active=true};
+        if(auto boundary = ret.cells.back().get_mut_boundary_with(prec_cell)) boundary->get() = path_boundary;
+        if(auto boundary = ret.cells.back().get_mut_boundary_with(next_cell)) boundary->get() = path_boundary;
 
         prec = curr;
         curr = next;
-        next = predecessor_map[next].predecessor;
+        next = predecessor_map.predecessor(next);
     }
 
     // Check if out path reached the source
