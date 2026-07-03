@@ -20,7 +20,12 @@ struct DenseSlice : public Slice
     using Slice::Slice;
 
     using RowStore = std::vector<std::optional<DensePatch>>;
+private:
+    // Source of truth for patch placement. Kept private so the only way to mutate cell occupancy
+    // or patch ids is through the cache-safe helpers below, which keep patch_id_to_cell_cache in
+    // sync. Read access is via patch_at() / traverse_cells().
     std::vector<RowStore> cells;
+public:
     std::set<Cell> magic_states;
     DistillationTimeMap time_to_next_magic_state_by_distillation_region;
     std::reference_wrapper<const Layout> layout;
@@ -37,8 +42,11 @@ struct DenseSlice : public Slice
 
     virtual const Layout& get_layout() const override;
 
+    // The mutable traversal only exposes *occupied* cells, as a DensePatch&: callers cannot clear or
+    // replace a slot (which would bypass the id->cell cache) -- use clear_patch_at/place_dense_patch_at
+    // for that. The const traversal still visits every cell, including empty ones.
     using CellTraversalFunctor
-        = std::function<void(const Cell&, std::optional<DensePatch>&)>;
+        = std::function<void(const Cell&, DensePatch&)>;
     using CellTraversalConstFunctor
         = std::function<void(const Cell&, const std::optional<DensePatch>&)>;
     void traverse_cells_mut(const CellTraversalFunctor& f);
@@ -81,9 +89,16 @@ struct DenseSlice : public Slice
     BoundaryType mark_boundaries_for_crossing_cell(const SingleCellOccupiedByPatch& p, const Cell& prev);
 
 private:
-    std::unordered_map<PatchId, Cell, std::hash<PatchId>> patch_id_to_cell_cache;
+    // Secondary index over `cells`: maps a patch id to the cell that most recently held it.
+    // Invariant: for every entry, the mapped cell holds a patch whose id == key. Maintained by the
+    // cache-safe mutators (assign_patch_id / place_dense_patch_at / clear_patch_at). Marked mutable
+    // so get_cell_by_id can drop a stale entry it detects on read (self-healing).
+    mutable std::unordered_map<PatchId, Cell, std::hash<PatchId>> patch_id_to_cell_cache;
     // Avoid exposing mutable reference to DensePatch as it may lead to breaking the cache
     std::optional<DensePatch>& _patch_at_mut(const Cell& cell);
+    // Only drop the id->cell mapping when it still points at `cell`. Guards against clobbering a
+    // mapping that was already re-pointed to another cell (e.g. a move that reuses the same id).
+    void _evict_id_cache_entry(PatchId id, const Cell& cell);
 };
 
 }

@@ -78,33 +78,33 @@ std::optional<Cell> place_ancilla_next_to(const DenseSlice& slice, PatchId targe
 
 void advance_slice(DenseSlice& slice, const Layout& layout)
 {
-    slice.traverse_cells_mut([&](const Cell& c, std::optional<DensePatch>& p) {
-        if(!p) return;
-        if(p->activity == PatchActivity::Unitary)
-            p->activity = PatchActivity::None;
+    slice.traverse_cells_mut([&](const Cell& c, DensePatch& p) {
+        if(p.activity == PatchActivity::Unitary)
+            p.activity = PatchActivity::None;
 
-        if (p->activity == PatchActivity::EDPC)
+        if (p.activity == PatchActivity::EDPC)
         {
-            p->activity = PatchActivity::Reserved;
-            // p->boundaries.top.boundary_type = BoundaryType::Rough;
-            // p->boundaries.right.boundary_type = BoundaryType::Smooth;
-            // p->boundaries.bottom.boundary_type = BoundaryType::Rough;
-            // p->boundaries.left.boundary_type = BoundaryType::Smooth;
+            p.activity = PatchActivity::Reserved;
+            // p.boundaries.top.boundary_type = BoundaryType::Rough;
+            // p.boundaries.right.boundary_type = BoundaryType::Smooth;
+            // p.boundaries.bottom.boundary_type = BoundaryType::Rough;
+            // p.boundaries.left.boundary_type = BoundaryType::Smooth;
         }
 
-        if ((p->activity != PatchActivity::Rotation) && (p->activity != PatchActivity::Reserved))
+        if ((p.activity != PatchActivity::Rotation) && (p.activity != PatchActivity::Reserved))
         {
-            p->boundaries.top.is_active = false;
-            p->boundaries.bottom.is_active = false;
-            p->boundaries.left.is_active = false;
-            p->boundaries.right.is_active = false;
+            p.boundaries.top.is_active = false;
+            p.boundaries.bottom.is_active = false;
+            p.boundaries.left.is_active = false;
+            p.boundaries.right.is_active = false;
         }
 
-        if((p->activity == PatchActivity::MultiPatchMeasurement) || p->activity == PatchActivity::Measurement)
-        {
-            p = std::nullopt;
-            return;
-        }
+        // Clear measured patches through the cache-safe helper so any lingering id->cell entry is
+        // dropped. NB: clear_patch_at destroys the patch in place, so this invalidates `p` and must
+        // be its last use here. Clearing the current cell mid-traversal is safe: it only nulls the
+        // slot, never resizing the grid.
+        if((p.activity == PatchActivity::MultiPatchMeasurement) || p.activity == PatchActivity::Measurement)
+            slice.clear_patch_at(c);
     });
 
     // If we have tiles reserved for magic state re-spawn, we loop over them and 

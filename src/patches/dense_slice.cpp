@@ -18,22 +18,33 @@ const Layout& DenseSlice::get_layout() const
 void DenseSlice::traverse_cells_mut(const DenseSlice::CellTraversalFunctor& f)
 {
     Cell c {0,0};
-    for(std::vector<std::optional<DensePatch>>& row: cells)
+    for(RowStore& row: cells)
     {
         for (std::optional<DensePatch>& patch: row)
         {
-            f(c,patch);
+            // Only hand out occupied cells: (de)allocating a slot stays with the cache-safe helpers.
+            if (patch)
+                f(c, *patch);
             c.col++;
         }
         c.row++;
         c.col = 0;
     }
-
 }
 
 void DenseSlice::traverse_cells(const CellTraversalConstFunctor& f) const
 {
-    const_cast<DenseSlice*>(this)->traverse_cells_mut(f);
+    Cell c {0,0};
+    for(const RowStore& row: cells)
+    {
+        for (const std::optional<DensePatch>& patch: row)
+        {
+            f(c, patch);
+            c.col++;
+        }
+        c.row++;
+        c.col = 0;
+    }
 }
 
 std::optional<std::reference_wrapper<DensePatch const>> DenseSlice::get_patch_by_id(PatchId id) const
@@ -65,7 +76,11 @@ std::optional<Cell> DenseSlice::get_cell_by_id(PatchId id) const
 {
     auto it = patch_id_to_cell_cache.find(id);
     if (it != patch_id_to_cell_cache.end()) {
-        return it->second;
+        // Only trust the entry if the cell still holds this id; otherwise drop it so the cache self-heals.
+        const auto& patch_opt = patch_at(it->second);
+        if (patch_opt && patch_opt->id == id)
+            return it->second;
+        patch_id_to_cell_cache.erase(it);
     }
     return std::nullopt;
 }
@@ -73,6 +88,13 @@ std::optional<Cell> DenseSlice::get_cell_by_id(PatchId id) const
 std::optional<DensePatch>& DenseSlice::_patch_at_mut(const Cell& cell)
 {
     return cells.at(cell.row).at(cell.col);
+}
+
+void DenseSlice::_evict_id_cache_entry(PatchId id, const Cell& cell)
+{
+    auto it = patch_id_to_cell_cache.find(id);
+    if (it != patch_id_to_cell_cache.end() && it->second == cell)
+        patch_id_to_cell_cache.erase(it);
 }
 
 const std::optional<DensePatch>& DenseSlice::patch_at(const Cell& cell) const
@@ -86,7 +108,7 @@ void DenseSlice::assign_patch_id(const Cell& cell, std::optional<PatchId> new_id
     if (!patch_opt) return;
 
     if (patch_opt->id) {
-        patch_id_to_cell_cache.erase(*patch_opt->id);
+        _evict_id_cache_entry(*patch_opt->id, cell);
     }
     patch_opt->id = new_id;
     if (new_id) {
@@ -116,7 +138,7 @@ void DenseSlice::place_dense_patch_at(const Cell& cell, const DensePatch& patch)
 {
     auto& patch_opt = _patch_at_mut(cell);
     if (patch_opt && patch_opt->id) {
-        patch_id_to_cell_cache.erase(*patch_opt->id);
+        _evict_id_cache_entry(*patch_opt->id, cell);
     }
 
     patch_opt = patch;
@@ -129,7 +151,7 @@ void DenseSlice::clear_patch_at(const Cell& cell)
 {
     auto& patch_opt = _patch_at_mut(cell);
     if (patch_opt && patch_opt->id) {
-        patch_id_to_cell_cache.erase(*patch_opt->id);
+        _evict_id_cache_entry(*patch_opt->id, cell);
     }
     patch_opt = std::nullopt;
 }
