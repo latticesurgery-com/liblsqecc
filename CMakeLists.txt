@@ -98,6 +98,9 @@ endif()
 
 set_property(TARGET lsqecclib PROPERTY POSITION_INDEPENDENT_CODE ON)
 
+if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
+    target_sources(lsqecclib PRIVATE src/gates/postgres_gate_stream.cpp)
+endif()
 
 if(USE_GRIDSYNTH) 
     message("USE_GRIDSYNTH defined, building with it")
@@ -147,7 +150,23 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
     target_link_libraries(
             lsqecc_slicer PUBLIC lsqecclib
     )
+endif()
 
+###################################################
+# Postgress reader
+
+if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
+    find_package(PostgreSQL REQUIRED)
+
+    if (PostgreSQL_FOUND)
+        message(STATUS "PostgreSQL include directory: ${PostgreSQL_INCLUDE_DIRS}")
+        message(STATUS "PostgreSQL library: ${PostgreSQL_LIBRARIES}")
+
+        target_include_directories(lsqecclib PRIVATE ${PostgreSQL_INCLUDE_DIRS})
+        target_link_libraries(lsqecclib PRIVATE ${PostgreSQL_LIBRARIES})
+    else ()
+        message(FATAL_ERROR "PostgreSQL not found. Make sure libpq-dev is installed.")
+    endif ()
 endif()
 
 ###################################################

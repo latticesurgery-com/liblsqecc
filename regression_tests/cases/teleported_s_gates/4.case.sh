@@ -6,7 +6,7 @@ qreg q[25];
 
 t q[0];
 "
-echo "$INPUT" | lsqecc_slicer -q -L edpc --nostagger --printlli sliced
+echo "$INPUT" | lsqecc_slicer -I qasm -L edpc --nostagger --printlli sliced
 
 
 

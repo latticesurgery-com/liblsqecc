@@ -47,7 +47,7 @@ class Slicer {
 
         const commandLineArgs = [
             layoutGenerator ? `-L ${layoutGenerator}` : "",
-            inputType === "qasm" ? "-q" : "",
+            inputType === "qasm" ? "-I qasm" : "",
             "--cnotcorrections",
             cnotCorrections === "always" ? "always" : "never",
         ];

@@ -6,4 +6,4 @@ reset q[0];
 cx q[0], q[1];
 reset q[0];
 "
-echo "$INPUT" | lsqecc_slicer -q -L compact
+echo "$INPUT" | lsqecc_slicer -I qasm -L compact

@@ -1,7 +1,7 @@
 Usage: lsqecc_slicer [options...]
 Options:
     -i, --input            File with input. If not provided will read LS Instructions from stdin
-    -q, --qasm             File name of file with QASM. When not provided will read as LLI (not QASM)
+    -I, --input-format     Format of input. Modes: qasm|q, pandora|p, lli|l (default)
     -l, --layout           File name of file with layout spec, otherwise the layout is auto-generated (configure with -L)
     -o, --output           File name of output. When not provided outputs to stdout
     -f, --output-format    Requires -o, STDOUT output format: progress, noprogress, machine, stats
@@ -9,19 +9,20 @@ Options:
     -r, --router           Set a router: graph_search (default), graph_search_cached
     -P, --pipeline         pipeline mode: stream (default), wave, edpc, dag (deprecated)
     -g, --graph-search     Set a graph search provider: djikstra (default), astar, boost (not always available)
+    --port                 Only compatible with -I pandora. Sets an (optional) port number for Pandora server (default 5432)
     --graceful             If there is an error when slicing, print the error and terminate
     --printlli             Output LLI instead of JSONs. options: before (default), sliced (prints lli on the same slice separated by semicolons)
     --printdag             Prints a dependency dag of the circuit. Modes: input (default), processedlli
     --noslices             Do the slicing but don't write the slices out
     --cnotcorrections      Add Xs and Zs to correct the the negative outcomes: never (default), always
-    --op-ids               Generates certain opearion ids. For now, it only adds ids to multi-body-measurement
+    --op-ids               Generates certain operation ids. For now, it only adds ids to multi-body-measurement
     --layoutgenerator, -L  Automatically generates a layout for the given number of qubits. Incompatible with -l. Options:
-                            - compact (default): Uses Litinski's Game of Surace Code compact layout (https://arxiv.org/abs/1808.02892)
+                            - compact (default): Uses Litinski's Game of Surface Code compact layout (https://arxiv.org/abs/1808.02892)
                             - compact_no_clogging: same as compact, but fewer cells for ancillas and magic state queues
                             - edpc: Uses a family of layouts based upon the one specified in the EDPC paper by Beverland et. al. (https://arxiv.org/abs/2110.11493)
     --numlanes             Only compatible with -L edpc. Configures number of free lanes for routing.
     --condensed            Only compatible with -L edpc. Packs logical qubits more compactly.
-    --explicitfactories    Only compatible with -L edpc. Explicitly specifies factories (otherwise, uses tiles reserved for magic state re-spawn).
+    --explicitfactories    Only compatible with -L edpc. Explicitly specifies factories but clogs easily (otherwise, uses tiles reserved for magic state re-spawn).
     --nostagger            Turns off staggered distillation block timing
     --disttime             Set the distillation time (default 10)
     --local                Compile gates into a pair-wise local lattice surgery instruction set
