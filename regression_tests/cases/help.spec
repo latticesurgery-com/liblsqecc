@@ -27,4 +27,6 @@ Options:
     --disttime             Set the distillation time (default 10)
     --local                Compile gates into a pair-wise local lattice surgery instruction set
     --notwists             Compile S gates using the catalytic teleportation circuit from Fowler, 2012 instead of using the twist-based Y state initialization and teleportation from Gidney, 2024
+    --minetest             Generate a map.sqlite file for Minetest
+    --stripeheight         Set the stripe height for minetest export (default 4)
     -h, --help             Shows this page        

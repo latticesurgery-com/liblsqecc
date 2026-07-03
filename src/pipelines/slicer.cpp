@@ -19,6 +19,7 @@
 #include <lsqecc/patches/slice_stats.hpp>
 #include <lsqecc/patches/dense_patch_computation.hpp>
 #include <lsqecc/patches/slice_variant.hpp>
+#include <lsqecc/patches/minetest_export.hpp>
 
 #include <lstk/lstk.hpp>
 
@@ -219,6 +220,14 @@ namespace lsqecc
         parser.add_argument()
                 .names({"--notwists"})
                 .description("Compile S gates using the catalytic teleportation circuit from Fowler, 2012 instead of using the twist-based Y state initialization and teleportation from Gidney, 2024")
+                .required(false);
+        parser.add_argument()
+                .names({"--minetest"})
+                .description("Generate a map.sqlite file for Minetest")
+                .required(false);
+        parser.add_argument()
+                .names({"--stripeheight"})
+                .description("Set the stripe height for minetest export (default 4)")
                 .required(false);
         parser.enable_help();
 
@@ -588,25 +597,47 @@ namespace lsqecc
 
 
         bool print_slices = !parser.exists("noslices") && lli_print_mode == LLIPrintMode::None;
+
+        int stripe_height = parser.exists("stripeheight") ? parser.get<int>("stripeheight") : 4;
+        // Builder opens the DB and holds the transaction for the duration of slicing.
+        // Constructed only when --minetest is active so that no DB file is created otherwise.
+        std::optional<lsqecc::MinetestMapBuilder> minetest_builder;
+        if (parser.exists("minetest") && print_slices)
+            minetest_builder.emplace("map.sqlite");
+
         DenseSliceVisitor slice_visitor = [](const DenseSlice& s) -> void {LSTK_UNUSED(s);};
-        bool is_first_slice = true;
         if(print_slices)
         {
-            slice_visitor = [&bulk_output_stream, &is_first_slice](const DenseSlice & s){
-                if(is_first_slice)
-                {
-                    bulk_output_stream.get() << "[\n" << slice_to_json(s).dump(3);
-                    is_first_slice = false;
-                }
-                else
-                    bulk_output_stream.get() << ",\n" << slice_to_json(s).dump(3) << std::flush;
-            };
+            if (parser.exists("minetest"))
+            {
+                size_t time_stamp = 0;
+                slice_visitor = [&minetest_builder, &stripe_height, time_stamp](const DenseSlice& s) mutable {
+                    minetest_builder->add_slice(s, time_stamp, stripe_height);
+                    ++time_stamp;
+                };
+            }
+            else
+            {
+                bool is_first_slice = true;
+                slice_visitor = [&bulk_output_stream, &is_first_slice](const DenseSlice & s){
+                    if(is_first_slice)
+                    {
+                        bulk_output_stream.get() << "[\n" << slice_to_json(s).dump(3);
+                        is_first_slice = false;
+                    }
+                    else
+                        bulk_output_stream.get() << ",\n" << slice_to_json(s).dump(3) << std::flush;
+                };
+            }
         }
 
         size_t slice_counter = 0;
 
+        // The minetest path runs with no -o/--noslices, so it would otherwise be silent.
+        // Show the live slice count so routing progress is visible and stalls are obvious.
+        bool show_progress = output_format_mode == OutputFormatMode::Progress || parser.exists("minetest");
         auto gave_update_at = lstk::now();
-        if(output_format_mode == OutputFormatMode::Progress)
+        if(show_progress)
         {
             slice_visitor = [&, slice_visitor](const DenseSlice & s)
             {
@@ -614,7 +645,7 @@ namespace lsqecc
                 slice_counter++;
                 if(lstk::seconds_since(gave_update_at)>=1)
                 {
-                    out_stream << "Slice count: " << slice_counter << "\r" << std::flush;
+                    out_stream << "Routing slices, count: " << slice_counter << "\r" << std::flush;
                     gave_update_at = std::chrono::steady_clock::now();
                 }
             };
@@ -663,6 +694,20 @@ namespace lsqecc
                     parser.exists("graceful"),
                     parser.exists("op-ids") || input_format == InputFormat::Pandora // op-ids required by Pandora
         ));
+
+        if (parser.exists("minetest") && print_slices)
+        {
+            out_stream << "\nRouted " << slice_counter << " slices. Finalizing map.sqlite..."
+                       << std::endl;
+            if (!minetest_builder->finish())
+            {
+                err_stream << "Failed to generate map.sqlite." << std::endl;
+                return -1;
+            }
+            out_stream << "Generated map.sqlite (" << minetest_builder->block_count()
+                       << " mapblocks)" << std::endl;
+            return 0;
+        }
 
         if(parser.exists("o") || parser.exists("noslices"))
         {
