@@ -172,7 +172,7 @@ bool DenseSlice::is_cell_free(const Cell& cell) const
     return !patch_at(cell).has_value();
 }
 
-bool DenseSlice::is_cell_free_or_activity(const Cell& cell, std::vector<PatchActivity> activities) const
+bool DenseSlice::is_cell_free_or_activity(const Cell& cell, std::initializer_list<PatchActivity> activities) const
 {
     auto patch = patch_at(cell);
 

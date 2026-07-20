@@ -25,6 +25,7 @@
 #include <argparse/argparse.h>
 #include <nlohmann/json.hpp>
 
+#include <algorithm>
 #include <iostream>
 #include <string_view>
 #include <sstream>
@@ -32,6 +33,7 @@
 #include <filesystem>
 #include <fstream>
 #include <chrono>
+#include <cmath>
 
 #include <string>
 
@@ -220,6 +222,19 @@ namespace lsqecc
                 .names({"--notwists"})
                 .description("Compile S gates using the catalytic teleportation circuit from Fowler, 2012 instead of using the twist-based Y state initialization and teleportation from Gidney, 2024")
                 .required(false);
+        parser.add_argument()
+                .names({"--slicetiming"})
+                .description("Times the per-slice output work (the JSON serialization), excluding" CONSOLE_HELP_NEWLINE_ALIGN
+                             "routing/production, and appends one CSV row to the given file (default" CONSOLE_HELP_NEWLINE_ALIGN
+                             "slice_timings.csv): rows,cols,cells,num_slices,mean_ms,stddev_ms,total_s," CONSOLE_HELP_NEWLINE_ALIGN
+                             "keyed by layout size so runs across layout sizes plot as avg/error bars.")
+                .required(false);
+        parser.add_argument()
+                .names({"--maxwait"})
+                .description("Max consecutive slices without routing progress before the stream and wave" CONSOLE_HELP_NEWLINE_ALIGN
+                             "pipelines abort as deadlocked (default 1000). Raise for circuits with long" CONSOLE_HELP_NEWLINE_ALIGN
+                             "magic-state waits. Has no effect on -P dag.")
+                .required(false);
         parser.enable_help();
 
         auto err = parser.parse(argc, argv);
@@ -385,9 +400,25 @@ namespace lsqecc
 
         if (input_format == InputFormat::LLI)
         {
-            instruction_stream = std::make_unique<LSInstructionStreamFromFile>(input_file_stream.get());
-            id_generator.set_start(*std::max(instruction_stream->core_qubits().begin(),
-                                             instruction_stream->core_qubits().end()));
+            try
+            {
+                instruction_stream = std::make_unique<LSInstructionStreamFromFile>(input_file_stream.get());
+            }
+            catch (const std::exception& e)
+            {
+                err_stream << "Could not read LS instructions: " << e.what() << std::endl;
+                return -1;
+            }
+            const auto& core_qubits = instruction_stream->core_qubits();
+            if (core_qubits.empty())
+            {
+                err_stream << "No logical qubits declared; nothing to slice." << std::endl;
+                return -1;
+            }
+            // Start generating ids past the highest declared core-qubit id so new patches don't
+            // collide with them (matches the QASM path's set_start(qreg.size)). core_qubits() is
+            // insertion-ordered, not sorted, so scan for the max rather than taking the last.
+            id_generator.set_start(*std::max_element(core_qubits.begin(), core_qubits.end()) + 1);
             if( print_dag_mode == PrintDagMode::Input )
             {
                 auto dag = dag::full_dependency_dag_from_instruction_stream(*instruction_stream);
@@ -434,6 +465,12 @@ namespace lsqecc
                     err_stream << "Unknown CNOT correction mode: " << parser.get<std::string>("cnotcorrections") <<std::endl;
                     return -1;
                 }
+            }
+
+            if (gate_stream->get_qreg().size == 0)
+            {
+                err_stream << "No qubits in the circuit; nothing to slice." << std::endl;
+                return -1;
             }
 
             id_generator.set_start(gate_stream->get_qreg().size);
@@ -588,93 +625,204 @@ namespace lsqecc
 
 
         bool print_slices = !parser.exists("noslices") && lli_print_mode == LLIPrintMode::None;
-        DenseSliceVisitor slice_visitor = [](const DenseSlice& s) -> void {LSTK_UNUSED(s);};
-        bool is_first_slice = true;
-        if(print_slices)
-        {
-            slice_visitor = [&bulk_output_stream, &is_first_slice](const DenseSlice & s){
-                if(is_first_slice)
-                {
-                    bulk_output_stream.get() << "[\n" << slice_to_json(s).dump(3);
-                    is_first_slice = false;
-                }
-                else
-                    bulk_output_stream.get() << ",\n" << slice_to_json(s).dump(3) << std::flush;
-            };
-        }
 
         size_t slice_counter = 0;
 
+        bool show_progress = output_format_mode == OutputFormatMode::Progress;
         auto gave_update_at = lstk::now();
-        if(output_format_mode == OutputFormatMode::Progress)
-        {
-            slice_visitor = [&, slice_visitor](const DenseSlice & s)
-            {
-                slice_visitor(s);
-                slice_counter++;
-                if(lstk::seconds_since(gave_update_at)>=1)
-                {
-                    out_stream << "Slice count: " << slice_counter << "\r" << std::flush;
-                    gave_update_at = std::chrono::steady_clock::now();
-                }
-            };
-        }
-
 
         SliceStats slice_stats;
-        if (output_format_mode == OutputFormatMode::Stats)
-        {
-            slice_visitor = [&, slice_visitor](const DenseSlice & s)
-            {
-                slice_visitor(s);
-                slice_stats.totals += compute_volume_counts(s);
-            };
-        }
 
-        LSInstructionVisitor instruction_visitor{[&](const LSInstruction& i){}};
+        LSInstructionVisitor instruction_visitor{[&](const LSInstruction& i){LSTK_UNUSED(i);}};
         if (lli_print_mode == LLIPrintMode::Sliced)
         {
             instruction_visitor = [&](const LSInstruction& i)
             {
                 bulk_output_stream.get() << i << ";";
-            }; 
-
-            slice_visitor = [&,slice_visitor](const DenseSlice & s)
-            {
-                slice_visitor(s);
-                bulk_output_stream.get() << std::endl;
             };
         }
 
+        // Per-slice consumer state, previously hidden inside the nested visitor lambdas.
+        bool is_first_slice = true;
+
+        // Per-slice timing, for benchmarking output cost vs layout size. Times only this
+        // iteration's output work (the JSON serialization), not the routing/production that
+        // precedes it. Welford's online algorithm keeps the mean/variance in O(1) memory,
+        // matching the streaming design (no per-slice vector retained). Gated on --slicetiming
+        // so the common path pays nothing.
+        const bool profile_slices = parser.exists("slicetiming");
+        size_t timing_n        = 0;
+        double timing_mean_ms  = 0.0; // running mean of per-slice processing time
+        double timing_m2       = 0.0; // running sum of squared deviations from the mean
+        double timing_total_ms = 0.0;
 
         auto start = lstk::now();
 
-        std::unique_ptr<PatchComputationResult> computation_result = 
-            std::make_unique<DensePatchComputationResult>(run_through_dense_slices(
-                    std::move(*instruction_stream),
-                    pipeline_mode,
-                    compile_mode == CompilationMode::Local,
-                    sgate_mode == SGateMode::Twists,
-                    *layout,
-                    std::move(router),
-                    timeout,
-                    slice_visitor,
-                    instruction_visitor,
-                    parser.exists("graceful"),
-                    parser.exists("op-ids") || input_format == InputFormat::Pandora // op-ids required by Pandora
-        ));
+        size_t max_no_progress = MAX_NO_PROGRESS_SLICES_DEFAULT;
+        if (parser.exists("maxwait"))
+        {
+            const auto maxwait_arg = parser.get<std::string>("maxwait");
+            try
+            {
+                size_t chars_consumed = 0;
+                const unsigned long long parsed = std::stoull(maxwait_arg, &chars_consumed);
+                if (chars_consumed != maxwait_arg.size())
+                    throw std::invalid_argument{maxwait_arg};
+                max_no_progress = static_cast<size_t>(parsed);
+            }
+            catch (const std::exception&)
+            {
+                err_stream << "--maxwait expects a non-negative integer, got: " << maxwait_arg << std::endl;
+                return -1;
+            }
+        }
+
+        // Pull-based: the engine produces one slice at a time and we drive the loop, applying
+        // each output concern as a flat, ordered step. The slice reference is only valid for the
+        // current iteration (the engine mutates it on the next advance), so we never retain it.
+        std::unique_ptr<DenseSliceStream> slices = run_through_dense_slices(
+                std::move(instruction_stream),
+                *layout,
+                std::move(router),
+                instruction_visitor,
+                {.pipeline_mode          = pipeline_mode,
+                 .local_instructions     = compile_mode == CompilationMode::Local,
+                 .allow_twists           = sgate_mode == SGateMode::Twists,
+                 .gen_op_ids             = parser.exists("op-ids") || input_format == InputFormat::Pandora, // op-ids required by Pandora
+                 .timeout                = timeout,
+                 .max_no_progress_slices = max_no_progress});
+
+        auto consume_slices = [&]()
+        {
+            for (const DenseSlice& slice : *slices)
+            {
+                // Time only the output work below, excluding the routing/production that the
+                // iterator advance already performed before handing us this slice.
+                auto output_start = lstk::now();
+
+                // Base output: write the slice to its destination.
+                if (print_slices)
+                {
+                    if (is_first_slice)
+                    {
+                        bulk_output_stream.get() << "[\n" << slice_to_json(slice).dump(3);
+                        is_first_slice = false;
+                    }
+                    else
+                        bulk_output_stream.get() << ",\n" << slice_to_json(slice).dump(3) << std::flush;
+                }
+
+                // Live progress counter.
+                if (show_progress)
+                {
+                    slice_counter++;
+                    if(lstk::seconds_since(gave_update_at)>=1)
+                    {
+                        out_stream << "Routing slices, count: " << slice_counter << "\r" << std::flush;
+                        gave_update_at = std::chrono::steady_clock::now();
+                    }
+                }
+
+                // Stats accumulation.
+                if (output_format_mode == OutputFormatMode::Stats)
+                    slice_stats.totals += compute_volume_counts(slice);
+
+                // Sliced-LLI: terminate this slice's instruction line.
+                if (lli_print_mode == LLIPrintMode::Sliced)
+                    bulk_output_stream.get() << std::endl;
+
+                // Accumulate this slice's output time (Welford online mean/variance).
+                if (profile_slices)
+                {
+                    double dt_ms = std::chrono::duration_cast<
+                        std::chrono::duration<double, std::milli>>(
+                            lstk::now() - output_start).count();
+                    ++timing_n;
+                    double delta = dt_ms - timing_mean_ms;
+                    timing_mean_ms += delta / static_cast<double>(timing_n);
+                    timing_m2 += delta * (dt_ms - timing_mean_ms);
+                    timing_total_ms += dt_ms;
+                }
+            }
+        };
+
+        // Exceptions (deadlock, routing failure, timeout) surface here, in the consumer loop.
+        // Under --graceful they are swallowed so the partial output is still emitted, so this flag
+        // is the only signal that the circuit was not fully sliced.
+        bool halted_with_error = false;
+        if (parser.exists("graceful"))
+        {
+            try
+            {
+                consume_slices();
+            }
+            catch (const std::exception& e)
+            {
+                std::cout << "Encountered exception: " << e.what() << std::endl;
+                std::cout << "Halting slicing" << std::endl;
+                halted_with_error = true;
+            }
+        }
+        else
+        {
+            try
+            {
+                consume_slices();
+            }
+            catch (const std::exception& e)
+            {
+                // Report and exit non-zero rather than letting the exception escape main(), which would
+                // abort the process (SIGABRT) with no usable exit code.
+                err_stream << e.what() << std::endl;
+                return -1;
+            }
+        }
+
+        // Slice-timing report: one CSV row per run, keyed by layout size, so a sweep over layout
+        // sizes can be plotted as avg/error bars (error bar = stddev_ms, or stddev_ms/sqrt(n) for
+        // the standard error of the mean). Runs for every output mode.
+        if (profile_slices)
+        {
+            auto [max_row, max_col] = layout->furthest_cell();
+            size_t rows  = static_cast<size_t>(max_row) + 1;
+            size_t cols  = static_cast<size_t>(max_col) + 1;
+            size_t cells = rows * cols;
+            double stddev_ms = timing_n > 1
+                ? std::sqrt(timing_m2 / static_cast<double>(timing_n - 1)) : 0.0;
+
+            std::string timing_path = parser.get<std::string>("slicetiming");
+            if (timing_path.empty())
+                timing_path = "slice_timings.csv";
+
+            bool needs_header = !std::filesystem::exists(timing_path);
+            std::ofstream timing_file(timing_path, std::ios::app);
+            if (!timing_file)
+                err_stream << "Warning: could not open slice-timing file: " << timing_path << std::endl;
+            else
+            {
+                if (needs_header)
+                    timing_file << "rows,cols,cells,num_slices,mean_ms,stddev_ms,total_s\n";
+                timing_file << rows << "," << cols << "," << cells << ","
+                            << timing_n << "," << timing_mean_ms << "," << stddev_ms << ","
+                            << (timing_total_ms / 1000.0) << "\n";
+            }
+
+            out_stream << "Slice-timing: " << timing_n << " slices, mean " << timing_mean_ms
+                       << " ms, stddev " << stddev_ms << " ms (layout " << rows << "x" << cols
+                       << ", " << cells << " cells) -> " << timing_path << std::endl;
+        }
 
         if(parser.exists("o") || parser.exists("noslices"))
         {
             if (output_format_mode == OutputFormatMode::Machine)
             {
-                out_stream << computation_result->ls_instructions_count() << ","
-                           << computation_result->slice_count() << ","
+                out_stream << slices->result().ls_instructions_count() << ","
+                           << slices->result().slice_count() << ","
                            << lstk::seconds_since(start) << std::endl;
             } else if (output_format_mode == OutputFormatMode::Progress || output_format_mode == OutputFormatMode::Stats )
             {
-                out_stream << "LS Instructions read  " << computation_result->ls_instructions_count() << std::endl;
-                out_stream << "Slices " << computation_result->slice_count() << std::endl;
+                out_stream << "LS Instructions read  " << slices->result().ls_instructions_count() << std::endl;
+                out_stream << "Slices " << slices->result().slice_count() << std::endl;
                 out_stream << "Made patch computation. Took " << lstk::seconds_since(start) << "s." << std::endl;
             }
             
@@ -688,7 +836,7 @@ namespace lsqecc
         if (lli_print_mode == LLIPrintMode::Sliced)
             bulk_output_stream.get() << std::endl;
 
-        return 0;
+        return halted_with_error ? -1 : 0;
     }
 
 
