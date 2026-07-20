@@ -124,3 +124,62 @@ TEST(DenseSliceCache, PlaceDensePatchOverwriteUpdatesCache)
     EXPECT_FALSE(slice.get_cell_by_id(10).has_value());
     EXPECT_EQ(slice.get_cell_by_id(11), (Cell{1, 1}));
 }
+
+
+// Mutating an empty cell means the caller targeted the wrong cell. Failing loudly beats silently
+// leaving the lattice unchanged, which previously produced wrong slices much further downstream.
+TEST(DenseSliceCache, MutatingAnEmptyCellThrows)
+{
+    EmptyTestLayout layout{{3, 3}};
+    DenseSlice slice{layout};
+
+    const Cell empty{2, 2};
+    ASSERT_TRUE(slice.is_cell_free(empty));
+
+    EXPECT_THROW(slice.set_patch_activity(empty, PatchActivity::Measurement), std::logic_error);
+    EXPECT_THROW(slice.set_patch_type(empty, PatchType::Qubit), std::logic_error);
+    EXPECT_THROW(slice.assign_patch_id(empty, 1), std::logic_error);
+    EXPECT_THROW(slice.rotate_patch_boundaries(empty), std::logic_error);
+
+    // Clearing an already-empty cell stays a no-op: callers use it to guarantee emptiness.
+    EXPECT_NO_THROW(slice.clear_patch_at(empty));
+}
+
+
+TEST(DenseSliceCache, RotatePatchBoundariesKeepsIdAndCache)
+{
+    EmptyTestLayout layout{{3, 3}};
+    DenseSlice slice{layout};
+
+    const Cell cell{0, 2};
+    place_patch(slice, cell, 4);
+    const CellBoundaries before = slice.patch_at(cell)->boundaries;
+
+    slice.rotate_patch_boundaries(cell);
+
+    // The patch keeps its identity (and cache entry); only the boundaries move round.
+    EXPECT_EQ(slice.get_cell_by_id(4), cell);
+    const CellBoundaries after = slice.patch_at(cell)->boundaries;
+    EXPECT_EQ(after.top.boundary_type, before.left.boundary_type);
+    EXPECT_EQ(after.right.boundary_type, before.top.boundary_type);
+}
+
+
+// The traversal, not the visitor, owns deallocation: the visitor keeps a valid DensePatch& for the
+// whole call and the id->cell entry is dropped along with the patch.
+TEST(DenseSliceCache, TraversalClearsRequestedCellsAndEvictsCache)
+{
+    EmptyTestLayout layout{{3, 3}};
+    DenseSlice slice{layout};
+
+    place_patch(slice, Cell{0, 0}, 20);
+    place_patch(slice, Cell{1, 1}, 21);
+
+    slice.traverse_cells_mut([](const Cell&, DensePatch& p) {
+        return p.get_id() == 20 ? DenseSlice::CellVisit::Clear : DenseSlice::CellVisit::Keep;
+    });
+
+    EXPECT_TRUE(slice.is_cell_free(Cell{0, 0}));
+    EXPECT_FALSE(slice.get_cell_by_id(20).has_value());
+    EXPECT_EQ(slice.get_cell_by_id(21), (Cell{1, 1}));
+}

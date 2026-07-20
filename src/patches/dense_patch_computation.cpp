@@ -99,12 +99,12 @@ void advance_slice(DenseSlice& slice, const Layout& layout)
             p.boundaries.right.is_active = false;
         }
 
-        // Clear measured patches through the cache-safe helper so any lingering id->cell entry is
-        // dropped. NB: clear_patch_at destroys the patch in place, so this invalidates `p` and must
-        // be its last use here. Clearing the current cell mid-traversal is safe: it only nulls the
-        // slot, never resizing the grid.
+        // Measured patches are done: hand them back to the traversal to drop, which also evicts
+        // any lingering id->cell entry.
         if((p.activity == PatchActivity::MultiPatchMeasurement) || p.activity == PatchActivity::Measurement)
-            slice.clear_patch_at(c);
+            return DenseSlice::CellVisit::Clear;
+
+        return DenseSlice::CellVisit::Keep;
     });
 
     // If we have tiles reserved for magic state re-spawn, we loop over them and 
@@ -792,9 +792,7 @@ InstructionApplicationResult try_apply_instruction_direct_followup(
             {
                 const Cell target_cell = slice.get_cell_by_id(p->target).value();
                 slice.set_patch_activity(target_cell, PatchActivity::Unitary);
-                auto sparse = target_patch.to_sparse_patch(target_cell);
-                std::get<SingleCellOccupiedByPatch>(sparse.cells).instant_rotate();
-                slice.place_dense_patch_at(target_cell, DensePatch::from_sparse_patch(sparse));
+                slice.rotate_patch_boundaries(target_cell);
             }
                 
             return {nullptr, {}};
@@ -1724,6 +1722,7 @@ DensePatchComputationResult run_through_dense_slices(
 
             std::cout << "Encountered exception: " << e.what() << std::endl;
             std::cout << "Halting slicing" << std::endl;
+            res.halted_with_error_ = true;
         }
     }
     else
@@ -1732,9 +1731,5 @@ DensePatchComputationResult run_through_dense_slices(
     return res;
 }
 
-
-DensePatchComputationResult::DensePatchComputationResult(const DensePatchComputationResult& other)
- : ls_instructions_count_(other.ls_instructions_count_), slice_count_(other.slice_count_)
-{}
 
 }

@@ -28,10 +28,16 @@ using LSInstructionVisitor = std::function<void(const LSInstruction& slice)>;
 struct DensePatchComputationResult : public PatchComputationResult {
     using PatchComputationResult::PatchComputationResult;
 
-    DensePatchComputationResult(const DensePatchComputationResult& other);
+    // Defaulted on purpose: a hand-written copy ctor here silently drops any field added later
+    DensePatchComputationResult(const DensePatchComputationResult& other) = default;
 
     size_t ls_instructions_count_ = 0;
     size_t slice_count_ = 1;
+
+    // Set when --graceful swallowed an exception and slicing stopped before consuming the whole
+    // instruction stream. The slices produced so far are still valid, but the computation is
+    // incomplete, so callers should report failure rather than success.
+    bool halted_with_error_ = false;
 
     size_t ls_instructions_count() const override {return ls_instructions_count_;}
     size_t slice_count() const override {return slice_count_;}

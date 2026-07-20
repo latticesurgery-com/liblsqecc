@@ -42,11 +42,16 @@ public:
 
     virtual const Layout& get_layout() const override;
 
+    // Outcome of visiting an occupied cell during a mutable traversal.
+    enum class CellVisit { Keep, Clear };
+
     // The mutable traversal only exposes *occupied* cells, as a DensePatch&: callers cannot clear or
-    // replace a slot (which would bypass the id->cell cache) -- use clear_patch_at/place_dense_patch_at
-    // for that. The const traversal still visits every cell, including empty ones.
+    // replace a slot (which would bypass the id->cell cache) -- use place_dense_patch_at for
+    // replacement, or return CellVisit::Clear to have the traversal drop the patch (and its cache
+    // entry) once the visitor has returned, so the visitor never holds a dangling DensePatch&.
+    // The const traversal still visits every cell, including empty ones.
     using CellTraversalFunctor
-        = std::function<void(const Cell&, DensePatch&)>;
+        = std::function<CellVisit(const Cell&, DensePatch&)>;
     using CellTraversalConstFunctor
         = std::function<void(const Cell&, const std::optional<DensePatch>&)>;
     void traverse_cells_mut(const CellTraversalFunctor& f);
@@ -60,9 +65,12 @@ public:
     // Use cache-safe helpers when replacing/removing patches so id->cell map stays consistent.
     void place_dense_patch_at(const Cell& cell, const DensePatch& patch);
     void clear_patch_at(const Cell& cell);
+    // The mutators below require an occupied cell and throw std::logic_error otherwise, so that a
+    // mis-targeted write fails loudly rather than silently leaving the lattice unchanged.
     void assign_patch_id(const Cell& cell, std::optional<PatchId> new_id);
     void set_patch_activity(const Cell& cell, PatchActivity activity);
     void set_patch_type(const Cell& cell, PatchType type);
+    void rotate_patch_boundaries(const Cell& cell);
 
     std::optional<std::reference_wrapper<Boundary>> get_boundary_between(const Cell& target, const Cell& neighbour);
     std::reference_wrapper<Boundary> get_boundary_between_or_fail(const Cell& target, const Cell& neighbour);
@@ -96,6 +104,9 @@ private:
     mutable std::unordered_map<PatchId, Cell, std::hash<PatchId>> patch_id_to_cell_cache;
     // Avoid exposing mutable reference to DensePatch as it may lead to breaking the cache
     std::optional<DensePatch>& _patch_at_mut(const Cell& cell);
+    // Same, but for mutators that only make sense on an occupied cell. `context` names the caller
+    // in the exception message.
+    DensePatch& _occupied_patch_at_or_fail(const Cell& cell, const char* context);
     // Only drop the id->cell mapping when it still points at `cell`. Guards against clobbering a
     // mapping that was already re-pointed to another cell (e.g. a move that reuses the same id).
     void _evict_id_cache_entry(PatchId id, const Cell& cell);

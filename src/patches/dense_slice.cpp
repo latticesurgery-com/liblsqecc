@@ -22,9 +22,14 @@ void DenseSlice::traverse_cells_mut(const DenseSlice::CellTraversalFunctor& f)
     {
         for (std::optional<DensePatch>& patch: row)
         {
-            // Only hand out occupied cells: (de)allocating a slot stays with the cache-safe helpers.
-            if (patch)
-                f(c, *patch);
+            // Only hand out occupied cells, and do the clearing here rather than in the visitor, so
+            // the DensePatch& stays valid for the whole call and the cache entry goes with it.
+            if (patch && f(c, *patch) == CellVisit::Clear)
+            {
+                if (patch->id)
+                    _evict_id_cache_entry(*patch->id, c);
+                patch = std::nullopt;
+            }
             c.col++;
         }
         c.row++;
@@ -102,15 +107,22 @@ const std::optional<DensePatch>& DenseSlice::patch_at(const Cell& cell) const
     return cells.at(cell.row).at(cell.col);
 }
 
-void DenseSlice::assign_patch_id(const Cell& cell, std::optional<PatchId> new_id)
+DensePatch& DenseSlice::_occupied_patch_at_or_fail(const Cell& cell, const char* context)
 {
     auto& patch_opt = _patch_at_mut(cell);
-    if (!patch_opt) return;
+    if (!patch_opt)
+        throw std::logic_error(lstk::cat(context, ": no patch at ", cell));
+    return *patch_opt;
+}
 
-    if (patch_opt->id) {
-        _evict_id_cache_entry(*patch_opt->id, cell);
+void DenseSlice::assign_patch_id(const Cell& cell, std::optional<PatchId> new_id)
+{
+    DensePatch& patch = _occupied_patch_at_or_fail(cell, "DenseSlice::assign_patch_id");
+
+    if (patch.id) {
+        _evict_id_cache_entry(*patch.id, cell);
     }
-    patch_opt->id = new_id;
+    patch.id = new_id;
     if (new_id) {
         patch_id_to_cell_cache[*new_id] = cell;
     }
@@ -118,20 +130,18 @@ void DenseSlice::assign_patch_id(const Cell& cell, std::optional<PatchId> new_id
 
 void DenseSlice::set_patch_activity(const Cell& cell, PatchActivity activity)
 {
-    auto& patch_opt = _patch_at_mut(cell);
-    if (patch_opt)
-    {
-        patch_opt->activity = activity;
-    }
+    _occupied_patch_at_or_fail(cell, "DenseSlice::set_patch_activity").activity = activity;
 }
 
 void DenseSlice::set_patch_type(const Cell& cell, PatchType type)
 {
-    auto& patch_opt = _patch_at_mut(cell);
-    if (patch_opt)
-    {
-        patch_opt->type = type;
-    }
+    _occupied_patch_at_or_fail(cell, "DenseSlice::set_patch_type").type = type;
+}
+
+void DenseSlice::rotate_patch_boundaries(const Cell& cell)
+{
+    // Boundaries are not part of the id->cell index, so this can mutate in place.
+    _occupied_patch_at_or_fail(cell, "DenseSlice::rotate_patch_boundaries").boundaries.instant_rotate();
 }
 
 void DenseSlice::place_dense_patch_at(const Cell& cell, const DensePatch& patch)
