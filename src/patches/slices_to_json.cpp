@@ -99,8 +99,9 @@ json dense_patch_to_json(const DensePatch& p)
             }
     };
 
-    if(p.id)
-        visual_array_cell["text"] = std::string{"Id: "} + std::to_string(*p.id);
+    const auto patch_id = p.get_id();
+    if(patch_id)
+        visual_array_cell["text"] = std::string{"Id: "} + std::to_string(*patch_id);
     else if ((p.type==PatchType::Distillation && p.activity == PatchActivity::None) ||  p.type ==PatchType::Qubit)
         visual_array_cell["text"] = "Not bound";
     else
