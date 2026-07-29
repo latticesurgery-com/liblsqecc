@@ -226,6 +226,7 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
             tests/dag/dependency_dag.cpp
             tests/gates/gate_approximator.cpp
             tests/gates/parse_gates.cpp
+            tests/patches/dense_slice.cpp
     )
 
     target_link_libraries(

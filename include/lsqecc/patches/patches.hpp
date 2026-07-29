@@ -161,6 +161,13 @@ struct DensePatch : public Patch {
     static DensePatch from_sparse_patch(const SparsePatch& p);
 
     bool is_active() const;
+
+    // Hiding id so that it can't be mutated trivially from outside
+    // assign_patch_id(...) to preserve the patch ID geometry cache.
+    std::optional<PatchId> get_id() const { return Patch::id; }
+private:
+    friend struct DenseSlice;
+    using Patch::id;
 };
 
 
