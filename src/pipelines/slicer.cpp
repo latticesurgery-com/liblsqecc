@@ -260,6 +260,24 @@ namespace lsqecc
             return 0;
         }
 
+        // --minetest output format validation
+        if (parser.exists("minetest"))
+        {
+            if (parser.exists("noslices") || parser.exists("o") || parser.exists("printlli"))
+            {
+                err_stream << "--minetest writes its own map.sqlite and cannot be combined with "
+                              "--noslices, --printlli, or -o/--output." << std::endl;
+                return -1;
+            }
+
+            if (parser.exists("stripeheight") && parser.get<int>("stripeheight") <= 0)
+            {
+                err_stream << "--stripeheight must be a positive integer, got: "
+                           << parser.get<int>("stripeheight") << std::endl;
+                return -1;
+            }
+        }
+
         DistillationOptions distillation_options = make_distillation_options(parser);
 
         LayoutMode layout_mode = AutoLayoutMode::Compact;

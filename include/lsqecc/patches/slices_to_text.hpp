@@ -2,7 +2,6 @@
 #define LSQECC_SLICES_TO_TEXT_HPP
 
 #include <lsqecc/patches/dense_slice.hpp>
-#include <lsqecc/patches/sparse_slice.hpp>
 #include <string>
 #include <vector>
 

@@ -116,13 +116,21 @@ uint16_t PatchToMaterialId(const std::optional<DensePatch>& patch)
     }
 }
 
-// Packs a Minetest block position into its database key. Valid only for non-negative
-// block coordinates, which always holds here: row, y (= time_stamp * stripe_height)
-// and col are all >= 0.
+// Packs a Minetest block position into its database key, matching Minetest's own
+// getBlockAsInteger(): z*2^24 + y*2^12 + x. The x and y fields are 12 bits each, so both
+// must be in [0, 4095]; otherwise a field overflows into the next one and two distinct
+// blocks collide on the same key, silently overwriting each other in the DB. z takes the
+// remaining high bits. All three are non-negative here (row, y = time_stamp * stripe_height,
+// and col are all >= 0).
+constexpr int kMapblockFieldLimit = 1 << 12; // 4096: x and y each occupy 12 bits
 int64_t ComputeMapblockPosition(int mb_x, int mb_y, int mb_z)
 {
-    assert(mb_x >= 0 && mb_y >= 0 && mb_z >= 0);
-    return (static_cast<int64_t>(mb_z) << 24) | (static_cast<int64_t>(mb_y) << 12) | mb_x;
+    assert(mb_x >= 0 && mb_x < kMapblockFieldLimit &&
+           mb_y >= 0 && mb_y < kMapblockFieldLimit &&
+           mb_z >= 0);
+    return static_cast<int64_t>(mb_z) * (1 << 24)
+         + static_cast<int64_t>(mb_y) * (1 << 12)
+         + mb_x;
 }
 
 } // namespace

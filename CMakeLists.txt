@@ -31,7 +31,7 @@ else()
     message(WARNING "Boost graph library not found. Graph search features will be disabled.")
 endif()
 
-if(DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
+if(EMSCRIPTEN)
     message(STATUS "Emscripten build detected: Skipping find_package(SQLite3)")
     # Provide empty variables so that later include_directories and target_link_libraries work.
     set(SQLite3_INCLUDE_DIRS "")
@@ -95,7 +95,7 @@ target_sources(lsqecclib PRIVATE
     src/scheduler/wave_scheduler.cpp
 )
 
-if (NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
+if (NOT EMSCRIPTEN)
     target_sources(lsqecclib PRIVATE src/patches/minetest_export.cpp)
 endif()
 
@@ -113,11 +113,11 @@ if(Boost_FOUND)
 endif()
 
 # Link SQLite3 into the library.
-target_link_libraries(lsqecclib PUBLIC ${SQLite3_LIBRARIES})
+target_link_libraries(lsqecclib PRIVATE ${SQLite3_LIBRARIES})
 
 set_property(TARGET lsqecclib PROPERTY POSITION_INDEPENDENT_CODE ON)
 
-if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
+if(NOT EMSCRIPTEN)
     target_sources(lsqecclib PRIVATE src/gates/postgres_gate_stream.cpp)
 endif()
 
@@ -159,7 +159,7 @@ else()
 endif()
 
 # ----- Find Zstandard (libzstd) -----
-if(DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
+if(EMSCRIPTEN)
     message(STATUS "Emscripten build detected: Skipping Zstd configuration.")
     set(ZSTD_INCLUDE_DIRS "")
     set(ZSTD_LIBRARIES "")
@@ -197,19 +197,10 @@ else()
     endif()
 endif()
 
-# ----- Find Boost -----
-find_package(Boost QUIET COMPONENTS graph)
-if(Boost_FOUND)
-    message(STATUS "Found Boost")
-    add_definitions(-DENABLE_BOOST_GRAPH_SEARCH)
-    include_directories(${Boost_INCLUDE_DIRS})
-else()
-    message(STATUS "Boost not found; Boost Graph Search will be disabled")
-endif()
 
 ###################################################
 # Command line executable
-if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
+if(NOT EMSCRIPTEN)
 
     add_executable(
             lsqecc_slicer
@@ -223,7 +214,7 @@ endif()
 ###################################################
 # Postgress reader
 
-if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
+if(NOT EMSCRIPTEN)
     find_package(PostgreSQL REQUIRED)
 
     if (PostgreSQL_FOUND)
@@ -240,7 +231,7 @@ endif()
 ###################################################
 # Emscripten interface
 
-if(DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
+if(EMSCRIPTEN)
     
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fexceptions")
     
@@ -275,7 +266,7 @@ endif()
 
 
 
-if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
+if(NOT EMSCRIPTEN)
 
     ###################################################
     # Tests
