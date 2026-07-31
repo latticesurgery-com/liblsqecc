@@ -195,6 +195,20 @@ void MinetestMapBuilder::add_slice(const DenseSlice& s, size_t time_stamp, int s
     const int mb_y   = y / 16;
     const int inner_y = y % 16;
 
+    const Cell furthest = s.get_layout().furthest_cell();
+
+    if (mb_y >= kMapblockFieldLimit || furthest.row / 16 >= kMapblockFieldLimit) {
+        if (!warned_out_of_range_) {
+            std::cerr << "Warning: Minetest export exceeds the mapblock coordinate limit of "
+                      << kMapblockFieldLimit << " blocks (" << kMapblockFieldLimit * 16
+                      << " nodes) per axis at slice " << time_stamp
+                      << "; subsequent blocks are omitted to avoid overwriting earlier ones"
+                         " (reduce --stripeheight or shorten the circuit).\n";
+            warned_out_of_range_ = true;
+        }
+        return;
+    }
+
     // When we move to a new y-band, everything in blocks_ belongs to the completed
     // previous band and can be flushed immediately.
     if (mb_y != current_mb_y_) {
@@ -203,7 +217,6 @@ void MinetestMapBuilder::add_slice(const DenseSlice& s, size_t time_stamp, int s
         current_mb_y_ = mb_y;
     }
 
-    const Cell furthest = s.get_layout().furthest_cell();
     for (int row = 0; row <= furthest.row; ++row) {
         for (int col = 0; col <= furthest.col; ++col) {
             const uint16_t mat = PatchToMaterialId(s.patch_at(Cell::from_ints(row, col)));

@@ -832,7 +832,6 @@ namespace lsqecc
             }
             out_stream << "Generated map.sqlite (" << minetest_builder->block_count()
                        << " mapblocks)" << std::endl;
-            return halted_with_error ? -1 : 0;
         }
 
         // Slice-timing report: one CSV row per run, keyed by layout size, so a sweep over layout

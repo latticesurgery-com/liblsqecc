@@ -60,6 +60,7 @@ private:
     int    current_mb_y_        = -1;
     size_t total_blocks_written_ = 0;
     bool   ok_                   = true;
+    bool   warned_out_of_range_ = false; // one-shot guard for the coordinate-limit warning
 
     // Writes every block in blocks_ to the DB, then clears blocks_.
     void FlushCurrentBand();

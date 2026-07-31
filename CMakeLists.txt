@@ -38,11 +38,7 @@ if(EMSCRIPTEN)
     set(SQLite3_LIBRARIES "")
 else()
     find_package(SQLite3 REQUIRED)
-    if(SQLite3_FOUND)
-        message(STATUS "Found SQLite3: ${SQLite3_INCLUDE_DIRS} ${SQLite3_LIBRARIES}")
-    else()
-        message(FATAL_ERROR "SQLite3 not found. Please install sqlite3 and its development package.")
-    endif()
+    message(STATUS "Found SQLite3: ${SQLite3_INCLUDE_DIRS} ${SQLite3_LIBRARIES}")
 endif()
 
 include_directories(${SQLite3_INCLUDE_DIRS})
@@ -72,7 +68,6 @@ target_sources(lsqecclib PRIVATE
     src/patches/patches.cpp
     src/patches/sparse_slice.cpp
     src/patches/slices_to_json.cpp
-    src/patches/slices_to_text.cpp
     src/patches/slice_stats.cpp
     src/pipelines/slicer.cpp
     src/layout/dynamic_layouts/compact_layout.cpp
@@ -161,39 +156,17 @@ endif()
 # ----- Find Zstandard (libzstd) -----
 if(EMSCRIPTEN)
     message(STATUS "Emscripten build detected: Skipping Zstd configuration.")
-    set(ZSTD_INCLUDE_DIRS "")
-    set(ZSTD_LIBRARIES "")
 else()
     find_package(Zstd CONFIG QUIET)
-    if(Zstd_FOUND)
-        if(TARGET zstd::Libzstd_static)
-            message(STATUS "Found zstd::Libzstd_static target (macOS configuration).")
-            target_link_libraries(lsqecclib PRIVATE zstd::Libzstd_static)
-        else()
-            message(STATUS "Zstd config found, but zstd::Libzstd_static target not available. Falling back to pkg-config on this platform.")
-            find_package(PkgConfig REQUIRED)
-            pkg_check_modules(ZSTD REQUIRED libzstd)
-            if(ZSTD_FOUND)
-                message(STATUS "Found libzstd via pkg-config.")
-                target_include_directories(lsqecclib PRIVATE ${ZSTD_INCLUDE_DIRS})
-                link_directories(${ZSTD_LIBRARY_DIRS})
-                target_link_libraries(lsqecclib PRIVATE ${ZSTD_LIBRARIES})
-            else()
-                message(FATAL_ERROR "libzstd not found via pkg-config.")
-            endif()
-        endif()
+    if(Zstd_FOUND AND TARGET zstd::Libzstd_static)
+        message(STATUS "Found libzstd via CMake config (zstd::Libzstd_static).")
+        target_link_libraries(lsqecclib PRIVATE zstd::Libzstd_static)
     else()
-        message(STATUS "Zstd config not found. Trying pkg-config...")
+        message(STATUS "libzstd CMake config not usable; falling back to pkg-config.")
         find_package(PkgConfig REQUIRED)
-        pkg_check_modules(ZSTD REQUIRED libzstd)
-        if(ZSTD_FOUND)
-            message(STATUS "Found libzstd via pkg-config.")
-            target_include_directories(lsqecclib PRIVATE ${ZSTD_INCLUDE_DIRS})
-            link_directories(${ZSTD_LIBRARY_DIRS})
-            target_link_libraries(lsqecclib PRIVATE ${ZSTD_LIBRARIES})
-        else()
-            message(FATAL_ERROR "libzstd not found.")
-        endif()
+        pkg_check_modules(ZSTD REQUIRED IMPORTED_TARGET libzstd)
+        message(STATUS "Found libzstd via pkg-config.")
+        target_link_libraries(lsqecclib PRIVATE PkgConfig::ZSTD)
     endif()
 endif()
 
@@ -215,17 +188,31 @@ endif()
 # Postgress reader
 
 if(NOT EMSCRIPTEN)
+    find_package(PostgreSQL QUIET)
+
+    # Fall back to pg_config when the module can't locate PostgreSQL (e.g. brew install).
+    if(NOT PostgreSQL_FOUND)
+        find_program(PG_CONFIG_EXECUTABLE pg_config)
+        if(PG_CONFIG_EXECUTABLE)
+            execute_process(COMMAND ${PG_CONFIG_EXECUTABLE} --includedir
+                            OUTPUT_VARIABLE PG_INCLUDEDIR OUTPUT_STRIP_TRAILING_WHITESPACE)
+            execute_process(COMMAND ${PG_CONFIG_EXECUTABLE} --includedir-server
+                            OUTPUT_VARIABLE PG_INCLUDEDIR_SERVER OUTPUT_STRIP_TRAILING_WHITESPACE)
+            execute_process(COMMAND ${PG_CONFIG_EXECUTABLE} --libdir
+                            OUTPUT_VARIABLE PG_LIBDIR OUTPUT_STRIP_TRAILING_WHITESPACE)
+            message(STATUS "PostgreSQL not found by default; querying pg_config at ${PG_CONFIG_EXECUTABLE}")
+            # Seed the cache variables FindPostgreSQL consumes so the REQUIRED call validates them.
+            find_path(PostgreSQL_INCLUDE_DIR NAMES libpq-fe.h HINTS "${PG_INCLUDEDIR}")
+            find_path(PostgreSQL_TYPE_INCLUDE_DIR NAMES catalog/pg_type.h HINTS "${PG_INCLUDEDIR_SERVER}")
+            find_library(PostgreSQL_LIBRARY NAMES pq libpq HINTS "${PG_LIBDIR}")
+        endif()
+    endif()
     find_package(PostgreSQL REQUIRED)
+    message(STATUS "PostgreSQL include directory: ${PostgreSQL_INCLUDE_DIRS}")
+    message(STATUS "PostgreSQL library: ${PostgreSQL_LIBRARIES}")
 
-    if (PostgreSQL_FOUND)
-        message(STATUS "PostgreSQL include directory: ${PostgreSQL_INCLUDE_DIRS}")
-        message(STATUS "PostgreSQL library: ${PostgreSQL_LIBRARIES}")
-
-        target_include_directories(lsqecclib PRIVATE ${PostgreSQL_INCLUDE_DIRS})
-        target_link_libraries(lsqecclib PRIVATE ${PostgreSQL_LIBRARIES})
-    else ()
-        message(FATAL_ERROR "PostgreSQL not found. Make sure libpq-dev is installed.")
-    endif ()
+    target_include_directories(lsqecclib PRIVATE ${PostgreSQL_INCLUDE_DIRS})
+    target_link_libraries(lsqecclib PRIVATE ${PostgreSQL_LIBRARIES})
 endif()
 
 ###################################################
