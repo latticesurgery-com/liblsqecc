@@ -19,6 +19,7 @@
 #include <lsqecc/patches/slice_stats.hpp>
 #include <lsqecc/patches/dense_patch_computation.hpp>
 #include <lsqecc/patches/slice_variant.hpp>
+#include <lsqecc/patches/minetest_export.hpp>
 
 #include <lstk/lstk.hpp>
 
@@ -34,6 +35,7 @@
 #include <fstream>
 #include <chrono>
 #include <cmath>
+#include <optional>
 
 #include <string>
 
@@ -235,6 +237,14 @@ namespace lsqecc
                              "pipelines abort as deadlocked (default 1000). Raise for circuits with long" CONSOLE_HELP_NEWLINE_ALIGN
                              "magic-state waits. Has no effect on -P dag.")
                 .required(false);
+        parser.add_argument()
+                .names({"--minetest"})
+                .description("Generate a map.sqlite file for Minetest")
+                .required(false);
+        parser.add_argument()
+                .names({"--stripeheight"})
+                .description("Set the stripe height for minetest export (default 4)")
+                .required(false);
         parser.enable_help();
 
         auto err = parser.parse(argc, argv);
@@ -248,6 +258,24 @@ namespace lsqecc
         {
             parser.print_help();
             return 0;
+        }
+
+        // --minetest output format validation
+        if (parser.exists("minetest"))
+        {
+            if (parser.exists("noslices") || parser.exists("o") || parser.exists("printlli"))
+            {
+                err_stream << "--minetest writes its own map.sqlite and cannot be combined with "
+                              "--noslices, --printlli, or -o/--output." << std::endl;
+                return -1;
+            }
+
+            if (parser.exists("stripeheight") && parser.get<int>("stripeheight") <= 0)
+            {
+                err_stream << "--stripeheight must be a positive integer, got: "
+                           << parser.get<int>("stripeheight") << std::endl;
+                return -1;
+            }
         }
 
         DistillationOptions distillation_options = make_distillation_options(parser);
@@ -626,9 +654,22 @@ namespace lsqecc
 
         bool print_slices = !parser.exists("noslices") && lli_print_mode == LLIPrintMode::None;
 
+        // --minetest streams each slice into a Minetest map.sqlite
+        const bool export_minetest = parser.exists("minetest") && print_slices;
+        const int minetest_stripe_height =
+                parser.exists("stripeheight") ? parser.get<int>("stripeheight") : 4;
+        // The builder opens the DB and holds the write transaction for the duration of slicing.
+        // it flushes one 16-node y-band to the DB as slicing advances.
+        std::optional<MinetestMapBuilder> minetest_builder;
+        if (export_minetest)
+            minetest_builder.emplace("map.sqlite");
+        size_t minetest_time_stamp = 0;
+
         size_t slice_counter = 0;
 
-        bool show_progress = output_format_mode == OutputFormatMode::Progress;
+        // The minetest path runs without -o/--noslices, so it is otherwise silent; show the live
+        // slice count there too, so routing progress is visible and stalls are obvious.
+        bool show_progress = output_format_mode == OutputFormatMode::Progress || export_minetest;
         auto gave_update_at = lstk::now();
 
         SliceStats slice_stats;
@@ -644,11 +685,8 @@ namespace lsqecc
 
         bool is_first_slice = true;
 
-        // Per-slice timing, for benchmarking output cost vs layout size. Times only this
-        // iteration's output work (the JSON serialization), not the routing/production that
-        // precedes it. Welford's online algorithm keeps the mean/variance in O(1) memory,
-        // matching the streaming design (no per-slice vector retained). Gated on --slicetiming
-        // so the common path pays nothing.
+        // Per-slice timing, for benchmarking output cost vs layout size. Times only output
+        // work (no routing) using Welford's online algorithm.
         const bool profile_slices = parser.exists("slicetiming");
         size_t timing_n        = 0;
         double timing_mean_ms  = 0.0; // running mean of per-slice processing time
@@ -702,7 +740,12 @@ namespace lsqecc
                 // Base output: write the slice to its destination.
                 if (print_slices)
                 {
-                    if (is_first_slice)
+                    if (export_minetest)
+                    {
+                        minetest_builder->add_slice(slice, minetest_time_stamp, minetest_stripe_height);
+                        ++minetest_time_stamp;
+                    }
+                    else if (is_first_slice)
                     {
                         bulk_output_stream.get() << "[\n" << slice_to_json(slice).dump(3);
                         is_first_slice = false;
@@ -775,6 +818,20 @@ namespace lsqecc
                 err_stream << e.what() << std::endl;
                 return -1;
             }
+        }
+
+        // Minetest export: flush the final y-band and commit map.sqlite.
+        if (export_minetest)
+        {
+            out_stream << "\nRouted " << slice_counter << " slices. Finalizing map.sqlite..."
+                       << std::endl;
+            if (!minetest_builder->finish())
+            {
+                err_stream << "Failed to generate map.sqlite." << std::endl;
+                return -1;
+            }
+            out_stream << "Generated map.sqlite (" << minetest_builder->block_count()
+                       << " mapblocks)" << std::endl;
         }
 
         // Slice-timing report: one CSV row per run, keyed by layout size, so a sweep over layout

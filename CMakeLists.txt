@@ -31,11 +31,17 @@ else()
     message(WARNING "Boost graph library not found. Graph search features will be disabled.")
 endif()
 
-# set(PYTHON_VERSION 3.9)
-# set(Python_ROOT_DIR /usr/lib/python3.9)
-# set(PYTHON_LIBRARIES /usr/lib/libpython3.10.so)
-#find_package(PythonLibs)
-#include_directories(/usr/include/python3.10)
+if(EMSCRIPTEN)
+    message(STATUS "Emscripten build detected: Skipping find_package(SQLite3)")
+    # Provide empty variables so that later include_directories and target_link_libraries work.
+    set(SQLite3_INCLUDE_DIRS "")
+    set(SQLite3_LIBRARIES "")
+else()
+    find_package(SQLite3 REQUIRED)
+    message(STATUS "Found SQLite3: ${SQLite3_INCLUDE_DIRS} ${SQLite3_LIBRARIES}")
+endif()
+
+include_directories(${SQLite3_INCLUDE_DIRS})
 
 include_directories(external/ordered-map/include)
 
@@ -48,40 +54,45 @@ include_directories(external/include)
 ###################################################
 # Library setup
 
-add_library(
-        lsqecclib
-        src/dag/directed_graph.cpp
-        src/dag/domain_dags.cpp
-        src/gates/parse_gates.cpp
-        src/gates/gates.cpp
-        src/gates/gate_approximator.cpp
-        src/gates/decompose_rotation_stream.cpp
-        src/patches/dense_slice.cpp
-        src/patches/dense_patch_computation.cpp
-        src/patches/patches.cpp
-        src/patches/sparse_slice.cpp
-        src/patches/slices_to_json.cpp
-        src/patches/slice_stats.cpp
-        src/pipelines/slicer.cpp
-        src/layout/dynamic_layouts/compact_layout.cpp
-    	src/layout/dynamic_layouts/edpc_layout.cpp
-        src/layout/dynamic_layouts/determine_exposed_operators.cpp
-        src/layout/graph_search/boost_based_graph_search.cpp
-        src/layout/graph_search/custom_graph_search.cpp
-        src/layout/router.cpp
-        src/layout/ascii_layout_spec.cpp
-        src/layout/layout.cpp
-        src/ls_instructions/boundary_rotation_injection_stream.cpp
-        src/ls_instructions/ls_instructions_from_gates.cpp
-        src/ls_instructions/ls_instructions_parse.cpp
-        src/ls_instructions/ls_instruction_stream.cpp
-        src/ls_instructions/ls_instructions.cpp
-        src/ls_instructions/parse_utils.cpp
-        src/ls_instructions/teleported_s_gate_injection_stream.cpp
-        src/ls_instructions/catalytic_s_gate_injection_stream.cpp
-        src/ls_instructions/local_instructions.cpp
-        src/scheduler/wave_scheduler.cpp
-       )
+add_library(lsqecclib)
+
+target_sources(lsqecclib PRIVATE
+    src/dag/directed_graph.cpp
+    src/dag/domain_dags.cpp
+    src/gates/parse_gates.cpp
+    src/gates/gates.cpp
+    src/gates/gate_approximator.cpp
+    src/gates/decompose_rotation_stream.cpp
+    src/patches/dense_slice.cpp
+    src/patches/dense_patch_computation.cpp
+    src/patches/patches.cpp
+    src/patches/sparse_slice.cpp
+    src/patches/slices_to_json.cpp
+    src/patches/slice_stats.cpp
+    src/pipelines/slicer.cpp
+    src/layout/dynamic_layouts/compact_layout.cpp
+    src/layout/dynamic_layouts/edpc_layout.cpp
+    src/layout/dynamic_layouts/determine_exposed_operators.cpp
+    src/layout/graph_search/boost_based_graph_search.cpp
+    src/layout/graph_search/custom_graph_search.cpp
+    src/layout/router.cpp
+    src/layout/ascii_layout_spec.cpp
+    src/layout/layout.cpp
+    src/ls_instructions/boundary_rotation_injection_stream.cpp
+    src/ls_instructions/ls_instructions_from_gates.cpp
+    src/ls_instructions/ls_instructions_parse.cpp
+    src/ls_instructions/ls_instruction_stream.cpp
+    src/ls_instructions/ls_instructions.cpp
+    src/ls_instructions/parse_utils.cpp
+    src/ls_instructions/teleported_s_gate_injection_stream.cpp
+    src/ls_instructions/catalytic_s_gate_injection_stream.cpp
+    src/ls_instructions/local_instructions.cpp
+    src/scheduler/wave_scheduler.cpp
+)
+
+if (NOT EMSCRIPTEN)
+    target_sources(lsqecclib PRIVATE src/patches/minetest_export.cpp)
+endif()
 
 set(LSQECCLIB_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/include")
 
@@ -96,9 +107,12 @@ if(Boost_FOUND)
     target_link_libraries(lsqecclib PRIVATE ${Boost_LIBRARIES})
 endif()
 
+# Link SQLite3 into the library.
+target_link_libraries(lsqecclib PRIVATE ${SQLite3_LIBRARIES})
+
 set_property(TARGET lsqecclib PROPERTY POSITION_INDEPENDENT_CODE ON)
 
-if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
+if(NOT EMSCRIPTEN)
     target_sources(lsqecclib PRIVATE src/gates/postgres_gate_stream.cpp)
 endif()
 
@@ -139,9 +153,27 @@ else()
    message("USE_GRIDSYNTH not defined, building without Gridsynth")
 endif()
 
+# ----- Find Zstandard (libzstd) -----
+if(EMSCRIPTEN)
+    message(STATUS "Emscripten build detected: Skipping Zstd configuration.")
+else()
+    find_package(Zstd CONFIG QUIET)
+    if(Zstd_FOUND AND TARGET zstd::Libzstd_static)
+        message(STATUS "Found libzstd via CMake config (zstd::Libzstd_static).")
+        target_link_libraries(lsqecclib PRIVATE zstd::Libzstd_static)
+    else()
+        message(STATUS "libzstd CMake config not usable; falling back to pkg-config.")
+        find_package(PkgConfig REQUIRED)
+        pkg_check_modules(ZSTD REQUIRED IMPORTED_TARGET libzstd)
+        message(STATUS "Found libzstd via pkg-config.")
+        target_link_libraries(lsqecclib PRIVATE PkgConfig::ZSTD)
+    endif()
+endif()
+
+
 ###################################################
 # Command line executable
-if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
+if(NOT EMSCRIPTEN)
 
     add_executable(
             lsqecc_slicer
@@ -155,24 +187,38 @@ endif()
 ###################################################
 # Postgress reader
 
-if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
+if(NOT EMSCRIPTEN)
+    find_package(PostgreSQL QUIET)
+
+    # Fall back to pg_config when the module can't locate PostgreSQL (e.g. brew install).
+    if(NOT PostgreSQL_FOUND)
+        find_program(PG_CONFIG_EXECUTABLE pg_config)
+        if(PG_CONFIG_EXECUTABLE)
+            execute_process(COMMAND ${PG_CONFIG_EXECUTABLE} --includedir
+                            OUTPUT_VARIABLE PG_INCLUDEDIR OUTPUT_STRIP_TRAILING_WHITESPACE)
+            execute_process(COMMAND ${PG_CONFIG_EXECUTABLE} --includedir-server
+                            OUTPUT_VARIABLE PG_INCLUDEDIR_SERVER OUTPUT_STRIP_TRAILING_WHITESPACE)
+            execute_process(COMMAND ${PG_CONFIG_EXECUTABLE} --libdir
+                            OUTPUT_VARIABLE PG_LIBDIR OUTPUT_STRIP_TRAILING_WHITESPACE)
+            message(STATUS "PostgreSQL not found by default; querying pg_config at ${PG_CONFIG_EXECUTABLE}")
+            # Seed the cache variables FindPostgreSQL consumes so the REQUIRED call validates them.
+            find_path(PostgreSQL_INCLUDE_DIR NAMES libpq-fe.h HINTS "${PG_INCLUDEDIR}")
+            find_path(PostgreSQL_TYPE_INCLUDE_DIR NAMES catalog/pg_type.h HINTS "${PG_INCLUDEDIR_SERVER}")
+            find_library(PostgreSQL_LIBRARY NAMES pq libpq HINTS "${PG_LIBDIR}")
+        endif()
+    endif()
     find_package(PostgreSQL REQUIRED)
+    message(STATUS "PostgreSQL include directory: ${PostgreSQL_INCLUDE_DIRS}")
+    message(STATUS "PostgreSQL library: ${PostgreSQL_LIBRARIES}")
 
-    if (PostgreSQL_FOUND)
-        message(STATUS "PostgreSQL include directory: ${PostgreSQL_INCLUDE_DIRS}")
-        message(STATUS "PostgreSQL library: ${PostgreSQL_LIBRARIES}")
-
-        target_include_directories(lsqecclib PRIVATE ${PostgreSQL_INCLUDE_DIRS})
-        target_link_libraries(lsqecclib PRIVATE ${PostgreSQL_LIBRARIES})
-    else ()
-        message(FATAL_ERROR "PostgreSQL not found. Make sure libpq-dev is installed.")
-    endif ()
+    target_include_directories(lsqecclib PRIVATE ${PostgreSQL_INCLUDE_DIRS})
+    target_link_libraries(lsqecclib PRIVATE ${PostgreSQL_LIBRARIES})
 endif()
 
 ###################################################
 # Emscripten interface
 
-if(DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
+if(EMSCRIPTEN)
     
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fexceptions")
     
@@ -207,7 +253,7 @@ endif()
 
 
 
-if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
+if(NOT EMSCRIPTEN)
 
     ###################################################
     # Tests
