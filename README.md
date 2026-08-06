@@ -14,6 +14,31 @@
 Home of a set of fast tools for compiling lattice surgery instructions. Part of the [Lattice Surgery Compiler](https://github.com/latticesurgery-com/lattice-surgery-compiler) family. The `liblsqecc` library contains the functionality used by the `lsqecc_slicer` executable. We are working on exposing its functionality as a Python API in the [Lattice Surgery Compiler](https://github.com/latticesurgery-com/lattice-surgery-compiler) package.
 
 ## Build
+
+### Dependencies
+
+Building requires a C++17 compiler, [CMake](https://cmake.org), `git`, and the following system libraries:
+
+| Dependency | Debian/Ubuntu package | Required |
+|---|---|---|
+| SQLite3 | `libsqlite3-dev` | Yes |
+| libzstd | `libzstd-dev` | Yes |
+| PostgreSQL client (libpq) | `libpq-dev` | Yes |
+| pkg-config | `pkg-config` | Yes |
+| Boost.Graph | `libboost-dev`, `libboost-graph-dev` | Optional¹ |
+
+Install the required dependencies on Debian/Ubuntu:
+
+```shell
+sudo apt install -y build-essential cmake pkg-config libsqlite3-dev libzstd-dev libpq-dev
+```
+
+For other platforms, install the equivalent development packages (e.g. on macOS with Homebrew: `brew install cmake pkg-config sqlite zstd libpq`).
+
+Several header-only libraries (nlohmann/json, cppitertools, argparse, ordered-map, infint, GoogleTest, and others) are vendored as git submodules, so make sure to clone the repository recursively or run `git submodule update --init --recursive` after cloning.
+
+¹ Boost.Graph is optional; the build succeeds without it, but some graph-based path finding falls back to a slower implementation.
+
 ```shell
 git clone --recursive https://github.com/latticesurgery-com/liblsqecc.git
 cd liblsqecc
