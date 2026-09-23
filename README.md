@@ -14,12 +14,20 @@
 Home of a set of fast tools for compiling lattice surgery instructions. Part of the [Lattice Surgery Compiler](https://github.com/latticesurgery-com/lattice-surgery-compiler) family. The `liblsqecc` library contains the functionality used by the `lsqecc_slicer` executable. We are working on exposing its functionality as a Python API in the [Lattice Surgery Compiler](https://github.com/latticesurgery-com/lattice-surgery-compiler) package.
 
 ## Build
+
+First, ensure that the build dependencies are installed. For example, on Debian/Ubuntu:
+
+```shell
+sudo apt install -y build-essential cmake pkg-config libsqlite3-dev libzstd-dev libpq-dev
+```
+
 ```shell
 git clone --recursive https://github.com/latticesurgery-com/liblsqecc.git
 cd liblsqecc
 mkdir build
 cd build
 cmake ..
+cmake --build .
 ```
 
 **Note**: The `lsqecc_slicer` executable will be at the top level of the `build` directory.
